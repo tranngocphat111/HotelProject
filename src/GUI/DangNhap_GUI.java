@@ -5,6 +5,7 @@
 package GUI;
 
 import java.awt.Color;
+import javax.swing.JFrame;
 
 
 
@@ -20,6 +21,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     public DangNhap_GUI() {
         initComponents();
          setLocationRelativeTo(null);
+         
     }
 
     /**
@@ -35,12 +37,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        textField1 = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
-        textField2 = new java.awt.TextField();
         jLabel4 = new javax.swing.JLabel();
         btn_DangNhap = new keeptoo.KGradientPanel();
         jLabel5 = new javax.swing.JLabel();
+        txt_Matkhau = new javax.swing.JTextField();
+        txt_TaiKhoan = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,12 +111,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_Matkhau)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                    .addComponent(textField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_DangNhap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_DangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_TaiKhoan))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -124,15 +126,15 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(77, 77, 77)
                 .addComponent(jLabel3)
-                .addGap(2, 2, 2)
-                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_TaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel4)
-                .addGap(2, 2, 2)
-                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_Matkhau, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
                 .addComponent(btn_DangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -156,17 +158,21 @@ public class DangNhap_GUI extends javax.swing.JFrame {
 
     private void btn_DangNhapMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMouseEntered
         // TODO add your handling code here:
-        btn_DangNhap.setkEndColor(new java.awt.Color(115, 115, 115));
+         btn_DangNhap.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_DangNhap.setkEndColor(new java.awt.Color(255, 222, 89)); 
+        btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        btn_DangNhap.setBorder(null);
 
-        btn_DangNhap.setkGradientFocus(250);
-
-        btn_DangNhap.setkStartColor(new java.awt.Color(255, 255, 255));
-                System.out.println("GUI.DangNhap_GUI.kGradientPanel1MouseEntered()");
        
     }//GEN-LAST:event_btn_DangNhapMouseEntered
 
     private void btn_DangNhapMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMouseExited
-        // TODO add your handling code here:
+        btn_DangNhap.setkEndColor(new java.awt.Color(115, 115, 115));
+
+        btn_DangNhap.setkStartColor(new java.awt.Color(0, 0, 0));
+        btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        btn_DangNhap.setBorder(null);
+
      
     }//GEN-LAST:event_btn_DangNhapMouseExited
 
@@ -215,7 +221,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private java.awt.TextField textField1;
-    private java.awt.TextField textField2;
+    private javax.swing.JTextField txt_Matkhau;
+    private javax.swing.JTextField txt_TaiKhoan;
     // End of variables declaration//GEN-END:variables
 }

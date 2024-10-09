@@ -24,10 +24,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
         initComponents();
 
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
         page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
- 
-
         
 
       
@@ -104,11 +103,12 @@ public class LeTan_GUI extends javax.swing.JFrame {
         label_DatPhong = new javax.swing.JLabel();
         icon_DatPhong = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        btn_DangXuat = new javax.swing.JPanel();
         label_ThanhToan1 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1645, 800));
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1645, 800));
 
@@ -396,13 +396,18 @@ public class LeTan_GUI extends javax.swing.JFrame {
         jPanel1.add(btn_Tim);
         btn_Tim.setBounds(570, 510, 140, 40);
 
-        btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_them.setkGradientFocus(250);
         btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_them.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_themMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_themMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_themMouseExited(evt);
             }
         });
 
@@ -415,7 +420,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         btn_themLayout.setHorizontalGroup(
             btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_themLayout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
         );
@@ -423,7 +428,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
             btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_themLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -572,7 +577,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(0, 0, 1276, 860);
+        Backgroup.setBounds(0, 0, 1276, 796);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(277, 659));
 
@@ -604,9 +609,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_ThanhToanLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(icon_ThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(29, 29, 29)
                 .addComponent(label_ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
         page_ThanhToanLayout.setVerticalGroup(
             page_ThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -646,9 +651,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_DonDatPhongLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(icon_DonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(32, 32, 32)
                 .addComponent(label_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addContainerGap())
         );
         page_DonDatPhongLayout.setVerticalGroup(
             page_DonDatPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,9 +662,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addComponent(icon_DonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(page_DonDatPhongLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(16, 16, 16)
                 .addComponent(label_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
@@ -692,9 +697,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_DatPhongLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(icon_DatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(16, 16, 16)
                 .addComponent(label_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addContainerGap())
         );
         page_DatPhongLayout.setVerticalGroup(
             page_DatPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -704,15 +709,23 @@ public class LeTan_GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_DatPhongLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(label_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGap(15, 15, 15))
         );
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
         jLabel21.setText("backgoup_menu");
         jLabel21.setPreferredSize(new java.awt.Dimension(277, 400));
 
-        jPanel5.setBackground(new java.awt.Color(214, 50, 50));
-        jPanel5.setPreferredSize(new java.awt.Dimension(277, 100));
+        btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
+        btn_DangXuat.setPreferredSize(new java.awt.Dimension(277, 100));
+        btn_DangXuat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_DangXuatMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_DangXuatMouseExited(evt);
+            }
+        });
 
         label_ThanhToan1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan1.setForeground(new java.awt.Color(255, 255, 255));
@@ -720,22 +733,22 @@ public class LeTan_GUI extends javax.swing.JFrame {
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_DangXuat_.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+        javax.swing.GroupLayout btn_DangXuatLayout = new javax.swing.GroupLayout(btn_DangXuat);
+        btn_DangXuat.setLayout(btn_DangXuatLayout);
+        btn_DangXuatLayout.setHorizontalGroup(
+            btn_DangXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_DangXuatLayout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label_ThanhToan1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(27, 27, 27))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+        btn_DangXuatLayout.setVerticalGroup(
+            btn_DangXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_DangXuatLayout.createSequentialGroup()
                 .addContainerGap(17, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(btn_DangXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_ThanhToan1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
@@ -750,7 +763,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(page_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -760,11 +773,12 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addComponent(page_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(page_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(page_ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -782,12 +796,12 @@ public class LeTan_GUI extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -798,7 +812,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -836,7 +852,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DatPhong.setBorder(null);
     }//GEN-LAST:event_page_DatPhongMouseEntered
 
@@ -845,17 +861,17 @@ public class LeTan_GUI extends javax.swing.JFrame {
         
         page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DatPhong.setBorder(null);
         
         page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DonDatPhong.setBorder(null);
         
         page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
         page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_ThanhToan.setBorder(null);
         
         page1 = true;
@@ -867,7 +883,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         page_DonDatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_DonDatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DonDatPhong.setBorder(null);
         
 
@@ -877,7 +893,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         page_ThanhToan.setkStartColor(new java.awt.Color(225, 176, 27));
         page_ThanhToan.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_ThanhToan.setBorder(null);
         
     }//GEN-LAST:event_page_ThanhToanMouseEntered
@@ -887,7 +903,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         if(page1 == false) {
             page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
             page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-            page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+            page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
             page_DatPhong.setBorder(null);
         }
         
@@ -898,7 +914,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
          if(page2 == false) {
             page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
             page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-            page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+            page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
             page_DonDatPhong.setBorder(null);
         }
         
@@ -910,7 +926,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         if(page3 == false) {
             page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
             page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
-            page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+            page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
             page_ThanhToan.setBorder(null);
         }
     }//GEN-LAST:event_page_ThanhToanMouseExited
@@ -919,17 +935,17 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         page_DonDatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_DonDatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DonDatPhong.setBorder(null);
         
         page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DatPhong.setBorder(null);
         
         page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
         page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_ThanhToan.setBorder(null);
         
         page1 = false;
@@ -941,23 +957,52 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         page_ThanhToan.setkStartColor(new java.awt.Color(225, 176, 27));
         page_ThanhToan.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_ThanhToan.setBorder(null);
         
         page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DatPhong.setBorder(null);
         
         page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
+        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
         page_DonDatPhong.setBorder(null);
 
         page1 = false;
         page2 = false;
         page3 = true;  
     }//GEN-LAST:event_page_ThanhToanMouseClicked
+
+    private void btn_DangXuatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMouseEntered
+        // TODO add your handling code here:
+        btn_DangXuat.setBackground(new java.awt.Color(142, 52, 52));
+                
+
+    }//GEN-LAST:event_btn_DangXuatMouseEntered
+
+    private void btn_DangXuatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMouseExited
+        // TODO add your handling code here:
+        btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
+    }//GEN-LAST:event_btn_DangXuatMouseExited
+
+    private void btn_themMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMouseEntered
+        // TODO add your handling code here:
+        btn_them.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_them.setkEndColor(new java.awt.Color(255, 222, 89)); 
+        btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_them.setBorder(null);
+        
+    }//GEN-LAST:event_btn_themMouseEntered
+
+    private void btn_themMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMouseExited
+        // TODO add your handling code here:
+        btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_them.setkEndColor(new java.awt.Color(255, 222, 89)); 
+        btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_them.setBorder(null);
+    }//GEN-LAST:event_btn_themMouseExited
 
     /**
      * @param args the command line arguments
@@ -1001,6 +1046,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel Backgroup;
     private javax.swing.JPanel ThongTinDat;
     private javax.swing.JPanel ThongTinKhachHang;
+    private javax.swing.JPanel btn_DangXuat;
     private keeptoo.KGradientPanel btn_HoanTat;
     private keeptoo.KGradientPanel btn_Sua;
     private javax.swing.JLabel btn_Them;
@@ -1041,7 +1087,6 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_DatPhong;

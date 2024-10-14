@@ -686,7 +686,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void Jpanel_ThemPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_ThemPhongMouseClicked
         // TODO add your handling code here:
-        LeTan_DatPhong_ChonPhong chonPhong_Gui = new LeTan_DatPhong_ChonPhong();
+        LeTan_DatPhong_ChonPhong_GUI chonPhong_Gui = new LeTan_DatPhong_ChonPhong_GUI();
         chonPhong_Gui.setVisible(true);
 
     }//GEN-LAST:event_Jpanel_ThemPhongMouseClicked

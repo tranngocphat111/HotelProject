@@ -117,6 +117,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Jpanel_ThemPhong.setBackground(new java.awt.Color(255, 255, 255));
         Jpanel_ThemPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Jpanel_ThemPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Jpanel_ThemPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jpanel_ThemPhongMouseClicked(evt);
+            }
+        });
 
         txt_Phong.setText("P025");
 
@@ -730,6 +735,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_HoanTat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
         btn_HoanTat.setBorder(null);
     }//GEN-LAST:event_btn_HoanTatMouseExited
+
+    private void Jpanel_ThemPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_ThemPhongMouseClicked
+        // TODO add your handling code here:
+        LeTan_DatPhong_ChonPhong_GUI chonPhong_Gui = new LeTan_DatPhong_ChonPhong_GUI();
+        chonPhong_Gui.setVisible(true);
+    }//GEN-LAST:event_Jpanel_ThemPhongMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

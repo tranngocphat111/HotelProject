@@ -8,12 +8,12 @@ package GUI;
  *
  * @author Admin
  */
-public class LeTan_DatPhong_ChonPhong extends javax.swing.JFrame {
+public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1
      */
-    public LeTan_DatPhong_ChonPhong() {
+    public LeTan_DatPhong_ChonPhong_GUI() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -62,6 +62,7 @@ public class LeTan_DatPhong_ChonPhong extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         table_Phong.setViewportView(jTable1);
 
         btn_XacNhan.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -245,21 +246,23 @@ public class LeTan_DatPhong_ChonPhong extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LeTan_DatPhong_ChonPhong().setVisible(true);
+                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
             }
         });
     }

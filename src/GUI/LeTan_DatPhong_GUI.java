@@ -336,10 +336,17 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel14);
         jLabel14.setBounds(80, 50, 250, 32);
 
-        btn_Tim.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_TimMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_TimMouseExited(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -352,14 +359,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_TimLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_TimLayout.setVerticalGroup(
             btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_TimLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -407,10 +414,17 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_them);
         btn_them.setBounds(90, 510, 140, 40);
 
-        btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
         btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Xoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_XoaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_XoaMouseExited(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -421,23 +435,30 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Xoa.setLayout(btn_XoaLayout);
         btn_XoaLayout.setHorizontalGroup(
             btn_XoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
         btn_XoaLayout.setVerticalGroup(
             btn_XoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_XoaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Xoa);
         btn_Xoa.setBounds(410, 510, 140, 40);
 
-        btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
         btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_SuaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_SuaMouseExited(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -449,13 +470,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Sua.setLayout(btn_SuaLayout);
         btn_SuaLayout.setHorizontalGroup(
             btn_SuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
         btn_SuaLayout.setVerticalGroup(
             btn_SuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_SuaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -487,10 +508,17 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(90, 570, 1120, 130);
 
-        btn_HoanTat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_HoanTat.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_HoanTat.setkGradientFocus(250);
         btn_HoanTat.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_HoanTat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_HoanTatMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_HoanTatMouseExited(evt);
+            }
+        });
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -504,24 +532,31 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             btn_HoanTatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_HoanTatLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_HoanTatLayout.setVerticalGroup(
             btn_HoanTatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_HoanTatLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_HoanTat);
         btn_HoanTat.setBounds(1070, 730, 140, 50);
 
-        btn_ThemDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThemDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_ThemDon.setkGradientFocus(250);
         btn_ThemDon.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_ThemDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_ThemDonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_ThemDonMouseExited(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -535,14 +570,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             btn_ThemDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_ThemDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_ThemDonLayout.setVerticalGroup(
             btn_ThemDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_ThemDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -562,7 +597,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 6, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -570,7 +605,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 42, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -595,7 +630,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_themMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMouseClicked
         // TODO add your handling code here:
 
-        System.out.println("đâs");
 
     }//GEN-LAST:event_btn_themMouseClicked
 
@@ -615,6 +649,87 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
         btn_them.setBorder(null);
     }//GEN-LAST:event_btn_themMouseExited
+
+    private void btn_TimMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseEntered
+        // TODO add your handling code here:
+        btn_Tim.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Tim.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Tim.setBorder(null);
+        
+    }//GEN-LAST:event_btn_TimMouseEntered
+
+    private void btn_TimMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseExited
+        // TODO add your handling code here:
+        btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Tim.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Tim.setBorder(null);
+    }//GEN-LAST:event_btn_TimMouseExited
+
+    private void btn_XoaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseEntered
+        // TODO add your handling code here:
+        btn_Xoa.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Xoa.setBorder(null);
+    }//GEN-LAST:event_btn_XoaMouseEntered
+
+    private void btn_XoaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseExited
+        // TODO add your handling code here:
+        btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Xoa.setBorder(null);
+    }//GEN-LAST:event_btn_XoaMouseExited
+
+    private void btn_SuaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseEntered
+        // TODO add your handling code here:
+        btn_Sua.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Sua.setBorder(null);
+    }//GEN-LAST:event_btn_SuaMouseEntered
+
+    private void btn_SuaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseExited
+        // TODO add your handling code here:
+        btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Sua.setBorder(null);
+    }//GEN-LAST:event_btn_SuaMouseExited
+
+    private void btn_ThemDonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDonMouseEntered
+        // TODO add your handling code here:
+        btn_ThemDon.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_ThemDon.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_ThemDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_ThemDon.setBorder(null);
+    }//GEN-LAST:event_btn_ThemDonMouseEntered
+
+    private void btn_ThemDonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDonMouseExited
+        // TODO add your handling code here:
+        btn_ThemDon.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_ThemDon.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_ThemDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_ThemDon.setBorder(null);
+    }//GEN-LAST:event_btn_ThemDonMouseExited
+
+    private void btn_HoanTatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMouseEntered
+        // TODO add your handling code here:
+        btn_HoanTat.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_HoanTat.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_HoanTat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_HoanTat.setBorder(null);
+    }//GEN-LAST:event_btn_HoanTatMouseEntered
+
+    private void btn_HoanTatMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMouseExited
+        // TODO add your handling code here:
+        btn_HoanTat.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_HoanTat.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_HoanTat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_HoanTat.setBorder(null);
+    }//GEN-LAST:event_btn_HoanTatMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

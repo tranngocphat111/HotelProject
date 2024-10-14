@@ -130,7 +130,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         );
 
         Jpanel_menu.add(page_ThanhToan);
-        page_ThanhToan.setBounds(0, 138, 277, 80);
+        page_ThanhToan.setBounds(0, 140, 277, 80);
 
         page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DonDatPhong.setkGradientFocus(250);
@@ -177,7 +177,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         );
 
         Jpanel_menu.add(page_DonDatPhong);
-        page_DonDatPhong.setBounds(0, 65, 277, 75);
+        page_DonDatPhong.setBounds(0, 70, 277, 75);
 
         page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DatPhong.setkGradientFocus(250);
@@ -226,7 +226,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         );
 
         Jpanel_menu.add(page_DatPhong);
-        page_DatPhong.setBounds(0, 0, 277, 75);
+        page_DatPhong.setBounds(0, 0, 277, 70);
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
         jLabel21.setText("backgoup_menu");

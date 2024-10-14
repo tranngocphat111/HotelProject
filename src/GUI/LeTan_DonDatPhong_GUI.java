@@ -117,6 +117,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         Jpanel_ThemPhong.setBackground(new java.awt.Color(255, 255, 255));
         Jpanel_ThemPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Jpanel_ThemPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Jpanel_ThemPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Jpanel_ThemPhongMouseClicked(evt);
+            }
+        });
 
         txt_Phong.setText("P025");
 
@@ -340,6 +345,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_TimMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_TimMouseExited(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -411,6 +424,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
         btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Xoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_XoaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_XoaMouseExited(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -438,6 +459,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
         btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_SuaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_SuaMouseExited(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -595,7 +624,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_themMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMouseClicked
         // TODO add your handling code here:
 
-        System.out.println("đâs");
 
     }//GEN-LAST:event_btn_themMouseClicked
 
@@ -615,6 +643,53 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
         btn_them.setBorder(null);
     }//GEN-LAST:event_btn_themMouseExited
+
+    private void btn_SuaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseEntered
+        // TODO add your handling code here:
+        btn_Sua.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Sua.setBorder(null);
+    }//GEN-LAST:event_btn_SuaMouseEntered
+
+    private void btn_SuaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseExited
+        // TODO add your handling code here:
+        btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Sua.setBorder(null);
+    }//GEN-LAST:event_btn_SuaMouseExited
+
+    private void btn_XoaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseEntered
+        // TODO add your handling code here:
+        btn_Xoa.setkStartColor(new java.awt.Color(255, 225, 27));
+        btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Xoa.setBorder(null);
+    }//GEN-LAST:event_btn_XoaMouseEntered
+
+    private void btn_XoaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseExited
+        // TODO add your handling code here:
+        btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+        btn_Xoa.setBorder(null);
+    }//GEN-LAST:event_btn_XoaMouseExited
+
+    private void btn_TimMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_TimMouseEntered
+
+    private void btn_TimMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_TimMouseExited
+
+    private void Jpanel_ThemPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_ThemPhongMouseClicked
+        // TODO add your handling code here:
+        LeTan_DatPhong_ChonPhong chonPhong_Gui = new LeTan_DatPhong_ChonPhong();
+        chonPhong_Gui.setVisible(true);
+
+    }//GEN-LAST:event_Jpanel_ThemPhongMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

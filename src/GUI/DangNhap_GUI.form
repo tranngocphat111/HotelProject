@@ -84,12 +84,14 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txt_Matkhau" max="32767" attributes="0"/>
-                      <Component id="jLabel4" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
-                      <Component id="btn_DangNhap" alignment="0" max="32767" attributes="0"/>
-                      <Component id="txt_TaiKhoan" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txt_matKhau" pref="245" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel4" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
+                          <Component id="btn_DangNhap" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_TaiKhoan" alignment="0" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace pref="68" max="32767" attributes="0"/>
               </Group>
@@ -107,8 +109,8 @@
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txt_Matkhau" min="-2" pref="36" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                  <Component id="txt_matKhau" min="-2" pref="37" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="btn_DangNhap" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="81" max="32767" attributes="0"/>
               </Group>
@@ -188,9 +190,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JTextField" name="txt_Matkhau">
-        </Component>
         <Component class="javax.swing.JTextField" name="txt_TaiKhoan">
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="txt_matKhau">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_matKhauActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

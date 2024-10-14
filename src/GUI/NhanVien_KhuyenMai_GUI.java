@@ -80,9 +80,9 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         Backgroup = new javax.swing.JLabel();
 
         setName("page_KhuyenMai"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1276, 830));
+        setPreferredSize(new java.awt.Dimension(1283, 830));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(1276, 800));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.setLayout(null);
 
         jLabel2.setBackground(new java.awt.Color(255, 209, 84));
@@ -551,9 +551,9 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         btn_ThemDon.setBounds(890, 730, 160, 50);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
-        Backgroup.setPreferredSize(new java.awt.Dimension(1276, 800));
+        Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(0, 0, 1276, 796);
+        Backgroup.setBounds(0, 0, 1283, 803);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -562,7 +562,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             .addGap(0, 1288, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(

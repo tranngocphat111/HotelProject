@@ -102,10 +102,10 @@ public class LeTan_GUI extends javax.swing.JFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                        element.setkStartColor(new java.awt.Color(225, 176, 27));
-                        element.setkEndColor(new java.awt.Color(255, 222, 89)); 
-                        element.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-                        element.setBorder(null);
+                    element.setkStartColor(new java.awt.Color(225, 176, 27));
+                    element.setkEndColor(new java.awt.Color(255, 222, 89)); 
+                    element.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                    element.setBorder(null);
                 }
 
                 @Override

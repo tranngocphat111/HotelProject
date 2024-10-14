@@ -74,6 +74,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
+        setName("page_LoaiPhong"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1276, 830));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1276, 800));
@@ -494,6 +495,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         TienNghi.setBounds(910, 100, 290, 320);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
+        Backgroup.setName("page_LoaiPhong"); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1276, 800));
         jPanel1.add(Backgroup);
         Backgroup.setBounds(0, 0, 1276, 796);
@@ -558,8 +560,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Tim;
-    private keeptoo.KGradientPanel btn_Tim10;
-    private keeptoo.KGradientPanel btn_Tim9;
     private keeptoo.KGradientPanel btn_Xoa;
     private keeptoo.KGradientPanel btn_wifi;
     private keeptoo.KGradientPanel btn_wifi2;
@@ -579,11 +579,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;

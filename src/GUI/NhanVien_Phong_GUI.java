@@ -60,6 +60,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         area_ghichu = new javax.swing.JTextArea();
         Backgroup = new javax.swing.JLabel();
 
+        setName("page_Phong"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1276, 830));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1276, 800));

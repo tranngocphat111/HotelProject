@@ -79,6 +79,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jLabel19 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
+        setName("page_KhachHang"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1276, 830));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1276, 800));
@@ -326,13 +327,14 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinKhachHang);
-        ThongTinKhachHang.setBounds(80, 320, 0, 150);
+        ThongTinKhachHang.setBounds(80, 320, 660, 150);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 209, 84));
-        jLabel14.setText("Thông tin đặt phòng");
+        jLabel14.setText("Thông tin khách hàng");
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel14.setName(""); // NOI18N
         jPanel1.add(jLabel14);
         jLabel14.setBounds(80, 50, 250, 32);
 
@@ -364,7 +366,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(570, 510, 0, 0);
+        btn_Tim.setBounds(570, 510, 140, 40);
 
         btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_them.setkGradientFocus(250);
@@ -432,7 +434,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(410, 510, 0, 0);
+        btn_Xoa.setBounds(410, 510, 140, 40);
 
         btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -460,7 +462,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(250, 510, 0, 0);
+        btn_Sua.setBounds(250, 510, 140, 40);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -516,7 +518,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_HoanTat);
-        btn_HoanTat.setBounds(1070, 730, 0, 50);
+        btn_HoanTat.setBounds(1070, 730, 140, 50);
 
         btn_ThemDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThemDon.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -562,7 +564,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 6, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -570,7 +572,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 42, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();

@@ -79,6 +79,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         jLabel19 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
+        setName("page_ThanhToan"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1276, 830));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1276, 800));

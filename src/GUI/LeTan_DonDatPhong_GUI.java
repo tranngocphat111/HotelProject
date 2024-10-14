@@ -79,6 +79,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel19 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
+        setName("page_DonDatPhong"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1276, 830));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1276, 800));
@@ -579,6 +580,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_ThemDon.setBounds(890, 730, 160, 50);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
+        Backgroup.setName("page_DonDatPhong"); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1276, 800));
         jPanel1.add(Backgroup);
         Backgroup.setBounds(0, 0, 1276, 796);

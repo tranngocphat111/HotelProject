@@ -5,13 +5,17 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.plaf.InternalFrameUI;
 import javax.swing.text.Element;
 import keeptoo.KGradientPanel;
 
@@ -24,6 +28,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private LeTan_ThanhToan_GUI thanhToan_Gui = new LeTan_ThanhToan_GUI();
     private LeTan_DonDatPhong_GUI donDatPhong_Gui = new LeTan_DonDatPhong_GUI();
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
+    private List<JInternalFrame> internalFrameList = new ArrayList<>();
+    private String tam = "page_DatPhong";
+
     /**
      * Creates new form NewJFrame
      */
@@ -42,25 +49,42 @@ public class LeTan_GUI extends javax.swing.JFrame {
         jDesktopPane1.add(thanhToan_Gui);
         
         
+        internalFrameList.add(datPhong_Gui);
+        internalFrameList.add(donDatPhong_Gui);
+        internalFrameList.add(thanhToan_Gui);
+        
+        
         list_page.add(page_DatPhong);
         list_page.add(page_DonDatPhong);
         list_page.add(page_ThanhToan);
+        
+    
         list_page.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
-
+               
                 @Override
                 public void mousePressed(MouseEvent e) {
-                     System.out.println(element.getName());
+                        
                         for(KGradientPanel page : list_page){
+                            
                             if(element.getName().equals(page.getName())){
-                                    page.setkStartColor(new java.awt.Color(225, 176, 27));
-                                    page.setkEndColor(new java.awt.Color(255, 222, 89)); 
-                                    page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-                                    page.setBorder(null);
+                                page.setkStartColor(new java.awt.Color(225, 176, 27));
+                                page.setkEndColor(new java.awt.Color(255, 222, 89)); 
+                                page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                                page.setBorder(null);
+                                for(JInternalFrame internal : internalFrameList){
+                                    if(page.getName().equals(internal.getName())){
+                                        internal.setVisible(true);
+                                    }
+                                    else {
+                                         internal.setVisible(false);
+                                    }
+                                }
+                                tam = page.getName();
                             }else{
                                 page.setkEndColor(new java.awt.Color(115, 115, 115));
                                 page.setkStartColor(new java.awt.Color(0, 0, 0));
@@ -68,32 +92,34 @@ public class LeTan_GUI extends javax.swing.JFrame {
                                 page.setBorder(null);
                             }
                         }
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    
+                        element.setkStartColor(new java.awt.Color(225, 176, 27));
+                        element.setkEndColor(new java.awt.Color(255, 222, 89)); 
+                        element.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                        element.setBorder(null);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    
+                    if(!element.getName().equals(tam)){
+                        element.setkEndColor(new java.awt.Color(115, 115, 115));
+                        element.setkStartColor(new java.awt.Color(0, 0, 0)); 
+                        element.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                        element.setBorder(null);
+                    }
                 }
             });
         })
         ;
-
-        
-        
-      
-
-  
     }
 
     
@@ -241,7 +267,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addComponent(icon_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_DatPhongLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(label_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(label_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
         );
 
@@ -363,9 +389,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-   boolean page1 = true;   
-   boolean page2 = false;
-   boolean page3 = false;
+ 
     private void btn_DangXuatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMouseEntered
         // TODO add your handling code here:
         btn_DangXuat.setBackground(new java.awt.Color(142, 52, 52));

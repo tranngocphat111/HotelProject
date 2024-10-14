@@ -112,6 +112,9 @@
                     <Column editable="true" title="&#x110;&#x1a1;n gi&#xe1;" type="java.lang.String"/>
                   </Table>
                 </Property>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>

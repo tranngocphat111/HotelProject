@@ -82,7 +82,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         logo.setBackground(new java.awt.Color(204, 255, 102));
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
         SideBar.add(logo);
-        logo.setBounds(0, 0, 277, 191);
+        logo.setBounds(0, 0, 277, 180);
 
         Jpanel_menu.setPreferredSize(new java.awt.Dimension(277, 536));
 

@@ -5,10 +5,14 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.text.Element;
 import keeptoo.KGradientPanel;
 
 /**
@@ -19,6 +23,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI();
     private LeTan_ThanhToan_GUI thanhToan_Gui = new LeTan_ThanhToan_GUI();
     private LeTan_DonDatPhong_GUI donDatPhong_Gui = new LeTan_DonDatPhong_GUI();
+    private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     /**
      * Creates new form NewJFrame
      */
@@ -35,9 +40,57 @@ public class LeTan_GUI extends javax.swing.JFrame {
         jDesktopPane1.add(datPhong_Gui);
         jDesktopPane1.add(donDatPhong_Gui);
         jDesktopPane1.add(thanhToan_Gui);
+        
+        
+        list_page.add(page_DatPhong);
+        list_page.add(page_DonDatPhong);
+        list_page.add(page_ThanhToan);
+        list_page.forEach((element) -> {
+            element.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                     System.out.println(element.getName());
+                        for(KGradientPanel page : list_page){
+                            if(element.getName().equals(page.getName())){
+                                    page.setkStartColor(new java.awt.Color(225, 176, 27));
+                                    page.setkEndColor(new java.awt.Color(255, 222, 89)); 
+                                    page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                                    page.setBorder(null);
+                            }else{
+                                page.setkEndColor(new java.awt.Color(115, 115, 115));
+                                page.setkStartColor(new java.awt.Color(0, 0, 0));
+                                page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                                page.setBorder(null);
+                            }
+                        }
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    
+                }
+            });
+        })
+        ;
 
         
-
+        
       
 
   
@@ -82,25 +135,15 @@ public class LeTan_GUI extends javax.swing.JFrame {
         logo.setBackground(new java.awt.Color(204, 255, 102));
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
         SideBar.add(logo);
-        logo.setBounds(0, 0, 277, 191);
+        logo.setBounds(0, 0, 277, 190);
 
         Jpanel_menu.setPreferredSize(new java.awt.Dimension(277, 536));
 
         page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
         page_ThanhToan.setkGradientFocus(250);
         page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_ThanhToan.setName("page_ThanhToan"); // NOI18N
         page_ThanhToan.setPreferredSize(new java.awt.Dimension(277, 75));
-        page_ThanhToan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                page_ThanhToanMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                page_ThanhToanMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                page_ThanhToanMousePressed(evt);
-            }
-        });
 
         label_ThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan.setForeground(new java.awt.Color(255, 255, 255));
@@ -135,18 +178,8 @@ public class LeTan_GUI extends javax.swing.JFrame {
         page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DonDatPhong.setkGradientFocus(250);
         page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_DonDatPhong.setName("page_DonDatPhong"); // NOI18N
         page_DonDatPhong.setPreferredSize(new java.awt.Dimension(277, 75));
-        page_DonDatPhong.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                page_DonDatPhongMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                page_DonDatPhongMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                page_DonDatPhongMousePressed(evt);
-            }
-        });
 
         label_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_DonDatPhong.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,18 +212,8 @@ public class LeTan_GUI extends javax.swing.JFrame {
         page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DatPhong.setkGradientFocus(250);
         page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_DatPhong.setName("page_DatPhong"); // NOI18N
         page_DatPhong.setPreferredSize(new java.awt.Dimension(277, 75));
-        page_DatPhong.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                page_DatPhongMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                page_DatPhongMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                page_DatPhongMousePressed(evt);
-            }
-        });
 
         label_DatPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_DatPhong.setForeground(new java.awt.Color(255, 255, 255));
@@ -343,66 +366,6 @@ public class LeTan_GUI extends javax.swing.JFrame {
    boolean page1 = true;   
    boolean page2 = false;
    boolean page3 = false;
-    private void page_DatPhongMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DatPhongMouseEntered
-        // TODO add your handling code here:
-        page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DatPhong.setBorder(null);
-    }//GEN-LAST:event_page_DatPhongMouseEntered
-
-    private void page_DonDatPhongMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DonDatPhongMouseEntered
-        // TODO add your handling code here:
-        page_DonDatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_DonDatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DonDatPhong.setBorder(null);
-        
-
-    }//GEN-LAST:event_page_DonDatPhongMouseEntered
-
-    private void page_ThanhToanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_ThanhToanMouseEntered
-        // TODO add your handling code here:
-        page_ThanhToan.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_ThanhToan.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_ThanhToan.setBorder(null);
-        
-    }//GEN-LAST:event_page_ThanhToanMouseEntered
-
-    private void page_DatPhongMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DatPhongMouseExited
-        // TODO add your handling code here:
-        if(page1 == false) {
-            page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
-            page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-            page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-            page_DatPhong.setBorder(null);
-        }
-        
-    }//GEN-LAST:event_page_DatPhongMouseExited
-
-    private void page_DonDatPhongMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DonDatPhongMouseExited
-        // TODO add your handling code here:
-         if(page2 == false) {
-            page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
-            page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-            page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-            page_DonDatPhong.setBorder(null);
-        }
-        
-    }//GEN-LAST:event_page_DonDatPhongMouseExited
-
-    private void page_ThanhToanMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_ThanhToanMouseExited
-        // TODO add your handling code here
-        
-        if(page3 == false) {
-            page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
-            page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
-            page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-            page_ThanhToan.setBorder(null);
-        }
-    }//GEN-LAST:event_page_ThanhToanMouseExited
-
     private void btn_DangXuatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMouseEntered
         // TODO add your handling code here:
         btn_DangXuat.setBackground(new java.awt.Color(142, 52, 52));
@@ -414,84 +377,6 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
     }//GEN-LAST:event_btn_DangXuatMouseExited
-
-    private void page_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_ThanhToanMousePressed
-        // TODO add your handling code here:
-        page_ThanhToan.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_ThanhToan.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_ThanhToan.setBorder(null);
-        
-        page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DatPhong.setBorder(null);
-        
-        page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DonDatPhong.setBorder(null);
-
-        page1 = false;
-        page2 = false;
-        page3 = true;  
-        
-        datPhong_Gui.setVisible(false);
-        donDatPhong_Gui.setVisible(false);
-        thanhToan_Gui.setVisible(true);
-    }//GEN-LAST:event_page_ThanhToanMousePressed
-
-    private void page_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DonDatPhongMousePressed
-        // TODO add your handling code here:
-        page_DonDatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_DonDatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DonDatPhong.setBorder(null);
-        
-        page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_DatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DatPhong.setBorder(null);
-        
-        page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_ThanhToan.setBorder(null);
-        
-        page1 = false;
-        page2 = true;
-        page3 = false; 
-        
-        datPhong_Gui.setVisible(false);
-        donDatPhong_Gui.setVisible(true);
-        thanhToan_Gui.setVisible(false);
-    }//GEN-LAST:event_page_DonDatPhongMousePressed
-
-    private void page_DatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DatPhongMousePressed
-        // TODO add your handling code here:
-        page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
-        page_DatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DatPhong.setBorder(null);
-        
-        page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DonDatPhong.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_DonDatPhong.setBorder(null);
-        
-        page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_ThanhToan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-        page_ThanhToan.setBorder(null);
-        
-        page1 = true;
-        page2 = false;
-        page3 = false; 
-        
-        datPhong_Gui.setVisible(true);
-        donDatPhong_Gui.setVisible(false);
-        thanhToan_Gui.setVisible(false);
-    }//GEN-LAST:event_page_DatPhongMousePressed
 
     /**
      * @param args the command line arguments

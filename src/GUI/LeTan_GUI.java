@@ -66,10 +66,10 @@ public class LeTan_GUI extends javax.swing.JFrame {
         page_DatPhong = new keeptoo.KGradientPanel();
         label_DatPhong = new javax.swing.JLabel();
         icon_DatPhong = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
         btn_DangXuat = new javax.swing.JPanel();
         label_ThanhToan1 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -77,16 +77,19 @@ public class LeTan_GUI extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(1645, 800));
 
         SideBar.setPreferredSize(new java.awt.Dimension(277, 800));
+        SideBar.setLayout(null);
 
         logo.setBackground(new java.awt.Color(204, 255, 102));
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
+        SideBar.add(logo);
+        logo.setBounds(0, 0, 277, 191);
 
         Jpanel_menu.setPreferredSize(new java.awt.Dimension(277, 536));
-        Jpanel_menu.setLayout(null);
 
         page_ThanhToan.setkEndColor(new java.awt.Color(115, 115, 115));
         page_ThanhToan.setkGradientFocus(250);
         page_ThanhToan.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_ThanhToan.setPreferredSize(new java.awt.Dimension(277, 75));
         page_ThanhToan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_ThanhToanMouseClicked(evt);
@@ -113,15 +116,15 @@ public class LeTan_GUI extends javax.swing.JFrame {
             page_ThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_ThanhToanLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(icon_ThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(icon_ThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label_ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         page_ThanhToanLayout.setVerticalGroup(
             page_ThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(page_ThanhToanLayout.createSequentialGroup()
-                .addGroup(page_ThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_ThanhToanLayout.createSequentialGroup()
+                .addGroup(page_ThanhToanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(label_ThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(page_ThanhToanLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -129,13 +132,10 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addGap(412, 412, 412))
         );
 
-        Jpanel_menu.add(page_ThanhToan);
-        page_ThanhToan.setBounds(0, 140, 277, 80);
-
         page_DonDatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DonDatPhong.setkGradientFocus(250);
         page_DonDatPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_DonDatPhong.setPreferredSize(new java.awt.Dimension(247, 75));
+        page_DonDatPhong.setPreferredSize(new java.awt.Dimension(277, 75));
         page_DonDatPhong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_DonDatPhongMouseClicked(evt);
@@ -162,9 +162,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
             page_DonDatPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_DonDatPhongLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(icon_DonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(icon_DonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(label_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         page_DonDatPhongLayout.setVerticalGroup(
@@ -175,9 +175,6 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(label_DonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        Jpanel_menu.add(page_DonDatPhong);
-        page_DonDatPhong.setBounds(0, 70, 277, 75);
 
         page_DatPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DatPhong.setkGradientFocus(250);
@@ -225,14 +222,26 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
         );
 
-        Jpanel_menu.add(page_DatPhong);
-        page_DatPhong.setBounds(0, 0, 277, 70);
+        javax.swing.GroupLayout Jpanel_menuLayout = new javax.swing.GroupLayout(Jpanel_menu);
+        Jpanel_menu.setLayout(Jpanel_menuLayout);
+        Jpanel_menuLayout.setHorizontalGroup(
+            Jpanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(page_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        Jpanel_menuLayout.setVerticalGroup(
+            Jpanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Jpanel_menuLayout.createSequentialGroup()
+                .addComponent(page_DatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(page_DonDatPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(page_ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
-        jLabel21.setText("backgoup_menu");
-        jLabel21.setPreferredSize(new java.awt.Dimension(277, 400));
-        Jpanel_menu.add(jLabel21);
-        jLabel21.setBounds(0, 80, 277, 460);
+        SideBar.add(Jpanel_menu);
+        Jpanel_menu.setBounds(0, 190, 277, 220);
 
         btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
         btn_DangXuat.setPreferredSize(new java.awt.Dimension(277, 100));
@@ -275,28 +284,14 @@ public class LeTan_GUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        javax.swing.GroupLayout SideBarLayout = new javax.swing.GroupLayout(SideBar);
-        SideBar.setLayout(SideBarLayout);
-        SideBarLayout.setHorizontalGroup(
-            SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(Jpanel_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        SideBarLayout.setVerticalGroup(
-            SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(Jpanel_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
+        SideBar.add(btn_DangXuat);
+        btn_DangXuat.setBounds(0, 727, 277, 73);
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
+        jLabel21.setText("backgoup_menu");
+        jLabel21.setPreferredSize(new java.awt.Dimension(277, 400));
+        SideBar.add(jLabel21);
+        jLabel21.setBounds(0, 340, 277, 387);
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 153, 153));
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(1276, 800));

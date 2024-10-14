@@ -17,6 +17,7 @@ import keeptoo.KGradientPanel;
  */
 public class NhanVien_GUI extends javax.swing.JFrame {
     NhanVien_Phong_GUI phong_Gui = new NhanVien_Phong_GUI();
+    NhanVien_LoaiPhong_GUI LoaiPhong_gui = new NhanVien_LoaiPhong_GUI();
     /**
      * Creates new form NewJFrame
      */
@@ -27,8 +28,8 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
         page_Phong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_Phong.setkEndColor(new java.awt.Color(255, 222, 89));
-        phong_Gui.setVisible(true);
-        jDesktopPane1.add(phong_Gui);
+        LoaiPhong_gui.setVisible(true);
+        jDesktopPane1.add(LoaiPhong_gui);
 
     }
 
@@ -76,17 +77,19 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(1645, 800));
 
         SideBar.setPreferredSize(new java.awt.Dimension(277, 800));
+        SideBar.setLayout(null);
 
         logo.setBackground(new java.awt.Color(204, 255, 102));
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Logo.png"))); // NOI18N
+        SideBar.add(logo);
+        logo.setBounds(0, 0, 277, 191);
 
         Jpanel_menu.setPreferredSize(new java.awt.Dimension(277, 536));
-        Jpanel_menu.setLayout(null);
 
         page_LoaiPhong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_LoaiPhong.setkGradientFocus(250);
         page_LoaiPhong.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_LoaiPhong.setPreferredSize(new java.awt.Dimension(247, 75));
+        page_LoaiPhong.setPreferredSize(new java.awt.Dimension(277, 75));
         page_LoaiPhong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_LoaiPhongMouseClicked(evt);
@@ -126,9 +129,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(label_DonDatPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        Jpanel_menu.add(page_LoaiPhong);
-        page_LoaiPhong.setBounds(0, 65, 277, 75);
 
         page_Phong.setkEndColor(new java.awt.Color(115, 115, 115));
         page_Phong.setkGradientFocus(250);
@@ -176,12 +176,10 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
         );
 
-        Jpanel_menu.add(page_Phong);
-        page_Phong.setBounds(0, 0, 277, 75);
-
         page_TienNghi.setkEndColor(new java.awt.Color(115, 115, 115));
         page_TienNghi.setkGradientFocus(250);
         page_TienNghi.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_TienNghi.setPreferredSize(new java.awt.Dimension(277, 75));
         page_TienNghi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_TienNghiMouseClicked(evt);
@@ -208,7 +206,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
             page_TienNghiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_TienNghiLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(icon_ThanhToan1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(icon_ThanhToan1, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label_ThanhToan2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -224,12 +222,10 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(412, 412, 412))
         );
 
-        Jpanel_menu.add(page_TienNghi);
-        page_TienNghi.setBounds(0, 138, 277, 70);
-
         page_DichVu.setkEndColor(new java.awt.Color(115, 115, 115));
         page_DichVu.setkGradientFocus(250);
         page_DichVu.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_DichVu.setPreferredSize(new java.awt.Dimension(277, 75));
         page_DichVu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_DichVuMouseClicked(evt);
@@ -256,7 +252,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
             page_DichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_DichVuLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(icon_ThanhToan2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(icon_ThanhToan2, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label_ThanhToan3, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -272,12 +268,10 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(412, 412, 412))
         );
 
-        Jpanel_menu.add(page_DichVu);
-        page_DichVu.setBounds(0, 210, 277, 70);
-
         page_KhuyenMai.setkEndColor(new java.awt.Color(115, 115, 115));
         page_KhuyenMai.setkGradientFocus(250);
         page_KhuyenMai.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_KhuyenMai.setPreferredSize(new java.awt.Dimension(277, 75));
         page_KhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_KhuyenMaiMouseClicked(evt);
@@ -304,7 +298,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
             page_KhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_KhuyenMaiLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(icon_ThanhToan3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(icon_ThanhToan3, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label_ThanhToan4, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -320,12 +314,10 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(412, 412, 412))
         );
 
-        Jpanel_menu.add(page_KhuyenMai);
-        page_KhuyenMai.setBounds(0, 280, 277, 70);
-
         page_KhachHang.setkEndColor(new java.awt.Color(115, 115, 115));
         page_KhachHang.setkGradientFocus(250);
         page_KhachHang.setkStartColor(new java.awt.Color(0, 0, 0));
+        page_KhachHang.setPreferredSize(new java.awt.Dimension(277, 75));
         page_KhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 page_KhachHangMouseClicked(evt);
@@ -352,7 +344,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
             page_KhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_KhachHangLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(icon_ThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(icon_ThanhToan, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(label_ThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -368,14 +360,45 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(412, 412, 412))
         );
 
-        Jpanel_menu.add(page_KhachHang);
-        page_KhachHang.setBounds(0, 350, 277, 70);
+        javax.swing.GroupLayout Jpanel_menuLayout = new javax.swing.GroupLayout(Jpanel_menu);
+        Jpanel_menu.setLayout(Jpanel_menuLayout);
+        Jpanel_menuLayout.setHorizontalGroup(
+            Jpanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(page_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_Phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_KhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_KhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(page_TienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        Jpanel_menuLayout.setVerticalGroup(
+            Jpanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Jpanel_menuLayout.createSequentialGroup()
+                .addComponent(page_Phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(Jpanel_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Jpanel_menuLayout.createSequentialGroup()
+                        .addComponent(page_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(page_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(page_KhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(page_KhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Jpanel_menuLayout.createSequentialGroup()
+                        .addGap(73, 73, 73)
+                        .addComponent(page_TienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        SideBar.add(Jpanel_menu);
+        Jpanel_menu.setBounds(0, 180, 277, 440);
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
         jLabel21.setText("backgoup_menu");
         jLabel21.setPreferredSize(new java.awt.Dimension(277, 400));
-        Jpanel_menu.add(jLabel21);
-        jLabel21.setBounds(0, 80, 277, 460);
+        SideBar.add(jLabel21);
+        jLabel21.setBounds(0, 410, 277, 320);
 
         btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
         btn_DangXuat.setPreferredSize(new java.awt.Dimension(277, 100));
@@ -418,28 +441,8 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
-        javax.swing.GroupLayout SideBarLayout = new javax.swing.GroupLayout(SideBar);
-        SideBar.setLayout(SideBarLayout);
-        SideBarLayout.setHorizontalGroup(
-            SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(Jpanel_menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        SideBarLayout.setVerticalGroup(
-            SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SideBarLayout.createSequentialGroup()
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(Jpanel_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btn_DangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
+        SideBar.add(btn_DangXuat);
+        btn_DangXuat.setBounds(0, 727, 277, 73);
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 153, 153));
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(1276, 800));

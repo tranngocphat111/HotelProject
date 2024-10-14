@@ -161,8 +161,8 @@ public class DangNhap_GUI extends javax.swing.JFrame {
 
     private void btn_DangNhapMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMouseEntered
         // TODO add your handling code here:
-         btn_DangNhap.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_DangNhap.setkEndColor(new java.awt.Color(255, 222, 89)); 
+        btn_DangNhap.setkStartColor(new java.awt.Color(115, 115, 115));
+        btn_DangNhap.setkEndColor(new java.awt.Color(0, 0, 0));
         btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
         btn_DangNhap.setBorder(null);
 
@@ -171,7 +171,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
 
     private void btn_DangNhapMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMouseExited
         btn_DangNhap.setkEndColor(new java.awt.Color(115, 115, 115));
-
         btn_DangNhap.setkStartColor(new java.awt.Color(0, 0, 0));
         btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
         btn_DangNhap.setBorder(null);

@@ -59,30 +59,6 @@ public class TienNghi {
         this.hinhAnh = hinhAnh;
     }
 
-//    public int getSoLuong() {
-//        return soLuong;
-//    }
-//
-//    public void setSoLuong(int soLuong) {
-//        this.soLuong = soLuong;
-//    }
-//
-//    public Date getNgayLapDat() {
-//        return ngayLapDat;
-//    }
-//
-//    public void setNgayLapDat(Date ngayLapDat) {
-//        this.ngayLapDat = ngayLapDat;
-//    }
-//
-//    public Date getNgayBaoTriGanNhat() {
-//        return ngayBaoTriGanNhat;
-//    }
-//
-//    public void setNgayBaoTriGanNhat(Date ngayBaoTriGanNhat) {
-//        this.ngayBaoTriGanNhat = ngayBaoTriGanNhat;
-//    }
-
     public static TienNghi fromDocument(Document doc) {
         TienNghi tienNghi = new TienNghi();
 

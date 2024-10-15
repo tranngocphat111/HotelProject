@@ -42,8 +42,7 @@ public class NhanVienDAO {
                     .append("diaChi", nhanVien.getDiaChi())
                     .append("chucVu", nhanVien.getChucVu())
                     .append("tenTaiKhoan", nhanVien.getTenTaiKhoan())
-                    .append("matKhau", nhanVien.getMatKhau())
-                    .append("trangThai", nhanVien.getTrangThai());
+                    .append("matKhau", nhanVien.getMatKhau());
 
             InsertOneResult result = nhanVienCollection.insertOne(doc);
             return result.wasAcknowledged();

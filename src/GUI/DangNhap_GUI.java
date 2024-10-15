@@ -227,13 +227,13 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             return;
         }
 
-        if (nv.getChucVu() == 1) {
+        if (nv.getChucVu().equals("Lễ tân")) {
             new LeTan_GUI().setVisible(true);
             setVisible(false);
             return;
         }
 
-        if (nv.getChucVu() == 2) {
+        if (nv.getChucVu().equals("Nhân viên")) {
             new NhanVien_GUI().setVisible(true);
             setVisible(false);
         } else {
@@ -258,13 +258,13 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 return;
             }
 
-            if (nv.getChucVu() == 1) {
+            if (nv.getChucVu().equals("Lễ tân")) {
                 new LeTan_GUI().setVisible(true);
                 setVisible(false);
                 return;
             }
 
-            if (nv.getChucVu() == 2) {
+            if (nv.getChucVu().equals("Nhân viên")) {
                 new NhanVien_GUI().setVisible(true);
                 setVisible(false);
             } else {
@@ -288,13 +288,13 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 return;
             }
 
-            if (nv.getChucVu() == 1) {
+            if (nv.getChucVu().equals("Lễ tân")) {
                 new LeTan_GUI().setVisible(true);
                 setVisible(false);
                 return;
             }
 
-            if (nv.getChucVu() == 2) {
+            if (nv.getChucVu().equals("Nhân viên")) {
                 new NhanVien_GUI().setVisible(true);
                 setVisible(false);
             } else {

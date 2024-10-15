@@ -9,26 +9,26 @@ public class NhanVien {
     private String soDienThoai;
     private String CCCD;
     private String diaChi;
-    private int chucVu;
+    private String chucVu;
     private String tenTaiKhoan;
     private String matKhau;
-    private int trangThai;
 
     public NhanVien() {
     }
 
-    public NhanVien(int trangThai, String matKhau, String tenTaiKhoan, int chucVu, String diaChi, String CCCD, String soDienThoai, String anhDaiDien, String tenNhanVien, int maNhanVien) {
-        this.trangThai = trangThai;
-        this.matKhau = matKhau;
-        this.tenTaiKhoan = tenTaiKhoan;
-        this.chucVu = chucVu;
-        this.diaChi = diaChi;
-        this.CCCD = CCCD;
-        this.soDienThoai = soDienThoai;
-        this.anhDaiDien = anhDaiDien;
-        this.tenNhanVien = tenNhanVien;
+    public NhanVien(int maNhanVien, String tenNhanVien, String anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu, String tenTaiKhoan, String matKhau) {
         this.maNhanVien = maNhanVien;
+        this.tenNhanVien = tenNhanVien;
+        this.anhDaiDien = anhDaiDien;
+        this.soDienThoai = soDienThoai;
+        this.CCCD = CCCD;
+        this.diaChi = diaChi;
+        this.chucVu = chucVu;
+        this.tenTaiKhoan = tenTaiKhoan;
+        this.matKhau = matKhau;
     }
+
+    
 
     public int getMaNhanVien() {
         return maNhanVien;
@@ -78,13 +78,15 @@ public class NhanVien {
         this.diaChi = diaChi;
     }
 
-    public int getChucVu() {
+    public String getChucVu() {
         return chucVu;
     }
 
-    public void setChucVu(int chucVu) {
+    public void setChucVu(String chucVu) {
         this.chucVu = chucVu;
     }
+
+
 
     public String getTenTaiKhoan() {
         return tenTaiKhoan;
@@ -102,13 +104,6 @@ public class NhanVien {
         this.matKhau = matKhau;
     }
 
-    public int getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(int trangThai) {
-        this.trangThai = trangThai;
-    }
     public static NhanVien fromDocument(Document doc) {
         NhanVien nhanVien = new NhanVien();
         if (doc.containsKey("maNhanVien")) {
@@ -130,16 +125,13 @@ public class NhanVien {
             nhanVien.setDiaChi(doc.getString("diaChi"));
         }
         if (doc.containsKey("chucVu")) {
-            nhanVien.setChucVu(doc.getInteger("chucVu"));
+            nhanVien.setChucVu(doc.getString("chucVu"));
         }
         if (doc.containsKey("tenTaiKhoan")) {
             nhanVien.setTenTaiKhoan(doc.getString("tenTaiKhoan"));
         }
         if (doc.containsKey("matKhau")) {
             nhanVien.setMatKhau(doc.getString("matKhau"));
-        }
-        if (doc.containsKey("trangThai")) {
-            nhanVien.setTrangThai(doc.getInteger("trangThai"));
         }
         return nhanVien;
     }
@@ -156,7 +148,6 @@ public class NhanVien {
                 ", chucVu=" + chucVu +
                 ", tenTaiKhoan='" + tenTaiKhoan + '\'' +
                 ", matKhau='" + matKhau + '\'' +
-                ", trangThai=" + trangThai +
                 '}';
     }
 }

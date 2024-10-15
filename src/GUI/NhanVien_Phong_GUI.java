@@ -4,8 +4,15 @@
  */
 package GUI;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import keeptoo.KGradientPanel;
 
 /**
  *
@@ -16,10 +23,59 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
+    private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     public NhanVien_Phong_GUI() {
         initComponents();
         jScrollPane2.setOpaque(false);
         jScrollPane2.getViewport().setOpaque(false);
+        
+        
+        list_btn.add(btn_Them);
+        list_btn.add(btn_Sua);
+        list_btn.add(btn_Xoa);
+        list_btn.add(btn_Lammoi);
+        list_btn.add(btn_Tim);
+        
+        
+        list_btn.forEach((element) -> {
+            element.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+               
+                @Override
+                public void mousePressed(MouseEvent e) {
+                        
+//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    element.setkStartColor(new java.awt.Color(255, 225, 27));
+                    element.setkEndColor(new java.awt.Color(255, 222, 89));
+                    element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                    element.setBorder(null);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    element.setkStartColor(new java.awt.Color(225, 176, 27));
+                    element.setkEndColor(new java.awt.Color(255, 222, 89));
+                    element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                    element.setBorder(null);
+                   
+                }
+            });
+        })
+        ;
+        
+        
         this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
         ui.setNorthPane(null);
@@ -209,17 +265,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
         btn_Them.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ThemMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_ThemMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_ThemMouseExited(evt);
-            }
-        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -399,28 +444,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_ThemMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseExited
-        // TODO add your handling code here:
-        btn_Them.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_Them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        btn_Them.setBorder(null);
-    }//GEN-LAST:event_btn_ThemMouseExited
-
-    private void btn_ThemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseEntered
-        // TODO add your handling code here:
-        btn_Them.setkStartColor(new java.awt.Color(255, 225, 27));
-        btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_Them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        btn_Them.setBorder(null);
-    }//GEN-LAST:event_btn_ThemMouseEntered
-
-    private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
-        // TODO add your handling code here:
-
-        System.out.println("đâs");
-    }//GEN-LAST:event_btn_ThemMouseClicked
 
     private void txt_giaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_giaActionPerformed
         // TODO add your handling code here:

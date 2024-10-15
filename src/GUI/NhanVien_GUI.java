@@ -21,16 +21,18 @@ import keeptoo.KGradientPanel;
  * @author Admin
  */
 public class NhanVien_GUI extends javax.swing.JFrame {
+
     NhanVien_Phong_GUI phong_Gui = new NhanVien_Phong_GUI();
     NhanVien_LoaiPhong_GUI loaiphong_Gui = new NhanVien_LoaiPhong_GUI();
     NhanVien_TienNghi_GUI tiennghi_Gui = new NhanVien_TienNghi_GUI();
     NhanVien_DichVu_GUI dichvu_Gui = new NhanVien_DichVu_GUI();
     NhanVien_KhuyenMai_GUI khuyenmai_Gui = new NhanVien_KhuyenMai_GUI();
     NhanVien_KhachHang_GUI khachhang_Gui = new NhanVien_KhachHang_GUI();
-    
+
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private List<JInternalFrame> internalFrameList = new ArrayList<>();
     private String tam = "page_Phong";
+
     /**
      * Creates new form NewJFrame
      */
@@ -41,9 +43,9 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
         page_Phong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_Phong.setkEndColor(new java.awt.Color(255, 222, 89));
-        
+
         phong_Gui.setVisible(true);
-        
+
         jDesktopPane1.add(phong_Gui);
         jDesktopPane1.add(loaiphong_Gui);
         jDesktopPane1.add(tiennghi_Gui);
@@ -51,7 +53,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         jDesktopPane1.add(khuyenmai_Gui);
         jDesktopPane1.add(khachhang_Gui);
 
-        
         internalFrameList.add(phong_Gui);
         internalFrameList.add(loaiphong_Gui);
         internalFrameList.add(tiennghi_Gui);
@@ -59,54 +60,45 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         internalFrameList.add(khuyenmai_Gui);
         internalFrameList.add(khachhang_Gui);
 
-        
-        
         list_page.add(page_Phong);
         list_page.add(page_LoaiPhong);
         list_page.add(page_TienNghi);
         list_page.add(page_DichVu);
         list_page.add(page_KhuyenMai);
         list_page.add(page_KhachHang);
-        
-        
+
         list_page.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
-               
+
                 @Override
                 public void mousePressed(MouseEvent e) {
-                        
-                        for(KGradientPanel page : list_page){
-                            
-                            if(element.getName().equals(page.getName())){
-                                System.out.println(element.getName());
-                                System.out.println(page.getName());
-                                page.setkStartColor(new java.awt.Color(225, 176, 27));
-                                page.setkEndColor(new java.awt.Color(255, 222, 89)); 
-                                page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-                                page.setBorder(null);
-                                for(JInternalFrame internal : internalFrameList){
-//                                    System.out.println(internal.getName());
-                                    if(page.getName().equals(internal.getName())){
-                                        
-                                        System.out.println(page.getName());
-                                        internal.setVisible(true);
-                                    }
-                                    else {
-                                        internal.setVisible(false);
-                                    }
+
+                    for (KGradientPanel page : list_page) {
+
+                        if (element.getName().equals(page.getName())) {
+                            page.setkStartColor(new java.awt.Color(225, 176, 27));
+                            page.setkEndColor(new java.awt.Color(255, 222, 89));
+                            page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                            page.setBorder(null);
+                            for (JInternalFrame internal : internalFrameList) {
+                                if (page.getName().equals(internal.getName())) {
+                                    internal.setVisible(true);
+                                } else {
+                                    internal.setVisible(false);
                                 }
-                                tam = page.getName();
-                            }else{
-                                page.setkEndColor(new java.awt.Color(115, 115, 115));
-                                page.setkStartColor(new java.awt.Color(0, 0, 0));
-                                page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
-                                page.setBorder(null);
                             }
+                            tam = page.getName();
+                        } else {
+                            page.setkEndColor(new java.awt.Color(115, 115, 115));
+                            page.setkStartColor(new java.awt.Color(0, 0, 0));
+                            page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
+                            page.setBorder(null);
                         }
+                    }
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
@@ -118,27 +110,25 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     element.setkStartColor(new java.awt.Color(225, 176, 27));
-                    element.setkEndColor(new java.awt.Color(255, 222, 89)); 
+                    element.setkEndColor(new java.awt.Color(255, 222, 89));
                     element.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
                     element.setBorder(null);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if(!element.getName().equals(tam)){
+                    if (!element.getName().equals(tam)) {
                         element.setkEndColor(new java.awt.Color(115, 115, 115));
-                        element.setkStartColor(new java.awt.Color(0, 0, 0)); 
+                        element.setkStartColor(new java.awt.Color(0, 0, 0));
                         element.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
                         element.setBorder(null);
                     }
                 }
             });
-        })
-        ;
+        });
 
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -536,11 +526,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
- 
+
     private void btn_DangXuatMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMouseEntered
         // TODO add your handling code here:
         btn_DangXuat.setBackground(new java.awt.Color(142, 52, 52));
-                
+
 
     }//GEN-LAST:event_btn_DangXuatMouseEntered
 

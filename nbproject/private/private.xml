@@ -2,6 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/LeTan_DatPhong_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/LeTan_DatPhong_ChonPhong_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/LeTan_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/LeTan_DonDatPhong_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/LeTan_ThanhToan_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_KhuyenMai_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_Phong_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_KhachHang_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_DichVu_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/DangNhap_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_LoaiPhong_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_TienNghi_GUI.java</file>
+        </group>
     </open-files>
 </project-private>

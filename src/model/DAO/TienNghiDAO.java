@@ -3,6 +3,7 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.InsertOneResult;
 import model.DTO.TienNghi;
 import org.bson.Document;
 
@@ -26,5 +27,20 @@ public class TienNghiDAO {
             }
         }
         return tienNghis;
+    }
+    
+    public boolean createTienNghi(TienNghi tienNghi) {
+        try {
+            Document doc = new Document()
+                    .append("maTienNghi", tienNghi.getMaTienNghi())
+                    .append("tenTienNghi", tienNghi.getTenTienNghi())
+                    .append("moTa", tienNghi.getMoTa());
+
+            InsertOneResult result = tienNghiCollection.insertOne(doc);
+            return result.wasAcknowledged();
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo tiện nghi: " + e.getMessage());
+            return false;
+        }
     }
 }

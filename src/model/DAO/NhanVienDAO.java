@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import model.DTO.NhanVien;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.InsertOneResult;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -30,6 +31,28 @@ public class NhanVienDAO {
         return nhanViens;
     }
     
+    public boolean createNhanVien(NhanVien nhanVien) {
+        try {
+            Document doc = new Document()
+                    .append("maNhanVien", nhanVien.getMaNhanVien())
+                    .append("tenNhanVien", nhanVien.getTenNhanVien())
+                    .append("anhDaiDien", nhanVien.getAnhDaiDien())
+                    .append("SoDienThoai", nhanVien.getSoDienThoai())
+                    .append("CCCD", nhanVien.getCCCD())
+                    .append("diaChi", nhanVien.getDiaChi())
+                    .append("chucVu", nhanVien.getChucVu())
+                    .append("tenTaiKhoan", nhanVien.getTenTaiKhoan())
+                    .append("matKhau", nhanVien.getMatKhau())
+                    .append("trangThai", nhanVien.getTrangThai());
+
+            InsertOneResult result = nhanVienCollection.insertOne(doc);
+            return result.wasAcknowledged();
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo nhân viên: " + e.getMessage());
+            return false;
+        }
+    }
+    
     public NhanVien checkAccount(String tenTaiKhoan, String matKhau) {
         Document doc = nhanVienCollection.find(Filters.and(
                 Filters.eq("tenTaiKhoan", tenTaiKhoan),
@@ -41,36 +64,5 @@ public class NhanVienDAO {
         } else {
             return null; // Account not found
         }
-    }
-
-    public void addNhanVien(int maNhanVien, String tenNhanVien, String anhDaiDien, String soDienThoai, String cccd, String diaChi, int chucVu, int maTaiKhoan, String tenTaiKhoan, String matKhau) {
-        Document nhanVien = new Document("maNhanVien", maNhanVien)
-                .append("tenNhanVien", tenNhanVien)
-                .append("anhDaiDien", anhDaiDien)
-                .append("SoDienThoai", soDienThoai)
-                .append("CCCD", cccd)
-                .append("diaChi", diaChi)
-                .append("chucVu", chucVu)
-                .append("maTaiKHoan", maTaiKhoan)
-                .append("tenTaiKhoan", tenTaiKhoan)
-                .append("matKhau", matKhau);
-
-        nhanVienCollection.insertOne(nhanVien);
-        System.out.println("Added NhanVien successfully");
-    }
-
-    public Document getNhanVienByMaNhanVien(int maNhanVien) {
-        return nhanVienCollection.find(new Document("maNhanVien", maNhanVien)).first();
-    }
-
-    public void updateNhanVien(int maNhanVien, String tenNhanVien) {
-        nhanVienCollection.updateOne(new Document("maNhanVien", maNhanVien),
-                new Document("$set", new Document("tenNhanVien", tenNhanVien)));
-        System.out.println("Updated NhanVien successfully");
-    }
-
-    public void deleteNhanVien(int maNhanVien) {
-        nhanVienCollection.deleteOne(new Document("maNhanVien", maNhanVien));
-        System.out.println("Deleted NhanVien successfully");
     }
 }

@@ -2,6 +2,7 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.InsertOneResult;
 import model.DTO.KhachHang;
 import model.MongoDBConnection;
 import org.bson.Document;
@@ -28,30 +29,20 @@ public class KhachHangDAO {
         }
         return khachHangs;
     }
+    
+    public boolean createKhachHang(KhachHang khachHang) {
+        try {
+            Document doc = new Document()
+                    .append("maKhachHang", khachHang.getMaKhachHang())
+                    .append("tenKhachHang", khachHang.getTenKhachHang())
+                    .append("soDienThoai", khachHang.getSoDienThoai())
+                    .append("CCCD", khachHang.getCCCD());
 
-    public void addKhachHang(int maKhachHang, String tenKhachHang, String soDienThoai, int diemTichLuy, String email) {
-        Document khachHang = new Document("maKhachHang", maKhachHang)
-                .append("tenKhachHang", tenKhachHang)
-                .append("soDienThoai", soDienThoai)
-                .append("DiemTichLuy", diemTichLuy)
-                .append("email", email);
-
-        khachHangCollection.insertOne(khachHang);
-        System.out.println("Added KhachHang successfully");
-    }
-
-    public Document getKhachHangByMaKhachHang(int maKhachHang) {
-        return khachHangCollection.find(new Document("maKhachHang", maKhachHang)).first();
-    }
-
-    public void updateKhachHang(int maKhachHang, String tenKhachHang) {
-        khachHangCollection.updateOne(new Document("maKhachHang", maKhachHang),
-                new Document("$set", new Document("tenKhachHang", tenKhachHang)));
-        System.out.println("Updated KhachHang successfully");
-    }
-
-    public void deleteKhachHang(int maKhachHang) {
-        khachHangCollection.deleteOne(new Document("maKhachHang", maKhachHang));
-        System.out.println("Deleted KhachHang successfully");
+            InsertOneResult result = khachHangCollection.insertOne(doc);
+            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+            return false; // Trả về false nếu có lỗi
+        }
     }
 }

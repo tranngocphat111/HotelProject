@@ -9,6 +9,8 @@ import model.MongoDBConnection;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.List;
+import model.DTO.NhanVien;
 
 public class PhongDAO {
 
@@ -16,6 +18,32 @@ public class PhongDAO {
 
     public PhongDAO(MongoDatabase database) {
         phongCollection = database.getCollection("Phong");
+    }
+
+    public List<Phong> getAllPhong() {
+        List<Phong> Phongs = new ArrayList<>();
+        try (MongoCursor<Document> cursor = phongCollection.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Phong phong = Phong.fromDocument(doc);
+                Phongs.add(phong);
+            }
+        }
+        return Phongs;
+    }
+
+    public Phong getPhongByMa(int maPhong) {
+        Phong phong = null;
+        Document query = new Document("maPhong", maPhong);
+        try {
+            Document doc = phongCollection.find(query).first();
+            if (doc != null) {
+                phong = Phong.fromDocument(doc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return phong;
     }
 
     public void addPhong(int maPhong, int trangThai, String soPhong, int tang, int loaiPhong) {
@@ -46,4 +74,3 @@ public class PhongDAO {
         }
     }
 }
-

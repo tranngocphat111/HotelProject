@@ -4,23 +4,60 @@
  */
 package GUI;
 
+import java.awt.PopupMenu;
+import java.util.List;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import model.DAO.LoaiPhongDAO;
+import model.DTO.LoaiPhong;
+import model.DTO.Phong;
+import model.DTO.TienNghi;
+import model.MongoDBConnection;
+
 /**
  *
  * @author Admin
  */
 public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
+    private MongoDBConnection database = new MongoDBConnection();
+    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
 
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1
      */
-    public LeTan_DatPhong_ChonPhong_GUI() {
+    
+    
+    
+    public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong) {
         setUndecorated(true);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         initComponents();
         setLocationRelativeTo(null);
+        DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
+        df.setRowCount(0);
         
+        for(Phong phong : list_Phong){
+            LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
+            df.addRow(new Object [] {
+                phong.getMaPhong(),
+                phong.getTang(),
+                loaiPhong.getTenLoaiPhong(),
+                loaiPhong.getMaLoaiPhong(),
+                loaiPhong.getDienTich(),
+                list_tienNghi,"Đang trống",loaiPhong.getDonGia()});
+        }
         
-
+    }
+    
+    public String getListTienNghi(List<TienNghi> list_tienNghi){
+        String list = "";
+        for(TienNghi tn : list_tienNghi){
+            list = list + tn.getTenTienNghi() + ", ";
+        }
+        list = list.substring(0,list.length() - 2);
+        return list;
     }
 
     /**
@@ -41,15 +78,15 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 450));
 
         kGradientPanel1.setkEndColor(new java.awt.Color(115, 115, 115));
         kGradientPanel1.setkGradientFocus(250);
         kGradientPanel1.setkStartColor(new java.awt.Color(0, 0, 0));
-        kGradientPanel1.setPreferredSize(new java.awt.Dimension(1000, 450));
+        kGradientPanel1.setPreferredSize(new java.awt.Dimension(1150, 456));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -69,6 +106,16 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         });
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         table_Phong.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(150);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(150);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(300);
+            jTable1.getColumnModel().getColumn(6).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(7).setMaxWidth(300);
+        }
 
         btn_XacNhan.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_XacNhan.setkGradientFocus(250);
@@ -151,14 +198,12 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
-                .addContainerGap(631, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(btn_Huy, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addComponent(table_Phong)
-                .addContainerGap())
+            .addComponent(table_Phong, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE)
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,18 +221,16 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1006, Short.MAX_VALUE)
+            .addGap(0, 1151, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1006, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 456, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -267,11 +310,11 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+////                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -283,4 +326,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JScrollPane table_Phong;
     // End of variables declaration//GEN-END:variables
+
+    
 }

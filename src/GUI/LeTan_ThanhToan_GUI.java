@@ -282,6 +282,11 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         btn_ThanhToan.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_ThanhToan.setkGradientFocus(250);
         btn_ThanhToan.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_ThanhToan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ThanhToanMousePressed(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -535,6 +540,11 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     private void checkBox_DaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DaThanhToanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_checkBox_DaThanhToanActionPerformed
+
+    private void btn_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanMousePressed
+        // TODO add your handling code here:
+        new HoaDon_GUI().setVisible(true);
+    }//GEN-LAST:event_btn_ThanhToanMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

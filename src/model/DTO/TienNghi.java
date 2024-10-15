@@ -9,9 +9,11 @@ public class TienNghi {
     private int maTienNghi;
     private String tenTienNghi;
     private String moTa;
-    private int soLuong;
-    private Date ngayLapDat;
-    private Date ngayBaoTriGanNhat;
+    private String hinhAnh;
+    
+//    private int soLuong;
+//    private Date ngayLapDat;
+//    private Date ngayBaoTriGanNhat;
 
     public TienNghi() {
     }
@@ -20,9 +22,9 @@ public class TienNghi {
         this.maTienNghi = maTienNghi;
         this.tenTienNghi = tenTienNghi;
         this.moTa = moTa;
-        this.soLuong = soLuong;
-        this.ngayLapDat = ngayLapDat;
-        this.ngayBaoTriGanNhat = ngayBaoTriGanNhat;
+//        this.soLuong = soLuong;
+//        this.ngayLapDat = ngayLapDat;
+//        this.ngayBaoTriGanNhat = ngayBaoTriGanNhat;
     }
 
     public int getMaTienNghi() {
@@ -49,29 +51,37 @@ public class TienNghi {
         this.moTa = moTa;
     }
 
-    public int getSoLuong() {
-        return soLuong;
+    public String getHinhAnh() {
+        return hinhAnh;
     }
 
-    public void setSoLuong(int soLuong) {
-        this.soLuong = soLuong;
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 
-    public Date getNgayLapDat() {
-        return ngayLapDat;
-    }
-
-    public void setNgayLapDat(Date ngayLapDat) {
-        this.ngayLapDat = ngayLapDat;
-    }
-
-    public Date getNgayBaoTriGanNhat() {
-        return ngayBaoTriGanNhat;
-    }
-
-    public void setNgayBaoTriGanNhat(Date ngayBaoTriGanNhat) {
-        this.ngayBaoTriGanNhat = ngayBaoTriGanNhat;
-    }
+//    public int getSoLuong() {
+//        return soLuong;
+//    }
+//
+//    public void setSoLuong(int soLuong) {
+//        this.soLuong = soLuong;
+//    }
+//
+//    public Date getNgayLapDat() {
+//        return ngayLapDat;
+//    }
+//
+//    public void setNgayLapDat(Date ngayLapDat) {
+//        this.ngayLapDat = ngayLapDat;
+//    }
+//
+//    public Date getNgayBaoTriGanNhat() {
+//        return ngayBaoTriGanNhat;
+//    }
+//
+//    public void setNgayBaoTriGanNhat(Date ngayBaoTriGanNhat) {
+//        this.ngayBaoTriGanNhat = ngayBaoTriGanNhat;
+//    }
 
     public static TienNghi fromDocument(Document doc) {
         TienNghi tienNghi = new TienNghi();
@@ -85,14 +95,8 @@ public class TienNghi {
         if (doc.containsKey("moTa")) {
             tienNghi.setMoTa(doc.getString("moTa"));
         }
-        if (doc.containsKey("soLuong")) {
-            tienNghi.setSoLuong(doc.getInteger("soLuong"));
-        }
-        if (doc.containsKey("ngayLapDat")) {
-            tienNghi.setNgayLapDat(doc.getDate("ngayLapDat"));
-        }
-        if (doc.containsKey("ngayBaoTriGanNhat")) {
-            tienNghi.setNgayBaoTriGanNhat(doc.getDate("ngayBaoTriGanNhat"));
+        if (doc.containsKey("hinhAnh")) {
+            tienNghi.setHinhAnh(doc.getString("soLuong"));
         }
 
         return tienNghi;
@@ -100,13 +104,6 @@ public class TienNghi {
 
     @Override
     public String toString() {
-        return "TienNghi{" +
-                "maTienNghi=" + maTienNghi +
-                ", tenTienNghi='" + tenTienNghi + '\'' +
-                ", moTa='" + moTa + '\'' +
-                ", soLuong=" + soLuong +
-                ", ngayLapDat=" + ngayLapDat +
-                ", ngayBaoTriGanNhat=" + ngayBaoTriGanNhat +
-                '}';
+        return "TienNghi{" + "maTienNghi=" + maTienNghi + ", tenTienNghi=" + tenTienNghi + ", moTa=" + moTa + ", hinhAnh=" + hinhAnh + '}';
     }
 }

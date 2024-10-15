@@ -5,9 +5,14 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
-
-
+import javax.swing.JOptionPane;
+import model.DAO.NhanVienDAO;
+import model.DTO.NhanVien;
+import model.MongoDBConnection;
 
 /**
  *
@@ -15,13 +20,19 @@ import javax.swing.JFrame;
  */
 public class DangNhap_GUI extends javax.swing.JFrame {
 
+    private MongoDBConnection database = new MongoDBConnection();
+    private List<NhanVien> list_NhanVien = new ArrayList<NhanVien>();
+    private NhanVienDAO nhanVien_Dao = new NhanVienDAO(database.getDatabase());
+
     /**
      * Creates new form DangNhap
      */
     public DangNhap_GUI() {
         initComponents();
-         setLocationRelativeTo(null);
-         
+        setLocationRelativeTo(null);
+
+        list_NhanVien = nhanVien_Dao.getAllNhanVien();
+
     }
 
     /**
@@ -81,6 +92,9 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_DangNhapMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_DangNhapMousePressed(evt);
+            }
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -107,9 +121,20 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        txt_TaiKhoan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_TaiKhoanKeyPressed(evt);
+            }
+        });
+
         txt_matKhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_matKhauActionPerformed(evt);
+            }
+        });
+        txt_matKhau.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_matKhauKeyPressed(evt);
             }
         });
 
@@ -121,12 +146,11 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txt_matKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_DangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_TaiKhoan)))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_DangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_TaiKhoan))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,7 +197,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
         btn_DangNhap.setBorder(null);
 
-       
+
     }//GEN-LAST:event_btn_DangNhapMouseEntered
 
     private void btn_DangNhapMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMouseExited
@@ -182,12 +206,103 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
         btn_DangNhap.setBorder(null);
 
-     
+
     }//GEN-LAST:event_btn_DangNhapMouseExited
 
     private void txt_matKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_matKhauActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_matKhauActionPerformed
+
+    private void btn_DangNhapMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMousePressed
+        // TODO add your handling code here:
+
+        if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
+            return;
+        }
+        NhanVien nv = nhanVien_Dao.checkAccount(txt_TaiKhoan.getText(), txt_matKhau.getText());
+
+        if (nv == null) {
+            JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+            return;
+        }
+
+        if (nv.getChucVu().equals("Lễ tân")) {
+            new LeTan_GUI().setVisible(true);
+            setVisible(false);
+            return;
+        }
+
+        if (nv.getChucVu().equals("Nhân viên")) {
+            new NhanVien_GUI().setVisible(true);
+            setVisible(false);
+        } else {
+            new QuanLy_GUI().setVisible(true);
+            setVisible(false);
+        }
+
+
+    }//GEN-LAST:event_btn_DangNhapMousePressed
+
+    private void txt_matKhauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_matKhauKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
+                return;
+            }
+            NhanVien nv = nhanVien_Dao.checkAccount(txt_TaiKhoan.getText(), txt_matKhau.getText());
+
+            if (nv == null) {
+                JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+                return;
+            }
+
+            if (nv.getChucVu().equals("Lễ tân")) {
+                new LeTan_GUI().setVisible(true);
+                setVisible(false);
+                return;
+            }
+
+            if (nv.getChucVu().equals("Nhân viên")) {
+                new NhanVien_GUI().setVisible(true);
+                setVisible(false);
+            } else {
+                new QuanLy_GUI().setVisible(true);
+                setVisible(false);
+            }
+        }
+    }//GEN-LAST:event_txt_matKhauKeyPressed
+
+    private void txt_TaiKhoanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_TaiKhoanKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
+                return;
+            }
+            NhanVien nv = nhanVien_Dao.checkAccount(txt_TaiKhoan.getText(), txt_matKhau.getText());
+
+            if (nv == null) {
+                JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
+                return;
+            }
+
+            if (nv.getChucVu().equals("Lễ tân")) {
+                new LeTan_GUI().setVisible(true);
+                setVisible(false);
+                return;
+            }
+
+            if (nv.getChucVu().equals("Nhân viên")) {
+                new NhanVien_GUI().setVisible(true);
+                setVisible(false);
+            } else {
+                new QuanLy_GUI().setVisible(true);
+                setVisible(false);
+            }
+        }
+    }//GEN-LAST:event_txt_TaiKhoanKeyPressed
 
     /**
      * @param args the command line arguments

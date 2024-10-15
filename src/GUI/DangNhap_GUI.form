@@ -85,13 +85,11 @@
                   <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="txt_matKhau" pref="245" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel4" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel3" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="btn_DangNhap" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txt_TaiKhoan" alignment="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jLabel4" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
+                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="0" min="-2" pref="63" max="-2" attributes="0"/>
+                      <Component id="btn_DangNhap" alignment="0" max="32767" attributes="0"/>
+                      <Component id="txt_TaiKhoan" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="68" max="32767" attributes="0"/>
               </Group>
@@ -149,6 +147,7 @@
           <Events>
             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_DangNhapMouseEntered"/>
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_DangNhapMouseExited"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_DangNhapMousePressed"/>
           </Events>
 
           <Layout>
@@ -191,10 +190,14 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="txt_TaiKhoan">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_TaiKhoanKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txt_matKhau">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_matKhauActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txt_matKhauKeyPressed"/>
           </Events>
         </Component>
       </SubComponents>

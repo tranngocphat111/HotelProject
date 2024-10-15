@@ -9,7 +9,7 @@ public class MongoDBConnection {
     private MongoDatabase database;
     String connectionLocal = "mongodb://localhost:27017/";
     String connectionCloud = "mongodb+srv://admin:admin@atlascluster.mnaai2a.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster";
-    String databaseName = "Hotel";
+    String databaseName = "hotel";
 
     public MongoDBConnection() {
         try {

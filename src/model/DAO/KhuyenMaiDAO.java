@@ -33,5 +33,17 @@ public class KhuyenMaiDAO {
             return false;
         }
     }
+    
+    public List<KhuyenMai> getAllKhuyenMai() {
+        List<KhuyenMai> khuyenMais = new ArrayList<>();
+        try (MongoCursor<Document> cursor = khuyenMaiCollection.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                KhuyenMai khuyenMai = KhuyenMai.fromDocument(doc);
+                khuyenMais.add(khuyenMai);
+            }
+        }
+        return khuyenMais;
+    }
 }
 

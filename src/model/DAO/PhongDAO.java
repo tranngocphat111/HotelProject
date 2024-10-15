@@ -18,17 +18,6 @@ public class PhongDAO {
         phongCollection = database.getCollection("Phong");
     }
 
-    public void addPhong(int maPhong, int trangThai, String soPhong, int tang, int loaiPhong) {
-        Document phong = new Document("maPhong", maPhong)
-                .append("trangThai", trangThai)
-                .append("soPhong", soPhong)
-                .append("tang", tang)
-                .append("loaiPhong", loaiPhong);
-
-        phongCollection.insertOne(phong);
-        System.out.println("Added Phong successfully");
-    }
-
     public boolean createPhong(Phong phong) {
         try {
             Document doc = new Document()
@@ -44,6 +33,18 @@ public class PhongDAO {
             System.out.println("Lỗi xảy ra trong quá trình tạo phòng: " + e.getMessage());
             return false;
         }
+    }
+    
+    public ArrayList<Phong> getAllPhongs() {
+        ArrayList<Phong> phongs = new ArrayList<>();
+        try (MongoCursor<Document> cursor = phongCollection.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                Phong phong = Phong.fromDocument(document);
+                phongs.add(phong);
+            }
+        }
+        return phongs;
     }
 }
 

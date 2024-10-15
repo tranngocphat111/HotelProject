@@ -125,6 +125,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel20 = new javax.swing.JLabel();
         btn_ThemDon = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DatPhong"); // NOI18N
@@ -383,12 +384,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ThongTinKhachHang.setBounds(80, 320, 660, 150);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 209, 84));
-        jLabel14.setText("Thông tin đặt phòng");
+        jLabel14.setText("Mã đơn: ");
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(80, 50, 250, 32);
+        jLabel14.setBounds(30, 750, 250, 25);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -587,6 +588,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_ThemDon);
         btn_ThemDon.setBounds(890, 730, 160, 50);
 
+        jLabel21.setBackground(new java.awt.Color(255, 209, 84));
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel21.setText("Thông tin đặt phòng");
+        jLabel21.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.add(jLabel21);
+        jLabel21.setBounds(80, 50, 250, 32);
+
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_DatPhong"); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -667,6 +676,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

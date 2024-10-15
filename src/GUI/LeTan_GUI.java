@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.InternalFrameUI;
 import javax.swing.text.Element;
@@ -301,6 +302,9 @@ public class LeTan_GUI extends javax.swing.JFrame {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_DangXuatMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_DangXuatMousePressed(evt);
+            }
         });
 
         label_ThanhToan1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -401,6 +405,15 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
     }//GEN-LAST:event_btn_DangXuatMouseExited
+
+    private void btn_DangXuatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMousePressed
+        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(this,"Cảnh báo", "Bạn chắc chắn muốn đăng xuất",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            new DangNhap_GUI().setVisible(true);
+            setVisible(false);
+        }
+        
+    }//GEN-LAST:event_btn_DangXuatMousePressed
 
     /**
      * @param args the command line arguments

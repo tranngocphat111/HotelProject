@@ -2,6 +2,23 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/LeTan_GUI.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/LeTan_ThanhToan_ChiTietDonDatPhong.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/MongoDBConnection.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/TienNghiDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/DichVuDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/DangNhap_GUI.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/QuanLy_GUI.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/NhanVienDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/DonDatPhongDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/KhachHangDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/KhuyenMaiDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/PhongDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DTO/DichVu.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/test/GODMOD.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/HoaDonDAO.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/LoaiPhongDAO.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -231,7 +231,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_Phong.setText("P025");
+        txt_Phong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         btn_ThemPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Them.png"))); // NOI18N
         btn_ThemPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -270,7 +270,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Đơn giá");
 
-        txt_DonGia.setEnabled(false);
+        txt_DonGia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_DonGia.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout ThongTinDatLayout = new javax.swing.GroupLayout(ThongTinDat);
         ThongTinDat.setLayout(ThongTinDatLayout);
@@ -333,7 +334,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         .addGap(6, 6, 6)
                         .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cb_Tang, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                            .addComponent(txt_DonGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(txt_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(ThongTinDatLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(6, 6, 6)
@@ -707,8 +708,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private void Jpanel_ThemPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_ThemPhongMousePressed
         // TODO add your handling code here:
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
-        if (txt_NgayDen.getDate() == null && txt_NgayDi.getDate() == null) {
-            list_PhongTrong = getAllPhongTrong(new Date(), new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
+        txt_NgayDen.setDate(new Date());
+        if ( txt_NgayDi.getDate() == null) {
+            list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
             new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
             return;
         }
@@ -761,12 +763,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_MaDonDatPhong;
     private javax.swing.JTextField txt_CCCD;
-    private java.awt.TextField txt_DonGia;
+    public static java.awt.TextField txt_DonGia;
     private javax.swing.JTextField txt_Email;
     private javax.swing.JTextField txt_HoTen;
     private com.toedter.calendar.JDateChooser txt_NgayDen;
     private com.toedter.calendar.JDateChooser txt_NgayDi;
-    private javax.swing.JLabel txt_Phong;
+    public static javax.swing.JLabel txt_Phong;
     private javax.swing.JTextField txt_SDT;
     // End of variables declaration//GEN-END:variables
 }

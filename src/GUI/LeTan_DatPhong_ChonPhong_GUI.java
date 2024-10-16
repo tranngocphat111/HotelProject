@@ -22,7 +22,8 @@ import model.MongoDBConnection;
 public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private MongoDBConnection database = new MongoDBConnection();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
-
+    private DefaultTableModel df;
+    private  List<Phong> list_PhongTrong;
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1
      */
@@ -30,11 +31,12 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     
     
     public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong) {
+        list_PhongTrong = list_Phong;
         setUndecorated(true);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         initComponents();
         setLocationRelativeTo(null);
-        DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
+        df = (DefaultTableModel)jTable1.getModel();
         df.setRowCount(0);
         
         for(Phong phong : list_Phong){
@@ -271,6 +273,11 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
     private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
         // TODO add your handling code here:
+        jTable1.getSelectedRow();
+        Phong phong = list_PhongTrong.get(jTable1.getSelectedRow());
+        LeTan_DatPhong_GUI.txt_DonGia.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia() + " VND");
+        LeTan_DatPhong_GUI.txt_DonGia.setEditable(false);
+        LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "" );
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMouseClicked
 

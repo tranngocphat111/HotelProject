@@ -174,7 +174,7 @@
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="cb_Tang" alignment="0" pref="30" max="32767" attributes="0"/>
-                                  <Component id="txt_DonGia" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txt_DonGia" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -284,8 +284,13 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="txt_Phong">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="P025"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="0"/>
+                    </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ThemPhong">
                   <Properties>
@@ -334,8 +339,16 @@
             </Component>
             <Component class="java.awt.TextField" name="txt_DonGia">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Text Cursor"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="14" style="0"/>
+                </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>

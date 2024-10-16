@@ -175,9 +175,8 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(txtDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txt_DichVu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                        .addComponent(txt_MoTa, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(txt_DichVu, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(txt_MoTa))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 

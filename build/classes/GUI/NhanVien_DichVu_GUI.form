@@ -120,10 +120,8 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="txtDonGia" pref="30" max="32767" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txt_DichVu" alignment="1" pref="30" max="32767" attributes="0"/>
-                              <Component id="txt_MoTa" alignment="1" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="txt_DichVu" alignment="1" pref="30" max="32767" attributes="0"/>
+                          <Component id="txt_MoTa" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="30" max="32767" attributes="0"/>
                   </Group>

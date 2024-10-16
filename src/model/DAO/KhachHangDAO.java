@@ -36,7 +36,10 @@ public class KhachHangDAO {
                     .append("maKhachHang", khachHang.getMaKhachHang())
                     .append("tenKhachHang", khachHang.getTenKhachHang())
                     .append("soDienThoai", khachHang.getSoDienThoai())
-                    .append("CCCD", khachHang.getCCCD());
+                    .append("CCCD", khachHang.getCCCD())
+                    .append("gioiTinh", khachHang.getGioiTinh())
+                    .append("email", khachHang.getEmail())
+                    .append("quocTich", khachHang.getQuocTich());
 
             InsertOneResult result = khachHangCollection.insertOne(doc);
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không

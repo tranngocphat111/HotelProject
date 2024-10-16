@@ -23,6 +23,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     private MongoDBConnection database = new MongoDBConnection();
     private List<NhanVien> list_NhanVien = new ArrayList<NhanVien>();
     private NhanVienDAO nhanVien_Dao = new NhanVienDAO(database.getDatabase());
+    public static NhanVien nhanVien_DangSuDung;
 
     /**
      * Creates new form DangNhap
@@ -227,6 +228,8 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             return;
         }
 
+        nhanVien_DangSuDung = nv;
+
         if (nv.getChucVu().equals("Lễ tân")) {
             new LeTan_GUI().setVisible(true);
             setVisible(false);
@@ -257,7 +260,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
                 return;
             }
-
+            nhanVien_DangSuDung = nv;
             if (nv.getChucVu().equals("Lễ tân")) {
                 new LeTan_GUI().setVisible(true);
                 setVisible(false);

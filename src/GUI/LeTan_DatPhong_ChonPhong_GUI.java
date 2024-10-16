@@ -8,6 +8,7 @@ import java.awt.PopupMenu;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -277,7 +278,11 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
         // TODO add your handling code here:
 	
-        jTable1.getSelectedRow();
+        
+        if(jTable1.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng");
+            return;
+        }
         Phong phong = list_PhongTrong.get(jTable1.getSelectedRow());
         LeTan_DatPhong_GUI.txt_DonGia.setText("");
         LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");

@@ -20,12 +20,16 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import keeptoo.KGradientPanel;
 import model.DAO.DonDatPhongDAO;
+import model.DAO.HoaDonDAO;
 import model.DAO.KhachHangDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
+import model.DTO.DichVu;
 import model.DTO.DonDatPhong;
+import model.DTO.HoaDon;
 import model.DTO.KhachHang;
 import model.DTO.LoaiPhong;
+import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.MongoDBConnection;
 
@@ -46,6 +50,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private List<KhachHang> list_KhachHang = new ArrayList<KhachHang>();
     private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
     private DefaultTableModel model;
+    private List<HoaDon> list_HoaDon = new ArrayList<HoaDon>();
+    private HoaDonDAO hoaDon_dao = new HoaDonDAO(database.getDatabase());
+    private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<KhachHang>();
 
     /**
      * Creates new form LeTan_DatPhong_GUI
@@ -60,7 +67,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
-
+        list_HoaDon = hoaDon_dao.getAllHoaDon();
+        
         for (LoaiPhong lp : list_LoaiPhong) {
             cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
         }
@@ -117,7 +125,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_CCCD.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                KhachHang khachHang = new KhachHang();
+                KhachHang khachHang = null;
                 for (KhachHang kh : list_KhachHang) {
                     if (kh.getCCCD().equals(txt_CCCD.getText())) {
                         khachHang = kh;
@@ -144,7 +152,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                KhachHang khachHang = new KhachHang();
+                KhachHang khachHang = null;
                 for (KhachHang kh : list_KhachHang) {
                     if (kh.getCCCD().equals(txt_CCCD.getText())) {
                         khachHang = kh;
@@ -700,6 +708,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_HoanTat.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_HoanTat.setkGradientFocus(250);
         btn_HoanTat.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_HoanTat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_HoanTatMousePressed(evt);
+            }
+        });
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -730,6 +743,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_ThemDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_ThemDon.setkGradientFocus(250);
         btn_ThemDon.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_ThemDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ThemDonMousePressed(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -841,7 +859,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
-        KhachHang khachHang = new KhachHang();
+        KhachHang khachHang = null;
         list_KhachHang = khachHang_dao.getAllKhachHang();
         for (KhachHang kh : list_KhachHang) {
             if (kh.getCCCD().equals(txt_CCCD.getText())) {
@@ -850,32 +868,101 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
 
+        
         if (khachHang == null) {
+            khachHang = new KhachHang();
             khachHang.setMaKhachHang(list_KhachHang.size() + 1);
             khachHang.setCCCD(txt_CCCD.getText());
             khachHang.setTenKhachHang(txt_HoTen.getText());
             khachHang.setSoDienThoai(txt_SDT.getText());
-            khachHang.setGioiTinh(cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 1 : 0);
+            khachHang.setGioiTinh(cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 0 : 1);
             khachHang.setQuocTich(cb_QuocTich.getSelectedItem().toString());
             khachHang.setEmail(txt_Email.getText());
-            System.out.println("GUI.LeTan_DatPhong_GUI.btn_themMousePressed()");
-            if (khachHang_dao.createKhachHang(khachHang)) {
-                ThemKhachHangVaoTable(khachHang);
-                JOptionPane.showMessageDialog(this, "Thêm thành công");
-            } else {
-                JOptionPane.showMessageDialog(this, "Thêm thất bại");
-            }
-
+            ThemKhachHangVaoTable(khachHang);
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            
+ 
         } else {
             ThemKhachHangVaoTable(khachHang);
             JOptionPane.showMessageDialog(this, "Thêm thành công");
 
         }
+        
+        list_KhachHang_TheoDon.add(khachHang);
     }//GEN-LAST:event_btn_themMousePressed
 
     private void txt_DonGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_DonGiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_DonGiaActionPerformed
+    
+    
+    int dem = 0;
+    HoaDon hoadon_hientai;
+    private void btn_ThemDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDonMousePressed
+        // TODO add your handling code here:        
+        if(dem == 0){
+            hoadon_hientai = new HoaDon();
+            hoadon_hientai.setMaHoaDon(list_HoaDon.size() + 1);
+            hoadon_hientai.setNgayTaoHoaDon(new Date());
+            hoadon_hientai.setTongTien(0);
+            hoadon_hientai.setNhanVien(new NhanVien());
+            hoaDon_dao.createHoaDon(hoadon_hientai);
+             
+            dem++;
+        }
+   
+        DonDatPhong ddp = new DonDatPhong();
+        ddp.setNgayDatPhong(new Date());
+        ddp.setNgayNhanPhong(txt_NgayDen.getDate());
+        ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
+        ddp.setKhachO(list_KhachHang_TheoDon);
+        ddp.setDichVuSuDung(new ArrayList<DichVu>());
+        ddp.setTrangThai(1);
+        ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
+        
+        System.out.println(list_KhachHang_TheoDon);
+        
+        DonDatphong_dao.createDonDatPhong(ddp);
+        
+        
+        list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
+        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+        
+        
+    }//GEN-LAST:event_btn_ThemDonMousePressed
+
+    private void btn_HoanTatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMousePressed
+        // TODO add your handling code here:
+        if(dem == 0){
+            hoadon_hientai = new HoaDon();
+            hoadon_hientai.setMaHoaDon(list_HoaDon.size() + 1);
+            hoadon_hientai.setNgayTaoHoaDon(new Date());
+            hoadon_hientai.setTongTien(0);
+            hoadon_hientai.setNhanVien(null);
+            hoaDon_dao.createHoaDon(hoadon_hientai);
+        }
+   
+        DonDatPhong ddp = new DonDatPhong();
+        ddp.setNgayDatPhong(new Date());
+        ddp.setNgayNhanPhong(txt_NgayDen.getDate());
+        ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
+        ddp.setKhachO(list_KhachHang_TheoDon);
+        ddp.setDichVuSuDung(null);
+        ddp.setTrangThai(1);
+        ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
+        DonDatphong_dao.createDonDatPhong(ddp);
+        
+        dem = 0;
+        hoadon_hientai = null;
+        
+        
+        list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
+        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+        
+        
+    }//GEN-LAST:event_btn_HoanTatMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

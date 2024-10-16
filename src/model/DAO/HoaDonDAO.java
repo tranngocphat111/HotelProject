@@ -31,11 +31,21 @@ public class HoaDonDAO {
     
     public boolean createHoaDon(HoaDon hoaDon) {
         try {
+            Document subdoc = new Document()
+                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
+                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien())
+                    .append("anhDaiDien", hoaDon.getNhanVien().getAnhDaiDien())
+                    .append("SoDienThoai", hoaDon.getNhanVien().getSoDienThoai())
+                    .append("CCCD", hoaDon.getNhanVien().getCCCD())
+                    .append("diaChi", hoaDon.getNhanVien().getDiaChi())
+                    .append("chucVu", hoaDon.getNhanVien().getChucVu())
+                    .append("tenTaiKhoan", hoaDon.getNhanVien().getTenTaiKhoan())
+                    .append("matKhau", hoaDon.getNhanVien().getMatKhau());
             Document doc = new Document()
                     .append("maHoaDon", hoaDon.getMaHoaDon())
                     .append("tongTien", hoaDon.getTongTien())
                     .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
-                    .append("NhanVien", hoaDon.getNhanVien());
+                    .append("NhanVien", subdoc);
 
             InsertOneResult result = hoaDonCollection.insertOne(doc);
             return result.wasAcknowledged();
@@ -44,5 +54,7 @@ public class HoaDonDAO {
             return false;
         }
     }
+    
+    
 }
 

@@ -68,13 +68,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
-        
+
         for (LoaiPhong lp : list_LoaiPhong) {
             cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
         }
 
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
-
+        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.size() + 1));
+        
         model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
@@ -291,6 +292,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_ThemDon = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        label_MaHoaDon = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DatPhong"); // NOI18N
@@ -558,10 +560,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         label_MaDonDatPhong.setBackground(new java.awt.Color(255, 209, 84));
         label_MaDonDatPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_MaDonDatPhong.setForeground(new java.awt.Color(255, 209, 84));
-        label_MaDonDatPhong.setText("Mã đơn: ");
+        label_MaDonDatPhong.setText("Mã đơn đặt phòng: ");
         label_MaDonDatPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(label_MaDonDatPhong);
-        label_MaDonDatPhong.setBounds(30, 750, 250, 25);
+        label_MaDonDatPhong.setBounds(230, 760, 180, 25);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -783,6 +785,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel21);
         jLabel21.setBounds(80, 50, 250, 32);
 
+        label_MaHoaDon.setBackground(new java.awt.Color(255, 209, 84));
+        label_MaHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        label_MaHoaDon.setForeground(new java.awt.Color(255, 209, 84));
+        label_MaHoaDon.setText("Mã hóa đơn: ");
+        label_MaHoaDon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.add(label_MaHoaDon);
+        label_MaHoaDon.setBounds(20, 760, 210, 25);
+
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_DatPhong"); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -868,7 +878,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
 
-        
         if (khachHang == null) {
             khachHang = new KhachHang();
             khachHang.setMaKhachHang(list_KhachHang.size() + 1);
@@ -880,38 +889,39 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             khachHang.setEmail(txt_Email.getText());
             ThemKhachHangVaoTable(khachHang);
             JOptionPane.showMessageDialog(this, "Thêm thành công");
-            
- 
+
         } else {
             ThemKhachHangVaoTable(khachHang);
             JOptionPane.showMessageDialog(this, "Thêm thành công");
 
         }
-        
+
         list_KhachHang_TheoDon.add(khachHang);
     }//GEN-LAST:event_btn_themMousePressed
 
     private void txt_DonGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_DonGiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_DonGiaActionPerformed
-    
-    
+
     int dem = 0;
     HoaDon hoadon_hientai;
     private void btn_ThemDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDonMousePressed
-        // TODO add your handling code here:        
-        if(dem == 0){
+        // TODO add your handling code here:   
+        list_HoaDon = hoaDon_dao.getAllHoaDon();
+        list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
+        if (dem == 0) {
             hoadon_hientai = new HoaDon();
             hoadon_hientai.setMaHoaDon(list_HoaDon.size() + 1);
             hoadon_hientai.setNgayTaoHoaDon(new Date());
             hoadon_hientai.setTongTien(0);
-            hoadon_hientai.setNhanVien(new NhanVien());
+            hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
             hoaDon_dao.createHoaDon(hoadon_hientai);
-             
+
             dem++;
         }
-   
+
         DonDatPhong ddp = new DonDatPhong();
+        ddp.setMaDonDat(list_DonDatPhong.size() + 1);
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
@@ -920,48 +930,48 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
         ddp.setTrangThai(1);
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
-        
-        System.out.println(list_KhachHang_TheoDon);
-        
+
         DonDatphong_dao.createDonDatPhong(ddp);
-        
-        
+
+        list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
-        
-        
+
     }//GEN-LAST:event_btn_ThemDonMousePressed
 
     private void btn_HoanTatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMousePressed
         // TODO add your handling code here:
-        if(dem == 0){
+
+        if (dem == 0) {
             hoadon_hientai = new HoaDon();
             hoadon_hientai.setMaHoaDon(list_HoaDon.size() + 1);
             hoadon_hientai.setNgayTaoHoaDon(new Date());
             hoadon_hientai.setTongTien(0);
-            hoadon_hientai.setNhanVien(null);
+            hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
             hoaDon_dao.createHoaDon(hoadon_hientai);
         }
-   
+
         DonDatPhong ddp = new DonDatPhong();
+        ddp.setMaDonDat(list_DonDatPhong.size() + 1);
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
-        ddp.setDichVuSuDung(null);
+        ddp.setDichVuSuDung(new ArrayList<DichVu>());
         ddp.setTrangThai(1);
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
         DonDatphong_dao.createDonDatPhong(ddp);
-        
+
         dem = 0;
         hoadon_hientai = null;
-        
-        
+
+        list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
-        
-        
+        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.size() + 1));
+
+
     }//GEN-LAST:event_btn_HoanTatMousePressed
 
 
@@ -1005,6 +1015,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_MaDonDatPhong;
+    private javax.swing.JLabel label_MaHoaDon;
     private javax.swing.JTextField txt_CCCD;
     public static javax.swing.JTextField txt_DonGia;
     private javax.swing.JTextField txt_Email;

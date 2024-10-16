@@ -7,15 +7,26 @@ public class DichVu {
     private String tenDV;
     private String moTa;
     private int donGia;
+    private String hinhAnh;
 
     public DichVu() {
     }
 
-    public DichVu(int maDV, String tenDV, String moTa, int donGia) {
+    public DichVu(int maDV, String tenDV, String moTa, int donGia, String hinhAnh) {
         this.maDV = maDV;
         this.tenDV = tenDV;
         this.moTa = moTa;
         this.donGia = donGia;
+        this.hinhAnh = hinhAnh;
+    }
+
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
     }
 
     public int getMaDV() {
@@ -65,17 +76,17 @@ public class DichVu {
         if (doc.containsKey("donGia")) {
             dichVu.setDonGia(doc.getInteger("donGia"));
         }
+        if (doc.containsKey("hinhAnh")) {
+            dichVu.setHinhAnh(doc.getString("hinhAnh"));
+        }
 
         return dichVu;
     }
 
     @Override
     public String toString() {
-        return "DichVu{" +
-                "maDV=" + maDV +
-                ", tenDV='" + tenDV + '\'' +
-                ", moTa='" + moTa + '\'' +
-                ", donGia=" + donGia +
-                '}';
+        return "DichVu{" + "maDV=" + maDV + ", tenDV=" + tenDV + ", moTa=" + moTa + ", donGia=" + donGia + ", hinhAnh=" + hinhAnh + '}';
     }
+
+
 }

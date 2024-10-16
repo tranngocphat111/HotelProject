@@ -18,14 +18,14 @@ public class TienNghi {
     public TienNghi() {
     }
 
-    public TienNghi(int maTienNghi, String tenTienNghi, String moTa, int soLuong, Date ngayLapDat, Date ngayBaoTriGanNhat) {
+    public TienNghi(int maTienNghi, String tenTienNghi, String moTa, String hinhAnh) {
         this.maTienNghi = maTienNghi;
         this.tenTienNghi = tenTienNghi;
         this.moTa = moTa;
-//        this.soLuong = soLuong;
-//        this.ngayLapDat = ngayLapDat;
-//        this.ngayBaoTriGanNhat = ngayBaoTriGanNhat;
+        this.hinhAnh = hinhAnh;
     }
+
+
 
     public int getMaTienNghi() {
         return maTienNghi;

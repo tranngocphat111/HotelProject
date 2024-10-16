@@ -112,11 +112,11 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="txt_NgayDen" min="-2" pref="191" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="Jpanel_ThemPhong" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="txt_NgayDen" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel5" min="-2" pref="119" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel5" min="-2" pref="119" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -136,11 +136,11 @@
                                               <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
+                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="txt_DonGia" min="-2" pref="173" max="-2" attributes="0"/>
                                           <Component id="jLabel9" min="-2" pref="93" max="-2" attributes="0"/>
+                                          <Component id="txt_DonGia" min="-2" pref="175" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -165,24 +165,25 @@
                           <Component id="cb_LoaiPhong" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel8" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel9" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="cb_Tang" alignment="0" pref="30" max="32767" attributes="0"/>
-                                  <Component id="txt_DonGia" alignment="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="cb_Tang" pref="30" max="32767" attributes="0"/>
+                                  <Component id="txt_DonGia" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Component id="Jpanel_ThemPhong" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace pref="22" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -262,7 +263,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txt_Phong" min="-2" pref="116" max="-2" attributes="0"/>
-                          <EmptySpace pref="32" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="btn_ThemPhong" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -327,6 +328,7 @@
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
@@ -337,15 +339,10 @@
                 <Property name="text" type="java.lang.String" value="&#x110;&#x1a1;n gi&#xe1;"/>
               </Properties>
             </Component>
-            <Component class="java.awt.TextField" name="txt_DonGia">
-              <Properties>
-                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Text Cursor"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="16" style="0"/>
-                </Property>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="txt_DonGia">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_DonGiaActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
@@ -622,6 +619,9 @@
               <Color blue="1b" green="b0" red="e1" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_themMousePressed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="90" y="510" width="140" height="40"/>

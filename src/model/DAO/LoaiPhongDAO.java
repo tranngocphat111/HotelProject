@@ -42,6 +42,7 @@ public class LoaiPhongDAO {
     }
     return loaiPhong;
 }
+    
 
     
     public boolean createLoaiPhong(LoaiPhong loaiPhong) {

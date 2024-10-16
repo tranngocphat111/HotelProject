@@ -26,6 +26,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private DefaultTableModel model;
     private  List<Phong> list_PhongTrong;
+    DecimalFormat df = new DecimalFormat("#,##0.00");
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1
      */
@@ -50,7 +51,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
                 loaiPhong.getTenLoaiPhong(),
                 loaiPhong.getMaLoaiPhong(),
                 loaiPhong.getDienTich(),
-                list_tienNghi,"Đang trống",loaiPhong.getDonGia()});
+                list_tienNghi,"Đang trống",df.format(loaiPhong.getDonGia()) + " VND"});
         }
         
     }
@@ -275,12 +276,14 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
     private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
         // TODO add your handling code here:
-	DecimalFormat df = new DecimalFormat("#,##0.00");
+	
         jTable1.getSelectedRow();
         Phong phong = list_PhongTrong.get(jTable1.getSelectedRow());
+        LeTan_DatPhong_GUI.txt_DonGia.setText("");
         LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
         LeTan_DatPhong_GUI.txt_DonGia.setEditable(false);
         LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "" );
+        LeTan_DatPhong_GUI.cb_Tang.setSelectedIndex(phong.getTang() - 1);
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMouseClicked
 

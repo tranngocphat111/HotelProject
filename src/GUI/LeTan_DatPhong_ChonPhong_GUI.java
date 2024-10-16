@@ -5,6 +5,8 @@
 package GUI;
 
 import java.awt.PopupMenu;
+import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,7 +24,7 @@ import model.MongoDBConnection;
 public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private MongoDBConnection database = new MongoDBConnection();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
-    private DefaultTableModel df;
+    private DefaultTableModel model;
     private  List<Phong> list_PhongTrong;
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1
@@ -36,13 +38,13 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         initComponents();
         setLocationRelativeTo(null);
-        df = (DefaultTableModel)jTable1.getModel();
-        df.setRowCount(0);
+        model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
         
         for(Phong phong : list_Phong){
             LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
             String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
-            df.addRow(new Object [] {
+            model.addRow(new Object [] {
                 phong.getMaPhong(),
                 phong.getTang(),
                 loaiPhong.getTenLoaiPhong(),
@@ -273,9 +275,10 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
     private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
         // TODO add your handling code here:
+	DecimalFormat df = new DecimalFormat("#,##0.00");
         jTable1.getSelectedRow();
         Phong phong = list_PhongTrong.get(jTable1.getSelectedRow());
-        LeTan_DatPhong_GUI.txt_DonGia.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia() + " VND");
+        LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
         LeTan_DatPhong_GUI.txt_DonGia.setEditable(false);
         LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "" );
         setVisible(false);

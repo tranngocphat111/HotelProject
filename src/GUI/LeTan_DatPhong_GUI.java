@@ -6,7 +6,9 @@ package GUI;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +38,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
 
+    
+    	
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
@@ -231,7 +235,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_Phong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_Phong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         btn_ThemPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Them.png"))); // NOI18N
         btn_ThemPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -271,7 +275,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel9.setText("Đơn giá");
 
         txt_DonGia.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        txt_DonGia.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txt_DonGia.setFont(new java.awt.Font("Dialog", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout ThongTinDatLayout = new javax.swing.GroupLayout(ThongTinDat);
         ThongTinDat.setLayout(ThongTinDatLayout);

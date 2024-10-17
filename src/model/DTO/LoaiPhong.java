@@ -14,11 +14,12 @@ public class LoaiPhong {
     private int soKhachToiDa;
     private int khuyenMai;
     private List<TienNghi> tienNghis;
+    private String loaiGiuong;
 
     public LoaiPhong() {
     }
 
-    public LoaiPhong(int maLoaiPhong, String tenLoaiPhong, int dienTich, int donGia, String moTa, int soKhachToiDa, int khuyenMai, List<TienNghi> tienNghis) {
+    public LoaiPhong(int maLoaiPhong, String tenLoaiPhong, int dienTich, int donGia, String moTa, int soKhachToiDa, int khuyenMai, List<TienNghi> tienNghis, String loaiGiuong) {
         this.maLoaiPhong = maLoaiPhong;
         this.tenLoaiPhong = tenLoaiPhong;
         this.dienTich = dienTich;
@@ -27,7 +28,19 @@ public class LoaiPhong {
         this.soKhachToiDa = soKhachToiDa;
         this.khuyenMai = khuyenMai;
         this.tienNghis = tienNghis;
+        this.loaiGiuong = loaiGiuong;
     }
+
+    public String getLoaiGiuong() {
+        return loaiGiuong;
+    }
+
+    public void setLoaiGiuong(String loaiGiuong) {
+        this.loaiGiuong = loaiGiuong;
+    }
+
+   
+    
 
     public int getMaLoaiPhong() {
         return maLoaiPhong;
@@ -117,6 +130,9 @@ public class LoaiPhong {
         if (doc.containsKey("KhuyenMai")) {
             loaiPhong.setKhuyenMai(doc.getInteger("KhuyenMai"));
         }
+        if (doc.containsKey("loaiGiuong")) {
+            loaiPhong.setLoaiGiuong(doc.getString("loaiGiuong"));
+        }
 
         // Convert TienNghi array
         if (doc.containsKey("tienNghis")) {
@@ -134,15 +150,8 @@ public class LoaiPhong {
 
     @Override
     public String toString() {
-        return "LoaiPhong{" +
-                "maLoaiPhong=" + maLoaiPhong +
-                ", tenLoaiPhong='" + tenLoaiPhong + '\'' +
-                ", dienTich=" + dienTich +
-                ", donGia=" + donGia +
-                ", moTa='" + moTa + '\'' +
-                ", soKhachToiDa=" + soKhachToiDa +
-                ", khuyenMai=" + khuyenMai +
-                ", tienNghis=" + tienNghis +
-                '}';
+        return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", dienTich=" + dienTich + ", donGia=" + donGia + ", moTa=" + moTa + ", soKhachToiDa=" + soKhachToiDa + ", khuyenMai=" + khuyenMai + ", tienNghis=" + tienNghis + ", loaiGiuong=" + loaiGiuong + '}';
     }
+
+    
 }

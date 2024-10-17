@@ -4,15 +4,22 @@
  */
 package GUI;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import model.DAO.LoaiPhongDAO;
+import model.DAO.PhongDAO;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
@@ -23,47 +30,230 @@ import model.MongoDBConnection;
  * @author Admin
  */
 public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
+
     private MongoDBConnection database = new MongoDBConnection();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private DefaultTableModel model;
-    private  List<Phong> list_PhongTrong;
+    private List<Phong> list_PhongTrong;
+    private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
+    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+
     DecimalFormat df = new DecimalFormat("#,##0.00");
+
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1
      */
-    
-    
-    
     public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong) {
         list_PhongTrong = list_Phong;
         setUndecorated(true);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         initComponents();
-        setLocationRelativeTo(null);
-        model = (DefaultTableModel)jTable1.getModel();
+
+        JTableHeader header = jTable1.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
+        header.setFont(new Font("Arial", Font.BOLD, 15));
+
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+
+        cb_LoaiPhong.addItem("");
+        for (LoaiPhong lp : list_LoaiPhong) {
+            cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
+        }
+
+        model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
+
+        DocDuLieuLenTable(list_PhongTrong);
+
+        cb_LoaiPhong.addActionListener(new ActionListener() {
+            
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Phong> list_Phong = list_PhongTrong;
+                if (cb_LoaiPhong.getSelectedItem().toString().equals("")
+                        && cb_Tang.getSelectedItem().toString().equals("")
+                        && cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                    DocDuLieuLenTable(list_Phong);
+                    return;
+                }
+                if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_LoaiPhong.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+                if (!cb_Tang.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByTang(list_Phong, cb_Tang.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+                if (!cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByDonGia(list_Phong, cb_GiaPhong.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+            }
+        });
         
-        for(Phong phong : list_Phong){
+        cb_Tang.addActionListener(new ActionListener() {
+            
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Phong> list_Phong = list_PhongTrong;
+                if (cb_LoaiPhong.getSelectedItem().toString().equals("")
+                        && cb_Tang.getSelectedItem().toString().equals("")
+                        && cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                    DocDuLieuLenTable(list_Phong);
+                    return;
+                }
+                if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_LoaiPhong.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+                if (!cb_Tang.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByTang(list_Phong, cb_Tang.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+                if (!cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByDonGia(list_Phong, cb_GiaPhong.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+            }
+        });
+        
+        cb_GiaPhong.addActionListener(new ActionListener() {
+            
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<Phong> list_Phong = list_PhongTrong;
+                if (cb_LoaiPhong.getSelectedItem().toString().equals("")
+                        && cb_Tang.getSelectedItem().toString().equals("")
+                        && cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                    DocDuLieuLenTable(list_Phong);
+                    return;
+                }
+                if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_LoaiPhong.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+                if (!cb_Tang.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByTang(list_Phong, cb_Tang.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+                if (!cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                    list_Phong = getAllPhongByDonGia(list_Phong, cb_GiaPhong.getSelectedIndex());
+                    model.setRowCount(0);
+                    DocDuLieuLenTable(list_Phong);
+                }
+
+            }
+        });
+
+        setLocationRelativeTo(null);
+    }
+
+    public void DocDuLieuLenTable(List<Phong> list_PhongTrong) {
+        for (Phong phong : list_PhongTrong) {
             LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
             String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
-            model.addRow(new Object [] {
+            model.addRow(new Object[]{
                 phong.getMaPhong(),
                 phong.getTang(),
                 loaiPhong.getTenLoaiPhong(),
-                loaiPhong.getMaLoaiPhong(),
-                loaiPhong.getDienTich(),
-                list_tienNghi,"Đang trống",df.format(loaiPhong.getDonGia()) + " VND"});
+                loaiPhong.getLoaiGiuong(),
+                loaiPhong.getDienTich() + " m2",
+                list_tienNghi, phong.getMoTa(), df.format(loaiPhong.getDonGia()) + " VND"});
         }
-        
     }
-    
-    public String getListTienNghi(List<TienNghi> list_tienNghi){
+
+    public String getListTienNghi(List<TienNghi> list_tienNghi) {
         String list = "";
-        for(TienNghi tn : list_tienNghi){
+        for (TienNghi tn : list_tienNghi) {
             list = list + tn.getTenTienNghi() + ", ";
         }
-        list = list.substring(0,list.length() - 2);
+        list = list.substring(0, list.length() - 2);
         return list;
+    }
+
+    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            if (phong.getLoaiPhong() == loaiPhong) {
+                list_PhongByLoai.add(phong);
+            }
+
+        }
+
+        return list_PhongByLoai;
+    }
+
+    public List<Phong> getAllPhongByTang(List<Phong> list_PhongTrong, int tang) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            if (phong.getTang() == tang) {
+                list_PhongByLoai.add(phong);
+            }
+
+        }
+
+        return list_PhongByLoai;
+    }
+
+    public List<Phong> getAllPhongByDonGia(List<Phong> list_PhongTrong, int KhoangDonGia) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+
+        if (KhoangDonGia == 1) {
+            for (Phong phong : list_PhongTrong) {
+                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+                if (loaiPhong.getDonGia() >= 500000 && loaiPhong.getDonGia() <= 1000000) {
+                    list_PhongByLoai.add(phong);
+                }
+
+            }
+            return list_PhongByLoai;
+
+        }
+
+        if (KhoangDonGia == 2) {
+            for (Phong phong : list_PhongTrong) {
+                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+                if (loaiPhong.getDonGia() >= 1000000 && loaiPhong.getDonGia() <= 2000000) {
+                    list_PhongByLoai.add(phong);
+                }
+
+            }
+            return list_PhongByLoai;
+
+        }
+
+        if (KhoangDonGia == 3) {
+            for (Phong phong : list_PhongTrong) {
+                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+                if (loaiPhong.getDonGia() >= 2000000 && loaiPhong.getDonGia() <= 5000000) {
+                    list_PhongByLoai.add(phong);
+                }
+
+            }
+            return list_PhongByLoai;
+
+        }
+
+        return list_PhongByLoai;
     }
 
     /**
@@ -75,23 +265,31 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        kGradientPanel1 = new keeptoo.KGradientPanel();
+        jPanel1 = new javax.swing.JPanel();
         table_Phong = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btn_XacNhan = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         btn_Huy = new keeptoo.KGradientPanel();
         jLabel20 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cb_LoaiPhong = new javax.swing.JComboBox<>();
+        cb_Tang = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        cb_GiaPhong = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        BackGround = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1500, 450));
 
-        kGradientPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 102), 3));
-        kGradientPanel1.setkEndColor(new java.awt.Color(115, 115, 115));
-        kGradientPanel1.setkGradientFocus(250);
-        kGradientPanel1.setkStartColor(new java.awt.Color(0, 0, 0));
-        kGradientPanel1.setOpaque(false);
-        kGradientPanel1.setPreferredSize(new java.awt.Dimension(1150, 456));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1500, 450));
+        jPanel1.setLayout(null);
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -101,7 +299,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Phòng", "Số Tầng", "Loại Phòng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Trạng Thái", "Đơn giá"
+                "Mã Phòng", "Số Tầng", "Loại Phòng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô tả", "Đơn giá"
             }
         ) {
             Class[] types = new Class [] {
@@ -113,17 +311,21 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
             }
         });
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTable1.setRowHeight(30);
         table_Phong.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setMaxWidth(150);
             jTable1.getColumnModel().getColumn(1).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(200);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(200);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(200);
-            jTable1.getColumnModel().getColumn(5).setMaxWidth(300);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(170);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(150);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(430);
             jTable1.getColumnModel().getColumn(6).setMaxWidth(200);
             jTable1.getColumnModel().getColumn(7).setMaxWidth(300);
         }
+
+        jPanel1.add(table_Phong);
+        table_Phong.setBounds(250, 60, 1220, 290);
 
         btn_XacNhan.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_XacNhan.setkGradientFocus(250);
@@ -163,6 +365,9 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel1.add(btn_XacNhan);
+        btn_XacNhan.setBounds(1140, 370, 150, 45);
+
         btn_Huy.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Huy.setkGradientFocus(250);
         btn_Huy.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -190,7 +395,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
             btn_HuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_HuyLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(75, 75, 75))
         );
         btn_HuyLayout.setVerticalGroup(
@@ -201,45 +406,107 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
-        kGradientPanel1.setLayout(kGradientPanel1Layout);
-        kGradientPanel1Layout.setHorizontalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(btn_Huy, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
-            .addComponent(table_Phong, javax.swing.GroupLayout.DEFAULT_SIZE, 1145, Short.MAX_VALUE)
+        jPanel1.add(btn_Huy);
+        btn_Huy.setBounds(1330, 370, 140, 46);
+
+        jLabel2.setBackground(new java.awt.Color(255, 209, 84));
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel2.setText("Tìm phòng");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(40, 20, 250, 25);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        jPanel2.setOpaque(false);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Loại phòng");
+
+        cb_LoaiPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_LoaiPhongActionPerformed(evt);
+            }
+        });
+
+        cb_Tang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3" }));
+        cb_Tang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_TangActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Tầng");
+
+        cb_GiaPhong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "500.000 - 1.000.000 VND", "1.000.000 - 2.000.000 VND", "2.000.000 - 5.000.000 VND" }));
+        cb_GiaPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_GiaPhongActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Giá phòng");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cb_GiaPhong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cb_Tang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_LoaiPhong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
-        kGradientPanel1Layout.setVerticalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(table_Phong, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_Huy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_Tang, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_GiaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(40, 60, 200, 290);
+
+        BackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup_DatPhong_chonPhong.png"))); // NOI18N
+        BackGround.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        BackGround.setPreferredSize(new java.awt.Dimension(1500, 450));
+        jPanel1.add(BackGround);
+        BackGround.setBounds(0, 0, 1500, 450);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1151, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1151, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 456, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -279,25 +546,37 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
     private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
         // TODO add your handling code here:
-	
-        
-        if(jTable1.getSelectedRow() == -1){
+
+        if (jTable1.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng");
             return;
         }
-        Phong phong = list_PhongTrong.get(jTable1.getSelectedRow());
-        LeTan_DatPhong_GUI.txt_DonGia.setText("");
+        Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        
         LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
-        LeTan_DatPhong_GUI.txt_DonGia.setEditable(false);
-        LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "" );
-        LeTan_DatPhong_GUI.cb_Tang.setSelectedIndex(phong.getTang() - 1);
+        LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "");
+        LeTan_DatPhong_GUI.txt_Tang.setText(phong.getTang() + "");
+        LeTan_DatPhong_GUI.txt_LoaiPhong.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong());
+        LeTan_DatPhong_GUI.area_moTa.setText(phong.getMoTa());
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMouseClicked
 
     private void btn_HuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyMouseClicked
         // TODO add your handling code here:
-                setVisible(false);
+        setVisible(false);
     }//GEN-LAST:event_btn_HuyMouseClicked
+
+    private void cb_LoaiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaiPhongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_LoaiPhongActionPerformed
+
+    private void cb_TangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_TangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_TangActionPerformed
+
+    private void cb_GiaPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_GiaPhongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_GiaPhongActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,14 +617,22 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BackGround;
     private keeptoo.KGradientPanel btn_Huy;
     private keeptoo.KGradientPanel btn_XacNhan;
+    private javax.swing.JComboBox<String> cb_GiaPhong;
+    private javax.swing.JComboBox<String> cb_LoaiPhong;
+    private javax.swing.JComboBox<String> cb_Tang;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTable jTable1;
-    private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JScrollPane table_Phong;
     // End of variables declaration//GEN-END:variables
 
-    
 }

@@ -9,6 +9,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.LoaiPhong;
 
 public class KhachHangDAO {
 
@@ -29,6 +30,20 @@ public class KhachHangDAO {
         }
         return khachHangs;
     }
+    
+    public KhachHang getKhachHangByMa(int makhachHang) {
+    KhachHang khachHang = null;
+    Document query = new Document("maKhachHang", makhachHang);
+    try {
+        Document doc = khachHangCollection.find(query).first();
+        if (doc != null) {
+            khachHang = KhachHang.fromDocument(doc);
+        }
+    } catch (Exception e) {
+        e.printStackTrace(); // Bắt lỗi nếu có
+    }
+    return khachHang;
+}
     
     public boolean createKhachHang(KhachHang khachHang) {
         try {

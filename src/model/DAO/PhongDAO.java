@@ -47,16 +47,7 @@ public class PhongDAO {
         return phong;
     }
 
-    public void addPhong(int maPhong, int trangThai, String soPhong, int tang, int loaiPhong) {
-        Document phong = new Document("maPhong", maPhong)
-                .append("trangThai", trangThai)
-                .append("soPhong", soPhong)
-                .append("tang", tang)
-                .append("loaiPhong", loaiPhong);
 
-        phongCollection.insertOne(phong);
-        System.out.println("Added Phong successfully");
-    }
 
 
     public boolean createPhong(Phong phong) {
@@ -64,9 +55,10 @@ public class PhongDAO {
             Document doc = new Document()
                     .append("maPhong", phong.getMaPhong())
                     .append("trangThai", phong.getTrangThai())
-                    .append("soPhong", phong.getSoPhong())
+                    
                     .append("tang", phong.getTang())
-                    .append("loaiPhong", phong.getLoaiPhong());
+                    .append("loaiPhong", phong.getLoaiPhong())
+                    .append("moTa", phong.getMoTa());
 
             InsertOneResult result = phongCollection.insertOne(doc);
             return result.wasAcknowledged();

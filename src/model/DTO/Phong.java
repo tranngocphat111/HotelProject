@@ -5,14 +5,21 @@ import org.bson.Document;
 public class Phong {
     private int maPhong;
     private int trangThai;
-    private String soPhong;
     private int tang;
     private int loaiPhong;
+    private String moTa;
 
-    public Phong(int maPhong, int trangThai, String soPhong, int tang, int loaiPhong) {
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public Phong(int maPhong, int trangThai, int tang, int loaiPhong) {
         this.maPhong = maPhong;
         this.trangThai = trangThai;
-        this.soPhong = soPhong;
         this.tang = tang;
         this.loaiPhong = loaiPhong;
     }
@@ -36,13 +43,7 @@ public class Phong {
         this.trangThai = trangThai;
     }
 
-    public String getSoPhong() {
-        return soPhong;
-    }
 
-    public void setSoPhong(String soPhong) {
-        this.soPhong = soPhong;
-    }
 
     public int getTang() {
         return tang;
@@ -62,14 +63,10 @@ public class Phong {
 
     @Override
     public String toString() {
-        return "Phong{" +
-                "maPhong=" + maPhong +
-                ", trangThai=" + trangThai +
-                ", soPhong='" + soPhong + '\'' +
-                ", tang=" + tang +
-                ", loaiPhong=" + loaiPhong +
-                '}';
+        return "Phong{" + "maPhong=" + maPhong + ", trangThai=" + trangThai + ", tang=" + tang + ", loaiPhong=" + loaiPhong + ", moTa=" + moTa + '}';
     }
+
+   
 
     public static Phong fromDocument(Document doc) {
         Phong phong = new Phong();
@@ -80,8 +77,8 @@ public class Phong {
         if (doc.containsKey("trangThai")) {
             phong.setTrangThai(doc.getInteger("trangThai"));
         }
-        if (doc.containsKey("soPhong")) {
-            phong.setSoPhong(doc.getString("soPhong"));
+        if (doc.containsKey("moTa")) {
+            phong.setMoTa(doc.getString("moTa"));
         }
         if (doc.containsKey("tang")) {
             phong.setTang(doc.getInteger("tang"));

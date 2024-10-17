@@ -30,18 +30,18 @@ public class LoaiPhongDAO {
     }
     
     public LoaiPhong getLoaiPhongByMa(int maLoaiPhong) {
-    LoaiPhong loaiPhong = null;
-    Document query = new Document("maLoaiPhong", maLoaiPhong);
-    try {
-        Document doc = loaiPhongCollection.find(query).first();
-        if (doc != null) {
-            loaiPhong = LoaiPhong.fromDocument(doc); // Chuyển đổi document thành đối tượng LoaiPhong
+        LoaiPhong loaiPhong = null;
+        Document query = new Document("maLoaiPhong", maLoaiPhong);
+        try {
+            Document doc = loaiPhongCollection.find(query).first();
+            if (doc != null) {
+                loaiPhong = LoaiPhong.fromDocument(doc); // Chuyển đổi document thành đối tượng LoaiPhong
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
         }
-    } catch (Exception e) {
-        e.printStackTrace(); // Bắt lỗi nếu có
+        return loaiPhong;
     }
-    return loaiPhong;
-}
     
 
     
@@ -55,7 +55,8 @@ public class LoaiPhongDAO {
                     .append("moTa", loaiPhong.getMoTa())
                     .append("soKhachToiDa", loaiPhong.getSoKhachToiDa())
                     .append("KhuyenMai", loaiPhong.getKhuyenMai())
-                    .append("tienNghis", loaiPhong.getTienNghis());
+                    .append("tienNghis", loaiPhong.getTienNghis())
+                    .append("loaiGiuong", loaiPhong.getLoaiGiuong());
 
             InsertOneResult result = loaiPhongCollection.insertOne(doc);
             return result.wasAcknowledged();

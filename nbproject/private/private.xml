@@ -5,9 +5,8 @@
         <group>
             <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/LeTan_GUI.java</file>
             <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/LeTan_DatPhong_GUI.java</file>
-            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DTO/NhanVien.java</file>
             <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/DangNhap_GUI.java</file>
-            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DTO/DonDatPhong.java</file>
+            <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/GUI/LeTan_DatPhong_ChonPhong_GUI.java</file>
             <file>file:/D:/IUH/ky5/PTUD/Hotel/HotelProject/src/model/DAO/DonDatPhongDAO.java</file>
         </group>
     </open-files>

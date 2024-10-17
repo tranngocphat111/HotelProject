@@ -6,6 +6,8 @@ package GUI;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -86,6 +90,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_btn.add(btn_ThemDon);
         list_btn.add(btn_HoanTat);
 
+        
+        txt_NgayDi.addPropertyChangeListener("date",new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println(".propertyChange()");
+                if (!txt_NgayDen.getDate().before(txt_NgayDi.getDate())) {
+                    JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
+                    txt_NgayDi.setDate(null);
+                return;
+            }
+            }
+        });
 //        Bắt sự kiện hover các nút chức năng
         list_btn.forEach((btn) -> {
             btn.addMouseListener(new MouseListener() {
@@ -122,6 +138,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 }
             });
         });
+        
+        
+        
+        
 //        Bắt sự kiện thay đổi kí tự trong txt_CCCD
         txt_CCCD.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -563,7 +583,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: ");
         label_MaDonDatPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(label_MaDonDatPhong);
-        label_MaDonDatPhong.setBounds(230, 760, 180, 25);
+        label_MaDonDatPhong.setBounds(230, 760, 240, 25);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -682,6 +702,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(250, 510, 140, 40);
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", null, null, null, null, null, null},
@@ -854,10 +875,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             new LeTan_DatPhong_ChonPhong_GUI(list_PhongByLoai).setVisible(true);
             return;
         }
-
         if (!txt_NgayDen.getDate().before(txt_NgayDi.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày đi phải sau ngày đến");
-            return;
+                    JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
+                
+                return;
         }
 
         list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), txt_NgayDi.getDate());

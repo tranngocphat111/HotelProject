@@ -38,7 +38,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
 
-    DecimalFormat df = new DecimalFormat("#,##0.00");
+    DecimalFormat df = new DecimalFormat("#,##0");
 
     /**
      * Creates new form LeTan_DatPhong_ChonPhong1

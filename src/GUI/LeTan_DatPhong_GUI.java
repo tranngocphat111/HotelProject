@@ -71,7 +71,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
      */
     public LeTan_DatPhong_GUI() {
         initComponents();
-         txt_CCCD.requestFocus();
+        txt_CCCD.requestFocus();
         JTableHeader header = table_KhachHang.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
@@ -427,6 +427,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_ThemPhong = new javax.swing.JLabel();
         txt_LoaiPhong = new javax.swing.JTextField();
         txt_Tang = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
         ThongTinKhachHang = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -440,6 +443,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         cb_QuocTich = new javax.swing.JComboBox<>();
         txt_SDT = new javax.swing.JTextField();
         txt_Email = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
         label_MaDonDatPhong = new javax.swing.JLabel();
         btn_LamMoi = new keeptoo.KGradientPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -568,6 +573,15 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel22.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel22.setText("*");
+
+        jLabel23.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel23.setText("*");
+
+        jLabel24.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel24.setText("*");
+
         javax.swing.GroupLayout ThongTinDatLayout = new javax.swing.GroupLayout(ThongTinDat);
         ThongTinDat.setLayout(ThongTinDatLayout);
         ThongTinDatLayout.setHorizontalGroup(
@@ -575,24 +589,33 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             .addGroup(ThongTinDatLayout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ThongTinDatLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_NgayDen, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                     .addComponent(txt_LoaiPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_Tang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(ThongTinDatLayout.createSequentialGroup()
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(104, 104, 104))
-                        .addComponent(txt_NgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(ThongTinDatLayout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(122, 122, 122))))
-                .addGap(50, 50, 50)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDatLayout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(154, 154, 154))
+                    .addGroup(ThongTinDatLayout.createSequentialGroup()
+                        .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(ThongTinDatLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_NgayDi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_Tang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(50, 57, Short.MAX_VALUE)))
                 .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ThongTinDatLayout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(Jpanel_ThemPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txt_DonGia)
@@ -605,15 +628,21 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 .addGap(14, 14, 14)
                 .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(ThongTinDatLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel22))
                         .addGap(6, 6, 6)
                         .addComponent(txt_NgayDen, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ThongTinDatLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel23))
                         .addGap(6, 6, 6)
                         .addComponent(txt_NgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ThongTinDatLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel24))
                         .addGap(4, 4, 4)
                         .addComponent(Jpanel_ThemPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24)
@@ -631,7 +660,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinDat);
@@ -685,6 +714,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel25.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel25.setText("*");
+
+        jLabel26.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel26.setText("*");
+
         javax.swing.GroupLayout ThongTinKhachHangLayout = new javax.swing.GroupLayout(ThongTinKhachHang);
         ThongTinKhachHang.setLayout(ThongTinKhachHangLayout);
         ThongTinKhachHangLayout.setHorizontalGroup(
@@ -707,10 +742,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_CCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(51, 51, 51)
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txt_HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(51, 51, 51)
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,7 +766,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel26))
                 .addGap(6, 6, 6)
                 .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cb_GioiTinh, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
@@ -741,7 +784,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     .addComponent(cb_QuocTich)
                     .addComponent(txt_SDT)
                     .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinKhachHang);
@@ -1099,16 +1142,19 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_Jpanel_ThemPhongMousePressed
-
+    int maTuDong = 0;
+    boolean checkMaTuDong = false;
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
         if (txt_CCCD.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Không được để trống CCCD");
+            txt_CCCD.requestFocus();
             return;
         }
 
         if (txt_HoTen.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Không được để trống Họ tên");
+            txt_HoTen.requestFocus();
             return;
         }
 
@@ -1117,13 +1163,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         for (KhachHang kh : list_KhachHang) {
             if (kh.getCCCD().equals(txt_CCCD.getText())) {
                 khachHang = kh;
-
             }
         }
 
         if (khachHang == null) {
             khachHang = new KhachHang();
-            khachHang.setMaKhachHang(list_KhachHang.size() + 1);
+            if(checkMaTuDong == false){
+                khachHang.setMaKhachHang(list_KhachHang.size() + maTuDong + 1);
+            }else{
+                khachHang.setMaKhachHang(list_KhachHang.size() + maTuDongX  + 1);
+            }
+            
+            
             khachHang.setCCCD(txt_CCCD.getText());
             khachHang.setTenKhachHang(txt_HoTen.getText());
             khachHang.setSoDienThoai(txt_SDT.getText());
@@ -1132,6 +1183,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             khachHang.setEmail(txt_Email.getText());
             if (ktraTrungKH(txt_CCCD.getText())) {
                 list_KhachHang_TheoDon.add(khachHang);
+                maTuDong++;
+                checkMaTuDong = false;
                 list_KhachHangMoi.add(khachHang);
                 ThemKhachHangVaoTable(khachHang);
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
@@ -1182,7 +1235,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             hoadon_hientai.setTongTien(0);
             hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
             hoaDon_dao.createHoaDon(hoadon_hientai);
-
+            
             dem++;
         }
 
@@ -1211,7 +1264,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoi();
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
-
+        maTuDong = 0;
+        maTuDongX = 0;
     }//GEN-LAST:event_btn_ThemDonMousePressed
 
     private void btn_HoanTatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMousePressed
@@ -1348,17 +1402,31 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_btn_SuaMousePressed
-
+    int maTuDongX = 0;
     private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
         // TODO add your handling code here:
         if (table_KhachHang.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng cần xóa");
             return;
         }
+        
         int maKH = Integer.parseInt(model.getValueAt(table_KhachHang.getSelectedRow(), 0).toString());
         if (JOptionPane.showConfirmDialog(this,  "Bạn có thật sự muốn xóa?","Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             removeKhachHang(maKH);
             model.removeRow(table_KhachHang.getSelectedRow());
+            checkMaTuDong = true;
+            maTuDong--;
+            maTuDongX = maKH - list_KhachHang.size() - 1;
+            for(KhachHang kh : list_KhachHang_TheoDon){
+                if(maKH == kh.getMaKhachHang()){
+                    list_KhachHang_TheoDon.remove(kh);
+                }
+            }
+            for(KhachHang kh : list_KhachHangMoi){
+                if(maKH == kh.getMaKhachHang()){
+                    list_KhachHangMoi.remove(kh);
+                }
+            }
             JOptionPane.showMessageDialog(this, "Xóa thành công");
             LamMoi();
         }
@@ -1394,6 +1462,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,6 +16,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -79,7 +81,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ui.setNorthPane(null);
         
         txt_NgayDen.setDate(new Date());
-        txt_NgayDi.setDate(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
+        setThoiGianBang0(txt_NgayDen);
+        txt_NgayDi.setDate(new Date());
+        setThoiGianBang0(txt_NgayDi);
         
         System.out.println(txt_NgayDen.getDate());
         
@@ -105,25 +109,34 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayDen.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (txt_NgayDi.getDate() == null) {
-                    return;
-                }
-
+                setThoiGianBang0(txt_NgayDen);
+                setThoiGianBang0(txt_NgayDi);
                 if (txt_NgayDen.getDate().after(txt_NgayDi.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến phải trước ngày đi");
                     txt_NgayDen.setDate(new Date());
+                    setThoiGianBang0(txt_NgayDen);
                     return;
 
                 }
 
                 Date ngayHientai = new Date();
-                Date ngayDen = new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000) - 1);
-                System.out.println("Ngày đến:" + ngayDen);
-                System.out.println(ngayHientai);
-                if (ngayHientai.after(ngayDen)) {
+                if (ngayHientai != null) {
+                // Sử dụng Calendar để làm sạch phần thời gian
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(ngayHientai);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+
+                // Lấy lại đối tượng Date với thời gian đã được làm sạch
+                ngayHientai = calendar.getTime();
+                }
+                setThoiGianBang0(txt_NgayDen);
+                if (ngayHientai.after(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến phải sau ngày hôm nay");
                     txt_NgayDen.setDate(new Date());
-
+                    setThoiGianBang0(txt_NgayDen);
                 }
 
             }
@@ -133,18 +146,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayDi.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (txt_NgayDen.getDate() == null) {
-                    return;
-                }
-
+                setThoiGianBang0(txt_NgayDen);
+                setThoiGianBang0(txt_NgayDi);
                 
-                if (!txt_NgayDen.getDate().before(new Date(txt_NgayDi.getDate().getTime()))) {
+                if (txt_NgayDi.getDate().before(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
-                    txt_NgayDi.setDate(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
+                    txt_NgayDi.setDate(new Date());
+                    setThoiGianBang0(txt_NgayDi);
                     return;
 
                 }
-                System.out.println(txt_NgayDen.getDate());
                 List<Phong> list_PhongDay = new ArrayList<Phong>();
                 for (DonDatPhong ddp : list_DonDatPhong) {
                     if (!(ddp.getNgayTraPhong().before(txt_NgayDen.getDate()) || ddp.getNgayNhanPhong().after(txt_NgayDi.getDate()))) {
@@ -273,7 +284,21 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         
        
     }
+    private void setThoiGianBang0 (JDateChooser ngay ){
+        if (ngay.getDate() != null) {
+            // Sử dụng Calendar để làm sạch phần thời gian
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngay.getDate());
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
 
+            // Lấy lại đối tượng Date với thời gian đã được làm sạch
+            ngay.setDate(calendar.getTime());
+        }
+     }
+        
     public List<Phong> getAllPhongTrong(Date ngayDen, Date ngayDi) {
         List<Phong> list_PhongDay = new ArrayList<Phong>();
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
@@ -606,7 +631,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinDat);
@@ -1060,11 +1085,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
-
-        if (txt_NgayDi.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Không được để trống ngày đi");
+        
+        if(txt_NgayDen.equals(txt_NgayDi)){
+            list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
+            new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
             return;
         }
+
+        
 
         list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), txt_NgayDi.getDate());
         new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
@@ -1179,6 +1207,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_KhachHang = khachHang_dao.getAllKhachHang();
 
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+        JOptionPane.showMessageDialog(this, "Tạo đơn đặt phòng thành công");
         LamMoi();
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
@@ -1230,6 +1259,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_KhachHang = khachHang_dao.getAllKhachHang();
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
         label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.size() + 1));
+        JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
         LamMoi();
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();

@@ -625,7 +625,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 //                dialog.setVisible(true);
 //            }
 //        });
-<<<<<<< HEAD
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -641,8 +640,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 //                dialog.setVisible(true);
 //            }
 //        });
-=======
->>>>>>> f3d877b1bb56ba84ef7a9251d981e9f9c0460769
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

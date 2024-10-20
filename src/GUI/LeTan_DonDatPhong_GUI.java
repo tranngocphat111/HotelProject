@@ -94,19 +94,16 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         list_khachHang = khachHang_dao.getAllKhachHang();
 
 //        Xét dữ liệu cho cb_LoaiPhong
+        cb_LoaiPhong.addItem("");
         for (LoaiPhong lp : list_LoaiPhong) {
             cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
         }
 
         model = (DefaultTableModel) Table_KhachHang.getModel();
         model.setRowCount(0);
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (ddp.getTrangThai().equals("Đang ở")) {
-                list_DonDatPhongTheoTieuChi.add(ddp);
-            }
-        }
+        checkBox_DangO.setSelected(true);
 
-        DocDuLieuLenTable(getDonDatPhongTheoThoiGian(list_DonDatPhong, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate()));
+        DocDuLieuLenTable(getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate()));
 
         list_btn.add(btn_Tim);
         list_btn.add(btn_ThemDichVu);
@@ -795,7 +792,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         if (!checkBox_DangO.isSelected() && !checkBox_DangCho.isSelected()) {
-            DocDuLieuLenTable(list_DonDatPhong);
+            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
             return;
         }
 
@@ -812,6 +809,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                         list_DonDatPhongTheoTieuChi.add(ddp);
                     }
                 }
+            }else{
+                DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+                return;
             }
         }
 
@@ -848,6 +848,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                         list_DonDatPhongTheoTieuChi.add(ddp);
                     }
                 }
+            }else{
+                DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+                return;
             }
         }
 

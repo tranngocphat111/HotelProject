@@ -120,8 +120,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        label_Anh = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         ThongTinDichVu = new javax.swing.JPanel();
         tenDichVu = new javax.swing.JLabel();
@@ -144,38 +142,13 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        label_Anh = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DichVu"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1283, 830));
         getContentPane().setLayout(null);
-
-        label_Anh.setBackground(new java.awt.Color(255, 255, 51));
-        label_Anh.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_AnhMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(label_Anh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addComponent(label_Anh, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 1, Short.MAX_VALUE)))
-        );
-
-        getContentPane().add(jPanel2);
-        jPanel2.setBounds(890, 90, 300, 290);
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.setLayout(null);
@@ -184,21 +157,33 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         ThongTinDichVu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
         ThongTinDichVu.setOpaque(false);
 
+        tenDichVu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         tenDichVu.setForeground(new java.awt.Color(255, 255, 255));
         tenDichVu.setText("Tên dịch vụ");
 
+        moTa.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         moTa.setForeground(new java.awt.Color(255, 255, 255));
         moTa.setText("Mô tả");
 
+        donGia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         donGia.setForeground(new java.awt.Color(255, 255, 255));
         donGia.setText("Đơn giá");
 
+        txt_DichVu.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txt_DichVu.setPreferredSize(new java.awt.Dimension(64, 32));
+
+        txt_MoTa.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txt_MoTa.setPreferredSize(new java.awt.Dimension(64, 32));
+
+        txtDonGia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtDonGia.setPreferredSize(new java.awt.Dimension(64, 32));
         txtDonGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDonGiaActionPerformed(evt);
             }
         });
 
+        donGia1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         donGia1.setForeground(new java.awt.Color(255, 255, 255));
         donGia1.setText("Hình ảnh");
 
@@ -221,71 +206,70 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         btn_chonAnh.setLayout(btn_chonAnhLayout);
         btn_chonAnhLayout.setHorizontalGroup(
             btn_chonAnhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_chonAnhLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_chonAnhLayout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
         btn_chonAnhLayout.setVerticalGroup(
             btn_chonAnhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout ThongTinDichVuLayout = new javax.swing.GroupLayout(ThongTinDichVu);
         ThongTinDichVu.setLayout(ThongTinDichVuLayout);
         ThongTinDichVuLayout.setHorizontalGroup(
             ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDichVuLayout.createSequentialGroup()
+            .addGroup(ThongTinDichVuLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(tenDichVu)
-                    .addGroup(ThongTinDichVuLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(donGia))
-                    .addComponent(txt_DichVu, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                    .addComponent(txtDonGia))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addComponent(donGia)
+                    .addComponent(txtDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+                    .addComponent(txt_DichVu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDichVuLayout.createSequentialGroup()
+                            .addComponent(moTa, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(303, 303, 303))
+                        .addGroup(ThongTinDichVuLayout.createSequentialGroup()
+                            .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(donGia1)
+                                .addComponent(txt_MoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap()))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDichVuLayout.createSequentialGroup()
-                        .addComponent(moTa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(352, 352, 352))
-                    .addGroup(ThongTinDichVuLayout.createSequentialGroup()
-                        .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txt_MoTa)
-                                .addComponent(btn_chonAnh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(donGia1))
+                        .addComponent(btn_chonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36))))
         );
         ThongTinDichVuLayout.setVerticalGroup(
             ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ThongTinDichVuLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDichVuLayout.createSequentialGroup()
-                        .addComponent(tenDichVu)
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(ThongTinDichVuLayout.createSequentialGroup()
                         .addComponent(moTa)
-                        .addGap(18, 18, 18)
-                        .addComponent(txt_MoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(34, 34, 34)
-                .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_MoTa, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
+                    .addGroup(ThongTinDichVuLayout.createSequentialGroup()
+                        .addComponent(tenDichVu)
+                        .addGap(4, 4, 4)
+                        .addComponent(txt_DichVu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(ThongTinDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(ThongTinDichVuLayout.createSequentialGroup()
+                        .addComponent(donGia)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(ThongTinDichVuLayout.createSequentialGroup()
                         .addComponent(donGia1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_chonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinDichVuLayout.createSequentialGroup()
-                        .addComponent(donGia)
-                        .addGap(12, 12, 12)
-                        .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_chonAnh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(33, 33, 33))
         );
 
         jPanel1.add(ThongTinDichVu);
-        ThongTinDichVu.setBounds(70, 100, 760, 210);
+        ThongTinDichVu.setBounds(70, 100, 760, 220);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -436,7 +420,9 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         JTableHeader header = jTable1.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(duaDataVaoModel(dichVuDAO.getAllDichVu()));
+        jTable1.setRowHeight(30);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -447,6 +433,37 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(70, 410, 1120, 360);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
+
+        label_Anh.setBackground(new java.awt.Color(255, 255, 51));
+        label_Anh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_AnhMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 298, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(label_Anh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 289, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(label_Anh, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(890, 100, 300, 280);
+
+        Backgroup.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
@@ -626,11 +643,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void label_AnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_AnhMouseClicked
-        // TODO add your handling code here:
-        System.out.println(label_Anh.getIcon());
-    }//GEN-LAST:event_label_AnhMouseClicked
-
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
         // TODO add your handling code here:
         try {
@@ -710,6 +722,11 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
         
     }//GEN-LAST:event_btn_TimMouseClicked
+
+    private void label_AnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_AnhMouseClicked
+        // TODO add your handling code here:
+        System.out.println(label_Anh.getIcon());
+    }//GEN-LAST:event_label_AnhMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

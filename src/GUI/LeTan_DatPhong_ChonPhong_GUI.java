@@ -1,21 +1,20 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package GUI;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.WindowConstants;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.DAO.LoaiPhongDAO;
@@ -29,7 +28,7 @@ import model.MongoDBConnection;
  *
  * @author Admin
  */
-public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
+public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
     private MongoDBConnection database = new MongoDBConnection();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
@@ -41,14 +40,14 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     DecimalFormat df = new DecimalFormat("#,##0");
 
     /**
-     * Creates new form LeTan_DatPhong_ChonPhong1
+     * Creates new form LeTan_
      */
-    public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong) {
-        list_PhongTrong = list_Phong;
-        setUndecorated(true);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        initComponents();
+    public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong, JFrame parent, boolean modal) {
+        super(parent, modal);
 
+        list_PhongTrong = list_Phong;
+        initComponents();
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JTableHeader header = jTable1.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
@@ -66,7 +65,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         DocDuLieuLenTable(list_PhongTrong);
 
         cb_LoaiPhong.addActionListener(new ActionListener() {
-            
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,9 +95,8 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
             }
         });
-        
+
         cb_Tang.addActionListener(new ActionListener() {
-            
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,9 +127,8 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 
             }
         });
-        
+
         cb_GiaPhong.addActionListener(new ActionListener() {
-            
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,8 +278,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         BackGround = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1500, 450));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jPanel1.setPreferredSize(new java.awt.Dimension(1500, 450));
@@ -313,16 +308,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jTable1.setRowHeight(30);
         table_Phong.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(170);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(5).setMaxWidth(430);
-            jTable1.getColumnModel().getColumn(6).setMaxWidth(200);
-            jTable1.getColumnModel().getColumn(7).setMaxWidth(300);
-        }
 
         jPanel1.add(table_Phong);
         table_Phong.setBounds(250, 60, 1220, 290);
@@ -339,6 +324,9 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_XacNhanMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_XacNhanMousePressed(evt);
             }
         });
 
@@ -380,6 +368,9 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn_HuyMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_HuyMousePressed(evt);
             }
         });
 
@@ -464,7 +455,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cb_Tang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cb_LoaiPhong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -505,12 +496,17 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_btn_XacNhanMouseClicked
 
     private void btn_XacNhanMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseEntered
         // TODO add your handling code here:
@@ -528,6 +524,10 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         btn_XacNhan.setBorder(null);
     }//GEN-LAST:event_btn_XacNhanMouseExited
 
+    private void btn_HuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_HuyMouseClicked
+
     private void btn_HuyMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyMouseEntered
         // TODO add your handling code here:
         btn_Huy.setkStartColor(new java.awt.Color(255, 225, 27));
@@ -544,28 +544,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
         btn_Huy.setBorder(null);
     }//GEN-LAST:event_btn_HuyMouseExited
 
-    private void btn_XacNhanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMouseClicked
-        // TODO add your handling code here:
-
-        if (jTable1.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng");
-            return;
-        }
-        Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(jTable1.getSelectedRow(), 0).toString()));
-        
-        LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
-        LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "");
-        LeTan_DatPhong_GUI.txt_Tang.setText(phong.getTang() + "");
-        LeTan_DatPhong_GUI.txt_LoaiPhong.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong());
-        LeTan_DatPhong_GUI.area_moTa.setText(phong.getMoTa());
-        setVisible(false);
-    }//GEN-LAST:event_btn_XacNhanMouseClicked
-
-    private void btn_HuyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyMouseClicked
-        // TODO add your handling code here:
-        setVisible(false);
-    }//GEN-LAST:event_btn_HuyMouseClicked
-
     private void cb_LoaiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaiPhongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_LoaiPhongActionPerformed
@@ -577,6 +555,35 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private void cb_GiaPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_GiaPhongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_GiaPhongActionPerformed
+
+    private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
+        // TODO add your handling code here:
+        if (jTable1.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng");
+            return;
+        }
+        Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+
+        LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
+        LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "");
+        LeTan_DatPhong_GUI.txt_Tang.setText(phong.getTang() + "");
+        LeTan_DatPhong_GUI.txt_LoaiPhong.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong());
+        LeTan_DatPhong_GUI.area_moTa.setText(phong.getMoTa());
+
+        System.out.println(LeTan_DatPhong_GUI.txt_Phong.getText());
+        System.out.println(LeTan_DatPhong_GUI.txt_DonGia.getText());
+        System.out.println(LeTan_DatPhong_GUI.txt_Tang.getText());
+        System.out.println(LeTan_DatPhong_GUI.txt_LoaiPhong.getText());
+        System.out.println(LeTan_DatPhong_GUI.area_moTa.getText());
+
+        setVisible(false);
+    }//GEN-LAST:event_btn_XacNhanMousePressed
+
+    private void btn_HuyMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyMousePressed
+        // TODO add your handling code here:
+        setVisible(false);
+
+    }//GEN-LAST:event_btn_HuyMousePressed
 
     /**
      * @param args the command line arguments
@@ -604,25 +611,33 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(LeTan_DatPhong_ChonPhong_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-////                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
+//                LeTan_ dialog = new LeTan_(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
 //            }
 //        });
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-////                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
+//                LeTan_DatPhong_ChonPhong_GUI dialog = new LeTan_DatPhong_ChonPhong_GUI(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
 //            }
 //        });
     }
@@ -645,5 +660,4 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JScrollPane table_Phong;
     // End of variables declaration//GEN-END:variables
-
 }

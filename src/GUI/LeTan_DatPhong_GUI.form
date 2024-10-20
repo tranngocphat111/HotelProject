@@ -472,9 +472,9 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txt_CCCD" min="-2" pref="191" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="jLabel6" min="-2" pref="116" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabel25" min="-2" pref="14" max="-2" attributes="0"/>
+                                      <Component id="jLabel6" min="-2" pref="98" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel25" min="-2" pref="8" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
@@ -540,7 +540,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="CCCD"/>
+                <Property name="text" type="java.lang.String" value="CCCD/CMND"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
@@ -588,10 +588,6 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_HoTen">
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_HoTenFocusLost"/>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txt_HoTenMousePressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel11">
               <Properties>
@@ -644,16 +640,8 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_SDT">
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_SDTFocusLost"/>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txt_SDTMousePressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txt_Email">
-              <Events>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_EmailFocusLost"/>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txt_EmailMousePressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel25">
               <Properties>
@@ -752,11 +740,11 @@
         <Container class="keeptoo.KGradientPanel" name="btn_them">
           <Properties>
             <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="d1" green="b1" red="b1" type="rgb"/>
+              <Color blue="59" green="de" red="ff" type="rgb"/>
             </Property>
             <Property name="kGradientFocus" type="int" value="250"/>
             <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="54" green="54" red="54" type="rgb"/>
+              <Color blue="1b" green="b0" red="e1" type="rgb"/>
             </Property>
           </Properties>
           <Events>

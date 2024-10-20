@@ -124,6 +124,10 @@ public class LeTan_GUI extends javax.swing.JFrame {
         })
         ;
     }
+    
+    public  JFrame getJFrame(){
+        return this;
+    }
 
     
     /**

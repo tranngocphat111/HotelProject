@@ -5,7 +5,6 @@
 package GUI;
 
 import com.toedter.calendar.JDateChooser;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -47,6 +46,9 @@ import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.MongoDBConnection;
 import GUI.LeTan_GUI;
+import java.awt.Color;
+import java.awt.Frame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -87,7 +89,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         txt_NgayDen.setDate(new Date());
         setThoiGianBang0(txt_NgayDen);
-        txt_NgayDi.setDate(new Date());
+        txt_NgayDi.setDate(new Date(new Date().getTime() + (24*60*60*1000)) );
         setThoiGianBang0(txt_NgayDi);
 
         list_Phong = phong_dao.getAllPhong();
@@ -114,6 +116,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void propertyChange(PropertyChangeEvent evt) {
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
+                
+                if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate()) ) {
+                    JOptionPane.showMessageDialog(null, "Ngày đến không được bằng ngày đi");
+                    txt_NgayDen.setDate(new Date(txt_NgayDi.getDate().getTime() - (24*60*60*1000)));
+                    return;
+
+                }
+                
                 if (txt_NgayDen.getDate().after(txt_NgayDi.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến phải trước ngày đi");
                     txt_NgayDen.setDate(new Date());
@@ -141,6 +151,30 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_NgayDen.setDate(new Date());
                     setThoiGianBang0(txt_NgayDen);
                 }
+                
+                List<Phong> list_PhongDay = new ArrayList<Phong>();
+                for (DonDatPhong ddp : list_DonDatPhong) {
+                    if (!(ddp.getNgayTraPhong().before(txt_NgayDen.getDate()) || ddp.getNgayNhanPhong().after(txt_NgayDi.getDate()))) {
+                        list_PhongDay.add(phong_dao.getPhongByMa(ddp.getPhong()));
+                    }
+                }
+                if (txt_Phong.getText().equals("")) {
+                    return;
+                }
+                boolean ktra = true;
+                for (Phong phong : list_PhongDay) {
+                    if (phong.getMaPhong() == Integer.parseInt(txt_Phong.getText())) {
+                        ktra = false;
+                    }
+                }
+
+                if (!ktra) {
+                    txt_Phong.setText("");
+                    txt_LoaiPhong.setText("");
+                    txt_DonGia.setText("");
+                    txt_Tang.setText("");
+                    JOptionPane.showMessageDialog(null, "Phòng đã được đặt, vui lòng chọn phòng khác");
+                }
 
             }
         });
@@ -151,13 +185,23 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void propertyChange(PropertyChangeEvent evt) {
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
+                
+               
 
                 if (txt_NgayDi.getDate().before(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
-                    txt_NgayDi.setDate(new Date());
+                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
                     setThoiGianBang0(txt_NgayDi);
                     return;
 
+                }
+                
+                System.out.println(".propertyChange()");
+                
+                if(txt_NgayDi.getDate().equals(txt_NgayDen.getDate())){
+                    JOptionPane.showMessageDialog(null, "Ngày đi ko được bằng ngày đến");
+                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
+                    return;
                 }
                 List<Phong> list_PhongDay = new ArrayList<Phong>();
                 for (DonDatPhong ddp : list_DonDatPhong) {
@@ -205,23 +249,21 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if (BlockEvent == true) {
-                        btn.setkStartColor(new java.awt.Color(255, 225, 27));
-                        btn.setkEndColor(new java.awt.Color(255, 222, 89));
-                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                        btn.setBorder(null);
-                    }
+
+                    btn.setkStartColor(new java.awt.Color(255, 225, 27));
+                    btn.setkEndColor(new java.awt.Color(255, 222, 89));
+                    btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                    btn.setBorder(null);
 
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if (BlockEvent == true) {
-                        btn.setkStartColor(new java.awt.Color(225, 176, 27));
-                        btn.setkEndColor(new java.awt.Color(255, 222, 89));
-                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                        btn.setBorder(null);
-                    }
+
+                    btn.setkStartColor(new java.awt.Color(225, 176, 27));
+                    btn.setkEndColor(new java.awt.Color(255, 222, 89));
+                    btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                    btn.setBorder(null);
 
                 }
             });
@@ -245,12 +287,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_Email.setText("");
                     cb_GioiTinh.setSelectedIndex(0);
                     cb_QuocTich.setSelectedIndex(0);
-                    btn_them.setkEndColor(new java.awt.Color(177, 177, 209));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(84, 84, 84));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = false;
+
                 } else {
                     txt_HoTen.setText(khachHang.getTenKhachHang());
                     txt_SDT.setText(khachHang.getSoDienThoai());
@@ -259,12 +296,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         cb_GioiTinh.setSelectedIndex(1);
                     }
                     cb_QuocTich.setSelectedItem(khachHang.getQuocTich());
-                    btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = true;
+
                 }
             }
 
@@ -284,12 +316,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_Email.setText("");
                     cb_GioiTinh.setSelectedIndex(0);
                     cb_QuocTich.setSelectedIndex(0);
-                    btn_them.setkEndColor(new java.awt.Color(177, 177, 209));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(84, 84, 84));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = false;
+
                 } else {
                     txt_HoTen.setText(khachHang.getTenKhachHang());
                     txt_SDT.setText(khachHang.getSoDienThoai());
@@ -299,69 +326,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     }
                     cb_QuocTich.setSelectedItem(khachHang.getQuocTich());
                     cb_QuocTich.setSelectedItem(khachHang.getQuocTich());
-                    btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = true;
-                }
-            }
 
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-
-            }
-
-        });
-
-//        Bắt sự kiện thay đổi của txt_HoTen
-        txt_HoTen.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                if (txt_HoTen.getText().equals("")) {
-                    return;
-                }
-                String regex = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+)+$";
-
-                if (txt_HoTen.getText().matches(regex)) {
-                    btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = true;
-                } else {
-                    btn_them.setkEndColor(new java.awt.Color(177, 177, 209));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(84, 84, 84));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = false;
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                if (txt_HoTen.getText().equals("")) {
-                    return;
-                }
-                String regex = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+)+$";
-
-                if (txt_HoTen.getText().matches(regex)) {
-                    btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = true;
-                } else {
-                    btn_them.setkEndColor(new java.awt.Color(177, 177, 209));
-                    btn_them.setkGradientFocus(250);
-                    btn_them.setkStartColor(new java.awt.Color(84, 84, 84));
-                    btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    btn_them.setBorder(null);
-                    BlockEvent = false;
                 }
             }
 
@@ -449,6 +414,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_CCCD.setEditable(true);
         txt_CCCD.setFocusable(true);
         txt_CCCD.requestFocus();
+        txt_CCCD.setBackground(new Color(255, 255, 255));
 
     }
 
@@ -795,7 +761,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("CCCD");
+        jLabel6.setText("CCCD/CMND");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -823,17 +789,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_HoTen.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_HoTenFocusLost(evt);
-            }
-        });
-        txt_HoTen.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txt_HoTenMousePressed(evt);
-            }
-        });
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Số điện thoại");
@@ -850,28 +805,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         cb_QuocTich.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_QuocTichActionPerformed(evt);
-            }
-        });
-
-        txt_SDT.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_SDTFocusLost(evt);
-            }
-        });
-        txt_SDT.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txt_SDTMousePressed(evt);
-            }
-        });
-
-        txt_Email.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_EmailFocusLost(evt);
-            }
-        });
-        txt_Email.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                txt_EmailMousePressed(evt);
             }
         });
 
@@ -904,9 +837,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_CCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(51, 51, 51)
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
@@ -993,9 +926,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_LamMoi);
         btn_LamMoi.setBounds(1060, 440, 140, 40);
 
-        btn_them.setkEndColor(new java.awt.Color(177, 177, 209));
+        btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_them.setkGradientFocus(250);
-        btn_them.setkStartColor(new java.awt.Color(84, 84, 84));
+        btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_them.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_themMousePressed(evt);
@@ -1287,29 +1220,69 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void Jpanel_ThemPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_ThemPhongMousePressed
         // TODO add your handling code here:
+
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
         if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate())) {
             list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
             System.out.println(list_PhongTrong);
-                new LeTan_(list_PhongTrong, new LeTan_GUI(), true).setVisible(true);
-//            new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
+            new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
             return;
         }
 
-        
         list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), txt_NgayDi.getDate());
-        new LeTan_(list_PhongTrong, new LeTan_GUI(), true).setVisible(true);
-//        new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
+        new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
 
 
     }//GEN-LAST:event_Jpanel_ThemPhongMousePressed
     int count = 0;
-    boolean BlockEvent = false;
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
 
-        if (BlockEvent == false) {
+        if (txt_CCCD.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Không được để CCCD trống");
+            txt_CCCD.requestFocus();
             return;
+        }
+
+        String regex = "[0-9]{12}";
+        if (!txt_CCCD.getText().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "CCCD phải đủ 12 số, không phải là chữ");
+            txt_CCCD.requestFocus();
+            return;
+        }
+
+        if (txt_HoTen.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Không được để Họ tên trống");
+            txt_HoTen.requestFocus();
+            return;
+        }
+
+        String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+)+$";
+
+        if (!txt_HoTen.getText().matches(regex_HoTen)) {
+            JOptionPane.showMessageDialog(this, "Họ tên ít nhất 2 từ, không chứa số");
+            txt_HoTen.requestFocus();
+            return;
+        }
+
+        if (!txt_SDT.getText().equals("")) {
+            String regex_SDT = "(0[3|5|7|8|9])+([0-9]{8})";
+            String SDT = txt_SDT.getText();
+            if (!SDT.matches(regex_SDT)) {
+                JOptionPane.showMessageDialog(this, "Bắt đầu bằng 09 hoặc 03, 07, 08, 10 chữ số");
+                txt_SDT.requestFocus();
+                return;
+            }
+        }
+
+        if (!txt_Email.getText().equals("")) {
+            String regex_email = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+            String email = txt_Email.getText();
+            if (!email.matches(regex_email)) {
+                JOptionPane.showMessageDialog(this, "Email không hợp lệ, ví dụ abc@example.com.");
+                txt_Email.requestFocus();
+                return;
+            }
         }
 
         KhachHang khachHang = null;
@@ -1458,6 +1431,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        System.out.println(txt_NgayDen.getDate());
+        System.out.println(txt_NgayDi.getDate());
+
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
@@ -1528,6 +1504,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         cb_QuocTich.setSelectedItem(kh.getQuocTich());
         txt_CCCD.setFocusable(false);
         txt_CCCD.setEditable(false);
+        txt_CCCD.setBackground(new Color(225, 225, 225));
     }//GEN-LAST:event_table_KhachHangMousePressed
 
     private void txt_CCCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CCCDActionPerformed
@@ -1618,90 +1595,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         if (!txt_CCCD.getText().matches(regex)) {
             JOptionPane.showMessageDialog(this, "CCCD phải đủ 12 số, không phải là chữ");
             txt_CCCD.requestFocus();
-            return;
         }
 
-        String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+)+$";
-
-        if (!txt_HoTen.getText().matches(regex_HoTen)) {
-            txt_HoTen.requestFocus();
-            return;
-        }
-        btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_them.setkGradientFocus(250);
-        btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-        btn_them.setBorder(null);
-        BlockEvent = true;
 
     }//GEN-LAST:event_txt_CCCDFocusLost
-
-    private void txt_HoTenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_HoTenFocusLost
-        // TODO add your handling code here:
-
-        if (txt_HoTen.getText().equals("")) {
-            return;
-        }
-        String regex = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+)+$";
-
-        if (!txt_HoTen.getText().matches(regex)) {
-            JOptionPane.showMessageDialog(this, "Họ tên ít nhất 2 từ, không có số");
-            txt_HoTen.requestFocus();
-        }
-
-
-    }//GEN-LAST:event_txt_HoTenFocusLost
-
-    private void txt_SDTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_SDTFocusLost
-        // TODO add your handling code here:
-        if (txt_SDT.getText().equals("")) {
-            return;
-        }
-        String regex = "^(0[3|5|7|8|9])[0-9]{8}$";
-        if (!txt_SDT.getText().matches(regex)) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại ko chứa chữ, Số điện thoại không hợp lệ");
-            txt_SDT.requestFocus();
-        }
-
-
-    }//GEN-LAST:event_txt_SDTFocusLost
-
-    private void txt_EmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_EmailFocusLost
-        // TODO add your handling code here:
-        if (txt_Email.getText().equals("")) {
-            return;
-        }
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-        String email = txt_Email.getText();
-        if (!email.matches(regex)) {
-            JOptionPane.showMessageDialog(this, "Email không hợp lệ, ví dụ abc@example.com.");
-            txt_Email.requestFocus();
-        }
-    }//GEN-LAST:event_txt_EmailFocusLost
-
-    private void txt_HoTenMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_HoTenMousePressed
-        // TODO add your handling code here:
-        if (txt_CCCD.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập CCCD trước");
-            txt_CCCD.requestFocus();
-        }
-    }//GEN-LAST:event_txt_HoTenMousePressed
-
-    private void txt_SDTMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_SDTMousePressed
-        // TODO add your handling code here:
-        if (txt_CCCD.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập CCCD trước");
-            txt_CCCD.requestFocus();
-        }
-    }//GEN-LAST:event_txt_SDTMousePressed
-
-    private void txt_EmailMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_EmailMousePressed
-        // TODO add your handling code here:
-        if (txt_CCCD.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập CCCD trước");
-            txt_CCCD.requestFocus();
-        }
-    }//GEN-LAST:event_txt_EmailMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

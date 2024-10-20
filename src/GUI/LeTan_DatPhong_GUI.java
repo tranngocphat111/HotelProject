@@ -5,7 +5,6 @@
 package GUI;
 
 import com.toedter.calendar.JDateChooser;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -17,7 +16,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -43,6 +45,10 @@ import model.DTO.LoaiPhong;
 import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.MongoDBConnection;
+import GUI.LeTan_GUI;
+import java.awt.Color;
+import java.awt.Frame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -71,6 +77,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
      */
     public LeTan_DatPhong_GUI() {
         initComponents();
+
         txt_CCCD.requestFocus();
         JTableHeader header = table_KhachHang.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
@@ -79,14 +86,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
-        
+
         txt_NgayDen.setDate(new Date());
         setThoiGianBang0(txt_NgayDen);
-        txt_NgayDi.setDate(new Date());
+        txt_NgayDi.setDate(new Date(new Date().getTime() + (24*60*60*1000)) );
         setThoiGianBang0(txt_NgayDi);
-        
-        System.out.println(txt_NgayDen.getDate());
-        
+
         list_Phong = phong_dao.getAllPhong();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
@@ -111,6 +116,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void propertyChange(PropertyChangeEvent evt) {
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
+                
+                if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate()) ) {
+                    JOptionPane.showMessageDialog(null, "Ngày đến không được bằng ngày đi");
+                    txt_NgayDen.setDate(new Date(txt_NgayDi.getDate().getTime() - (24*60*60*1000)));
+                    return;
+
+                }
+                
                 if (txt_NgayDen.getDate().after(txt_NgayDi.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến phải trước ngày đi");
                     txt_NgayDen.setDate(new Date());
@@ -121,22 +134,46 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
                 Date ngayHientai = new Date();
                 if (ngayHientai != null) {
-                // Sử dụng Calendar để làm sạch phần thời gian
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(ngayHientai);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
+                    // Sử dụng Calendar để làm sạch phần thời gian
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(ngayHientai);
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
 
-                // Lấy lại đối tượng Date với thời gian đã được làm sạch
-                ngayHientai = calendar.getTime();
+                    // Lấy lại đối tượng Date với thời gian đã được làm sạch
+                    ngayHientai = calendar.getTime();
                 }
                 setThoiGianBang0(txt_NgayDen);
                 if (ngayHientai.after(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến phải sau ngày hôm nay");
                     txt_NgayDen.setDate(new Date());
                     setThoiGianBang0(txt_NgayDen);
+                }
+                
+                List<Phong> list_PhongDay = new ArrayList<Phong>();
+                for (DonDatPhong ddp : list_DonDatPhong) {
+                    if (!(ddp.getNgayTraPhong().before(txt_NgayDen.getDate()) || ddp.getNgayNhanPhong().after(txt_NgayDi.getDate()))) {
+                        list_PhongDay.add(phong_dao.getPhongByMa(ddp.getPhong()));
+                    }
+                }
+                if (txt_Phong.getText().equals("")) {
+                    return;
+                }
+                boolean ktra = true;
+                for (Phong phong : list_PhongDay) {
+                    if (phong.getMaPhong() == Integer.parseInt(txt_Phong.getText())) {
+                        ktra = false;
+                    }
+                }
+
+                if (!ktra) {
+                    txt_Phong.setText("");
+                    txt_LoaiPhong.setText("");
+                    txt_DonGia.setText("");
+                    txt_Tang.setText("");
+                    JOptionPane.showMessageDialog(null, "Phòng đã được đặt, vui lòng chọn phòng khác");
                 }
 
             }
@@ -149,12 +186,22 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
                 
+               
+
                 if (txt_NgayDi.getDate().before(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
-                    txt_NgayDi.setDate(new Date());
+                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
                     setThoiGianBang0(txt_NgayDi);
                     return;
 
+                }
+                
+                System.out.println(".propertyChange()");
+                
+                if(txt_NgayDi.getDate().equals(txt_NgayDen.getDate())){
+                    JOptionPane.showMessageDialog(null, "Ngày đi ko được bằng ngày đến");
+                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
+                    return;
                 }
                 List<Phong> list_PhongDay = new ArrayList<Phong>();
                 for (DonDatPhong ddp : list_DonDatPhong) {
@@ -202,6 +249,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
+
                     btn.setkStartColor(new java.awt.Color(255, 225, 27));
                     btn.setkEndColor(new java.awt.Color(255, 222, 89));
                     btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
@@ -211,10 +259,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mouseExited(MouseEvent e) {
+
                     btn.setkStartColor(new java.awt.Color(225, 176, 27));
                     btn.setkEndColor(new java.awt.Color(255, 222, 89));
                     btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                     btn.setBorder(null);
+
                 }
             });
         });
@@ -237,6 +287,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_Email.setText("");
                     cb_GioiTinh.setSelectedIndex(0);
                     cb_QuocTich.setSelectedIndex(0);
+
                 } else {
                     txt_HoTen.setText(khachHang.getTenKhachHang());
                     txt_SDT.setText(khachHang.getSoDienThoai());
@@ -245,6 +296,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         cb_GioiTinh.setSelectedIndex(1);
                     }
                     cb_QuocTich.setSelectedItem(khachHang.getQuocTich());
+
                 }
             }
 
@@ -264,6 +316,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_Email.setText("");
                     cb_GioiTinh.setSelectedIndex(0);
                     cb_QuocTich.setSelectedIndex(0);
+
                 } else {
                     txt_HoTen.setText(khachHang.getTenKhachHang());
                     txt_SDT.setText(khachHang.getSoDienThoai());
@@ -272,6 +325,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         cb_GioiTinh.setSelectedIndex(1);
                     }
                     cb_QuocTich.setSelectedItem(khachHang.getQuocTich());
+                    cb_QuocTich.setSelectedItem(khachHang.getQuocTich());
+
                 }
             }
 
@@ -281,10 +336,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
 
         });
-        
-       
+
     }
-    private void setThoiGianBang0 (JDateChooser ngay ){
+
+    private void setThoiGianBang0(JDateChooser ngay) {
         if (ngay.getDate() != null) {
             // Sử dụng Calendar để làm sạch phần thời gian
             Calendar calendar = Calendar.getInstance();
@@ -297,8 +352,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             // Lấy lại đối tượng Date với thời gian đã được làm sạch
             ngay.setDate(calendar.getTime());
         }
-     }
-        
+    }
+
     public List<Phong> getAllPhongTrong(Date ngayDen, Date ngayDi) {
         List<Phong> list_PhongDay = new ArrayList<Phong>();
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
@@ -359,6 +414,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_CCCD.setEditable(true);
         txt_CCCD.setFocusable(true);
         txt_CCCD.requestFocus();
+        txt_CCCD.setBackground(new Color(255, 255, 255));
 
     }
 
@@ -401,6 +457,35 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         return false;
     }
 
+    public boolean updateKhachHangMoi(KhachHang khachHang) {
+        for (KhachHang kh : list_KhachHangMoi) {
+            if (kh.getMaKhachHang() == khachHang.getMaKhachHang()) {
+                kh = khachHang;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int maKHMoi() {
+
+        for (int i = list_KhachHang.size() + 1; i <= list_KhachHangMoi.getLast().getMaKhachHang(); i++) {
+            int dem = 0;
+            for (KhachHang kh : list_KhachHangMoi) {
+                if (i == kh.getMaKhachHang()) {
+                    dem++;
+                }
+
+            }
+            if (dem == 0) {
+                count--;
+                return i;
+            }
+
+        }
+        return -1;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -424,7 +509,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         Jpanel_ThemPhong = new javax.swing.JPanel();
         txt_Phong = new javax.swing.JLabel();
-        btn_ThemPhong = new javax.swing.JLabel();
+        icon_Them = new javax.swing.JLabel();
         txt_LoaiPhong = new javax.swing.JTextField();
         txt_Tang = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
@@ -504,6 +589,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel9.setText("Đơn giá");
 
         txt_DonGia.setEditable(false);
+        txt_DonGia.setBackground(new java.awt.Color(225, 225, 225));
         txt_DonGia.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txt_DonGia.setFocusable(false);
         txt_DonGia.addActionListener(new java.awt.event.ActionListener() {
@@ -519,6 +605,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Jpanel_ThemPhong.setBackground(new java.awt.Color(255, 255, 255));
         Jpanel_ThemPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Jpanel_ThemPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Jpanel_ThemPhong.setName("btn_Them"); // NOI18N
         Jpanel_ThemPhong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Jpanel_ThemPhongMouseClicked(evt);
@@ -530,8 +617,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         txt_Phong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        btn_ThemPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Them.png"))); // NOI18N
-        btn_ThemPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icon_Them.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Them.png"))); // NOI18N
+        icon_Them.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout Jpanel_ThemPhongLayout = new javax.swing.GroupLayout(Jpanel_ThemPhong);
         Jpanel_ThemPhong.setLayout(Jpanel_ThemPhongLayout);
@@ -541,7 +628,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(txt_Phong, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(btn_ThemPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(icon_Them, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         Jpanel_ThemPhongLayout.setVerticalGroup(
             Jpanel_ThemPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -550,11 +637,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(Jpanel_ThemPhongLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_ThemPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(icon_Them, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         txt_LoaiPhong.setEditable(false);
+        txt_LoaiPhong.setBackground(new java.awt.Color(225, 225, 225));
         txt_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txt_LoaiPhong.setFocusable(false);
         txt_LoaiPhong.setPreferredSize(new java.awt.Dimension(64, 25));
@@ -565,6 +653,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         });
 
         txt_Tang.setEditable(false);
+        txt_Tang.setBackground(new java.awt.Color(225, 225, 225));
         txt_Tang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txt_Tang.setFocusable(false);
         txt_Tang.addActionListener(new java.awt.event.ActionListener() {
@@ -672,7 +761,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("CCCD/Passport");
+        jLabel6.setText("CCCD/CMND");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -689,6 +778,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
+        txt_CCCD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_CCCDFocusLost(evt);
+            }
+        });
         txt_CCCD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_CCCDActionPerformed(evt);
@@ -743,9 +837,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_CCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(51, 51, 51)
                         .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
@@ -851,7 +945,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_them.setLayout(btn_themLayout);
         btn_themLayout.setHorizontalGroup(
             btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_themLayout.createSequentialGroup()
+            .addGroup(btn_themLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1128,34 +1222,67 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
-        
-        if(txt_NgayDen.equals(txt_NgayDi)){
-            list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
-            new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
+        if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate())) {
+            list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
+            System.out.println(list_PhongTrong);
+            new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
             return;
         }
 
-        
-
         list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), txt_NgayDi.getDate());
-        new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong).setVisible(true);
+        new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
 
 
     }//GEN-LAST:event_Jpanel_ThemPhongMousePressed
-    int maTuDong = 0;
-    boolean checkMaTuDong = false;
+    int count = 0;
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
+
         if (txt_CCCD.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Không được để trống CCCD");
+            JOptionPane.showMessageDialog(this, "Không được để CCCD trống");
+            txt_CCCD.requestFocus();
+            return;
+        }
+
+        String regex = "[0-9]{12}";
+        if (!txt_CCCD.getText().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "CCCD phải đủ 12 số, không phải là chữ");
             txt_CCCD.requestFocus();
             return;
         }
 
         if (txt_HoTen.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Không được để trống Họ tên");
+            JOptionPane.showMessageDialog(this, "Không được để Họ tên trống");
             txt_HoTen.requestFocus();
             return;
+        }
+
+        String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ'-]+)+$";
+
+        if (!txt_HoTen.getText().matches(regex_HoTen)) {
+            JOptionPane.showMessageDialog(this, "Họ tên ít nhất 2 từ, không chứa số");
+            txt_HoTen.requestFocus();
+            return;
+        }
+
+        if (!txt_SDT.getText().equals("")) {
+            String regex_SDT = "(0[3|5|7|8|9])+([0-9]{8})";
+            String SDT = txt_SDT.getText();
+            if (!SDT.matches(regex_SDT)) {
+                JOptionPane.showMessageDialog(this, "Bắt đầu bằng 09 hoặc 03, 07, 08, 10 chữ số");
+                txt_SDT.requestFocus();
+                return;
+            }
+        }
+
+        if (!txt_Email.getText().equals("")) {
+            String regex_email = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+            String email = txt_Email.getText();
+            if (!email.matches(regex_email)) {
+                JOptionPane.showMessageDialog(this, "Email không hợp lệ, ví dụ abc@example.com.");
+                txt_Email.requestFocus();
+                return;
+            }
         }
 
         KhachHang khachHang = null;
@@ -1167,14 +1294,20 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         if (khachHang == null) {
+
             khachHang = new KhachHang();
-            if(checkMaTuDong == false){
-                khachHang.setMaKhachHang(list_KhachHang.size() + maTuDong + 1);
-            }else{
-                khachHang.setMaKhachHang(list_KhachHang.size() + maTuDongX  + 1);
+            if (count == 0) {
+                khachHang.setMaKhachHang(list_KhachHang.size() + list_KhachHangMoi.size() + 1);
+
+            } else {
+                if (maKHMoi() == -1) {
+                    khachHang.setMaKhachHang(list_KhachHang.size() + list_KhachHangMoi.size() + 1);
+                } else {
+                    khachHang.setMaKhachHang(maKHMoi());
+                }
+
             }
-            
-            
+
             khachHang.setCCCD(txt_CCCD.getText());
             khachHang.setTenKhachHang(txt_HoTen.getText());
             khachHang.setSoDienThoai(txt_SDT.getText());
@@ -1182,10 +1315,15 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             khachHang.setQuocTich(cb_QuocTich.getSelectedItem().toString());
             khachHang.setEmail(txt_Email.getText());
             if (ktraTrungKH(txt_CCCD.getText())) {
+
                 list_KhachHang_TheoDon.add(khachHang);
-                maTuDong++;
-                checkMaTuDong = false;
                 list_KhachHangMoi.add(khachHang);
+                Collections.sort(list_KhachHangMoi, new Comparator<KhachHang>() {
+                    @Override
+                    public int compare(KhachHang kh1, KhachHang kh2) {
+                        return Integer.compare(kh1.getMaKhachHang(), kh2.getMaKhachHang());
+                    }
+                });
                 ThemKhachHangVaoTable(khachHang);
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
                 LamMoi();
@@ -1235,7 +1373,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             hoadon_hientai.setTongTien(0);
             hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
             hoaDon_dao.createHoaDon(hoadon_hientai);
-            
+
             dem++;
         }
 
@@ -1264,8 +1402,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoi();
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
-        maTuDong = 0;
-        maTuDongX = 0;
+        list_KhachHangMoi = new ArrayList<KhachHang>();
     }//GEN-LAST:event_btn_ThemDonMousePressed
 
     private void btn_HoanTatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMousePressed
@@ -1294,6 +1431,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        System.out.println(txt_NgayDen.getDate());
+        System.out.println(txt_NgayDi.getDate());
+
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
@@ -1317,6 +1457,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoi();
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
+        list_KhachHangMoi = new ArrayList<KhachHang>();
 
 
     }//GEN-LAST:event_btn_HoanTatMousePressed
@@ -1363,10 +1504,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         cb_QuocTich.setSelectedItem(kh.getQuocTich());
         txt_CCCD.setFocusable(false);
         txt_CCCD.setEditable(false);
+        txt_CCCD.setBackground(new Color(225, 225, 225));
     }//GEN-LAST:event_table_KhachHangMousePressed
 
     private void txt_CCCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CCCDActionPerformed
         // TODO add your handling code here:
+
 
     }//GEN-LAST:event_txt_CCCDActionPerformed
 
@@ -1388,6 +1531,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         khachHang.setQuocTich(cb_QuocTich.getSelectedItem().toString());
 
         updateKhachHang(khachHang);
+        updateKhachHangMoi(khachHang);
 
         model.setValueAt(model.getValueAt(row, 0).toString(), row, 0);
         model.setValueAt(khachHang.getCCCD(), row, 1);
@@ -1402,36 +1546,59 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_btn_SuaMousePressed
-    int maTuDongX = 0;
+
     private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
         // TODO add your handling code here:
         if (table_KhachHang.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng cần xóa");
             return;
         }
-        
+
         int maKH = Integer.parseInt(model.getValueAt(table_KhachHang.getSelectedRow(), 0).toString());
-        if (JOptionPane.showConfirmDialog(this,  "Bạn có thật sự muốn xóa?","Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             removeKhachHang(maKH);
             model.removeRow(table_KhachHang.getSelectedRow());
-            checkMaTuDong = true;
-            maTuDong--;
-            maTuDongX = maKH - list_KhachHang.size() - 1;
-            for(KhachHang kh : list_KhachHang_TheoDon){
-                if(maKH == kh.getMaKhachHang()){
-                    list_KhachHang_TheoDon.remove(kh);
+            if (list_KhachHang_TheoDon.size() != 0) {
+                for (KhachHang kh : list_KhachHang_TheoDon) {
+                    if (maKH == kh.getMaKhachHang()) {
+                        list_KhachHang_TheoDon.remove(kh);
+                    }
                 }
             }
-            for(KhachHang kh : list_KhachHangMoi){
-                if(maKH == kh.getMaKhachHang()){
-                    list_KhachHangMoi.remove(kh);
+
+            if (list_KhachHangMoi.size() != 0) {
+                for (Iterator<KhachHang> iterator = list_KhachHangMoi.iterator(); iterator.hasNext();) {
+                    KhachHang khachHang = iterator.next();
+                    if (maKH == khachHang.getMaKhachHang()) {
+                        iterator.remove();
+                        count++;// Xóa phần tử an toàn qua Iterator
+                    }
                 }
+
             }
+
             JOptionPane.showMessageDialog(this, "Xóa thành công");
             LamMoi();
+
         }
 
     }//GEN-LAST:event_btn_XoaMousePressed
+
+
+    private void txt_CCCDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_CCCDFocusLost
+        // TODO add your handling code here:
+        if (txt_CCCD.getText().equals("")) {
+            return;
+        }
+
+        String regex = "[0-9]{12}";
+        if (!txt_CCCD.getText().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "CCCD phải đủ 12 số, không phải là chữ");
+            txt_CCCD.requestFocus();
+        }
+
+
+    }//GEN-LAST:event_txt_CCCDFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1444,11 +1611,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_LamMoi;
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_ThemDon;
-    private javax.swing.JLabel btn_ThemPhong;
     private keeptoo.KGradientPanel btn_Xoa;
     private keeptoo.KGradientPanel btn_them;
     private javax.swing.JComboBox<String> cb_GioiTinh;
     private javax.swing.JComboBox<String> cb_QuocTich;
+    private javax.swing.JLabel icon_Them;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

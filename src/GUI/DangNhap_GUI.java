@@ -219,6 +219,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
 
         if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
+            if (txt_matKhau.getText().equals("")) {
+                txt_matKhau.requestFocus();
+            }
+            if (txt_TaiKhoan.getText().equals("")) {
+                txt_TaiKhoan.requestFocus();
+            }
             return;
         }
         NhanVien nv = nhanVien_Dao.checkAccount(txt_TaiKhoan.getText(), txt_matKhau.getText());
@@ -252,6 +258,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
+                if (txt_matKhau.getText().equals("")) {
+                    txt_matKhau.requestFocus();
+                }
+                if (txt_TaiKhoan.getText().equals("")) {
+                    txt_TaiKhoan.requestFocus();
+                }
                 return;
             }
             NhanVien nv = nhanVien_Dao.checkAccount(txt_TaiKhoan.getText(), txt_matKhau.getText());
@@ -282,6 +294,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
+                if (txt_matKhau.getText().equals("")) {
+                    txt_matKhau.requestFocus();
+                }
+                if (txt_TaiKhoan.getText().equals("")) {
+                    txt_TaiKhoan.requestFocus();
+                }
                 return;
             }
             NhanVien nv = nhanVien_Dao.checkAccount(txt_TaiKhoan.getText(), txt_matKhau.getText());

@@ -45,7 +45,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
      */
     public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong, JFrame parent, boolean modal) {
         super(parent, modal);
-
+        
         list_PhongTrong = list_Phong;
         initComponents();
 

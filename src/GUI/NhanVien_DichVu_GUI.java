@@ -62,7 +62,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         list_btn.add(btn_them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
-        list_btn.add(btn_LamMoi);
         list_btn.add(btn_Tim);
         list_btn.add(btn_chonAnh);
         
@@ -135,8 +134,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         btn_chonAnh = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        btn_LamMoi = new keeptoo.KGradientPanel();
-        jLabel21 = new javax.swing.JLabel();
         btn_Tim = new keeptoo.KGradientPanel();
         jLabel18 = new javax.swing.JLabel();
         btn_them = new keeptoo.KGradientPanel();
@@ -297,36 +294,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(jLabel14);
         jLabel14.setBounds(70, 50, 250, 32);
-
-        btn_LamMoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_LamMoi.setkGradientFocus(250);
-        btn_LamMoi.setkStartColor(new java.awt.Color(225, 176, 27));
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel21.setText("Làm mới");
-        jLabel21.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout btn_LamMoiLayout = new javax.swing.GroupLayout(btn_LamMoi);
-        btn_LamMoi.setLayout(btn_LamMoiLayout);
-        btn_LamMoiLayout.setHorizontalGroup(
-            btn_LamMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_LamMoiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btn_LamMoiLayout.setVerticalGroup(
-            btn_LamMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_LamMoiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(720, 350, 140, 40);
 
         btn_Tim.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -712,10 +679,11 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 //            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
 //            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
 
-            DichVu x = new DichVu(tenDV);
+            DichVu x = dichVuDAO.timDichVu(tenDV);
             
             dichVuDAO.xoaDichVu(x);
             
+            jTable1.setModel(duaDataVaoModel(dichVuDAO.getAllDichVu()));
         }
         
     }//GEN-LAST:event_btn_XoaMouseClicked
@@ -725,6 +693,21 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 //        String tenDV = txt_DichVu.getText();
 //        DichVu x = dichVuDAO.timDichVu(tenDV);
 //        jTable1.setRowSelectionInterval(WIDTH, WIDTH);
+        String tenDV = txt_DichVu.getText();
+        if(tenDV.equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        DichVu x = dichVuDAO.timDichVu(tenDV);
+        
+        int viTriCuaX = dichVuDAO.getAllDichVu().indexOf(x);
+        
+        if(viTriCuaX != -1) {
+            jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
+        } else {
+            JOptionPane.showMessageDialog(this, "Không có dịch vụ có tên " + tenDV, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
+        }
+
         
     }//GEN-LAST:event_btn_TimMouseClicked
 
@@ -732,7 +715,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
     private javax.swing.JPanel ThongTinDichVu;
-    private keeptoo.KGradientPanel btn_LamMoi;
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
@@ -746,7 +728,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

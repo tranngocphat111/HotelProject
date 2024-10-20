@@ -89,11 +89,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         txt_NgayDen.setDate(new Date());
         setThoiGianBang0(txt_NgayDen);
-        txt_NgayDi.setDate(new Date(new Date().getTime() + (24*60*60*1000)) );
+        txt_NgayDi.setDate(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
         setThoiGianBang0(txt_NgayDi);
 
         list_Phong = phong_dao.getAllPhong();
+
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
+
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
@@ -116,14 +118,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void propertyChange(PropertyChangeEvent evt) {
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
-                
-                if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate()) ) {
+
+                if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến không được bằng ngày đi");
-                    txt_NgayDen.setDate(new Date(txt_NgayDi.getDate().getTime() - (24*60*60*1000)));
+                    txt_NgayDen.setDate(new Date(txt_NgayDi.getDate().getTime() - (24 * 60 * 60 * 1000)));
                     return;
 
                 }
-                
+
                 if (txt_NgayDen.getDate().after(txt_NgayDi.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đến phải trước ngày đi");
                     txt_NgayDen.setDate(new Date());
@@ -151,7 +153,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_NgayDen.setDate(new Date());
                     setThoiGianBang0(txt_NgayDen);
                 }
-                
+
                 List<Phong> list_PhongDay = new ArrayList<Phong>();
                 for (DonDatPhong ddp : list_DonDatPhong) {
                     if (!(ddp.getNgayTraPhong().before(txt_NgayDen.getDate()) || ddp.getNgayNhanPhong().after(txt_NgayDi.getDate()))) {
@@ -185,22 +187,20 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void propertyChange(PropertyChangeEvent evt) {
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
-                
-               
 
                 if (txt_NgayDi.getDate().before(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
-                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
+                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
                     setThoiGianBang0(txt_NgayDi);
                     return;
 
                 }
-                
+
                 System.out.println(".propertyChange()");
-                
-                if(txt_NgayDi.getDate().equals(txt_NgayDen.getDate())){
+
+                if (txt_NgayDi.getDate().equals(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi ko được bằng ngày đến");
-                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24*60*60*1000)));
+                    txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
                     return;
                 }
                 List<Phong> list_PhongDay = new ArrayList<Phong>();
@@ -1431,8 +1431,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
-        System.out.println(txt_NgayDen.getDate());
-        System.out.println(txt_NgayDi.getDate());
+        System.out.println(ddp.getNgayNhanPhong());
+        System.out.println(ddp.getNgayTraPhong());
 
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);

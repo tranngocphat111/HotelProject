@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -43,6 +44,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private DichVuDAO dichVu_dao = new DichVuDAO(database.getDatabase());
     private DefaultTableModel model; 
     DefaultTableCellRenderer centerRenderer;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
@@ -57,7 +59,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
         
-//      căn giữa cho headẻ  
+//      căn giữa cho header 
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
 
@@ -65,10 +67,13 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         header.setDefaultRenderer(renderer);
         
         
-        //Căn giữa các phần tử trong table
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        //Căn giữa các các dòng trong table
+        centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer.setVerticalAlignment(JLabel.CENTER );
         
 //        Đọc dữ liệu từ database lên
         list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
@@ -76,7 +81,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         
         model = (DefaultTableModel)Table_KhachHang.getModel();
         model.setRowCount(0);
-        
         DocDuLieuLenTable(list_DonDatPhong);
         
         list_btn.add(btn_Tim);
@@ -128,10 +132,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             model.addRow(new Object [] {
                 ddp.getMaDonDat(),
                 ddp.getTrangThai(),
-                ddp.getNgayNhanPhong(),
-                ddp.getNgayTraPhong(),
+                sdf.format(ddp.getNgayNhanPhong()),
+                sdf.format(ddp.getNgayTraPhong()),
                 ddp.getPhong(),
-                loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()),
+                loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getTenLoaiPhong(),
                 ddp.getKhachO().size(),
                 getDSDichVu(ddp.getDichVuSuDung())
             });

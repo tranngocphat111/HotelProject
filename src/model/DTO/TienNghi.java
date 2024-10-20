@@ -4,12 +4,14 @@ package model.DTO;
 import org.bson.Document;
 
 import java.util.Date;
+import java.util.Objects;
+import org.bson.types.Binary;
 
 public class TienNghi {
     private int maTienNghi;
     private String tenTienNghi;
     private String moTa;
-    private String hinhAnh;
+    private byte[] hinhAnh;
     
 //    private int soLuong;
 //    private Date ngayLapDat;
@@ -18,11 +20,37 @@ public class TienNghi {
     public TienNghi() {
     }
 
-    public TienNghi(int maTienNghi, String tenTienNghi, String moTa, String hinhAnh) {
+    public TienNghi(int maTienNghi, String tenTienNghi, String moTa, byte[] hinhAnh) {
         this.maTienNghi = maTienNghi;
         this.tenTienNghi = tenTienNghi;
         this.moTa = moTa;
         this.hinhAnh = hinhAnh;
+    }
+
+    public TienNghi(String tenTienNghi) {
+        this.tenTienNghi = tenTienNghi;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.tenTienNghi);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TienNghi other = (TienNghi) obj;
+        return Objects.equals(this.tenTienNghi, other.tenTienNghi);
     }
 
 
@@ -51,11 +79,11 @@ public class TienNghi {
         this.moTa = moTa;
     }
 
-    public String getHinhAnh() {
+    public byte[] getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(String hinhAnh) {
+    public void setHinhAnh(byte[] hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 
@@ -72,7 +100,9 @@ public class TienNghi {
             tienNghi.setMoTa(doc.getString("moTa"));
         }
         if (doc.containsKey("hinhAnh")) {
-            tienNghi.setHinhAnh(doc.getString("soLuong"));
+            Binary binaryData = doc.get("hinhAnh", Binary.class);
+            byte[] imageData = binaryData.getData();
+            tienNghi.setHinhAnh(imageData);
         }
 
         return tienNghi;

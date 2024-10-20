@@ -22,6 +22,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import model.DAO.DichVuDAO;
+import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
 import model.MongoDBConnection;
 import org.bson.Document;
@@ -114,7 +115,7 @@ public class convertImage {
     
     
     public static void main(String[] args) throws IOException {
-        File f = new File("C:\\Users\\ASUS\\Projects\\HotelProject\\src\\images\\icon_DichVu_Spa.png");
+        File f = new File("C:\\Users\\ASUS\\Downloads\\maylanh.png");
         BufferedImage o = ImageIO.read(f);
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         ImageIO.write(o, "png", b);
@@ -124,9 +125,9 @@ public class convertImage {
         }
         
         MongoDBConnection model = new MongoDBConnection();
-        DichVuDAO dichVuDAO = new DichVuDAO(model.getDatabase());
+        TienNghiDAO dichVuDAO = new TienNghiDAO(model.getDatabase());
         
-        Document filter = new Document("maDV", 3);
+        Document filter = new Document("maTienNghi", 5);
         
         
         Document newValue = new 

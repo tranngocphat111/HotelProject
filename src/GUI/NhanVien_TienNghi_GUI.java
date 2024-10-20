@@ -445,9 +445,9 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             object[i] = new Object[]{
                 x.getMaTienNghi(), x.getTenTienNghi(), x.getMoTa()
             };
-            System.out.println(object[i][0]);
-            System.out.println(object[i][1]);
-            System.out.println(object[i][2]);
+//            System.out.println(object[i][0]);
+//            System.out.println(object[i][1]);
+//            System.out.println(object[i][2]);
             
         }
         String[] table_header = new String [] {

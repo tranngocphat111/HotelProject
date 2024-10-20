@@ -9,20 +9,32 @@ public class HoaDon {
     private int tongTien;
     private Date ngayTaoHoaDon;
     private NhanVien nhanVien;
+    private boolean trangThai;
 
+   
     public HoaDon() {
     }
 
-    public HoaDon(int maHoaDon, int tongTien, Date ngayTaoHoaDon, NhanVien nhanVien) {
+    public HoaDon(int maHoaDon, int tongTien, Date ngayTaoHoaDon, NhanVien nhanVien, boolean trangThai) {
         this.maHoaDon = maHoaDon;
         this.tongTien = tongTien;
         this.ngayTaoHoaDon = ngayTaoHoaDon;
         this.nhanVien = nhanVien;
+        this.trangThai = trangThai;
+    }
+    
+     public boolean isTrangThai() {
+        return trangThai;
+    }
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
     }
 
     public int getMaHoaDon() {
         return maHoaDon;
     }
+
+    
 
     public void setMaHoaDon(int maHoaDon) {
         this.maHoaDon = maHoaDon;
@@ -77,11 +89,8 @@ public class HoaDon {
 
     @Override
     public String toString() {
-        return "HoaDon{" +
-                "maHoaDon=" + maHoaDon +
-                ", tongTien=" + tongTien +
-                ", ngayTaoHoaDon=" + ngayTaoHoaDon +
-                ", nhanVien=" + nhanVien +
-                '}';
+        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", tongTien=" + tongTien + ", ngayTaoHoaDon=" + ngayTaoHoaDon + ", nhanVien=" + nhanVien + ", trangThai=" + trangThai + '}';
     }
+
+ 
 }

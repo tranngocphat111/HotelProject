@@ -45,7 +45,8 @@ public class HoaDonDAO {
                     .append("maHoaDon", hoaDon.getMaHoaDon())
                     .append("tongTien", hoaDon.getTongTien())
                     .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
-                    .append("NhanVien", subdoc);
+                    .append("NhanVien", subdoc)
+                    .append("trangThai", hoaDon.isTrangThai());
 
             InsertOneResult result = hoaDonCollection.insertOne(doc);
             return result.wasAcknowledged();

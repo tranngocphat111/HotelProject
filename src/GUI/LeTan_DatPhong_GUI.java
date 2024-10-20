@@ -339,6 +339,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
+    public  Date getNgayHienTai() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date ngayhientai = calendar.getTime();
+        return ngayhientai;
+    }
+
     private void setThoiGianBang0(JDateChooser ngay) {
         if (ngay.getDate() != null) {
             // Sử dụng Calendar để làm sạch phần thời gian
@@ -1385,7 +1395,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
-        ddp.setTrangThai("Đang ở");
+        if (txt_NgayDen.getDate().equals(getNgayHienTai())) {
+            ddp.setTrangThai("Đang ở");
+        }else{
+            ddp.setTrangThai("Đang chờ");
+        }
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
 
 //       Lưu database
@@ -1437,7 +1451,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
-        ddp.setTrangThai("Đang ở");
+        if (txt_NgayDen.getDate().equals(getNgayHienTai())) {
+            ddp.setTrangThai("Đang ở");
+        }else{
+            ddp.setTrangThai("Đang chờ");
+        }
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
 
 //       Lưu database

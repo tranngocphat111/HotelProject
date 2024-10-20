@@ -1476,7 +1476,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
-
+        LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
 
     }//GEN-LAST:event_btn_HoanTatMousePressed
 

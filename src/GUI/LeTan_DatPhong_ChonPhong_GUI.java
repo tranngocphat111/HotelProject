@@ -308,6 +308,16 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jTable1.setRowHeight(30);
         table_Phong.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(150);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(120);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(400);
+            jTable1.getColumnModel().getColumn(6).setMaxWidth(300);
+            jTable1.getColumnModel().getColumn(7).setMaxWidth(400);
+        }
 
         jPanel1.add(table_Phong);
         table_Phong.setBounds(250, 60, 1220, 290);

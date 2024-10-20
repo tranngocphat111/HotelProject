@@ -12,9 +12,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
-import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.DAO.LoaiPhongDAO;
@@ -36,7 +37,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
     private List<Phong> list_PhongTrong;
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-
+    DefaultTableCellRenderer centerRenderer;
     DecimalFormat df = new DecimalFormat("#,##0");
 
     /**
@@ -47,10 +48,23 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
         list_PhongTrong = list_Phong;
         initComponents();
+
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        JTableHeader header = jTable1.getTableHeader();
+        JTableHeader header = Table_Phong.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
+
+        //      căn giữa cho header table  
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Thiết lập renderer cho header
+        header.setDefaultRenderer(renderer);
+        //Căn giữa các phần tử trong table
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer.setVerticalAlignment(JLabel.CENTER );
+        
 
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
 
@@ -59,7 +73,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
         }
 
-        model = (DefaultTableModel) jTable1.getModel();
+        model = (DefaultTableModel) Table_Phong.getModel();
         model.setRowCount(0);
 
         DocDuLieuLenTable(list_PhongTrong);
@@ -175,6 +189,12 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
                 loaiPhong.getDienTich() + " m2",
                 list_tienNghi, phong.getMoTa(), df.format(loaiPhong.getDonGia()) + " VND"});
         }
+        
+
+        for (int i = 0; i < Table_Phong.getColumnCount(); i++) {
+            Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
     }
 
     public String getListTienNghi(List<TienNghi> list_tienNghi) {
@@ -262,8 +282,8 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        table_Phong = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        scroll = new javax.swing.JScrollPane();
+        Table_Phong = new javax.swing.JTable();
         btn_XacNhan = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         btn_Huy = new keeptoo.KGradientPanel();
@@ -284,8 +304,8 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         jPanel1.setPreferredSize(new java.awt.Dimension(1500, 450));
         jPanel1.setLayout(null);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Table_Phong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Table_Phong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -305,22 +325,22 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
                 return types [columnIndex];
             }
         });
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jTable1.setRowHeight(30);
-        table_Phong.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(120);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(120);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(120);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(120);
-            jTable1.getColumnModel().getColumn(5).setMaxWidth(400);
-            jTable1.getColumnModel().getColumn(6).setMaxWidth(300);
-            jTable1.getColumnModel().getColumn(7).setMaxWidth(400);
+        Table_Phong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Table_Phong.setRowHeight(30);
+        scroll.setViewportView(Table_Phong);
+        if (Table_Phong.getColumnModel().getColumnCount() > 0) {
+            Table_Phong.getColumnModel().getColumn(0).setMaxWidth(120);
+            Table_Phong.getColumnModel().getColumn(1).setMaxWidth(120);
+            Table_Phong.getColumnModel().getColumn(2).setMaxWidth(150);
+            Table_Phong.getColumnModel().getColumn(3).setMaxWidth(150);
+            Table_Phong.getColumnModel().getColumn(4).setMaxWidth(120);
+            Table_Phong.getColumnModel().getColumn(5).setMaxWidth(400);
+            Table_Phong.getColumnModel().getColumn(6).setMaxWidth(300);
+            Table_Phong.getColumnModel().getColumn(7).setMaxWidth(400);
         }
 
-        jPanel1.add(table_Phong);
-        table_Phong.setBounds(250, 60, 1220, 290);
+        jPanel1.add(scroll);
+        scroll.setBounds(250, 60, 1220, 290);
 
         btn_XacNhan.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_XacNhan.setkGradientFocus(250);
@@ -568,11 +588,11 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
-        if (jTable1.getSelectedRow() == -1) {
+        if (Table_Phong.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng");
             return;
         }
-        Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(jTable1.getSelectedRow(), 0).toString()));
+        Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(Table_Phong.getSelectedRow(), 0).toString()));
 
         LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
         LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "");
@@ -654,6 +674,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BackGround;
+    private javax.swing.JTable Table_Phong;
     private keeptoo.KGradientPanel btn_Huy;
     private keeptoo.KGradientPanel btn_XacNhan;
     private javax.swing.JComboBox<String> cb_GiaPhong;
@@ -667,7 +688,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JScrollPane table_Phong;
+    private javax.swing.JScrollPane scroll;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -53,7 +54,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     private DichVuDAO dichVuDAO = new DichVuDAO(database);
     
     private byte[] hinhAnh = null;
-    
+//    private String filePath = "";
     public NhanVien_DichVu_GUI() {
         initComponents();
         
@@ -331,6 +332,11 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_TimMouseClicked(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -541,8 +547,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             String moTaDichVu = txt_MoTa.getText();
             int donGia = Integer.parseInt(txtDonGia.getText());
             
-            byte[] img = new convertImage().convertIconToBinary_2(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
-            
+            byte[] img = hinhAnh;
             for(byte x: hinhAnh) {
                 System.out.print(x);
             }
@@ -560,7 +565,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             
             txt_DichVu.setText("");
             txt_MoTa.setText("");
-            hinhAnh = null;
+//            hinhAnh = null;
             label_Anh.setIcon(null);
             txt_DichVu.setEnabled(true);
             
@@ -614,12 +619,17 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             //Đường dẫn của file
             String filePath = frame_chonAnh.getSelectedFile().getPath();
             
+            ImageIcon icon = new ImageScale().load(filePath, label_Anh.getWidth(), label_Anh.getHeight());
             
-            Icon icon = new ImageScale().load(filePath, label_Anh.getWidth(), label_Anh.getHeight());
+            try {
+                hinhAnh = new convertImage().convertImageToBinary(filePath);
+            } catch (IOException ex) {
+                Logger.getLogger(NhanVien_DichVu_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }            
             
             label_Anh.setIcon(icon);
             
-            txt_DichVu.setEnabled(false);
+//            txt_DichVu.setEnabled(false);
             
         }
         
@@ -638,9 +648,11 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             txt_DichVu.setText(x.getTenDV());
             txt_MoTa.setText(x.getMoTa());
             txtDonGia.setText(Integer.toString(x.getDonGia()));
-            ImageIcon icon = new ImageIcon(x.getHinhAnh());
-            hinhAnh = new convertImage().convertIconToBinary_1(icon);
-            label_Anh.setIcon(new ImageScale().getScaledImage1(label_Anh.getWidth(), label_Anh.getHeight(), icon));
+            hinhAnh = x.getHinhAnh();
+            ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
+
+            System.out.println("Không gặp lỗi");
+            label_Anh.setIcon(icon);
             
 //            txt_DichVu.setEnabled(false);
             
@@ -692,9 +704,29 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
         // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
         
+        if(row != -1) {
+//            int maDV = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
+            String tenDV = jTable1.getModel().getValueAt(row, 1).toString();
+//            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
+//            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
+
+            DichVu x = new DichVu(tenDV);
+            
+            dichVuDAO.xoaDichVu(x);
+            
+        }
         
     }//GEN-LAST:event_btn_XoaMouseClicked
+
+    private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
+        // TODO add your handling code here:
+//        String tenDV = txt_DichVu.getText();
+//        DichVu x = dichVuDAO.timDichVu(tenDV);
+//        jTable1.setRowSelectionInterval(WIDTH, WIDTH);
+        
+    }//GEN-LAST:event_btn_TimMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

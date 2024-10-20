@@ -80,20 +80,21 @@ public class DichVuDAO {
         }
     }
     
-    public boolean suaDichVu(DichVu oldValue, DichVu newValue) {
+    public boolean suaDichVu(DichVu oldDVu, DichVu newDVu) {
         try {
-            Document docOldValue = new Document()
-                    .append("maDV", oldValue.getMaDV());
+            Document filter = new Document()
+                    .append("maDV", oldDVu.getMaDV());
             
-            Bson docNewValue = Updates.combine(
-                    Updates.set("tenDV", oldValue.getTenDV()),
-                    Updates.set("moTa", newValue.getMoTa()), 
-                    Updates.set("donGia", newValue.getDonGia()),
-                    Updates.set("hinhAnh", newValue.getHinhAnh())
+            Document newValue = new Document(
+                    "$set", 
+                    new Document().append("tenDV", newDVu.getTenDV())
+                                  .append("moTa", newDVu.getMoTa())
+                                  .append("donGia", newDVu.getDonGia())
+                                  .append("hinhAnh", newDVu.getHinhAnh())
             );
                     
             
-            UpdateResult result = dichVuCollection.updateOne(docNewValue, docNewValue);
+            UpdateResult result = dichVuCollection.updateOne(filter, newValue);
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());

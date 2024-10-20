@@ -2,7 +2,9 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import model.DTO.KhachHang;
 import model.MongoDBConnection;
 import org.bson.Document;
@@ -61,6 +63,72 @@ public class KhachHangDAO {
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
             return false; // Trả về false nếu có lỗi
+        }
+    }
+    
+   
+    public boolean updateKhachHang(int maKH,KhachHang khachHang) {
+        try {
+            Document id = new Document("maKhachHang",maKH);
+            Document update = new Document("$set",
+                    new Document(
+                    "tenKhachHang", khachHang.getTenKhachHang())
+                    .append("soDienThoai", khachHang.getSoDienThoai())
+                    .append("CCCD", khachHang.getCCCD())
+                    .append("gioiTinh", khachHang.getGioiTinh())
+                    .append("email", khachHang.getEmail())
+                    .append("quocTich", khachHang.getQuocTich())
+            );
+            
+            UpdateResult result = khachHangCollection.updateOne(id, update);
+
+            
+            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+    
+     public boolean deleteKhachHang(int maKH) {
+        try {
+            Document id = new Document("maKhachHang",maKH);
+            
+            DeleteResult result = khachHangCollection.deleteOne(id);
+
+            
+            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+    
+    public List<Document> findKhachHang(String cccd,String email,String tenKhachHang, String soDienThoai) {
+        List<Document> filters = new ArrayList<>();
+
+        
+        if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
+            filters.add(new Document("tenKhachHang", tenKhachHang));
+        }
+        if (cccd != null && !cccd.isEmpty()) {
+            filters.add(new Document("CCCD", cccd));
+        }
+        if (email != null && !email.isEmpty()) {
+            filters.add(new Document("email", email));
+        }
+       
+        if (soDienThoai != null && !soDienThoai.isEmpty()) {
+            filters.add(new Document("soDienThoai", soDienThoai));
+        }
+
+      
+        if (filters.isEmpty()) {
+            
+            return khachHangCollection.find().into(new ArrayList<>());
+        } else {
+            Document query = new Document("$and", filters);
+            return khachHangCollection.find(query).into(new ArrayList<>());
         }
     }
 }

@@ -11,6 +11,16 @@ public class KhuyenMai {
     private int tiLeKhuyenMai;
     private String moTa;
 
+    public KhuyenMai() {
+    }
+     public KhuyenMai(int maKhuyenMai, Date ngayBatDau, Date ngayKetThuc,int tiLeKhuyenMai, String moTa) {
+        this.maKhuyenMai = maKhuyenMai;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.tiLeKhuyenMai = tiLeKhuyenMai;
+        this.moTa = moTa;
+    }
+    
     public int getMaKhuyenMai() {
         return maKhuyenMai;
     }

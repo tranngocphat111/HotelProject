@@ -25,7 +25,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
     NhanVien_Phong_GUI phong_Gui = new NhanVien_Phong_GUI();
     NhanVien_LoaiPhong_GUI loaiphong_Gui = new NhanVien_LoaiPhong_GUI();
-    NhanVien_TienNghi_GUI tiennghi_Gui = new NhanVien_TienNghi_GUI();
+//    NhanVien_TienNghi_GUI tiennghi_Gui = new NhanVien_TienNghi_GUI();
     NhanVien_DichVu_GUI dichvu_Gui = new NhanVien_DichVu_GUI();
     NhanVien_KhuyenMai_GUI khuyenmai_Gui = new NhanVien_KhuyenMai_GUI();
     NhanVien_KhachHang_GUI khachhang_Gui = new NhanVien_KhachHang_GUI();
@@ -49,14 +49,14 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
         jDesktopPane1.add(phong_Gui);
         jDesktopPane1.add(loaiphong_Gui);
-        jDesktopPane1.add(tiennghi_Gui);
+//        jDesktopPane1.add(tiennghi_Gui);
         jDesktopPane1.add(dichvu_Gui);
         jDesktopPane1.add(khuyenmai_Gui);
         jDesktopPane1.add(khachhang_Gui);
 
         internalFrameList.add(phong_Gui);
         internalFrameList.add(loaiphong_Gui);
-        internalFrameList.add(tiennghi_Gui);
+//        internalFrameList.add(tiennghi_Gui);
         internalFrameList.add(dichvu_Gui);
         internalFrameList.add(khuyenmai_Gui);
         internalFrameList.add(khachhang_Gui);

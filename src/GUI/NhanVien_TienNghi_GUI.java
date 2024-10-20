@@ -133,6 +133,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         jPanel2 = new javax.swing.JPanel();
         label_Anh = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
 
         setName("page_TienNghi"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1283, 830));
@@ -198,14 +199,14 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         chonAnh_btn.setLayout(chonAnh_btnLayout);
         chonAnh_btnLayout.setHorizontalGroup(
             chonAnh_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chonAnh_btnLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chonAnh_btnLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
                 .addContainerGap())
         );
         chonAnh_btnLayout.setVerticalGroup(
             chonAnh_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout ThongTinTienNghiLayout = new javax.swing.GroupLayout(ThongTinTienNghi);
@@ -420,6 +421,20 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         jPanel1.add(Backgroup);
         Backgroup.setBounds(0, 0, 1283, 803);
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 310, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 390, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(930, 80, 310, 390);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -442,6 +457,26 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    static DefaultTableModel duaDataVaoModel(List<TienNghi> list_TienNghi) {
+        
+        
+        Object[][] object = new Object[list_TienNghi.size()][4];
+        for(int i = 0; i < object.length; i++) {
+            TienNghi x = list_TienNghi.get(i);
+            object[i] = new Object[]{
+                x.getMaTienNghi(), x.getTenTienNghi(), x.getMoTa()
+            };
+            System.out.println(object[i][0]);
+            System.out.println(object[i][1]);
+            System.out.println(object[i][2]);
+        }
+        String[] table_header = new String [] {
+                "Mã tiện nghi", "Tên tiện nghi", "Mô tả"
+        };
+        
+        return new DefaultTableModel(object, table_header);
+        
+    }
     private void txt_tienNghiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tienNghiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_tienNghiActionPerformed

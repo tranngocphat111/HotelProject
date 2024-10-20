@@ -4,12 +4,29 @@
  */
 package GUI;
 
+import com.mongodb.client.MongoDatabase;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.Element;
 import keeptoo.KGradientPanel;
+import model.DAO.KhachHangDAO;
+import model.DTO.KhachHang;
+import model.MongoDBConnection;
+import org.bson.Document;
 
 /**
  *
@@ -17,16 +34,107 @@ import keeptoo.KGradientPanel;
  */
 public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
+    private ArrayList<JTableHeader> list_table = new ArrayList<JTableHeader>();
+
+    private MongoDBConnection connection = new MongoDBConnection();
+    private MongoDatabase database = connection.getDatabase();
+    private KhachHangDAO khachHangDAO = new KhachHangDAO(database);
+    private List<KhachHang> list_kh = new ArrayList<KhachHang>();
+    private DefaultTableModel model;
+
+    
     /**
      * Creates new form LeTan_DatPhong_GUI
+     * @return 
      */
+    
+    // generate ID
+    public String generateRandomCode(int length) {
+ 
+    String characters = "0123456789";
+    SecureRandom random = new SecureRandom();
+    StringBuilder code = new StringBuilder(length);
+
+    for (int i = 0; i < length; i++) {
+      
+        code.append(characters.charAt(random.nextInt(characters.length())));
+    }
+
+    return code.toString();
+}
+    
+    public boolean validateInput(String cccd,String hoTen,String soDienThoai,String email) {
+    
+    if (cccd == null || cccd.isEmpty()) {
+        JOptionPane.showMessageDialog(null,"CCCD không được để trống.");
+        return false;
+    }
+
+    if (hoTen == null || hoTen.isEmpty()) {
+        JOptionPane.showMessageDialog(null,"Họ tên không được để trống.");
+        return false;
+    }
+
+    if (soDienThoai == null || soDienThoai.isEmpty()) {
+        JOptionPane.showMessageDialog(null,"Số điện thoại không được để trống.");
+        return false;
+    }
+    if (!soDienThoai.matches("\\d{10,11}")) {
+        JOptionPane.showMessageDialog(null,"Số điện thoại phải là số và có độ dài từ 10 đến 11 chữ số.");
+        return false;
+    }
+
+    if (email == null || email.isEmpty()) {
+        JOptionPane.showMessageDialog(null,"Email không được để trống.");
+        return false;
+    }
+    if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        JOptionPane.showMessageDialog(null,"Email không hợp lệ.");
+        return false;
+    }
+    return true;
+}
+    public boolean checkExist(String cccd) {
+        for(var i = 0; i<model.getRowCount();i++) {
+            String existCCCD = jTable1.getValueAt(i,1).toString();
+            if(existCCCD.equals(cccd)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void centerTable(JTableHeader header) {
+         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Thiết lập renderer cho header
+        header.setDefaultRenderer(renderer);
+        
+        
+        //Căn giữa các các dòng trong table
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer.setVerticalAlignment(JLabel.CENTER );
+        for (int i = 0; i < header.getTable().getColumnCount(); i++) {
+            header.getTable().getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+    }
+    
+    
     public NhanVien_KhachHang_GUI() {
         initComponents();
+        this.model = (DefaultTableModel) jTable1.getModel();
         this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
         ui.setNorthPane(null);
         
+
         
+        // make butotn hover 
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
@@ -35,6 +143,12 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         
         
         list_btn.forEach((element) -> {
+//            if(!element.isEnabled()) {
+//                element.setBackground(new java.awt.Color(173, 216, 230)); // Màu nền xanh nhạt khi bị vô hiệu hóa
+//                element.setForeground(new java.awt.Color(100, 100, 100)); // Màu chữ xám đậm khi bị vô hiệu hóa
+//                element.setBorder(BorderFactory.createLineBorder(new java.awt.Color(100, 100, 100), 1));
+//            }
+//            
             element.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -54,23 +168,102 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    element.setkStartColor(new java.awt.Color(255, 225, 27));
-                    element.setkEndColor(new java.awt.Color(255, 222, 89));
-                    element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    element.setBorder(null);
+                    if(element.isEnabled()) {
+                     element.setkStartColor(new java.awt.Color(255, 225, 27));
+                     element.setkEndColor(new java.awt.Color(255, 222, 89));
+                     element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                     element.setBorder(null); 
+                    }
+                   
+                 
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    element.setkStartColor(new java.awt.Color(225, 176, 27));
-                    element.setkEndColor(new java.awt.Color(255, 222, 89));
-                    element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    element.setBorder(null);
+                    if(element.isEnabled()){
+                        element.setkStartColor(new java.awt.Color(225, 176, 27));
+                        element.setkEndColor(new java.awt.Color(255, 222, 89));
+                        element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                        element.setBorder(null);
+                    }
                    
                 }
             });
         })
         ;
+        JTableHeader header1 = jTable1.getTableHeader();  
+        JTableHeader header2 = jTable2.getTableHeader(); 
+        
+      
+        
+        
+        // set table header fon
+       
+        list_table.add(header1);
+        list_table.add(header2);
+        
+        list_table.forEach((table) -> {
+            table.setPreferredSize(new Dimension(table.getPreferredSize().width, 30));
+            table.setPreferredSize(new Dimension(table.getPreferredSize().height, 30));
+            table.setFont(new Font("Arial", Font.PLAIN, 15));
+            centerTable(table);
+        });
+
+        
+        
+        
+        //add values to table
+        list_kh = khachHangDAO.getAllKhachHang();
+        
+        list_kh.forEach((kh) -> {
+          
+            
+          Object[] rowData = {
+              kh.getMaKhachHang(),
+              kh.getCCCD(),
+              kh.getTenKhachHang(),
+              kh.getGioiTinh() == 1 ? "Nam" : "Nữ",
+              kh.getSoDienThoai(),
+              kh.getEmail(),
+              kh.getQuocTich()
+          };
+          
+          model.addRow(rowData);
+    });
+    
+    // make update and remove btn disabled if not select row
+       btn_Xoa.setEnabled(false);       
+       btn_Sua.setEnabled(false);
+        
+     jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                      int selectedRow = jTable1.getSelectedRow();
+                if (selectedRow == -1) {
+                    btn_Xoa.setEnabled(false);
+                    btn_Sua.setEnabled(false);
+                    
+                    txt_CCCD.setText("");
+                    txt_Email.setText("");
+                    txt_HoTen.setText("");
+                    txt_SĐT.setText("");
+                } else {
+                    btn_Xoa.setEnabled(true);
+                    btn_Sua.setEnabled(true);
+                    
+                    txt_CCCD.setText(jTable1.getValueAt(selectedRow, 1).toString());
+                    txt_Email.setText(jTable1.getValueAt(selectedRow, 5).toString());
+                    txt_HoTen.setText(jTable1.getValueAt(selectedRow, 2).toString());
+                    txt_SĐT.setText(jTable1.getValueAt(selectedRow, 4).toString());
+                    cb_GioiTinh.setSelectedItem(jTable1.getValueAt(selectedRow, 3));
+                    cb_QuocTich.setSelectedItem(jTable1.getValueAt(selectedRow, 6).toString().trim());  
+                }
+            }
+        });
+     
+     
+        
+        
     }
 
     /**
@@ -107,6 +300,8 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         btn_LamMoi = new keeptoo.KGradientPanel();
         jLabel21 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
@@ -121,28 +316,34 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         ThongTinKhachHang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
         ThongTinKhachHang.setOpaque(false);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("CCCD/Passport");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Họ và tên");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Giới tinh");
 
-        cb_QuocTich.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Mỹ" }));
+        cb_QuocTich.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Mỹ", "Hàn Quốc", "Trung Quốc", " " }));
         cb_QuocTich.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_QuocTichActionPerformed(evt);
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Số điện thoại");
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Email");
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Quốc tịch");
 
@@ -191,9 +392,9 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(36, 36, 36)
                 .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -247,6 +448,11 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_TimMouseClicked(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -271,7 +477,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(720, 280, 140, 40);
+        btn_Tim.setBounds(1060, 160, 140, 40);
 
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
@@ -312,12 +518,17 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Them);
-        btn_Them.setBounds(80, 280, 140, 40);
+        btn_Them.setBounds(870, 90, 140, 40);
 
         btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
         btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Xoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_XoaMouseClicked(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -339,12 +550,22 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(400, 280, 140, 40);
+        btn_Xoa.setBounds(870, 220, 140, 40);
 
         btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
         btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_SuaMouseClicked(evt);
+            }
+        });
+        btn_Sua.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_SuaKeyPressed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -367,15 +588,11 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(240, 280, 140, 40);
+        btn_Sua.setBounds(870, 160, 140, 40);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã khách hàng", "CCCD/Passport", "Tên khách hàng", "Giới tính", "Số điện thoại", "Email", "Quốc tịch"
@@ -384,20 +601,60 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 350, 1120, 430);
+        jScrollPane1.setBounds(80, 280, 1120, 500);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã khách hàng", "CCCD/Passport", "Tên khách hàng", "Giới tính", "Số điện thoại", "Email", "Quốc tịch"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(80, 280, 1120, 500);
 
         btn_LamMoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
         btn_LamMoi.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_LamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_LamMoiMouseClicked(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -422,10 +679,15 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(560, 280, 140, 40);
+        btn_LamMoi.setBounds(1060, 90, 140, 40);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
+        Backgroup.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BackgroupMouseClicked(evt);
+            }
+        });
         jPanel1.add(Backgroup);
         Backgroup.setBounds(0, 0, 1283, 803);
 
@@ -456,10 +718,42 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cb_QuocTichActionPerformed
 
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
-        // TODO add your handling code here:
+       this.model = (DefaultTableModel) jTable1.getModel();
+       String maKH = generateRandomCode(2);
+       String cccd = txt_CCCD.getText();
+       String hoTen = txt_HoTen.getText();
+       int gioiTinh = cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 1 : 0;
+       String soDienThoai = txt_SĐT.getText();
+       String email = txt_Email.getText();
+       String quocTich = cb_QuocTich.getSelectedItem().toString();
+       
+        boolean validate = validateInput(cccd, hoTen, soDienThoai, email);
+        
+        if(checkExist(cccd)) {
+           JOptionPane.showMessageDialog(null, "Trùng CCCD");
+           return;
+        }
+        
+        if(validate ) {
+             KhachHang kh = new KhachHang(Integer.parseInt(maKH), hoTen,soDienThoai,cccd,quocTich,gioiTinh,email);
 
-        System.out.println("đâs");
+            khachHangDAO.createKhachHang(kh);
 
+            Object[] data = {
+              kh.getMaKhachHang(),
+              kh.getCCCD(),
+              kh.getTenKhachHang(),
+              kh.getGioiTinh() == 1 ? "Nam" : "Nữ",
+              kh.getSoDienThoai(),
+              kh.getEmail(),
+              kh.getQuocTich()
+             };
+
+            this.model.addRow(data);
+            
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
+
+        }
     }//GEN-LAST:event_btn_ThemMouseClicked
 
     private void btn_ThemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseEntered
@@ -484,7 +778,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cb_GioiTinhActionPerformed
 
     private void txt_SĐTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SĐTActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txt_SĐTActionPerformed
 
     private void txt_CCCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CCCDActionPerformed
@@ -498,6 +792,123 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private void txt_HoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_HoTenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_HoTenActionPerformed
+
+    private void btn_SuaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_SuaKeyPressed
+
+    }//GEN-LAST:event_btn_SuaKeyPressed
+
+    private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
+        this.model = (DefaultTableModel) jTable1.getModel();
+        int selectedRow = jTable1.getSelectedRow();
+       String maKH = jTable1.getValueAt(selectedRow,0).toString();
+       String cccd = txt_CCCD.getText();
+       String hoTen = txt_HoTen.getText();
+       int gioiTinh = cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 1 : 0;
+       String soDienThoai = txt_SĐT.getText();
+       String email = txt_Email.getText();
+       String quocTich = cb_QuocTich.getSelectedItem().toString();
+       
+        boolean validate = validateInput(cccd, hoTen, soDienThoai, email);
+        
+        if(validate) {
+             KhachHang kh = new KhachHang(Integer.parseInt(maKH), hoTen,soDienThoai,cccd,quocTich,gioiTinh,email);
+
+            khachHangDAO.updateKhachHang(Integer.parseInt(maKH),kh);
+
+            jTable1.setValueAt(kh.getCCCD(), selectedRow, 1);       // Cột 1: CCCD
+            jTable1.setValueAt(kh.getTenKhachHang(), selectedRow, 2); // Cột 2: TenKhachHang
+            jTable1.setValueAt(kh.getGioiTinh() == 1 ? "Nam" : "Nữ", selectedRow, 3); // Cột 3: GioiTinh
+            jTable1.setValueAt(kh.getSoDienThoai(), selectedRow, 4); // Cột 4: SoDienThoai
+            jTable1.setValueAt(kh.getEmail(), selectedRow, 5);       // Cột 5: Email
+            jTable1.setValueAt(kh.getQuocTich(), selectedRow, 6);
+            
+            JOptionPane.showMessageDialog(null, "Chỉnh sửa thành công");
+
+        }
+        else{
+            return;
+        }
+      
+
+    }//GEN-LAST:event_btn_SuaMouseClicked
+
+    private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMouseClicked
+          txt_CCCD.setText("");
+          txt_Email.setText("");
+          txt_HoTen.setText("");
+          txt_SĐT.setText("");
+          cb_GioiTinh.setSelectedItem("Nam");
+          cb_QuocTich.setSelectedItem("Việt Nam");
+          jTable1.clearSelection();
+          jTable2.setVisible(false);
+          jTable1.setVisible(true);
+             jTable1.getParent().revalidate();
+            jTable1.getParent().repaint();
+
+    }//GEN-LAST:event_btn_LamMoiMouseClicked
+
+    private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
+         this.model = (DefaultTableModel) jTable1.getModel();
+        int selectedRow = jTable1.getSelectedRow();
+        
+        if(selectedRow != -1) {
+            String maKH = jTable1.getValueAt(selectedRow,0).toString();
+            
+            khachHangDAO.deleteKhachHang(Integer.parseInt(maKH));
+            
+            model.removeRow(selectedRow);
+            
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+
+        }
+    }//GEN-LAST:event_btn_XoaMouseClicked
+
+    private void BackgroupMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BackgroupMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BackgroupMouseClicked
+
+    private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
+        this.model = (DefaultTableModel) jTable1.getModel();
+        String cccd = txt_CCCD.getText();
+       String hoTen = txt_HoTen.getText();
+       String soDienThoai = txt_SĐT.getText();
+       String email = txt_Email.getText();
+       List<Document> list_KH = khachHangDAO.findKhachHang(cccd, email, hoTen, soDienThoai);
+  if (!list_KH.isEmpty()) {
+        jTable2.setVisible(true);
+        jTable1.setVisible(false); 
+       
+        System.out.println("jTable1 Visible: " + jTable1.isVisible());
+        System.out.println("jTable2 Visible: " + jTable2.isVisible());
+        
+        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+        model2.setRowCount(0);  
+        
+      
+        for (Document kh : list_KH) {
+            String maKH = kh.getInteger("maKhachHang").toString();
+            String hoTenKH = kh.getString("tenKhachHang");
+            String cccdKH = kh.getString("CCCD");
+            String sdtKH = kh.getString("soDienThoai");
+            String emailKH = kh.getString("email");
+            int gioiTinh = kh.getInteger("gioiTinh");
+            String quocTich = kh.getString("quocTich");
+
+           
+            model2.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
+          
+        }
+       
+    } else {
+
+        JOptionPane.showMessageDialog(null, "No customers found matching the search criteria.");
+        jTable1.setVisible(true);
+        jTable2.setVisible(false);
+        
+        
+    }
+        
+    }//GEN-LAST:event_btn_TimMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -524,7 +935,9 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField txt_CCCD;
     private javax.swing.JTextField txt_Email;
     private javax.swing.JTextField txt_HoTen;

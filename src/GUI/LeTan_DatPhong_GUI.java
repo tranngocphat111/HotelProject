@@ -1476,8 +1476,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
-
-
+        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
     }//GEN-LAST:event_btn_HoanTatMousePressed
 
     private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
@@ -1558,7 +1557,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         model.setValueAt(khachHang.getSoDienThoai(), row, 4);
         model.setValueAt(khachHang.getEmail(), row, 5);
         model.setValueAt(khachHang.getQuocTich(), row, 6);
-
         JOptionPane.showMessageDialog(this, "Chỉnh sửa thành công");
         LamMoi();
 

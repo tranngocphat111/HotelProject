@@ -125,8 +125,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //      Thiết lập renderer cho header đơn đặt phòng
         header_dondatphong.setDefaultRenderer(renderer_dondatphong);
 
-
-
         list_btn.forEach((btn) -> {
             btn.addMouseListener(new MouseListener() {
                 @Override
@@ -657,17 +655,23 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
     public static String getPhongSuDung(HoaDon hoadon) {
+
         String danhsachPhong = "";
         for (DonDatPhong ddp : list_DonDatPhong) {
             if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
-                danhsachPhong = danhsachPhong + ddp.getPhong() + ", " ;
+                danhsachPhong = danhsachPhong + ddp.getPhong() + ", ";
             }
         }
-        danhsachPhong = danhsachPhong.substring(0, danhsachPhong.length() - 2);
+        if (danhsachPhong.length() >= 2) {
+            danhsachPhong = danhsachPhong.substring(0, danhsachPhong.length() - 2);
+            System.out.println(danhsachPhong);
+        }
+
         return danhsachPhong;
     }
 
     public static void DocDuLieuLenTable(List<HoaDon> list_HoaDon) {
+        model.setRowCount(0);
         for (HoaDon hoadon : list_HoaDon) {
             model.addRow(new Object[]{
                 hoadon.getMaHoaDon(),

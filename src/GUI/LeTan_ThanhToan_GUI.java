@@ -662,10 +662,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 danhsachPhong = danhsachPhong + ddp.getPhong() + ", ";
             }
         }
-        if (danhsachPhong.length() >= 2) {
-            danhsachPhong = danhsachPhong.substring(0, danhsachPhong.length() - 2);
-            System.out.println(danhsachPhong);
-        }
+        danhsachPhong = danhsachPhong.substring(0, danhsachPhong.length() - 2);
 
         return danhsachPhong;
     }

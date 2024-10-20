@@ -62,7 +62,6 @@ public class DichVuDAO {
         }
         return list_DV.get(list_DV.indexOf(x));
     }
-    
     public boolean xoaDichVu(DichVu dichVu) {
         try {
             Document doc = new Document()

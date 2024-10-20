@@ -4,6 +4,8 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DAO.TienNghiDAO;
+import model.MongoDBConnection;
 
 public class LoaiPhong {
     private int maLoaiPhong;
@@ -136,12 +138,9 @@ public class LoaiPhong {
 
         // Convert TienNghi array
         if (doc.containsKey("tienNghis")) {
-            List<Document> tienNghiDocs = (List<Document>) doc.get("tienNghis");
-            List<TienNghi> tienNghis = new ArrayList<>();
-            for (Document tienNghiDoc : tienNghiDocs) {
-                TienNghi tienNghi = TienNghi.fromDocument(tienNghiDoc);
-                tienNghis.add(tienNghi);
-            }
+            MongoDBConnection database = new MongoDBConnection();
+            List<TienNghi> tienNghis = new TienNghiDAO(database.getDatabase()).getAllTienNghi();
+            
             loaiPhong.setTienNghis(tienNghis);
         }
 

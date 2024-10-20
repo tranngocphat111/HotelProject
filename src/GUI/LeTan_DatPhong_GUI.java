@@ -1385,7 +1385,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
-        ddp.setTrangThai(1);
+        ddp.setTrangThai("Đang ở");
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
 
 //       Lưu database
@@ -1437,7 +1437,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
-        ddp.setTrangThai(1);
+        ddp.setTrangThai("Đang ở");
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
 
 //       Lưu database

@@ -11,13 +11,13 @@ public class DonDatPhong {
     private Date ngayDatPhong;
     private Date ngayNhanPhong;
     private Date ngayTraPhong;
-    private int trangThai;
+    private String trangThai;
     private List<KhachHang> khachO;
     private List<DichVu> dichVuSuDung;
     private int phong;
     private int hoaDon;
 
-    public DonDatPhong(int maDonDat, Date ngayDatPhong, Date ngayNhanPhong, Date ngayTraPhong, int trangThai, List<KhachHang> khachO, List<DichVu> dichVuSuDung, int phong, int hoaDon) {
+    public DonDatPhong(int maDonDat, Date ngayDatPhong, Date ngayNhanPhong, Date ngayTraPhong, String trangThai, List<KhachHang> khachO, List<DichVu> dichVuSuDung, int phong, int hoaDon) {
         this.maDonDat = maDonDat;
         this.ngayDatPhong = ngayDatPhong;
         this.ngayNhanPhong = ngayNhanPhong;
@@ -64,11 +64,11 @@ public class DonDatPhong {
         this.ngayTraPhong = ngayTraPhong;
     }
 
-    public int getTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(int trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -120,7 +120,7 @@ public class DonDatPhong {
             donDatPhong.setNgayTraPhong(doc.getDate("ngayTraPhong"));
         }
         if (doc.containsKey("trangThai")) {
-            donDatPhong.setTrangThai(doc.getInteger("trangThai"));
+            donDatPhong.setTrangThai(doc.getString("trangThai"));
         }
 
         // Convert KhachO array

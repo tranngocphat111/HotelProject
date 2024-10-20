@@ -37,7 +37,6 @@ public class convertImage {
         File f = new File(filePath);
         BufferedImage o = ImageIO.read(f);
         
-        
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         ImageIO.write(o, "png", b);
         byte[] img = b.toByteArray();
@@ -47,29 +46,32 @@ public class convertImage {
         
         return img;
     }
-    public static byte[] convertIconToBinary_1(ImageIcon icon) {
-        byte[] bytes = null;
-        try{
-            BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-            Graphics g = bi.createGraphics();
-            icon.paintIcon(null, g, 0, 0);
-            g.setColor(Color.WHITE);
-            g.drawString("", 10, 20);
-            g.dispose();
-            
-            
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ImageIO.write(bi, "png", os);
-            InputStream fis = new ByteArrayInputStream(os.toByteArray());
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            
-            bytes = bos.toByteArray();
-            
-        } catch (IOException d) {
-            d.printStackTrace();
-        }
-        return bytes;
-    }
+//    public static byte[] convertIconToBinary_1(ImageIcon icon) {
+//        byte[] bytes = null;
+//        try{
+//            BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+//            Graphics g = bi.createGraphics();
+//            icon.paintIcon(null, g, 0, 0);
+//            g.setColor(Color.WHITE);
+//            g.drawString("", 10, 20);
+//            g.dispose();
+//            
+//            
+//            ByteArrayOutputStream os = new ByteArrayOutputStream();
+//            ImageIO.write(bi, "png", os);
+//            InputStream fis = new ByteArrayInputStream(os.toByteArray());
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            
+//            bytes = bos.toByteArray();
+//            for(byte x: bytes) {
+//                System.out.println(x);
+//            }
+//            return bytes;
+//        } catch (IOException d) {
+//            d.printStackTrace();
+//        }
+//        return null;
+//    }
     public static byte[] convertIconToBinary_2(ImageIcon icon, int w, int h) {
         byte[] bytes = null;
         try{

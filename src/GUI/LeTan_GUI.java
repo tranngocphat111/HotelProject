@@ -35,8 +35,6 @@ public class LeTan_GUI extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    
-    
     public LeTan_GUI() {
         initComponents();
 

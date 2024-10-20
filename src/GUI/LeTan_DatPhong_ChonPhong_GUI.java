@@ -614,17 +614,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JFrame {
 ////                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
 //            }
 //        });
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-////                new LeTan_DatPhong_ChonPhong_GUI().setVisible(true);
-//            }
-//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

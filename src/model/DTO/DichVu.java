@@ -1,18 +1,46 @@
 package model.DTO;
 
+import java.util.Objects;
 import org.bson.Document;
+import org.bson.types.Binary;
 
 public class DichVu {
     private int maDV;
     private String tenDV;
     private String moTa;
     private int donGia;
-    private String hinhAnh;
+    private byte[] hinhAnh;
 
     public DichVu() {
     }
 
-    public DichVu(int maDV, String tenDV, String moTa, int donGia, String hinhAnh) {
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.tenDV);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DichVu other = (DichVu) obj;
+        return Objects.equals(this.tenDV, other.tenDV);
+    }
+
+    public DichVu(String tenDV) {
+        this.tenDV = tenDV;
+    }
+    
+    public DichVu(int maDV, String tenDV, String moTa, int donGia, byte[] hinhAnh) {
         this.maDV = maDV;
         this.tenDV = tenDV;
         this.moTa = moTa;
@@ -21,11 +49,11 @@ public class DichVu {
     }
 
 
-    public String getHinhAnh() {
+    public byte[] getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(String hinhAnh) {
+    public void setHinhAnh(byte[] hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 
@@ -77,7 +105,9 @@ public class DichVu {
             dichVu.setDonGia(doc.getInteger("donGia"));
         }
         if (doc.containsKey("hinhAnh")) {
-            dichVu.setHinhAnh(doc.getString("hinhAnh"));
+            Binary binaryData = doc.get("hinhAnh", Binary.class);
+            byte[] imageData = binaryData.getData();
+            dichVu.setHinhAnh(imageData);
         }
 
         return dichVu;

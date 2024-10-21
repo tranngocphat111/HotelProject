@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTable;
+import static GUI.LeTan_DonDatPhong_GUI.Table_KhachHang;
+import static GUI.LeTan_DonDatPhong_GUI.model;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -676,6 +679,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_checkBox_DaThanhToanActionPerformed
 
     private void btn_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanMousePressed
+
         // TODO add your handling code here:
         int row = Table_hoaDon.getSelectedRow();
         if(row == -1){
@@ -684,10 +688,12 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
         HoaDon hoaDon_update = hoadon_dao.getHoaDonByMa(Integer.parseInt(model.getValueAt(row, 0).toString()));
         hoaDon_update.setTrangThai(true);
+        capNhatTrangThaiDonDatPhong(hoaDon_update);
         hoadon_dao.updateHoaDon(hoaDon_update);
         list_HoaDon = hoadon_dao.getAllHoaDon();
         DocDuLieuLenTable(list_HoaDonTheoTrangThai);
         new HoaDon_GUI().setVisible(true);
+
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
     public void capNhatTrangThaiDonDatPhong(HoaDon hoaDon){

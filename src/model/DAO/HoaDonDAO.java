@@ -3,6 +3,9 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+
+import static com.mongodb.client.model.Filters.eq;
+
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -11,7 +14,10 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import model.DTO.KhachHang;
+
+import org.bson.conversions.Bson;
 
 public class HoaDonDAO {
 
@@ -74,7 +80,12 @@ public class HoaDonDAO {
         }
     }
 
-    public boolean updateHoaDon(HoaDon hoaDon) {
+    public boolean deleteHoaDonByMaHoaDon(int maHoaDon) {
+        Bson filter = eq("maHoaDon", maHoaDon);
+        DeleteResult result = hoaDonCollection.deleteOne(filter);
+        return result.getDeletedCount() > 0;
+    }
+public boolean updateHoaDon(HoaDon hoaDon) {
         try {
             Document subdoc = new Document()
                     .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
@@ -117,5 +128,6 @@ public class HoaDonDAO {
             return false;
         }
     }
-
 }
+
+

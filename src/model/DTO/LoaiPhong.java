@@ -129,20 +129,20 @@ public class LoaiPhong {
         if (doc.containsKey("soKhachToiDa")) {
             loaiPhong.setSoKhachToiDa(doc.getInteger("soKhachToiDa"));
         }
-        if (doc.containsKey("KhuyenMai")) {
-            loaiPhong.setKhuyenMai(doc.getInteger("KhuyenMai"));
-        }
         if (doc.containsKey("loaiGiuong")) {
             loaiPhong.setLoaiGiuong(doc.getString("loaiGiuong"));
         }
 
         // Convert TienNghi array
-        if (doc.containsKey("tienNghis")) {
-            MongoDBConnection database = new MongoDBConnection();
-            List<TienNghi> tienNghis = new TienNghiDAO(database.getDatabase()).getAllTienNghi();
-            
-            loaiPhong.setTienNghis(tienNghis);
-        }
+//        if (doc.containsKey("tienNghis")) {
+//            List<Document> tienNghis = (List<Document>) doc.get("tienNghis");
+//            List<TienNghi> List_tienNghi = new ArrayList<TienNghi>();
+//            for (Document tn : tienNghis) {
+//                TienNghi tienNghi = TienNghi.fromDocument(tn);
+//                List_tienNghi.add(tienNghi);
+//            }
+//            loaiPhong.setTienNghis(List_tienNghi);
+//        }
 
         return loaiPhong;
     }

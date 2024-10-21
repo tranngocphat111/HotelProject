@@ -83,8 +83,6 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-<<<<<<< HEAD
-
     public boolean updateDonDatPhong(DonDatPhong donDatPhong) {
         try {
             ArrayList<Document> list_KhachHang = new ArrayList<>();
@@ -130,11 +128,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-
-}
-=======
-    
-    public boolean xoaDonDatPhongByMaDonDat(int maDonDat) {
+public boolean xoaDonDatPhongByMaDonDat(int maDonDat) {
         Bson filter = and(
             eq("maDonDat", maDonDat),
             eq("trangThai", "Đang chờ")
@@ -143,5 +137,10 @@ public class DonDatPhongDAO {
         DeleteResult result = donDatPhongCollection.deleteOne(filter);
         return result.getDeletedCount() > 0;
     }
-} 
->>>>>>> e5741eeefdc69b2e83bb00edbba18756544210e9
+}
+    
+    
+
+    
+
+

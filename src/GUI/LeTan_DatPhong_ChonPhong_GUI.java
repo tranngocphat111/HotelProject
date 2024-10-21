@@ -187,7 +187,9 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
                 loaiPhong.getTenLoaiPhong(),
                 loaiPhong.getLoaiGiuong(),
                 loaiPhong.getDienTich() + " m2",
-                list_tienNghi, phong.getMoTa(), df.format(loaiPhong.getDonGia()) + " VND"});
+                list_tienNghi, 
+                phong.getMoTa(), 
+                df.format(loaiPhong.getDonGia()) + " VND"});
         }
         
 

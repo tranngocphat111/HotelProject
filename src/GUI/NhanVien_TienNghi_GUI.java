@@ -527,13 +527,11 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                 throw new ExceptionInInitializerError("Trùng dữ liệu");
             }
             
-            int maTienNghi = tienNghiDAO.getAllTienNghi().size()+1;
+            int maTienNghi = tienNghiDAO.getAllTienNghi().getLast().getMaTienNghi() + 1;
             String moTaTienNghi = txt_moTa.getText();
             
             byte[] img = hinhAnh;
-            for(byte x: hinhAnh) {
-                System.out.print(x);
-            }
+            
             //Tạo ra một dịch vụ mới
             TienNghi x = new TienNghi(maTienNghi, tenTienNghi, moTaTienNghi, hinhAnh);
             //Đưa dữ liệu vào database
@@ -620,7 +618,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
         System.out.println(x.equals(null));
         int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
-        
+        hinhAnh = x.getHinhAnh();
         if(viTriCuaX != -1) {
             jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
         } else {
@@ -643,6 +641,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             txt_moTa.setText(x.getMoTa());
             
             hinhAnh = x.getHinhAnh();
+            System.out.println(hinhAnh == null);
+//          
             ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
 
             System.out.println("Không gặp lỗi");

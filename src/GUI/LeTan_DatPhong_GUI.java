@@ -46,6 +46,7 @@ import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.MongoDBConnection;
 import GUI.LeTan_GUI;
+import static GUI.LeTan_ThanhToan_GUI.list_DonDatPhong;
 import java.awt.Color;
 import java.awt.Frame;
 import javax.swing.JFrame;
@@ -1439,6 +1440,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             hoadon_hientai.setNgayTaoHoaDon(new Date());
             hoadon_hientai.setTongTien(0);
             hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
+            hoadon_hientai.setTrangThai(false);
             hoaDon_dao.createHoaDon(hoadon_hientai);
         }
 
@@ -1480,12 +1482,31 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
-
+        
+        HoaDon HoaDon_update = hoaDon_dao.getHoaDonByMa(list_HoaDon.size());
+        HoaDon_update.setTongTien(getTongtien(HoaDon_update));
+        hoaDon_dao.updateHoaDon(HoaDon_update);
+        
+        list_HoaDon = new ArrayList<HoaDon>();
+        list_HoaDon = hoaDon_dao.getAllHoaDon();
         LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
         LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
     }//GEN-LAST:event_btn_HoanTatMousePressed
 
+    public int getTongtien (HoaDon hoadon){
+        int tongtien = 0;
+        for (DonDatPhong ddp : list_DonDatPhong) {
+            if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
+                System.out.println(loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getDonGia());
+                tongtien = tongtien + loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getDonGia();
+            }
+        }
+        
+        return tongtien;
+    }
+    
+    
     private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
         // TODO add your handling code here:
         if (area_moTa.getText().equals("Mô tả")) {

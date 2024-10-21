@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import keeptoo.KGradientPanel;
+import model.DAO.NhanVienDAO;
+import model.MongoDBConnection;
 
 /**
  *
@@ -20,6 +22,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
+    private MongoDBConnection mongoDB = new MongoDBConnection();
+    
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO(mongoDB.getDatabase());
+    
+    
     public QuanLy_NhanVien_GUI() {
         initComponents();
         
@@ -27,7 +34,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
         list_btn.add(btn_Lammoi);
-        list_btn.add(btn_Tim);
+        
         list_btn.add(btn_Chonhinhanh);
         
         
@@ -100,8 +107,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         btn_Chonhinhanh = new keeptoo.KGradientPanel();
         jLabel23 = new javax.swing.JLabel();
-        btn_Tim = new keeptoo.KGradientPanel();
-        jLabel22 = new javax.swing.JLabel();
         btn_Lammoi = new keeptoo.KGradientPanel();
         jLabel18 = new javax.swing.JLabel();
         btn_Them = new keeptoo.KGradientPanel();
@@ -114,6 +119,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         ChuaAnhNhanVien = new javax.swing.JPanel();
         anhnhanvien = new javax.swing.JLabel();
+        CBox_TieuChiTimNV = new javax.swing.JComboBox<>();
+        CBox_DSThanhPhanTieuChi = new javax.swing.JComboBox<>();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_NhanVien"); // NOI18N
@@ -186,7 +193,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
                         .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
         ThongTinNhanVienLayout.setVerticalGroup(
             ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +220,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinNhanVien);
-        ThongTinNhanVien.setBounds(80, 90, 780, 180);
+        ThongTinNhanVien.setBounds(80, 90, 940, 180);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -251,36 +258,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Chonhinhanh);
-        btn_Chonhinhanh.setBounds(950, 300, 170, 40);
-
-        btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_Tim.setkGradientFocus(250);
-        btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
-
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("Tìm");
-        jLabel22.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout btn_TimLayout = new javax.swing.GroupLayout(btn_Tim);
-        btn_Tim.setLayout(btn_TimLayout);
-        btn_TimLayout.setHorizontalGroup(
-            btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_TimLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btn_TimLayout.setVerticalGroup(
-            btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_TimLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(720, 300, 140, 40);
+        btn_Chonhinhanh.setBounds(1050, 300, 170, 40);
 
         btn_Lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Lammoi.setkGradientFocus(250);
@@ -437,9 +415,13 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(110);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(110);
+        }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 380, 1040, 290);
+        jScrollPane1.setBounds(80, 380, 1140, 290);
 
         ChuaAnhNhanVien.setBackground(new java.awt.Color(0, 0, 0));
         ChuaAnhNhanVien.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
@@ -452,7 +434,9 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         ChuaAnhNhanVien.setLayout(ChuaAnhNhanVienLayout);
         ChuaAnhNhanVienLayout.setHorizontalGroup(
             ChuaAnhNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(anhnhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 166, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ChuaAnhNhanVienLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(anhnhanvien))
         );
         ChuaAnhNhanVienLayout.setVerticalGroup(
             ChuaAnhNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -460,7 +444,25 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ChuaAnhNhanVien);
-        ChuaAnhNhanVien.setBounds(950, 90, 170, 170);
+        ChuaAnhNhanVien.setBounds(1050, 90, 170, 170);
+
+        CBox_TieuChiTimNV.setModel(new javax.swing.DefaultComboBoxModel<>());
+        CBox_TieuChiTimNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBox_TieuChiTimNVActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CBox_TieuChiTimNV);
+        CBox_TieuChiTimNV.setBounds(720, 300, 110, 40);
+
+        CBox_DSThanhPhanTieuChi.setModel(new javax.swing.DefaultComboBoxModel<>());
+        CBox_DSThanhPhanTieuChi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBox_DSThanhPhanTieuChiActionPerformed(evt);
+            }
+        });
+        jPanel1.add(CBox_DSThanhPhanTieuChi);
+        CBox_DSThanhPhanTieuChi.setBounds(840, 300, 180, 40);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -521,9 +523,19 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_EmailActionPerformed
 
+    private void CBox_TieuChiTimNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CBox_TieuChiTimNVActionPerformed
+
+    private void CBox_DSThanhPhanTieuChiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_DSThanhPhanTieuChiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CBox_DSThanhPhanTieuChiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
+    private javax.swing.JComboBox<String> CBox_DSThanhPhanTieuChi;
+    private javax.swing.JComboBox<String> CBox_TieuChiTimNV;
     private javax.swing.JPanel ChuaAnhNhanVien;
     private javax.swing.JPanel ThongTinNhanVien;
     private javax.swing.JLabel anhnhanvien;
@@ -531,7 +543,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Lammoi;
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_Them;
-    private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
     private javax.swing.JComboBox<String> cb_QuocTich;
     private javax.swing.JLabel jLabel10;
@@ -542,7 +553,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

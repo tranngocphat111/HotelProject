@@ -1,11 +1,12 @@
 package model.DTO;
 
 import org.bson.Document;
+import org.bson.types.Binary;
 
 public class NhanVien {
     private int maNhanVien;
     private String tenNhanVien;
-    private String anhDaiDien;
+    private byte[] anhDaiDien;
     private String soDienThoai;
     private String CCCD;
     private String diaChi;
@@ -16,7 +17,33 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(int maNhanVien, String tenNhanVien, String anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu, String tenTaiKhoan, String matKhau) {
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + this.maNhanVien;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NhanVien other = (NhanVien) obj;
+        return this.maNhanVien == other.maNhanVien;
+    }
+    
+    public NhanVien(int maNhanVien) {
+        this.maNhanVien = maNhanVien;
+    }
+    
+    public NhanVien(int maNhanVien, String tenNhanVien, byte[] anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu, String tenTaiKhoan, String matKhau) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.anhDaiDien = anhDaiDien;
@@ -46,11 +73,11 @@ public class NhanVien {
         this.tenNhanVien = tenNhanVien;
     }
 
-    public String getAnhDaiDien() {
+    public byte[] getAnhDaiDien() {
         return anhDaiDien;
     }
 
-    public void setAnhDaiDien(String anhDaiDien) {
+    public void setAnhDaiDien(byte[] anhDaiDien) {
         this.anhDaiDien = anhDaiDien;
     }
 
@@ -113,7 +140,9 @@ public class NhanVien {
             nhanVien.setTenNhanVien(doc.getString("tenNhanVien"));
         }
         if (doc.containsKey("anhDaiDien")) {
-            nhanVien.setAnhDaiDien(doc.getString("anhDaiDien"));
+            Binary binaryData = doc.get("hinhAnh", Binary.class);
+            byte[] imageData = binaryData.getData();
+            nhanVien.setAnhDaiDien(imageData);
         }
         if (doc.containsKey("SoDienThoai")) {
             nhanVien.setSoDienThoai(doc.getString("SoDienThoai"));

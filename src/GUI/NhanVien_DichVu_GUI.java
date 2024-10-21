@@ -485,10 +485,10 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             object[i] = new Object[]{
                 x.getMaDV(), x.getTenDV(), x.getMoTa(), x.getDonGia()
             };
-            System.out.println(object[i][0]);
-            System.out.println(object[i][1]);
-            System.out.println(object[i][2]);
-            System.out.println(object[i][3]);
+//            System.out.println(object[i][0]);
+//            System.out.println(object[i][1]);
+//            System.out.println(object[i][2]);
+//            System.out.println(object[i][3]);
         }
         String[] table_header = new String [] {
                 "Mã dịch vụ", "Tên dịch vụ", "Mô tả", "Đơn giá"
@@ -602,7 +602,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         if(returnValue == JFileChooser.APPROVE_OPTION) {
             //Đường dẫn của file
             String filePath = frame_chonAnh.getSelectedFile().getPath();
-            
             ImageIcon icon = new ImageScale().load(filePath, label_Anh.getWidth(), label_Anh.getHeight());
             
             try {

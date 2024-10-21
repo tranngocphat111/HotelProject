@@ -56,18 +56,54 @@ public class ImageScale {
 
         return null;
     }
-    public ImageIcon load1(ImageIcon image, int k, int m) { /*linkImage là tên icon, k kích thước chiều rộng mình muốn,m chiều dài và hàm này trả về giá trị là 1 icon.*/ int x = k;
+//    public ImageIcon load1(ImageIcon image, int k, int m) { /*linkImage là tên icon, k kích thước chiều rộng mình muốn,m chiều dài và hàm này trả về giá trị là 1 icon.*/ int x = k;
+//    int y = m;
+//    int ix = image.getIconWidth();
+//    int iy = image.getIconHeight();
+//    int dx = 0, dy = 0;
+//    if (x / y > ix / iy) {
+//        dy = y;
+//        dx = dy * ix / iy;
+//    } else {
+//        dx = x;
+//        dy = dx * iy / ix;
+//    }
+//    return new ImageIcon(image.getImage().getScaledInstance(dx, dy,Image.SCALE_SMOOTH));
+//    }
+    public ImageIcon load1(ImageIcon image, int k, int m) {
+    // Kiểm tra xem image có phải là null không
+    if (image == null || k <= 0 || m <= 0) {
+        return null; // Hoặc trả về một icon mặc định nếu cần
+    }
+
+    int x = k;
     int y = m;
     int ix = image.getIconWidth();
     int iy = image.getIconHeight();
+
+    // Kiểm tra kích thước của ảnh gốc
+    if (ix == 0 || iy == 0) {
+        return null; // Hoặc trả về một icon mặc định nếu cần
+    }
+
     int dx = 0, dy = 0;
-    if (x / y > ix / iy) {
+
+    // Tính toán kích thước mới dựa trên tỉ lệ
+    if (x / (double)y > ix / (double)iy) {
         dy = y;
         dx = dy * ix / iy;
     } else {
         dx = x;
         dy = dx * iy / ix;
     }
-    return new ImageIcon(image.getImage().getScaledInstance(dx, dy,Image.SCALE_SMOOTH));
+
+    // Đảm bảo kích thước không âm
+    if (dx < 0 || dy < 0) {
+        return null; // Hoặc trả về một icon mặc định nếu cần
     }
+
+    // Trả về ImageIcon đã được thay đổi kích thước
+    return new ImageIcon(image.getImage().getScaledInstance(dx, dy, Image.SCALE_SMOOTH));
+}
+
 }

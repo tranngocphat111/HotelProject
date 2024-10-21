@@ -642,7 +642,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             
             hinhAnh = x.getHinhAnh();
             System.out.println(hinhAnh == null);
-//          
             ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
 
             System.out.println("Không gặp lỗi");

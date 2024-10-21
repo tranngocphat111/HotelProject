@@ -174,15 +174,13 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         model.setRowCount(0);
         
         for(Phong phong : list_phong) {
-        String list_tienNghi = getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis());
             model.addRow(new Object[]{
                 phong.getMaPhong(),
                 phong.getTang(),
                 loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getLoaiGiuong(),
                 loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + "M2",
-                list_tienNghi,
+//                getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
                 df.format(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND"});
-                System.out.println("Xong");
         }
            
         for (int i = 0; i < Table_Phong.getColumnCount(); i++) {

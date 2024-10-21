@@ -180,7 +180,8 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
     public void DocDuLieuLenTable(List<Phong> list_PhongTrong) {
         for (Phong phong : list_PhongTrong) {
             LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
+//            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
+            System.out.println(loaiPhong.getTienNghis());
             model.addRow(new Object[]{
                 phong.getMaPhong(),
                 phong.getTang(),
@@ -188,11 +189,9 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
                 loaiPhong.getLoaiGiuong(),
                 loaiPhong.getDienTich() + " m2",
 
-                list_tienNghi, 
+//                list_tienNghi, 
                 phong.getMoTa(), 
 
-                list_tienNghi,
-                phong.getMoTa(),
 
                 df.format(loaiPhong.getDonGia()) + " VND"});
         }
@@ -206,6 +205,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
     public String getListTienNghi(List<TienNghi> list_tienNghi) {
         String list = "";
+        
         for (TienNghi tn : list_tienNghi) {
             list = list + tn.getTenTienNghi() + ", ";
         }

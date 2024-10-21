@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -499,6 +500,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_HuyDon.setkGradientFocus(250);
         btn_HuyDon.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_HuyDon.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_HuyDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_HuyDonMouseClicked(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -876,6 +882,47 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         LeTan_DonDatPhong_ThemDichVu themDichVu_gui = new LeTan_DonDatPhong_ThemDichVu();
         themDichVu_gui.setVisible(true);
     }//GEN-LAST:event_btn_ThemDichVuMouseClicked
+
+    private void btn_HuyDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMouseClicked
+        // TODO add your handling code here:
+        int[] selRows = Table_KhachHang.getSelectedRows();
+        
+        if (selRows.length > 0){
+            for (int i = 0; i< selRows.length; ++i){
+                int maDon = Integer.parseInt(Table_KhachHang.getValueAt(selRows[i], 0).toString());
+                if (!Table_KhachHang.getValueAt(selRows[i], 1).toString().equals("Đang chờ")){
+                    JOptionPane.showMessageDialog(null, "Vui lòng chỉ chọn đơn ở trạng thái Đang chờ");
+                    break;
+                }
+                else
+                {
+                if (!donDatPhong_dao.xoaDonDatPhongByMaDonDat(maDon)){
+                    JOptionPane.showMessageDialog(null, "Lỗi không mong muốn khi xóa đơn " + maDon);
+                }
+                else{
+                    System.out.println("Xoa "+ maDon);
+                }
+            } 
+           list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
+            model.setRowCount(0);
+            list_DonDatPhongTheoTieuChi.clear();
+            for (DonDatPhong ddp : list_DonDatPhong) {
+                if (ddp.getTrangThai().equals("Đang chờ")) {
+                    list_DonDatPhongTheoTieuChi.add(ddp);
+                }
+            }
+            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+                    
+                }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn đơn muốn hủy");
+        }
+        for (DonDatPhong donDatPhong : list_DonDatPhong) {
+            System.out.println(donDatPhong);
+        }
+    }//GEN-LAST:event_btn_HuyDonMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTable;
+import static GUI.LeTan_DonDatPhong_GUI.Table_KhachHang;
+import static GUI.LeTan_DonDatPhong_GUI.model;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -650,8 +654,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_checkBox_DaThanhToanActionPerformed
 
     private void btn_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanMousePressed
-        // TODO add your handling code here:
-        new HoaDon_GUI().setVisible(true);
+
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
     public static String getPhongSuDung(HoaDon hoadon) {

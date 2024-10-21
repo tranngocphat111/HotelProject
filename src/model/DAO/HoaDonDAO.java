@@ -3,12 +3,15 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import model.DTO.HoaDon;
 import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.conversions.Bson;
 
 public class HoaDonDAO {
     private MongoCollection<Document> hoaDonCollection;
@@ -54,6 +57,12 @@ public class HoaDonDAO {
             System.out.println("Lỗi xảy ra trong quá trình tạo hóa đơn: " + e.getMessage());
             return false;
         }
+    }
+    
+    public boolean deleteHoaDonByMaHoaDon(int maHoaDon) {
+        Bson filter = eq("maHoaDon", maHoaDon);
+        DeleteResult result = hoaDonCollection.deleteOne(filter);
+        return result.getDeletedCount() > 0;
     }
     
     

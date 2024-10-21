@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -45,10 +47,13 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     private List<Phong> list_Phong = new ArrayList<Phong>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
     private List<HoaDon> list_HoaDon = new ArrayList<HoaDon>();
+    private List<HoaDon> list_HoaDonTheoTrangThai = new ArrayList<HoaDon>();
     private HoaDonDAO hoadon_dao = new HoaDonDAO(database.getDatabase());
     public static List<DonDatPhong> list_DonDatPhong = new ArrayList<DonDatPhong>();
     public static DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database.getDatabase());
     public static DefaultTableCellRenderer centerRenderer;
+    public static  DecimalFormat df = new DecimalFormat("#,##0");
+
 
     /**
      * Creates new form LeTan_DatPhong_GUI
@@ -71,7 +76,12 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         centerRenderer.setVerticalAlignment(JLabel.CENTER);
-        DocDuLieuLenTable(list_HoaDon);
+        for(HoaDon hoaDon : list_HoaDon){
+            if(!hoaDon.isTrangThai()){
+                list_HoaDonTheoTrangThai.add(hoaDon);
+            }    
+        }
+        DocDuLieuLenTable(list_HoaDonTheoTrangThai);
 
 //      Thêm các loại phòng vào combobox loại phòng
         list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
@@ -647,13 +657,47 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     private void checkBox_DaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DaThanhToanActionPerformed
         // TODO add your handling code here:
+        list_HoaDonTheoTrangThai = new ArrayList<HoaDon>();
+        if(checkBox_DaThanhToan.isSelected()){
+            for(HoaDon hoaDon : list_HoaDon){
+                if(hoaDon.isTrangThai()){
+                    list_HoaDonTheoTrangThai.add(hoaDon);
+                }
+            }
+            DocDuLieuLenTable(list_HoaDonTheoTrangThai);
+        }else{
+            for(HoaDon hoaDon : list_HoaDon){
+                if(!hoaDon.isTrangThai()){
+                    list_HoaDonTheoTrangThai.add(hoaDon);
+                }
+            }
+            DocDuLieuLenTable(list_HoaDonTheoTrangThai);
+        }
     }//GEN-LAST:event_checkBox_DaThanhToanActionPerformed
 
     private void btn_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanMousePressed
         // TODO add your handling code here:
+        int row = Table_hoaDon.getSelectedRow();
+        if(row == -1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn cần thanh toán");
+            return;
+        }
+        HoaDon hoaDon_update = hoadon_dao.getHoaDonByMa(Integer.parseInt(model.getValueAt(row, 0).toString()));
+        hoaDon_update.setTrangThai(true);
+        hoadon_dao.updateHoaDon(hoaDon_update);
+        list_HoaDon = hoadon_dao.getAllHoaDon();
+        DocDuLieuLenTable(list_HoaDonTheoTrangThai);
         new HoaDon_GUI().setVisible(true);
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
+    public void capNhatTrangThaiDonDatPhong(HoaDon hoaDon){
+        for(DonDatPhong ddp : list_DonDatPhong){
+            if(ddp.getHoaDon() == hoaDon.getMaHoaDon()){
+                ddp.setTrangThai("Đã trả phòng");
+                dondatphong_dao.updateDonDatPhong(ddp);
+            }
+        }
+    }
     public static String getPhongSuDung(HoaDon hoadon) {
 
         String danhsachPhong = "";
@@ -674,8 +718,9 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 hoadon.getMaHoaDon(),
                 sdf.format(hoadon.getNgayTaoHoaDon()),
                 getPhongSuDung(hoadon),
-                "Dich Vu",
-                "Tong Tien"});
+                "",
+                df.format(hoadon.getTongTien()) + " VND"
+            });
         }
 
         for (int i = 0; i < Table_hoaDon.getColumnCount(); i++) {
@@ -683,6 +728,8 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    
 
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed

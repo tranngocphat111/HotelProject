@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import model.DTO.DonDatPhong;
 import org.bson.Document;
 
@@ -14,6 +15,7 @@ import model.DTO.DichVu;
 import model.DTO.KhachHang;
 
 public class DonDatPhongDAO {
+
     private MongoCollection<Document> donDatPhongCollection;
 
     public DonDatPhongDAO(MongoDatabase database) {
@@ -31,35 +33,34 @@ public class DonDatPhongDAO {
         }
         return donDatPhongs;
     }
-    
+
     public boolean createDonDatPhong(DonDatPhong donDatPhong) {
         try {
-            
-            ArrayList<Document>  list_KhachHang = new ArrayList<Document>();
-            for(KhachHang khachHang : donDatPhong.getKhachO()){
+
+            ArrayList<Document> list_KhachHang = new ArrayList<Document>();
+            for (KhachHang khachHang : donDatPhong.getKhachO()) {
                 list_KhachHang.add(new Document()
-                    .append("maKhachHang", khachHang.getMaKhachHang())
-                    .append("tenKhachHang", khachHang.getTenKhachHang())
-                    .append("soDienThoai", khachHang.getSoDienThoai())
-                    .append("CCCD", khachHang.getCCCD())
-                    .append("gioiTinh", khachHang.getGioiTinh())
-                    .append("email", khachHang.getEmail())
-                    .append("quocTich", khachHang.getQuocTich())
+                        .append("maKhachHang", khachHang.getMaKhachHang())
+                        .append("tenKhachHang", khachHang.getTenKhachHang())
+                        .append("soDienThoai", khachHang.getSoDienThoai())
+                        .append("CCCD", khachHang.getCCCD())
+                        .append("gioiTinh", khachHang.getGioiTinh())
+                        .append("email", khachHang.getEmail())
+                        .append("quocTich", khachHang.getQuocTich())
                 );
             }
-            
-            ArrayList<Document>  list_DichVu = new ArrayList<Document>();
-            for(DichVu dichVu : donDatPhong.getDichVuSuDung()){
+
+            ArrayList<Document> list_DichVu = new ArrayList<Document>();
+            for (DichVu dichVu : donDatPhong.getDichVuSuDung()) {
                 list_DichVu.add(
                         new Document()
-                    .append("maDV", dichVu.getMaDV())
-                    .append("tenDV", dichVu.getTenDV())
-                    .append("moTa", dichVu.getMoTa())
-                    .append("donGia", dichVu.getDonGia())
+                                .append("maDV", dichVu.getMaDV())
+                                .append("tenDV", dichVu.getTenDV())
+                                .append("moTa", dichVu.getMoTa())
+                                .append("donGia", dichVu.getDonGia())
                 );
-            }    
-                
-            
+            }
+
             Document doc = new Document()
                     .append("maDonDat", donDatPhong.getMaDonDat())
                     .append("ngayDatPhong", donDatPhong.getNgayDatPhong())
@@ -78,4 +79,51 @@ public class DonDatPhongDAO {
             return false;
         }
     }
+
+    public boolean updateDonDatPhong(DonDatPhong donDatPhong) {
+        try {
+            ArrayList<Document> list_KhachHang = new ArrayList<>();
+            for (KhachHang khachHang : donDatPhong.getKhachO()) {
+                list_KhachHang.add(new Document()
+                        .append("maKhachHang", khachHang.getMaKhachHang())
+                        .append("tenKhachHang", khachHang.getTenKhachHang())
+                        .append("soDienThoai", khachHang.getSoDienThoai())
+                        .append("CCCD", khachHang.getCCCD())
+                        .append("gioiTinh", khachHang.getGioiTinh())
+                        .append("email", khachHang.getEmail())
+                        .append("quocTich", khachHang.getQuocTich())
+                );
+            }
+
+            ArrayList<Document> list_DichVu = new ArrayList<>();
+            for (DichVu dichVu : donDatPhong.getDichVuSuDung()) {
+                list_DichVu.add(new Document()
+                        .append("maDV", dichVu.getMaDV())
+                        .append("tenDV", dichVu.getTenDV())
+                        .append("moTa", dichVu.getMoTa())
+                        .append("donGia", dichVu.getDonGia())
+                );
+            }
+
+            Document updateDoc = new Document()
+                    .append("ngayDatPhong", donDatPhong.getNgayDatPhong())
+                    .append("ngayNhanPhong", donDatPhong.getNgayNhanPhong())
+                    .append("ngayTraPhong", donDatPhong.getNgayTraPhong())
+                    .append("trangThai", donDatPhong.getTrangThai())
+                    .append("KhachO", list_KhachHang)
+                    .append("dichVuSuDung", list_DichVu)
+                    .append("Phong", donDatPhong.getPhong())
+                    .append("HoaDon", donDatPhong.getHoaDon());
+
+            Document updateQuery = new Document("$set", updateDoc);
+            Document filter = new Document("maDonDat", donDatPhong.getMaDonDat());
+
+            UpdateResult result = donDatPhongCollection.updateOne(filter, updateQuery);
+            return result.getMatchedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình cập nhật đơn đặt phòng: " + e.getMessage());
+            return false;
+        }
+    }
+
 }

@@ -3,6 +3,9 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import model.DTO.DonDatPhong;
@@ -13,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import model.DTO.DichVu;
 import model.DTO.KhachHang;
+import org.bson.conversions.Bson;
 
 public class DonDatPhongDAO {
 
@@ -79,6 +83,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
+<<<<<<< HEAD
 
     public boolean updateDonDatPhong(DonDatPhong donDatPhong) {
         try {
@@ -127,3 +132,16 @@ public class DonDatPhongDAO {
     }
 
 }
+=======
+    
+    public boolean xoaDonDatPhongByMaDonDat(int maDonDat) {
+        Bson filter = and(
+            eq("maDonDat", maDonDat),
+            eq("trangThai", "Đang chờ")
+            );
+
+        DeleteResult result = donDatPhongCollection.deleteOne(filter);
+        return result.getDeletedCount() > 0;
+    }
+} 
+>>>>>>> e5741eeefdc69b2e83bb00edbba18756544210e9

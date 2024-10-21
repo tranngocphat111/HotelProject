@@ -39,7 +39,8 @@ public class TienNghiDAO {
             Document doc = new Document()
                     .append("maTienNghi", tienNghi.getMaTienNghi())
                     .append("tenTienNghi", tienNghi.getTenTienNghi())
-                    .append("moTa", tienNghi.getMoTa());
+                    .append("moTa", tienNghi.getMoTa())
+                    .append("hinhAnh", tienNghi.getHinhAnh());
 
             InsertOneResult result = tienNghiCollection.insertOne(doc);
             return result.wasAcknowledged();

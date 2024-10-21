@@ -527,7 +527,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
                 throw new ExceptionInInitializerError("Trùng dữ liệu");
             }
             
-            int maDichVu = dichVuDAO.getAllDichVu().size()+1;
+            int maDichVu = dichVuDAO.getAllDichVu().getLast().getMaDV() + 1;
             String moTaDichVu = txt_MoTa.getText();
             int donGia = Integer.parseInt(txtDonGia.getText());
             
@@ -716,6 +716,8 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         
         if(viTriCuaX != -1) {
             jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
+            
+            hinhAnh = x.getHinhAnh();
         } else {
             JOptionPane.showMessageDialog(this, "Không có dịch vụ có tên " + tenDV, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
         }

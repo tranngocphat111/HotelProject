@@ -180,16 +180,14 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
     public void DocDuLieuLenTable(List<Phong> list_PhongTrong) {
         for (Phong phong : list_PhongTrong) {
             LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
-            System.out.println(loaiPhong.getTienNghis());
+            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
             model.addRow(new Object[]{
                 phong.getMaPhong(),
                 phong.getTang(),
                 loaiPhong.getTenLoaiPhong(),
                 loaiPhong.getLoaiGiuong(),
                 loaiPhong.getDienTich() + " m2",
-
-//                list_tienNghi, 
+                list_tienNghi, 
                 phong.getMoTa(), 
 
 
@@ -606,12 +604,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         LeTan_DatPhong_GUI.txt_Tang.setText(phong.getTang() + "");
         LeTan_DatPhong_GUI.txt_LoaiPhong.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong());
         LeTan_DatPhong_GUI.area_moTa.setText(phong.getMoTa());
-
-        System.out.println(LeTan_DatPhong_GUI.txt_Phong.getText());
-        System.out.println(LeTan_DatPhong_GUI.txt_DonGia.getText());
-        System.out.println(LeTan_DatPhong_GUI.txt_Tang.getText());
-        System.out.println(LeTan_DatPhong_GUI.txt_LoaiPhong.getText());
-        System.out.println(LeTan_DatPhong_GUI.area_moTa.getText());
 
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMousePressed

@@ -705,7 +705,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
     }
     public static String getPhongSuDung(HoaDon hoadon) {
-
         String danhsachPhong = "";
         for (DonDatPhong ddp : list_DonDatPhong) {
             if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {

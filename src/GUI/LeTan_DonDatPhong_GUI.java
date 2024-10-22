@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import com.sun.management.HotSpotDiagnosticMXBean;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -12,7 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,14 +47,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     public static MongoDBConnection database = new MongoDBConnection();
     public static LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-    private List<DonDatPhong> list_DonDatPhong = new ArrayList<DonDatPhong>();
-    private DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database.getDatabase());
+    public static List<DonDatPhong> list_DonDatPhong = new ArrayList<DonDatPhong>();
+    public static DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database.getDatabase());
     private List<Phong> list_phong = new ArrayList<Phong>();
     public static PhongDAO phong_dao = new PhongDAO(database.getDatabase());
     private LoaiPhongDAO LoaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private List<DichVu> list_DichVu = new ArrayList<DichVu>();
     private DichVuDAO dichVu_dao = new DichVuDAO(database.getDatabase());
-    public static  DefaultTableModel model;
+    public static DefaultTableModel model;
     public static DefaultTableCellRenderer centerRenderer;
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public static List<DonDatPhong> list_DonDatPhongTheoTieuChi = new ArrayList<DonDatPhong>();
@@ -72,7 +75,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
 
-        txt_NgayNhanPhong_BatDau.setDate(getNgayHienTai());
+//        txt_NgayNhanPhong_BatDau.setDate(getNgayHienTai());
 //      căn giữa cho header 
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
@@ -88,16 +91,30 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         centerRenderer.setVerticalAlignment(JLabel.CENTER);
 
 //        Đọc dữ liệu từ database lên
-        list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
+        list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
         list_DichVu = dichVu_dao.getAllDichVu();
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_phong = phong_dao.getAllPhong();
         list_khachHang = khachHang_dao.getAllKhachHang();
+
+//        Tải dữ liệu tầng lên cb_Tang
+        Set<Integer> set = new HashSet<>();
+        for (Phong p : list_phong) {
+            if (!set.contains(p.getTang())) {
+                set.add(p.getTang());
+            }
+        }
+        cb_Tang.addItem("");
+        set.forEach(t -> {
+            cb_Tang.addItem(t.toString());
+        });
+
+//        Tải dữ liệu tầng lên cb_Phong
         cb_Phong.addItem("");
         for (Phong phong : list_phong) {
             cb_Phong.addItem(phong.getMaPhong() + "");
         }
-        
+
 //        Xét dữ liệu cho cb_LoaiPhong
         cb_LoaiPhong.addItem("");
         for (LoaiPhong lp : list_LoaiPhong) {
@@ -107,13 +124,13 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         model = (DefaultTableModel) Table_KhachHang.getModel();
         model.setRowCount(0);
         checkBox_DangO.setSelected(true);
+
         for (DonDatPhong ddp : list_DonDatPhong) {
-            if(ddp.getTrangThai().equals("Đang ở")){
+            if (ddp.getTrangThai().equals("Đang ở")) {
                 list_DonDatPhongTheoTieuChi.add(ddp);
             }
         }
-        
-        
+
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
         list_btn.add(btn_Tim);
@@ -211,6 +228,16 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
+    public static List<DonDatPhong> GetAllDonDatPhong(List<DonDatPhong> list_DonDatPhongs) {
+        List<DonDatPhong> List_DonDatPhongTheoTrangThai = new ArrayList<>();
+        for (DonDatPhong ddp : donDatPhong_dao.getAllDonDatPhong()) {
+            if (ddp.getTrangThai().equals("Đang ở") || ddp.getTrangThai().equals("Đang chờ")) {
+                List_DonDatPhongTheoTrangThai.add(ddp);
+            }
+        }
+        return List_DonDatPhongTheoTrangThai;
+    }
+
     public static void DocDuLieuLenTable(List<DonDatPhong> list_DonDatPhongs) {
         model.setRowCount(0);
         for (DonDatPhong ddp : list_DonDatPhongs) {
@@ -272,9 +299,20 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 list_DonDatPhongTheoThoiGian.add(ddp);
             }
         }
-
         return list_DonDatPhongTheoThoiGian;
 
+    }
+
+    public void LamMoi() {
+        txt_CCCD.setText("");
+        txt_HoTen.setText("");
+        txt_SoDienThoai.setText("");
+        cb_LoaiPhong.setSelectedIndex(0);
+        cb_Tang.setSelectedIndex(0);
+        cb_Phong.setSelectedIndex(0);
+        txt_NgayNhanPhong_BatDau.setDate(null);
+        txt_NgayNhanPhong_KetThuc.setDate(null);
+        txt_CCCD.requestFocus();
     }
 
     /**
@@ -336,6 +374,18 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ngày nhận phòng");
+
+        txt_NgayNhanPhong_BatDau.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txt_NgayNhanPhong_BatDauPropertyChange(evt);
+            }
+        });
+
+        txt_NgayNhanPhong_KetThuc.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                txt_NgayNhanPhong_KetThucPropertyChange(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_MuiTen.png"))); // NOI18N
 
@@ -409,13 +459,17 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 cb_LoaiPhongActionPerformed(evt);
             }
         });
+        cb_LoaiPhong.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cb_LoaiPhongPropertyChange(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Tầng");
 
         cb_Tang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        cb_Tang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
         cb_Tang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_TangActionPerformed(evt);
@@ -536,6 +590,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Tim.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_TimMousePressed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -602,6 +661,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_LamMoi.setkGradientFocus(250);
         btn_LamMoi.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_LamMoi.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_LamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_LamMoiMousePressed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -834,7 +898,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 return;
             }
         }
-
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
     }//GEN-LAST:event_checkBox_DangOActionPerformed
 
@@ -886,44 +949,133 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_HuyDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMouseClicked
         // TODO add your handling code here:
         int[] selRows = Table_KhachHang.getSelectedRows();
-        
-        if (selRows.length > 0){
-            for (int i = 0; i< selRows.length; ++i){
+
+        if (selRows.length > 0) {
+            for (int i = 0; i < selRows.length; ++i) {
                 int maDon = Integer.parseInt(Table_KhachHang.getValueAt(selRows[i], 0).toString());
-                if (!Table_KhachHang.getValueAt(selRows[i], 1).toString().equals("Đang chờ")){
+                if (!Table_KhachHang.getValueAt(selRows[i], 1).toString().equals("Đang chờ")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chỉ chọn đơn ở trạng thái Đang chờ");
                     break;
+                } else {
+                    if (!donDatPhong_dao.xoaDonDatPhongByMaDonDat(maDon)) {
+                        JOptionPane.showMessageDialog(null, "Lỗi không mong muốn khi xóa đơn " + maDon);
+                    } else {
+                        System.out.println("Xoa " + maDon);
+                    }
                 }
-                else
-                {
-                if (!donDatPhong_dao.xoaDonDatPhongByMaDonDat(maDon)){
-                    JOptionPane.showMessageDialog(null, "Lỗi không mong muốn khi xóa đơn " + maDon);
+                list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
+                model.setRowCount(0);
+                list_DonDatPhongTheoTieuChi.clear();
+                for (DonDatPhong ddp : list_DonDatPhong) {
+                    if (ddp.getTrangThai().equals("Đang chờ")) {
+                        list_DonDatPhongTheoTieuChi.add(ddp);
+                    }
                 }
-                else{
-                    System.out.println("Xoa "+ maDon);
-                }
-            } 
-           list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
-            model.setRowCount(0);
-            list_DonDatPhongTheoTieuChi.clear();
-            for (DonDatPhong ddp : list_DonDatPhong) {
-                if (ddp.getTrangThai().equals("Đang chờ")) {
-                    list_DonDatPhongTheoTieuChi.add(ddp);
-                }
+                DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+
             }
-            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
-                    
-                }
-        }
-        else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn đơn muốn hủy");
         }
-        for (DonDatPhong donDatPhong : list_DonDatPhong) {
-            System.out.println(donDatPhong);
-        }
+
     }//GEN-LAST:event_btn_HuyDonMouseClicked
 
+    private void txt_NgayNhanPhong_BatDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhong_BatDauPropertyChange
+        // TODO add your handling code here:
+
+        if (txt_NgayNhanPhong_BatDau.getDate() == null && txt_NgayNhanPhong_KetThuc.getDate() == null) {
+            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+            return;
+        }
+
+        if (txt_NgayNhanPhong_BatDau.getDate() == null || txt_NgayNhanPhong_KetThuc.getDate() == null) {
+            return;
+        }
+
+        if (txt_NgayNhanPhong_BatDau.getDate().after(txt_NgayNhanPhong_KetThuc.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày không hợp lý !!! vui lòng chọn lại");
+            txt_NgayNhanPhong_BatDau.setDate(null);
+            return;
+        }
+
+        DocDuLieuLenTable(getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate()));
+    }//GEN-LAST:event_txt_NgayNhanPhong_BatDauPropertyChange
+
+    private void txt_NgayNhanPhong_KetThucPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhong_KetThucPropertyChange
+        // TODO add your handling code here:
+        if (txt_NgayNhanPhong_BatDau.getDate() == null && txt_NgayNhanPhong_KetThuc.getDate() == null) {
+            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+            return;
+        }
+
+        if (txt_NgayNhanPhong_BatDau.getDate() == null || txt_NgayNhanPhong_KetThuc.getDate() == null) {
+            return;
+
+        }
+        if (txt_NgayNhanPhong_KetThuc.getDate().before(txt_NgayNhanPhong_BatDau.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày không hợp lý !!! vui lòng chọn lại");
+            txt_NgayNhanPhong_KetThuc.setDate(null);
+            return;
+        }
+
+        DocDuLieuLenTable(getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate()));
+
+    }//GEN-LAST:event_txt_NgayNhanPhong_KetThucPropertyChange
+
+    private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
+        // TODO add your handling code here:
+        List<DonDatPhong> list_DDP = new ArrayList<>();
+
+// Nếu tất cả các trường đều trống, load toàn bộ dữ liệu
+        if (txt_CCCD.getText().equals("") && txt_HoTen.getText().equals("") && txt_SoDienThoai.getText().equals("")) {
+            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+            return;
+        }
+
+// Duyệt qua tất cả các đơn đặt phòng
+        for (DonDatPhong ddp : list_DonDatPhongTheoTieuChi) {
+            boolean match = false; // Biến kiểm tra xem đơn đặt phòng có thỏa mãn điều kiện nào không
+            List<KhachHang> list_KhachHangtheoDon = ddp.getKhachO();
+
+            for (KhachHang kh : list_KhachHangtheoDon) {
+                // Kiểm tra CCCD
+                if (!txt_CCCD.getText().equals("") && kh.getCCCD().equals(txt_CCCD.getText())) {
+                    match = true;
+                }
+
+                // Kiểm tra họ tên nếu đã có khớp CCCD hoặc chưa có CCCD
+                if (!txt_HoTen.getText().equals("") && kh.getTenKhachHang().equals(txt_HoTen.getText())) {
+                    match = true;
+                }
+
+                // Kiểm tra số điện thoại nếu đã có khớp CCCD/họ tên hoặc chưa có các điều kiện trước
+                if (!txt_SoDienThoai.getText().equals("") && kh.getSoDienThoai().equals(txt_SoDienThoai.getText())) {
+                    match = true;
+                }
+
+                // Nếu có khớp ở bất kỳ điều kiện nào, thêm vào danh sách
+                if (match) {
+                    list_DDP.add(ddp);
+                    break; // Không cần kiểm tra thêm khách hàng khác trong đơn
+                }
+            }
+        }
+
+//         Hiển thị kết quả sau khi lọc
+        DocDuLieuLenTable(list_DDP);
+
+
+    }//GEN-LAST:event_btn_TimMousePressed
+
+
+    private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
+        // TODO add your handling code here:
+        LamMoi();
+    }//GEN-LAST:event_btn_LamMoiMousePressed
+
+    private void cb_LoaiPhongPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cb_LoaiPhongPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_LoaiPhongPropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
@@ -938,8 +1090,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cb_LoaiPhong;
     private javax.swing.JComboBox<String> cb_Phong;
     private javax.swing.JComboBox<String> cb_Tang;
-    private javax.swing.JCheckBox checkBox_DangCho;
-    private javax.swing.JCheckBox checkBox_DangO;
+    public static javax.swing.JCheckBox checkBox_DangCho;
+    public static javax.swing.JCheckBox checkBox_DangO;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

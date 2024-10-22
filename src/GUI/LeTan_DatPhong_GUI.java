@@ -58,20 +58,22 @@ import javax.swing.JFrame;
 public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private MongoDBConnection database = new MongoDBConnection();
-    private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-    private List<Phong> list_Phong = new ArrayList<Phong>();
+    private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
+    private List<Phong> list_Phong = new ArrayList<>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-    private List<DonDatPhong> list_DonDatPhong = new ArrayList<DonDatPhong>();
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO DonDatphong_dao = new DonDatPhongDAO(database.getDatabase());
-    private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
+    private List<LoaiPhong> list_LoaiPhong = new ArrayList<>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
-    private List<KhachHang> list_KhachHang = new ArrayList<KhachHang>();
+    private List<KhachHang> list_KhachHang = new ArrayList<>();
     private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
     private DefaultTableModel model;
-    private List<HoaDon> list_HoaDon = new ArrayList<HoaDon>();
+    private List<HoaDon> list_HoaDon = new ArrayList<>();
     private HoaDonDAO hoaDon_dao = new HoaDonDAO(database.getDatabase());
-    private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<KhachHang>();
-    private List<KhachHang> list_KhachHangMoi = new ArrayList<KhachHang>();
+    private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<>();
+    private List<KhachHang> list_KhachHangMoi = new ArrayList<>();
+    private List<DonDatPhong> list_DonDatPhongTheoHoaDon = new ArrayList<>();
+    private List<Phong> list_PhongDaChon = new ArrayList<>();
 
     /**
      * Creates new form LeTan_DatPhong_GUI
@@ -196,8 +198,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     return;
 
                 }
-
-                System.out.println(".propertyChange()");
 
                 if (txt_NgayDi.getDate().equals(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi ko được bằng ngày đến");
@@ -340,7 +340,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
-    public  Date getNgayHienTai() {
+    public Date getNgayHienTai() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -386,6 +386,19 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 list_PhongTrong.add(phong1);
             }
 
+        }
+
+        if (list_PhongDaChon.size() != 0) {
+            List<Phong> phongCanXoa = new ArrayList<>();
+            for (Phong phong : list_PhongTrong) {
+                for (Phong phongdachon : list_PhongDaChon) {
+                    if (phong.getMaPhong() == phongdachon.getMaPhong()) {
+                        phongCanXoa.add(phong);
+                        break;
+                    }
+                }
+            }
+            list_PhongTrong.removeAll(phongCanXoa);
         }
 
         return list_PhongTrong;
@@ -1235,7 +1248,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
         if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate())) {
             list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
-            System.out.println(list_PhongTrong);
             new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
             return;
         }
@@ -1389,30 +1401,32 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         DonDatPhong ddp = new DonDatPhong();
-        ddp.setMaDonDat(list_DonDatPhong.size() + 1);
+        if (list_DonDatPhongTheoHoaDon.size() == 0) {
+            ddp.setMaDonDat(list_DonDatPhong.size() + 1);
+        } else {
+            ddp.setMaDonDat(list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1);
+        }
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
+//       Thêm phòng đã chọn vào biến tạm 
+        list_PhongDaChon.add(phong_dao.getPhongByMa(Integer.parseInt(txt_Phong.getText())));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
         if (txt_NgayDen.getDate().equals(getNgayHienTai())) {
             ddp.setTrangThai("Đang ở");
-        }else{
+        } else {
             ddp.setTrangThai("Đang chờ");
         }
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
 
-//       Lưu database
-        DonDatphong_dao.createDonDatPhong(ddp);
-        for (KhachHang kh : list_KhachHangMoi) {
-            khachHang_dao.createKhachHang(kh);
-        }
+        list_DonDatPhongTheoHoaDon.add(ddp);
         list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
 
-        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1));
         JOptionPane.showMessageDialog(this, "Tạo đơn đặt phòng thành công");
         LamMoi();
         LamMoiThongTinPhong();
@@ -1445,68 +1459,77 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         DonDatPhong ddp = new DonDatPhong();
-        ddp.setMaDonDat(list_DonDatPhong.size() + 1);
+        if (list_DonDatPhongTheoHoaDon.size() == 0) {
+            ddp.setMaDonDat(list_DonDatPhong.size() + 1);
+        } else {
+            ddp.setMaDonDat(list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1);
+        }
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
         ddp.setNgayTraPhong(txt_NgayDi.getDate());
-        System.out.println(ddp.getNgayNhanPhong());
-        System.out.println(ddp.getNgayTraPhong());
 
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
         if (txt_NgayDen.getDate().equals(getNgayHienTai())) {
             ddp.setTrangThai("Đang ở");
-        }else{
+        } else {
             ddp.setTrangThai("Đang chờ");
         }
         ddp.setHoaDon(hoadon_hientai.getMaHoaDon());
 
+        list_DonDatPhongTheoHoaDon.add(ddp);
 //       Lưu database
-        DonDatphong_dao.createDonDatPhong(ddp);
+
+        for (DonDatPhong dondatPhong : list_DonDatPhongTheoHoaDon) {
+            DonDatphong_dao.createDonDatPhong(dondatPhong);
+        }
         for (KhachHang kh : list_KhachHangMoi) {
             khachHang_dao.createKhachHang(kh);
         }
         dem = 0;
         hoadon_hientai = null;
-        
-        
-        list_HoaDon = new ArrayList<HoaDon>();
+
+        list_HoaDon = new ArrayList<>();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
-        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1));
         label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.size() + 1));
         JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
         LamMoi();
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
-        
+
         HoaDon HoaDon_update = hoaDon_dao.getHoaDonByMa(list_HoaDon.size());
         HoaDon_update.setTongTien(getTongtien(HoaDon_update));
         hoaDon_dao.updateHoaDon(HoaDon_update);
-        
+
         list_HoaDon = new ArrayList<HoaDon>();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
+        list_PhongDaChon = new ArrayList<>();
+
+//        Cập nhật trang Đơn đặt phòng
+        LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
+        LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
+        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong));
         LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
     }//GEN-LAST:event_btn_HoanTatMousePressed
 
-    public int getTongtien (HoaDon hoadon){
+    public int getTongtien(HoaDon hoadon) {
         int tongtien = 0;
         for (DonDatPhong ddp : list_DonDatPhong) {
             if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
-                System.out.println(loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getDonGia());
                 tongtien = tongtien + loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getDonGia();
             }
         }
-        
+
         return tongtien;
     }
-    
-    
+
+
     private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
         // TODO add your handling code here:
         if (area_moTa.getText().equals("Mô tả")) {

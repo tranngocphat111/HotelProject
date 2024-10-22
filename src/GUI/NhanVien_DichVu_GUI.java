@@ -420,7 +420,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         JTableHeader header = jTable1.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15));
         jTable1.setModel(duaDataVaoModel(dichVuDAO.getAllDichVu()));
         jTable1.setRowHeight(30);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -467,7 +467,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(10, 0, 1283, 803);
+        Backgroup.setBounds(-7, 0, 1300, 803);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1283, 803);

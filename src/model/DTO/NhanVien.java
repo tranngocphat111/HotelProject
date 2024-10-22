@@ -1,5 +1,6 @@
 package model.DTO;
 
+import java.util.Objects;
 import org.bson.Document;
 import org.bson.types.Binary;
 
@@ -17,10 +18,20 @@ public class NhanVien {
     public NhanVien() {
     }
 
+    
+    
+    public NhanVien(String CCCD) {
+        this.CCCD = CCCD;
+    }
+    
+    public NhanVien(int maNhanVien) {
+        this.maNhanVien = maNhanVien;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + this.maNhanVien;
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.CCCD);
         return hash;
     }
 
@@ -36,11 +47,7 @@ public class NhanVien {
             return false;
         }
         final NhanVien other = (NhanVien) obj;
-        return this.maNhanVien == other.maNhanVien;
-    }
-    
-    public NhanVien(int maNhanVien) {
-        this.maNhanVien = maNhanVien;
+        return Objects.equals(this.CCCD, other.CCCD);
     }
     
     public NhanVien(int maNhanVien, String tenNhanVien, byte[] anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu, String tenTaiKhoan, String matKhau) {
@@ -140,7 +147,7 @@ public class NhanVien {
             nhanVien.setTenNhanVien(doc.getString("tenNhanVien"));
         }
         if (doc.containsKey("anhDaiDien")) {
-            Binary binaryData = doc.get("hinhAnh", Binary.class);
+            Binary binaryData = doc.get("anhDaiDien", Binary.class);
             byte[] imageData = binaryData.getData();
             nhanVien.setAnhDaiDien(imageData);
         }

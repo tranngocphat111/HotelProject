@@ -12,21 +12,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class ImageScale {
-//    public ImageIcon getScaledImage(int width, int height, String path) {
-//            ImageIcon myImage = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource(path)));
-//            Image img1 = myImage.getImage();
-//
-//            Image img2 = img1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//            ImageIcon i = new ImageIcon(img2);
-//            return i;
-//    }
-//    public ImageIcon getScaledImage1(int width, int height, ImageIcon myImage) {
-//            Image img1 = myImage.getImage();
-//
-//            Image img2 = img1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-//            ImageIcon i = new ImageIcon(img2);
-//            return i;
-//    }
+    public ImageIcon getScaledImage(int width, int height, String path) {
+            ImageIcon myImage = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource(path)));
+            Image img1 = myImage.getImage();
+
+            Image img2 = img1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon i = new ImageIcon(img2);
+            return i;
+    }
+    public ImageIcon getScaledImage1(int width, int height, ImageIcon myImage) {
+            Image img1 = myImage.getImage();
+
+            Image img2 = img1.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            ImageIcon i = new ImageIcon(img2);
+            return i;
+    }
     // can chinh image
     public ImageIcon load(String linkImage, int k, int m) {/*linkImage là tên icon, k kích thước chiều rộng mình muốn,m chiều dài và hàm này trả về giá trị là 1 icon.*/
         try {

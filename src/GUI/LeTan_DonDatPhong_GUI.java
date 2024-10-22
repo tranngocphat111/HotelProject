@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
@@ -71,7 +73,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
 
-        JTableHeader header = Table_KhachHang.getTableHeader();
+        JTableHeader header = Table_DonDatPhong.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
 
@@ -104,25 +106,47 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 set.add(p.getTang());
             }
         }
-        cb_Tang.addItem("");
         set.forEach(t -> {
             cb_Tang.addItem(t.toString());
         });
 
 //        Tải dữ liệu tầng lên cb_Phong
-        cb_Phong.addItem("");
         for (Phong phong : list_phong) {
             cb_Phong.addItem(phong.getMaPhong() + "");
         }
 
 //        Xét dữ liệu cho cb_LoaiPhong
-        cb_LoaiPhong.addItem("");
         for (LoaiPhong lp : list_LoaiPhong) {
             cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
         }
 
-        model = (DefaultTableModel) Table_KhachHang.getModel();
+//        model = (DefaultTableModel) Table_KhachHang.getModel();
+        // Tạo một DefaultTableModel tùy chỉnh với isCellEditable được ghi đè
+        String columnNames[] = {"Mã Đơn", "Trạng Thái", "Ngày Đến", "Ngày Đi", "Phòng", "Loại Phòng", "SL Khách", "Dịch vụ sử dụng"};
+        model = new DefaultTableModel(null, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Trả về false để chặn mọi ô không thể chỉnh sửa
+                return false;
+            }
+        };
         model.setRowCount(0);
+
+        Table_DonDatPhong.setModel(model);
+        Table_DonDatPhong.setRowHeight(30);
+        jScrollPane1.setViewportView(Table_DonDatPhong);
+        if (Table_DonDatPhong.getColumnModel().getColumnCount() > 0) {
+            Table_DonDatPhong.getColumnModel().getColumn(0).setMaxWidth(120);
+            Table_DonDatPhong.getColumnModel().getColumn(1).setMaxWidth(120);
+            Table_DonDatPhong.getColumnModel().getColumn(2).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(3).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(4).setMaxWidth(120);
+            Table_DonDatPhong.getColumnModel().getColumn(5).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(6).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(7).setMaxWidth(300);
+        }
+
+//        Đọc dữ liệu theo trạng thái Đang ở
         checkBox_DangO.setSelected(true);
 
         for (DonDatPhong ddp : list_DonDatPhong) {
@@ -253,11 +277,56 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             });
         }
 
-        for (int i = 0; i < Table_KhachHang.getColumnCount(); i++) {
-            Table_KhachHang.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int i = 0; i < Table_DonDatPhong.getColumnCount(); i++) {
+            Table_DonDatPhong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
 //      
+    }
+
+    public List<DonDatPhong> getDonDatPhongTheoLoaiPhong(List<DonDatPhong> list_DDP) {
+        List<DonDatPhong> list_DDPMoi = new ArrayList<>();
+        for (DonDatPhong ddp : list_DDP) {
+            Phong phong = phong_dao.getPhongByMa(ddp.getPhong());
+            if (phong.getLoaiPhong() == cb_LoaiPhong.getSelectedIndex()) {
+                list_DDPMoi.add(ddp);
+            }
+        }
+        return list_DDPMoi;
+    }
+
+    public List<DonDatPhong> getDonDatPhongTheoTang(List<DonDatPhong> list_DDP) {
+        List<DonDatPhong> list_DDPMoi = new ArrayList<>();
+        for (DonDatPhong ddp : list_DDP) {
+            Phong phong = phong_dao.getPhongByMa(ddp.getPhong());
+            if (phong.getTang() == cb_Tang.getSelectedIndex()) {
+                list_DDPMoi.add(ddp);
+            }
+        }
+        return list_DDPMoi;
+    }
+
+    public List<DonDatPhong> getDonDatPhongTheoPhong(List<DonDatPhong> list_DDP) {
+        List<DonDatPhong> list_DDPMoi = new ArrayList<>();
+        for (DonDatPhong ddp : list_DDP) {
+            if (ddp.getPhong() == Integer.parseInt(cb_Phong.getSelectedItem().toString())) {
+                list_DDPMoi.add(ddp);
+            }
+        }
+        return list_DDPMoi;
+    }
+
+    public void getPhongTheoTang(int tang) {
+        if (tang == -1) {
+            return;
+        }
+        cb_Phong.removeAllItems();
+        cb_Phong.addItem("");
+        for (Phong phong : list_phong) {
+            if (phong.getTang() == tang) {
+                cb_Phong.addItem(phong.getMaPhong() + "");
+            }
+        }
     }
 
     public Date getNgayHienTai() {
@@ -278,8 +347,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         for (DichVu dv : list_DichVu) {
             dsDichVu = dsDichVu + dv.getTenDV() + ", ";
         }
-
-        dsDichVu.substring(0, dsDichVu.length() - 2);
+        dsDichVu = dsDichVu.substring(0, dsDichVu.length() - 2);
         return dsDichVu;
     }
 
@@ -354,7 +422,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_NhanPhong = new keeptoo.KGradientPanel();
         jLabel22 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Table_KhachHang = new javax.swing.JTable();
+        Table_DonDatPhong = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         checkBox_DangO = new javax.swing.JCheckBox();
@@ -454,14 +522,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel4.setText("Loại phòng");
 
         cb_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        cb_LoaiPhong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
         cb_LoaiPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_LoaiPhongActionPerformed(evt);
-            }
-        });
-        cb_LoaiPhong.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                cb_LoaiPhongPropertyChange(evt);
             }
         });
 
@@ -470,6 +534,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel11.setText("Tầng");
 
         cb_Tang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        cb_Tang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
         cb_Tang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_TangActionPerformed(evt);
@@ -481,6 +546,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel12.setText("Phòng");
 
         cb_Phong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        cb_Phong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
         cb_Phong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_PhongActionPerformed(evt);
@@ -629,8 +695,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_ThemDichVu.setMinimumSize(new java.awt.Dimension(140, 45));
         btn_ThemDichVu.setPreferredSize(new java.awt.Dimension(140, 45));
         btn_ThemDichVu.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ThemDichVuMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ThemDichVuMousePressed(evt);
             }
         });
 
@@ -721,8 +787,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_NhanPhong);
         btn_NhanPhong.setBounds(1050, 330, 140, 40);
 
-        Table_KhachHang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        Table_KhachHang.setModel(new javax.swing.table.DefaultTableModel(
+        Table_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Table_DonDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -731,7 +797,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Đơn", "Trạng Thái", "Ngày Đến", "Ngày Đi", "Phòng", "Loại Phòng", "Số Lượng Khách", "Dịch Vụ Sử Dụng"
+                "Mã Đơn", "Trạng Thái", "Ngày Đến", "Ngày Đi", "Phòng", "Loại Phòng", "SL Khách", "Dịch Vụ Sử Dụng"
             }
         ) {
             Class[] types = new Class [] {
@@ -742,17 +808,22 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
-        Table_KhachHang.setRowHeight(30);
-        jScrollPane1.setViewportView(Table_KhachHang);
-        if (Table_KhachHang.getColumnModel().getColumnCount() > 0) {
-            Table_KhachHang.getColumnModel().getColumn(0).setMaxWidth(120);
-            Table_KhachHang.getColumnModel().getColumn(1).setMaxWidth(120);
-            Table_KhachHang.getColumnModel().getColumn(2).setMaxWidth(150);
-            Table_KhachHang.getColumnModel().getColumn(3).setMaxWidth(150);
-            Table_KhachHang.getColumnModel().getColumn(4).setMaxWidth(120);
-            Table_KhachHang.getColumnModel().getColumn(5).setMaxWidth(150);
-            Table_KhachHang.getColumnModel().getColumn(6).setMaxWidth(200);
-            Table_KhachHang.getColumnModel().getColumn(7).setMaxWidth(300);
+        Table_DonDatPhong.setRowHeight(30);
+        Table_DonDatPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Table_DonDatPhongMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(Table_DonDatPhong);
+        if (Table_DonDatPhong.getColumnModel().getColumnCount() > 0) {
+            Table_DonDatPhong.getColumnModel().getColumn(0).setMaxWidth(120);
+            Table_DonDatPhong.getColumnModel().getColumn(1).setMaxWidth(120);
+            Table_DonDatPhong.getColumnModel().getColumn(2).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(3).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(4).setMaxWidth(120);
+            Table_DonDatPhong.getColumnModel().getColumn(5).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(6).setMaxWidth(150);
+            Table_DonDatPhong.getColumnModel().getColumn(7).setMaxWidth(300);
         }
 
         jPanel1.add(jScrollPane1);
@@ -847,21 +918,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cb_LoaiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaiPhongActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cb_LoaiPhongActionPerformed
-
     private void txt_SoDienThoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SoDienThoaiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_SoDienThoaiActionPerformed
-
-    private void cb_TangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_TangActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cb_TangActionPerformed
-
-    private void cb_PhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_PhongActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cb_PhongActionPerformed
 
     private void checkBox_DangOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DangOActionPerformed
         // TODO add your handling code here:
@@ -940,20 +999,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
     }//GEN-LAST:event_checkBox_DangChoActionPerformed
 
-    private void btn_ThemDichVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDichVuMouseClicked
-        // TODO add your handling code here:
-        LeTan_DonDatPhong_ThemDichVu themDichVu_gui = new LeTan_DonDatPhong_ThemDichVu();
-        themDichVu_gui.setVisible(true);
-    }//GEN-LAST:event_btn_ThemDichVuMouseClicked
-
     private void btn_HuyDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMouseClicked
         // TODO add your handling code here:
-        int[] selRows = Table_KhachHang.getSelectedRows();
+        int[] selRows = Table_DonDatPhong.getSelectedRows();
 
         if (selRows.length > 0) {
             for (int i = 0; i < selRows.length; ++i) {
-                int maDon = Integer.parseInt(Table_KhachHang.getValueAt(selRows[i], 0).toString());
-                if (!Table_KhachHang.getValueAt(selRows[i], 1).toString().equals("Đang chờ")) {
+                int maDon = Integer.parseInt(Table_DonDatPhong.getValueAt(selRows[i], 0).toString());
+                if (!Table_DonDatPhong.getValueAt(selRows[i], 1).toString().equals("Đang chờ")) {
                     JOptionPane.showMessageDialog(null, "Vui lòng chỉ chọn đơn ở trạng thái Đang chờ");
                     break;
                 } else {
@@ -998,7 +1051,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        DocDuLieuLenTable(getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate()));
+        list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
+        DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
     }//GEN-LAST:event_txt_NgayNhanPhong_BatDauPropertyChange
 
     private void txt_NgayNhanPhong_KetThucPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhong_KetThucPropertyChange
@@ -1017,8 +1071,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             txt_NgayNhanPhong_KetThuc.setDate(null);
             return;
         }
-
-        DocDuLieuLenTable(getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate()));
+        list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
+        DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
     }//GEN-LAST:event_txt_NgayNhanPhong_KetThucPropertyChange
 
@@ -1073,13 +1127,121 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoi();
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
-    private void cb_LoaiPhongPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cb_LoaiPhongPropertyChange
+
+    private void cb_LoaiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaiPhongActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cb_LoaiPhongPropertyChange
+        if (cb_LoaiPhong.getSelectedItem() == null || cb_Tang.getSelectedItem() == null || cb_Phong.getSelectedItem() == null) {
+            return;
+        }
+        List<DonDatPhong> list_DDP = list_DonDatPhongTheoTieuChi;
+
+        if (cb_LoaiPhong.getSelectedItem().toString().equals("")
+                && cb_Tang.getSelectedItem().toString().equals("")
+                && cb_Phong.getSelectedItem().toString().equals("")) {
+            DocDuLieuLenTable(list_DDP);
+            return;
+        }
+
+        if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoLoaiPhong(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+
+        if (!cb_Tang.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoTang(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+
+        if (!cb_Phong.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoPhong(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+    }//GEN-LAST:event_cb_LoaiPhongActionPerformed
+
+    private void cb_TangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_TangActionPerformed
+        // TODO add your handling code here:
+        if (cb_LoaiPhong.getSelectedItem() == null || cb_Tang.getSelectedItem() == null || cb_Phong.getSelectedItem() == null) {
+            return;
+        }
+        getPhongTheoTang(cb_Tang.getSelectedIndex());
+
+        List<DonDatPhong> list_DDP = list_DonDatPhongTheoTieuChi;
+
+        if (cb_LoaiPhong.getSelectedItem().toString().equals("")
+                && cb_Tang.getSelectedItem().toString().equals("")
+                && cb_Phong.getSelectedItem().toString().equals("")) {
+            DocDuLieuLenTable(list_DDP);
+            return;
+        }
+
+        if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoLoaiPhong(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+
+        if (!cb_Tang.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoTang(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+
+        if (!cb_Phong.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoPhong(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+    }//GEN-LAST:event_cb_TangActionPerformed
+
+    private void cb_PhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_PhongActionPerformed
+        // TODO add your handling code here:
+        List<DonDatPhong> list_DDP = list_DonDatPhongTheoTieuChi;
+        if (cb_LoaiPhong.getSelectedItem() == null || cb_Tang.getSelectedItem() == null || cb_Phong.getSelectedItem() == null) {
+            return;
+        }
+        if (cb_LoaiPhong.getSelectedItem().toString().equals("")
+                && cb_Tang.getSelectedItem().toString().equals("")
+                && cb_Phong.getSelectedItem().toString().equals("")) {
+            DocDuLieuLenTable(list_DDP);
+            return;
+        }
+
+        if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoLoaiPhong(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+
+        if (!cb_Tang.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoTang(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+
+        if (!cb_Phong.getSelectedItem().toString().equals("")) {
+            list_DDP = getDonDatPhongTheoPhong(list_DDP);
+            DocDuLieuLenTable(list_DDP);
+        }
+    }//GEN-LAST:event_cb_PhongActionPerformed
+
+    private void Table_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhongMousePressed
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            System.out.println(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0));
+        }
+    }//GEN-LAST:event_Table_DonDatPhongMousePressed
+
+    private void btn_ThemDichVuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDichVuMousePressed
+        // TODO add your handling code here:
+        int row = Table_DonDatPhong.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Đơn cần thêm dịch vụ");
+            return;
+        }
+
+        int maDon = Integer.parseInt(model.getValueAt(row, 0).toString());
+        DonDatPhong donDatPhong_CanThem = donDatPhong_dao.getDichVuByMa(maDon);
+        new LeTan_DonDatPhong_ThemDichVu(donDatPhong_CanThem, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
+    }//GEN-LAST:event_btn_ThemDichVuMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
-    public static javax.swing.JTable Table_KhachHang;
+    public static javax.swing.JTable Table_DonDatPhong;
     private javax.swing.JPanel ThongTinDat;
     private javax.swing.JPanel ThongTinKhachHang;
     private keeptoo.KGradientPanel btn_HuyDon;

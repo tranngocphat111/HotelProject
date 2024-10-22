@@ -5,7 +5,6 @@
 package GUI;
 
 import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTable;
-import static GUI.LeTan_DonDatPhong_GUI.Table_KhachHang;
 import static GUI.LeTan_DonDatPhong_GUI.model;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -34,6 +33,7 @@ import model.DTO.HoaDon;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.MongoDBConnection;
+import static GUI.LeTan_DonDatPhong_GUI.Table_DonDatPhong;
 
 /**
  *

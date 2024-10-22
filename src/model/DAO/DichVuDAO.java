@@ -11,7 +11,10 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.LoaiPhong;
+import model.DTO.TienNghi;
 import org.bson.conversions.Bson;
+import org.bson.types.Binary;
 
 public class DichVuDAO {
     private MongoCollection<Document> dichVuCollection;
@@ -53,6 +56,21 @@ public class DichVuDAO {
             return false;
         }
     }
+    
+   public DichVu getDichVuByMa(int maDichVu) {
+        DichVu dichvu = null;
+        Document query = new Document("maDV", maDichVu);
+        try {
+            Document doc = dichVuCollection.find(query).first();
+            if (doc != null) {
+                dichvu = DichVu.fromDocument(doc); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return dichvu;
+    }
+
     
     public DichVu timDichVu(String tenDV) {
         DichVu x = new DichVu(tenDV);

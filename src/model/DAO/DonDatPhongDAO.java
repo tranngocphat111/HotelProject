@@ -38,6 +38,20 @@ public class DonDatPhongDAO {
         return donDatPhongs;
     }
 
+    public DonDatPhong getDichVuByMa(int maDon) {
+        DonDatPhong donDatPhong = null;
+        Document query = new Document("maDonDat", maDon);
+        try {
+            Document doc = donDatPhongCollection.find(query).first();
+            if (doc != null) {
+                donDatPhong = DonDatPhong.fromDocument(doc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return donDatPhong;
+    }
+
     public boolean createDonDatPhong(DonDatPhong donDatPhong) {
         try {
 
@@ -83,6 +97,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
+
     public boolean updateDonDatPhong(DonDatPhong donDatPhong) {
         try {
             ArrayList<Document> list_KhachHang = new ArrayList<>();
@@ -128,19 +143,14 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-public boolean xoaDonDatPhongByMaDonDat(int maDonDat) {
+
+    public boolean xoaDonDatPhongByMaDonDat(int maDonDat) {
         Bson filter = and(
-            eq("maDonDat", maDonDat),
-            eq("trangThai", "Đang chờ")
-            );
+                eq("maDonDat", maDonDat),
+                eq("trangThai", "Đang chờ")
+        );
 
         DeleteResult result = donDatPhongCollection.deleteOne(filter);
         return result.getDeletedCount() > 0;
     }
 }
-    
-    
-
-    
-
-

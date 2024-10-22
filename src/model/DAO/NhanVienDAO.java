@@ -1,17 +1,24 @@
 package model.DAO;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
 import model.DTO.NhanVien;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import org.bson.conversions.Bson;
+import org.bson.types.Binary;
 
 public class NhanVienDAO {
 
@@ -67,23 +74,100 @@ public class NhanVienDAO {
         }
     }
     public NhanVien timTheoMaNhanVien(int maNhanVien) {
-        NhanVien x = new NhanVien(maNhanVien);
+        
         List<NhanVien> list_DV = getAllNhanVien();
-        if(!list_DV.contains(x)) {
-            return null;
+        for(NhanVien x : list_DV) {
+            if(x.getMaNhanVien() == maNhanVien) return x;
         }
-        return list_DV.get(list_DV.indexOf(x));
+        return null;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public List<NhanVien> timTheoCCCD(String CCCD) {
+        
+        List<Bson> pipeline = Arrays.asList(
+            Aggregates.match(Filters.regex("CCCD", ".*" + CCCD + ".*")),
+            Aggregates.project(Projections.fields(
+                Projections.include(
+                    "maNhanVien",
+                    "tenNhanVien",
+                    "anhDaiDien",
+                    "SoDienThoai",
+                    "CCCD",
+                    "diaChi",
+                    "chucVu",
+                    "tenTaiKhoan",
+                    "matKhau"
+                )
+            ))
+        );
+
+        AggregateIterable<Document> aggregate = nhanVienCollection.aggregate(pipeline);
+
+        List<NhanVien> list_NhanVien = new ArrayList<>();
+        for (Document x : aggregate) {
+            
+            
+            
+            NhanVien t = new NhanVien(
+                x.getInteger("maNhanVien"),
+                x.getString("tenNhanVien"),
+                x.get("anhDaiDien", Binary.class).getData(),
+                x.getString("SoDienThoai"),
+                x.getString("CCCD"),
+                x.getString("diaChi"),
+                x.getString("chucVu"),
+                x.getString("tenTaiKhoan"),
+                x.getString("matKhau")
+            );
+            list_NhanVien.add(t);
+        }
+        
+        return list_NhanVien;
     }
     
     public List<NhanVien> timTheoTenNV(String tenNV) {
-        List<NhanVien> list_NhanVien = getAllNhanVien();
-        List<NhanVien> list_daLoc = new ArrayList<>();
-        for(NhanVien x: list_NhanVien) {
-            if(x.getTenNhanVien().equals(tenNV)) {
-                list_daLoc.add(x);
-            }
+        List<Bson> pipeline = Arrays.asList(
+                Aggregates.match(Filters.regex("tenNhanVien", ".*" + tenNV + ".*" )),
+                Projections.include(
+                        "maNhanVien",
+                        "tenNhanVien",
+                        "anhDaiDien",
+                        "SoDienThoai",
+                        "CCCD",
+                        "diaChi",
+                        "chucVu",
+                        "tenTaiKhoan",
+                        "matKhau"
+                )
+        );
+        List<NhanVien> list_NhanVien = new ArrayList<>();
+        for(Bson x : pipeline) {
+            NhanVien t = new NhanVien(
+                    x.toBsonDocument().getInt32("maNhanVien").getValue(), 
+                    x.toBsonDocument().getString("tenNhanVien").getValue(), 
+                    x.toBsonDocument().getBinary("anhDaiDien").getData(), 
+                    x.toBsonDocument().getString("SoDienThoai").getValue(), 
+                    x.toBsonDocument().getString("CCCD").getValue(), 
+                    x.toBsonDocument().getString("diaChi").getValue(), 
+                    x.toBsonDocument().getString("chucVu").getValue(), 
+                    x.toBsonDocument().getString("tenTaiKhoan").getValue(), 
+                    x.toBsonDocument().getString("matKhau").getValue()
+            );
+            list_NhanVien.add(t);
         }
-        return list_daLoc;
+        
+        return list_NhanVien;
     }
     
     public List<NhanVien> timTheoChucVu(String tenChucVu) {
@@ -142,6 +226,10 @@ public class NhanVienDAO {
             System.out.println("Lỗi xảy ra trong quá trình sửa nhân viên: " + e.getMessage());
             return false;
         }
+    }
+
+    public MongoCollection<Document> getCollection() {
+        return nhanVienCollection;
     }
     
 }

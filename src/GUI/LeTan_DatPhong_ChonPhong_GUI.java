@@ -180,16 +180,14 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
     public void DocDuLieuLenTable(List<Phong> list_PhongTrong) {
         for (Phong phong : list_PhongTrong) {
             LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
-            System.out.println(loaiPhong.getTienNghis());
+            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
             model.addRow(new Object[]{
                 phong.getMaPhong(),
                 phong.getTang(),
                 loaiPhong.getTenLoaiPhong(),
                 loaiPhong.getLoaiGiuong(),
                 loaiPhong.getDienTich() + " m2",
-
-//                list_tienNghi, 
+                list_tienNghi, 
                 phong.getMoTa(), 
 
 

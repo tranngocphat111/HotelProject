@@ -584,6 +584,13 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         if(row != -1) {
             String CCCD = jTable1.getModel().getValueAt(row, 1).toString();
             
+            
+            
+            
+            
+            
+            
+            
             NhanVien x = nhanVienDAO.timTheoCCCD(CCCD).getFirst();
             
             txt_CCCD.setText(x.getCCCD());

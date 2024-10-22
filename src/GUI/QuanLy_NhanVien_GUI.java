@@ -4,13 +4,22 @@
  */
 package GUI;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.NhanVienDAO;
+import model.DTO.NhanVien;
 import model.MongoDBConnection;
 
 /**
@@ -26,15 +35,16 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     
     private NhanVienDAO nhanVienDAO = new NhanVienDAO(mongoDB.getDatabase());
     
-    
     public QuanLy_NhanVien_GUI() {
         initComponents();
+        
+        
+        
         
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
         list_btn.add(btn_Lammoi);
-        
         list_btn.add(btn_Chonhinhanh);
         
         
@@ -101,9 +111,9 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         txt_HoTen = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        cb_QuocTich = new javax.swing.JComboBox<>();
+        cb_ChucVu = new javax.swing.JComboBox<>();
+        txt_DC = new javax.swing.JTextField();
         txt_SDT = new javax.swing.JTextField();
-        txt_Email = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         btn_Chonhinhanh = new keeptoo.KGradientPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -120,7 +130,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         ChuaAnhNhanVien = new javax.swing.JPanel();
         anhnhanvien = new javax.swing.JLabel();
         CBox_TieuChiTimNV = new javax.swing.JComboBox<>();
-        CBox_DSThanhPhanTieuChi = new javax.swing.JComboBox<>();
+        ChucVu = new javax.swing.JComboBox<>();
+        txt_Ma_va_Ten = new javax.swing.JTextField();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_NhanVien"); // NOI18N
@@ -148,15 +159,22 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Chức vụ");
 
-        cb_QuocTich.addActionListener(new java.awt.event.ActionListener() {
+        Set<String> set = new HashSet<>();
+        for(NhanVien x : nhanVienDAO.getAllNhanVien()) {
+            if(!set.contains(x.getChucVu())) {
+                set.add(x.getChucVu());
+                cb_ChucVu.addItem(x.getChucVu());
+            }
+        }
+        cb_ChucVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_QuocTichActionPerformed(evt);
+                cb_ChucVuActionPerformed(evt);
             }
         });
 
-        txt_Email.addActionListener(new java.awt.event.ActionListener() {
+        txt_SDT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_EmailActionPerformed(evt);
+                txt_SDTActionPerformed(evt);
             }
         });
 
@@ -170,11 +188,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
                     .addGroup(ThongTinNhanVienLayout.createSequentialGroup()
                         .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(txt_SDT, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_DC, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(37, 37, 37)
                         .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cb_QuocTich, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cb_ChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(ThongTinNhanVienLayout.createSequentialGroup()
                         .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(ThongTinNhanVienLayout.createSequentialGroup()
@@ -192,7 +210,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
                                 .addGap(35, 35, 35)))
                         .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txt_SDT, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(219, Short.MAX_VALUE))
         );
         ThongTinNhanVienLayout.setVerticalGroup(
@@ -206,7 +224,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txt_CCCD)
-                    .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_SDT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_HoTen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -214,8 +232,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
                     .addComponent(jLabel12))
                 .addGap(6, 6, 6)
                 .addGroup(ThongTinNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_SDT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_QuocTich, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_DC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cb_ChucVu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -383,35 +401,14 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(240, 300, 140, 40);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"", null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Mã nhân viên", "CCCD/Passport", "Tên nhân viên", "Số điện thoại", "Địa chỉ", "Chức vụ", "Hình đại diện"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+        JTableHeader header = jTable1.getTableHeader();
+        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
+        header.setFont(new Font("Arial", Font.BOLD, 15));
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15));
+        jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -446,23 +443,40 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(ChuaAnhNhanVien);
         ChuaAnhNhanVien.setBounds(1050, 90, 170, 170);
 
-        CBox_TieuChiTimNV.setModel(new javax.swing.DefaultComboBoxModel<>());
+        CBox_TieuChiTimNV.setModel(new javax.swing.DefaultComboBoxModel<>(
+            new String[] {
+                "Tiêu chí tìm",
+                "Mã nhân viên",
+                "Tên nhân viên",
+                "Chức vụ"
+            }
+
+        ));
         CBox_TieuChiTimNV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CBox_TieuChiTimNVActionPerformed(evt);
             }
         });
+        CBox_TieuChiTimNV.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                CBox_TieuChiTimNVPropertyChange(evt);
+            }
+        });
         jPanel1.add(CBox_TieuChiTimNV);
         CBox_TieuChiTimNV.setBounds(720, 300, 110, 40);
 
-        CBox_DSThanhPhanTieuChi.setModel(new javax.swing.DefaultComboBoxModel<>());
-        CBox_DSThanhPhanTieuChi.addActionListener(new java.awt.event.ActionListener() {
+        ChucVu.setModel(new javax.swing.DefaultComboBoxModel<>());
+        ChucVu.setVisible(false);
+        ChucVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CBox_DSThanhPhanTieuChiActionPerformed(evt);
+                ChucVuActionPerformed(evt);
             }
         });
-        jPanel1.add(CBox_DSThanhPhanTieuChi);
-        CBox_DSThanhPhanTieuChi.setBounds(840, 300, 180, 40);
+        jPanel1.add(ChucVu);
+        ChucVu.setBounds(840, 300, 180, 40);
+
+        jPanel1.add(txt_Ma_va_Ten);
+        txt_Ma_va_Ten.setBounds(840, 300, 180, 40);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -491,10 +505,10 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cb_QuocTichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_QuocTichActionPerformed
+    private void cb_ChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ChucVuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cb_QuocTichActionPerformed
-
+    }//GEN-LAST:event_cb_ChucVuActionPerformed
+    
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
         // TODO add your handling code here:
 
@@ -519,24 +533,75 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Them.setBorder(null);
     }//GEN-LAST:event_btn_ThemMouseExited
 
-    private void txt_EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_EmailActionPerformed
+    private void txt_SDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SDTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_EmailActionPerformed
+    }//GEN-LAST:event_txt_SDTActionPerformed
 
     private void CBox_TieuChiTimNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVActionPerformed
         // TODO add your handling code here:
+        String tieuChiTim = CBox_TieuChiTimNV.getSelectedItem().toString();
+        System.out.println(tieuChiTim);
+        if(tieuChiTim.equals("Chức vụ")) {
+            ChucVu.setVisible(true);
+            txt_Ma_va_Ten.setVisible(false);
+        } else {
+            ChucVu.setVisible(false);
+            txt_Ma_va_Ten.setVisible(true);
+        }
     }//GEN-LAST:event_CBox_TieuChiTimNVActionPerformed
 
-    private void CBox_DSThanhPhanTieuChiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_DSThanhPhanTieuChiActionPerformed
+    private void ChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChucVuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CBox_DSThanhPhanTieuChiActionPerformed
+    }//GEN-LAST:event_ChucVuActionPerformed
+
+    private void CBox_TieuChiTimNVPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVPropertyChange
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_CBox_TieuChiTimNVPropertyChange
+    static DefaultTableModel duaDuLieuVaoTable(List<NhanVien> list_NhanVien) {
+        String[] header = new String [] {
+        "Mã nhân viên", "CCCD/Passport", "Tên nhân viên", "Số điện thoại", "Địa chỉ", "Chức vụ"
+        };
+        Object[][] object = new Object[list_NhanVien.size()][];
+        for(int i = 0; i < list_NhanVien.size(); i++) {
+            NhanVien x = list_NhanVien.get(i);
+            Object[] t = new Object[] {
+                x.getMaNhanVien(),
+                x.getCCCD(),
+                x.getTenNhanVien(),
+                x.getSoDienThoai(),
+                x.getDiaChi(),
+                x.getChucVu()
+            };
+            object[i] = t;
+        }
+        return new DefaultTableModel(object, header);
+    }
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        if(row != -1) {
+            String CCCD = jTable1.getModel().getValueAt(row, 1).toString();
+            
+            NhanVien x = nhanVienDAO.timTheoCCCD(CCCD).getFirst();
+            
+            txt_CCCD.setText(x.getCCCD());
+            txt_HoTen.setText(x.getTenNhanVien());
+            System.out.println(x.getSoDienThoai());
+            txt_SDT.setText(x.getSoDienThoai());
+            txt_DC.setText(x.getDiaChi());
+            cb_ChucVu.setSelectedItem(x.getChucVu());
+        }
+        
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
-    private javax.swing.JComboBox<String> CBox_DSThanhPhanTieuChi;
     private javax.swing.JComboBox<String> CBox_TieuChiTimNV;
     private javax.swing.JPanel ChuaAnhNhanVien;
+    private javax.swing.JComboBox<String> ChucVu;
     private javax.swing.JPanel ThongTinNhanVien;
     private javax.swing.JLabel anhnhanvien;
     private keeptoo.KGradientPanel btn_Chonhinhanh;
@@ -544,7 +609,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Xoa;
-    private javax.swing.JComboBox<String> cb_QuocTich;
+    private javax.swing.JComboBox<String> cb_ChucVu;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -560,8 +625,9 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txt_CCCD;
-    private javax.swing.JTextField txt_Email;
+    private javax.swing.JTextField txt_DC;
     private javax.swing.JTextField txt_HoTen;
+    private javax.swing.JTextField txt_Ma_va_Ten;
     private javax.swing.JTextField txt_SDT;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,8 +9,10 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.TienNghi;
 
 public class LoaiPhongDAO {
+
     private MongoCollection<Document> loaiPhongCollection;
 
     public LoaiPhongDAO(MongoDatabase database) {
@@ -28,7 +30,7 @@ public class LoaiPhongDAO {
         }
         return loaiPhongs;
     }
-    
+
     public LoaiPhong getLoaiPhongByMa(int maLoaiPhong) {
         LoaiPhong loaiPhong = null;
         Document query = new Document("maLoaiPhong", maLoaiPhong);
@@ -42,20 +44,25 @@ public class LoaiPhongDAO {
         }
         return loaiPhong;
     }
-    
 
-    
     public boolean createLoaiPhong(LoaiPhong loaiPhong) {
         try {
+            List<Document> List_TienNghi = new ArrayList<>();
+            for (TienNghi tienNghi : loaiPhong.getTienNghis()) {
+                List_TienNghi.add(new Document()
+                        .append("maTienNghi", tienNghi.getMaTienNghi())
+                        .append("tenTienNghi", tienNghi.getTenTienNghi())
+                        .append("moTa", tienNghi.getMoTa())
+                        .append("hinhAnh", tienNghi.getHinhAnh())
+                );
+            }
             Document doc = new Document()
                     .append("maLoaiPhong", loaiPhong.getMaLoaiPhong())
                     .append("tenLoaiPhong", loaiPhong.getTenLoaiPhong())
                     .append("dienTich", loaiPhong.getDienTich())
                     .append("donGia", loaiPhong.getDonGia())
-                    .append("moTa", loaiPhong.getMoTa())
                     .append("soKhachToiDa", loaiPhong.getSoKhachToiDa())
-                    .append("KhuyenMai", loaiPhong.getKhuyenMai())
-                    .append("tienNghis", loaiPhong.getTienNghis())
+                    .append("tienNghis", List_TienNghi)
                     .append("loaiGiuong", loaiPhong.getLoaiGiuong());
 
             InsertOneResult result = loaiPhongCollection.insertOne(doc);
@@ -66,4 +73,3 @@ public class LoaiPhongDAO {
         }
     }
 }
-

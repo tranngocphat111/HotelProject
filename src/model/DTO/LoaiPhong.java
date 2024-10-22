@@ -12,23 +12,19 @@ public class LoaiPhong {
     private String tenLoaiPhong;
     private int dienTich;
     private int donGia;
-    private String moTa;
     private int soKhachToiDa;
-    private int khuyenMai;
     private List<TienNghi> tienNghis;
     private String loaiGiuong;
 
     public LoaiPhong() {
     }
 
-    public LoaiPhong(int maLoaiPhong, String tenLoaiPhong, int dienTich, int donGia, String moTa, int soKhachToiDa, int khuyenMai, List<TienNghi> tienNghis, String loaiGiuong) {
+    public LoaiPhong(int maLoaiPhong, String tenLoaiPhong, int dienTich, int donGia, int soKhachToiDa, int khuyenMai, List<TienNghi> tienNghis) {
         this.maLoaiPhong = maLoaiPhong;
         this.tenLoaiPhong = tenLoaiPhong;
         this.dienTich = dienTich;
         this.donGia = donGia;
-        this.moTa = moTa;
         this.soKhachToiDa = soKhachToiDa;
-        this.khuyenMai = khuyenMai;
         this.tienNghis = tienNghis;
         this.loaiGiuong = loaiGiuong;
     }
@@ -76,13 +72,7 @@ public class LoaiPhong {
         this.donGia = donGia;
     }
 
-    public String getMoTa() {
-        return moTa;
-    }
 
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
-    }
 
     public int getSoKhachToiDa() {
         return soKhachToiDa;
@@ -92,13 +82,7 @@ public class LoaiPhong {
         this.soKhachToiDa = soKhachToiDa;
     }
 
-    public int getKhuyenMai() {
-        return khuyenMai;
-    }
 
-    public void setKhuyenMai(int khuyenMai) {
-        this.khuyenMai = khuyenMai;
-    }
 
     public List<TienNghi> getTienNghis() {
         return tienNghis;
@@ -123,9 +107,7 @@ public class LoaiPhong {
         if (doc.containsKey("donGia")) {
             loaiPhong.setDonGia(doc.getInteger("donGia"));
         }
-        if (doc.containsKey("moTa")) {
-            loaiPhong.setMoTa(doc.getString("moTa"));
-        }
+        
         if (doc.containsKey("soKhachToiDa")) {
             loaiPhong.setSoKhachToiDa(doc.getInteger("soKhachToiDa"));
         }
@@ -133,23 +115,24 @@ public class LoaiPhong {
             loaiPhong.setLoaiGiuong(doc.getString("loaiGiuong"));
         }
 
-        // Convert TienNghi array
-//        if (doc.containsKey("tienNghis")) {
-//            List<Document> tienNghis = (List<Document>) doc.get("tienNghis");
-//            List<TienNghi> List_tienNghi = new ArrayList<TienNghi>();
-//            for (Document tn : tienNghis) {
-//                TienNghi tienNghi = TienNghi.fromDocument(tn);
-//                List_tienNghi.add(tienNghi);
-//            }
-//            loaiPhong.setTienNghis(List_tienNghi);
-//        }
+//         Convert TienNghi array
+        if (doc.containsKey("tienNghis")) {
+            List<Document> tienNghis = (List<Document>) doc.get("tienNghis");
+            List<TienNghi> List_tienNghi = new ArrayList<>();
+            for (Document tn : tienNghis) {
+                TienNghi tienNghi = TienNghi.fromDocument(tn);
+                List_tienNghi.add(tienNghi);
+            }
+            
+            loaiPhong.setTienNghis(List_tienNghi);
+        }
 
         return loaiPhong;
     }
 
     @Override
     public String toString() {
-        return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", dienTich=" + dienTich + ", donGia=" + donGia + ", moTa=" + moTa + ", soKhachToiDa=" + soKhachToiDa + ", khuyenMai=" + khuyenMai + ", tienNghis=" + tienNghis + ", loaiGiuong=" + loaiGiuong + '}';
+        return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", dienTich=" + dienTich + ", donGia=" + donGia  + ", soKhachToiDa=" + soKhachToiDa  + ", tienNghis=" + tienNghis + ", loaiGiuong=" + loaiGiuong + '}';
     }
 
     

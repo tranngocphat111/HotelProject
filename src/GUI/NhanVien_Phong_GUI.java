@@ -179,7 +179,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
                 phong.getTang(),
                 loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getLoaiGiuong(),
                 loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + "M2",
-//                getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
+                getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
                 df.format(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND"});
         }
            

@@ -4,7 +4,6 @@ import org.bson.Document;
 
 public class Phong {
     private int maPhong;
-    private int trangThai;
     private int tang;
     private int loaiPhong;
     private String moTa;
@@ -19,7 +18,6 @@ public class Phong {
 
     public Phong(int maPhong, int trangThai, int tang, int loaiPhong) {
         this.maPhong = maPhong;
-        this.trangThai = trangThai;
         this.tang = tang;
         this.loaiPhong = loaiPhong;
     }
@@ -34,15 +32,6 @@ public class Phong {
     public void setMaPhong(int maPhong) {
         this.maPhong = maPhong;
     }
-
-    public int getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(int trangThai) {
-        this.trangThai = trangThai;
-    }
-
 
 
     public int getTang() {
@@ -63,7 +52,7 @@ public class Phong {
 
     @Override
     public String toString() {
-        return "Phong{" + "maPhong=" + maPhong + ", trangThai=" + trangThai + ", tang=" + tang + ", loaiPhong=" + loaiPhong + ", moTa=" + moTa + '}';
+        return "Phong{" + "maPhong=" + maPhong + ", tang=" + tang + ", loaiPhong=" + loaiPhong + ", moTa=" + moTa + '}';
     }
 
    
@@ -74,9 +63,7 @@ public class Phong {
         if (doc.containsKey("maPhong")) {
             phong.setMaPhong(doc.getInteger("maPhong"));
         }
-        if (doc.containsKey("trangThai")) {
-            phong.setTrangThai(doc.getInteger("trangThai"));
-        }
+
         if (doc.containsKey("moTa")) {
             phong.setMoTa(doc.getString("moTa"));
         }

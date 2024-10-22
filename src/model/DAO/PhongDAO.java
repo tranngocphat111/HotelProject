@@ -3,6 +3,7 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.InsertOneResult;
 import model.DTO.Phong;
 import model.MongoDBConnection;
@@ -54,8 +55,6 @@ public class PhongDAO {
         try {
             Document doc = new Document()
                     .append("maPhong", phong.getMaPhong())
-                    .append("trangThai", phong.getTrangThai())
-                    
                     .append("tang", phong.getTang())
                     .append("loaiPhong", phong.getLoaiPhong())
                     .append("moTa", phong.getMoTa());
@@ -67,6 +66,26 @@ public class PhongDAO {
             return false;
         }
     }
+    
+    
+    
+    public List<Phong> getAllPhongsSortByMaPhong() {
+        List<Phong> phongs = new ArrayList<>();
+        try (MongoCursor<Document> cursor = phongCollection.find()
+                .sort(Sorts.ascending("maPhong"))
+                .iterator()) {
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                Phong phong = Phong.fromDocument(document);
+                phongs.add(phong);
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình lấy danh sách phòng: " + e.getMessage());
+        }
+        return phongs;
+    }
+    
+    
     
     public ArrayList<Phong> getAllPhongs() {
         ArrayList<Phong> phongs = new ArrayList<>();

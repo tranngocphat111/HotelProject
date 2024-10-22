@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Functions.ImageScale;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -437,7 +439,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         );
         ChuaAnhNhanVienLayout.setVerticalGroup(
             ChuaAnhNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(anhnhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 166, Short.MAX_VALUE)
+            .addComponent(anhnhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jPanel1.add(ChuaAnhNhanVien);
@@ -584,13 +586,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         if(row != -1) {
             String CCCD = jTable1.getModel().getValueAt(row, 1).toString();
             
-            
-            
-            
-            
-            
-            
-            
             NhanVien x = nhanVienDAO.timTheoCCCD(CCCD).getFirst();
             
             txt_CCCD.setText(x.getCCCD());
@@ -599,6 +594,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             txt_SDT.setText(x.getSoDienThoai());
             txt_DC.setText(x.getDiaChi());
             cb_ChucVu.setSelectedItem(x.getChucVu());
+            
+            anhnhanvien.setIcon(new ImageScale().getScaledImage1(anhnhanvien.getWidth(), anhnhanvien.getHeight(), new ImageIcon(x.getAnhDaiDien())));
         }
         
     }//GEN-LAST:event_jTable1MouseClicked

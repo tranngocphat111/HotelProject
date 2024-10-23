@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -36,6 +37,9 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private MongoDBConnection mongoDB = new MongoDBConnection();
     
     private NhanVienDAO nhanVienDAO = new NhanVienDAO(mongoDB.getDatabase());
+    
+    private byte[] hinhAnh = null;
+    
     
     public QuanLy_NhanVien_GUI() {
         initComponents();
@@ -313,6 +317,9 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Them.setkGradientFocus(250);
         btn_Them.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ThemMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ThemMouseEntered(evt);
             }
@@ -598,6 +605,49 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_jTable1MouseClicked
+        
+    
+    private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
+        // TODO add your handling code here:
+        try {
+            if(txt_CCCD.getText().equals("")) {
+                throw new Exception("Chưa nhập CCCD / Passport.");
+            }
+            if(txt_HoTen.getText().equals("")) {
+                throw new Exception("Chưa nhập họ tên.");
+            }
+            if(txt_SDT.getText().equals("")) {
+                throw new Exception("Chưa nhập số điện thoại.");
+            }
+            if(txt_DC.getText().equals("")) {
+                throw new Exception("Chưa nhập địa chỉ");
+            }
+            if(hinhAnh == null) {
+                throw new Exception("Chưa chọn hình ảnh");
+            }
+            
+            int maNhanVien = nhanVienDAO.getAllNhanVien().getLast().getMaNhanVien()  + 1;
+            String HoTen = txt_HoTen.getText();
+            byte[] anhDaiDien = hinhAnh;
+            String SDT = txt_SDT.getText();
+            String CCCD = txt_CCCD.getText();
+            String DC = txt_DC.getText();
+            String ChucVu = cb_ChucVu.getSelectedItem().toString();
+            
+            Nhanvien x = new NhanVien
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_ThemMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

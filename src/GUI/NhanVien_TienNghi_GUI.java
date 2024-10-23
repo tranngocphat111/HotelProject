@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
@@ -564,14 +565,21 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         try {
             
             if(jTable1.getSelectedRow() != -1) {
-                String tenTienNghi = txt_tienNghi.getText();
+                String tenTienNghi = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 1).toString();
                 TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
+                
+                
+                
                 System.out.println(x.toString());
+                tenTienNghi = txt_tienNghi.getText();
                 int maDV = x.getMaTienNghi();
                 String moTaDV = txt_moTa.getText();
                 byte[] hinhAnh = this.hinhAnh;
+                
+                
+                
                 System.out.println("Trên label" + String.format("%d %s", maDV, moTaDV));
-                TienNghi y = new TienNghi(maDV, moTaDV, moTaDV, hinhAnh);
+                TienNghi y = new TienNghi(maDV, tenTienNghi, moTaDV, hinhAnh);
                 
                 tienNghiDAO.suaTienNghi(x, y);
 //                System.out.println(y.toString());
@@ -581,10 +589,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                 txt_tienNghi.setText("");
                 txt_moTa.setText("");
                 label_Anh.setIcon(null);
-                
-            } else {
-                throw new Exception("Chưa chọn dịch vụ để sửa đổi");
             }
+            
         }
         catch(Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi dữ liệu", JOptionPane.ERROR_MESSAGE);
@@ -612,6 +618,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
         // TODO add your handling code here:
         String tenTienNghi = txt_tienNghi.getText();
+        
+        System.out.println(tenTienNghi);
         if(tenTienNghi.equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa nhập tên tiện nghi cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
@@ -635,7 +643,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             String tenTienNghi = jTable1.getModel().getValueAt(row, 1).toString();
             
             TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-//            System.out.println(x.toString());
+            System.out.println(x.toString());
+            
 //            System.out.println(x.getHinhAnh());
             txt_tienNghi.setText(x.getTenTienNghi());
             txt_moTa.setText(x.getMoTa());

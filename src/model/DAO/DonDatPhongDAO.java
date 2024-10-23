@@ -38,7 +38,7 @@ public class DonDatPhongDAO {
         return donDatPhongs;
     }
 
-    public DonDatPhong getDichVuByMa(int maDon) {
+    public DonDatPhong getDonDatPhongByMa(int maDon) {
         DonDatPhong donDatPhong = null;
         Document query = new Document("maDonDat", maDon);
         try {

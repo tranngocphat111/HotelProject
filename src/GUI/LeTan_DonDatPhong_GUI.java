@@ -624,6 +624,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_HuyDonMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_HuyDonMousePressed(evt);
+            }
         });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -761,6 +764,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_NhanPhong.setkGradientFocus(250);
         btn_NhanPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_NhanPhong.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_NhanPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_NhanPhongMousePressed(evt);
+            }
+        });
 
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -924,6 +932,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void checkBox_DangOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DangOActionPerformed
         // TODO add your handling code here:
+        list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
         list_DonDatPhongTheoTieuChi = new ArrayList<DonDatPhong>();
         if (checkBox_DangO.isSelected() && checkBox_DangCho.isSelected()) {
             for (DonDatPhong ddp : list_DonDatPhong) {
@@ -962,6 +971,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void checkBox_DangChoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DangChoActionPerformed
         // TODO add your handling code here:
+        list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
         list_DonDatPhongTheoTieuChi = new ArrayList<DonDatPhong>();
         if (checkBox_DangO.isSelected() && checkBox_DangCho.isSelected()) {
             for (DonDatPhong ddp : list_DonDatPhong) {
@@ -1001,35 +1011,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_HuyDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMouseClicked
         // TODO add your handling code here:
-        int[] selRows = Table_DonDatPhong.getSelectedRows();
 
-        if (selRows.length > 0) {
-            for (int i = 0; i < selRows.length; ++i) {
-                int maDon = Integer.parseInt(Table_DonDatPhong.getValueAt(selRows[i], 0).toString());
-                if (!Table_DonDatPhong.getValueAt(selRows[i], 1).toString().equals("Đang chờ")) {
-                    JOptionPane.showMessageDialog(null, "Vui lòng chỉ chọn đơn ở trạng thái Đang chờ");
-                    break;
-                } else {
-                    if (!donDatPhong_dao.xoaDonDatPhongByMaDonDat(maDon)) {
-                        JOptionPane.showMessageDialog(null, "Lỗi không mong muốn khi xóa đơn " + maDon);
-                    } else {
-                        System.out.println("Xoa " + maDon);
-                    }
-                }
-                list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
-                model.setRowCount(0);
-                list_DonDatPhongTheoTieuChi.clear();
-                for (DonDatPhong ddp : list_DonDatPhong) {
-                    if (ddp.getTrangThai().equals("Đang chờ")) {
-                        list_DonDatPhongTheoTieuChi.add(ddp);
-                    }
-                }
-                DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
-
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn đơn muốn hủy");
-        }
 
     }//GEN-LAST:event_btn_HuyDonMouseClicked
 
@@ -1222,7 +1204,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private void Table_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhongMousePressed
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-            System.out.println(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0));
+            int maDon = Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString());
+            DonDatPhong donDatPhong = donDatPhong_dao.getDonDatPhongByMa(maDon);
+            new LeTan_DonDatPhong_ChiTietDonDatPhong_GUI(donDatPhong,(JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
         }
     }//GEN-LAST:event_Table_DonDatPhongMousePressed
 
@@ -1235,9 +1219,79 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         int maDon = Integer.parseInt(model.getValueAt(row, 0).toString());
-        DonDatPhong donDatPhong_CanThem = donDatPhong_dao.getDichVuByMa(maDon);
+        DonDatPhong donDatPhong_CanThem = donDatPhong_dao.getDonDatPhongByMa(maDon);
+        
+        if(donDatPhong_CanThem.getTrangThai().equals("Đang chờ")){
+            JOptionPane.showMessageDialog(this, "Phòng hiện tại chưa ở nên chưa thể thêm dịch vụ, vui lòng chọn đơn đặt phòng khác");
+            return;
+        }
         new LeTan_DonDatPhong_ThemDichVu(donDatPhong_CanThem, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
     }//GEN-LAST:event_btn_ThemDichVuMousePressed
+
+    private void btn_NhanPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanPhongMousePressed
+        // TODO add your handling code here:
+        int row = Table_DonDatPhong.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Đơn đặt phòng cần nhận");
+            return;
+        }
+
+        int maDon = Integer.parseInt(model.getValueAt(row, 0).toString());
+        DonDatPhong donDatPhong_CanNhan = donDatPhong_dao.getDonDatPhongByMa(maDon);
+        if (!donDatPhong_CanNhan.getTrangThai().equals("Đang chờ")) {
+            JOptionPane.showMessageDialog(this, "Phòng hiện tại đang ở, vui lòng chọn đơn đặt phòng khác");
+            return;
+        }
+
+        if (JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn nhận phòng", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+            return;
+        }
+        donDatPhong_CanNhan.setTrangThai("Đang ở");
+        donDatPhong_dao.updateDonDatPhong(donDatPhong_CanNhan);
+        list_DonDatPhongTheoTieuChi = new ArrayList<>();
+        list_DonDatPhongTheoTieuChi = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
+        DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+
+
+    }//GEN-LAST:event_btn_NhanPhongMousePressed
+
+    private void btn_HuyDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMousePressed
+        // TODO add your handling code here:
+        int[] selRows = Table_DonDatPhong.getSelectedRows();
+        if (selRows.length == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn đơn muốn hủy");
+            return;
+        }
+
+//        Kiểm tra có chứa  phòng đang ở hay không
+        boolean ktra = true;
+        for (int i = 0; i < selRows.length; ++i) {
+            int maDon = Integer.parseInt(Table_DonDatPhong.getValueAt(selRows[i], 0).toString());
+            if (!Table_DonDatPhong.getValueAt(selRows[i], 1).toString().equals("Đang chờ")) {
+                ktra = false;
+                break;
+            }
+        }
+
+        if (!ktra) {
+            JOptionPane.showMessageDialog(null, "Chứa Phòng hiện tại đang ở, không thể hủy, Vui lòng chọn phòng khác");
+            return;
+        }
+
+        if (JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn hủy các phòng này", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+            return;
+        }
+        for (int i = 0; i < selRows.length; ++i) {
+            int maDon = Integer.parseInt(Table_DonDatPhong.getValueAt(selRows[i], 0).toString());
+            donDatPhong_dao.xoaDonDatPhongByMaDonDat(maDon);
+        }
+        
+        list_DonDatPhongTheoTieuChi.clear();
+        list_DonDatPhongTheoTieuChi = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
+        DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+        JOptionPane.showMessageDialog(this, "Hủy thành công");
+
+    }//GEN-LAST:event_btn_HuyDonMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;

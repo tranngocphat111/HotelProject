@@ -1076,6 +1076,15 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(table_KhachHang);
+        if (table_KhachHang.getColumnModel().getColumnCount() > 0) {
+            table_KhachHang.getColumnModel().getColumn(0).setMaxWidth(200);
+            table_KhachHang.getColumnModel().getColumn(1).setMaxWidth(200);
+            table_KhachHang.getColumnModel().getColumn(2).setMaxWidth(250);
+            table_KhachHang.getColumnModel().getColumn(3).setMaxWidth(150);
+            table_KhachHang.getColumnModel().getColumn(4).setMaxWidth(200);
+            table_KhachHang.getColumnModel().getColumn(5).setMaxWidth(300);
+            table_KhachHang.getColumnModel().getColumn(6).setMaxWidth(150);
+        }
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(80, 540, 1130, 160);
@@ -1513,7 +1522,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 //        Cập nhật trang Đơn đặt phòng
         LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
         LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong));
+        LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi = LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong);
+        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi);
         LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
     }//GEN-LAST:event_btn_HoanTatMousePressed

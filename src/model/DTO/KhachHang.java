@@ -114,5 +114,5 @@ public class KhachHang {
     public String toString() {
         return "KhachHang{" + "maKhachHang=" + maKhachHang + ", tenKhachHang=" + tenKhachHang + ", soDienThoai=" + soDienThoai + ", CCCD=" + CCCD + ", quocTich=" + quocTich + ", gioiTinh=" + gioiTinh + ", email=" + email + '}';
     }
-
+    
 }

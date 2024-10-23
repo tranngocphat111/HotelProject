@@ -67,7 +67,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         initComponents();
 
         capnhatComboxLoaiPhong();
-        
+
         jScrollPane2.setOpaque(false);
         jScrollPane2.getViewport().setOpaque(false);
 
@@ -80,8 +80,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         model = (DefaultTableModel) Table_Phong.getModel();
         model.setRowCount(0);
         DocDuLieuLenTablePhong(list_Phong);
-
-
 
         cb_loaiphong.addActionListener(new ActionListener() {
             @Override
@@ -166,6 +164,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
+       
     }
 
     public static void DocDuLieuLenTablePhong(List<Phong> list_phong) {
@@ -177,7 +176,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
                 loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong(),
                 phong.getTang(),
                 loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getLoaiGiuong(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + "M2",
+                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + " m2",
                 getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
                 phong.getMoTa(),
                 df.format(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND"});
@@ -197,7 +196,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         list = list.substring(0, list.length() - 2);
         return list;
     }
-    
+
     public static void capnhatComboxLoaiPhong() {
 //      Thêm các loại phòng vào combobox loại phòng
         list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
@@ -269,7 +268,9 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         jLabel4.setText("Giá");
 
         cb_loaiphong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cb_loaiphong.setFocusable(false);
         cb_loaiphong.setPreferredSize(new java.awt.Dimension(108, 22));
+        cb_loaiphong.setRequestFocusEnabled(false);
         cb_loaiphong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cb_loaiphongMousePressed(evt);
@@ -607,6 +608,8 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             Table_Phong.getColumnModel().getColumn(3).setMaxWidth(120);
             Table_Phong.getColumnModel().getColumn(4).setPreferredWidth(100);
             Table_Phong.getColumnModel().getColumn(4).setMaxWidth(100);
+            Table_Phong.getColumnModel().getColumn(6).setPreferredWidth(150);
+            Table_Phong.getColumnModel().getColumn(6).setMaxWidth(150);
             Table_Phong.getColumnModel().getColumn(7).setPreferredWidth(130);
             Table_Phong.getColumnModel().getColumn(7).setMaxWidth(130);
         }
@@ -737,110 +740,99 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
-
-        if (!txt_phong.getText().equals("")) {
-            Phong p = getPhongByMaPhong(Integer.parseInt(txt_phong.getText()));
-            List list_Phong = new ArrayList();
-            list_Phong.add(p);
-            DocDuLieuLenTablePhong(list_Phong);
-            if (!(cb_loaiphong.getSelectedIndex() == p.getLoaiPhong())
-                    || !(txt_tang.getText().equals(p.getTang() + ""))
-                    || !(p.getMoTa().contains(area_mota.getText()))) {
-                if (!(cb_loaiphong.getSelectedIndex() == 0)
-                        || !(txt_tang.getText().equals(""))
-                        || !(p.getMoTa().equals("Mô Tả"))) {
-                    list_Phong = new ArrayList();
-                    DocDuLieuLenTablePhong(list_Phong);
-                }else{
-                    if((cb_loaiphong.getSelectedIndex() == 0)
-                        || (txt_tang.getText().equals(""))
-                        || (p.getMoTa().equals("Mô Tả"))
-                        || (p.getMoTa().equals(""))){
-                        p = getPhongByMaPhong(Integer.parseInt(txt_phong.getText()));
-                        list_Phong = new ArrayList();
-                        list_Phong.add(p);
-                        DocDuLieuLenTablePhong(list_Phong);
-                }else{
-                    p = getPhongByMaPhong(Integer.parseInt(txt_phong.getText()));
-                    list_Phong = new ArrayList();
-                    list_Phong.add(p);
-                    DocDuLieuLenTablePhong(list_Phong);
-                    }
-                    
-                }
-            }
-        } else {
-            list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
-            if (cb_loaiphong.getSelectedIndex() == 0) {
-                list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-                DocDuLieuLenTablePhong(list_Phong);
-                txt_gia.setText("");
-
-            } else {
-                for (LoaiPhong loaiPhong : list_LoaiPhong) {
-                    list_LoaiPhong = new ArrayList<>();
-                    if (cb_loaiphong.getSelectedIndex() == loaiPhong.getMaLoaiPhong()) {
-                        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-                        list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_loaiphong.getSelectedIndex());
-                        DocDuLieuLenTablePhong(list_Phong);
-                        txt_gia.setText(df.format(loaiPhong.getDonGia()));
-                    }
-                }
-
-            }
-            if (!txt_tang.getText().equals("")) {
-                List list_PhongTang = getAllPhongByTang(list_Phong, Integer.parseInt(txt_tang.getText()));
-                DocDuLieuLenTablePhong(list_PhongTang);
-                if (!area_mota.getText().equals("Mô Tả")) {
-                    List list_PhongMoTa = getAllPhongByMoTa(list_PhongTang, area_mota.getText());
-                    DocDuLieuLenTablePhong(list_PhongMoTa);
-                }   
-            } else {
-                if (!area_mota.getText().equals("Mô Tả")) {
-                    List list_PhongMoTa = getAllPhongByMoTa(list_Phong, area_mota.getText());
-                    DocDuLieuLenTablePhong(list_PhongMoTa);
-                }
-            }
-
+        List<Phong> list_P = phong_dao.getAllPhongsSortByMaPhong();
+        if (!txt_phong.getText().isEmpty()) {
+            list_P = getPhongByMaPhong(list_P, Integer.parseInt(txt_phong.getText()));
+        }
+        if (!txt_tang.getText().isEmpty()) {
+            list_P = getAllPhongByTang(list_P, Integer.parseInt(txt_tang.getText()));
         }
 
+        if (cb_loaiphong.getSelectedIndex() != 0) {
+            list_P = getPhongByLoaiPhong(list_P, cb_loaiphong.getSelectedIndex());
+        }
 
+        if (!area_mota.getText().equals("Mô Tả")) {
+            list_P = getAllPhongByMoTa(list_P, area_mota.getText());
+        }
+
+        DocDuLieuLenTablePhong(list_P);
     }//GEN-LAST:event_btn_TimMousePressed
 
-    public List<Phong> timPhong(String soPhong, String loaiPhong, String tang, String moTa) {
-    List<Phong> danhSachPhongTimThay = new ArrayList<>();
-    
-    // Giả sử bạn có một phương thức để lấy tất cả các phòng
-    List<Phong> tatCaPhong = phong_dao.getAllPhongsSortByMaPhong(); // Cần phải implement phương thức này
-
-    for (Phong p : tatCaPhong) {
-        boolean matches = true;
-
-        // Kiểm tra các điều kiện tìm kiếm
-        if (!soPhong.isEmpty() && p.getMaPhong() != Integer.parseInt(soPhong)) {
-            matches = false;
+    public List<Phong> getPhongByMaPhong(List<Phong> list_Phong, int MaPhong) {
+        List<Phong> list_PhongByMaLoai = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getMaPhong() == MaPhong) {
+                list_PhongByMaLoai.add(p);
+            }
         }
-        if (!loaiPhong.isEmpty() && p.getLoaiPhong() != Integer.parseInt(loaiPhong)) {
-            matches = false;
-        }
-        if (!tang.isEmpty() && p.getTang()!= Integer.parseInt(tang)) {
-            matches = false;
-        }
-        if (!moTa.isEmpty() && p.getMoTa().contains(moTa)) {
-            matches = false;
-        }
-
-        // Nếu tất cả các điều kiện đều khớp, thêm phòng vào danh sách kết quả
-        if (matches) {
-            danhSachPhongTimThay.add(p);
-        }
+        return list_PhongByMaLoai;
     }
 
-    // Trả về danh sách các phòng tìm thấy
-    return danhSachPhongTimThay;
-}
+    public List<Phong> getPhongByTang(List<Phong> list_Phong, int getTang) {
+        List<Phong> list_PhongByMaTang = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getTang() == getTang) {
+                list_PhongByMaTang.add(p);
+            }
+        }
+        return list_PhongByMaTang;
+    }
 
-    
+    public List<Phong> getPhongByLoaiPhong(List<Phong> list_Phong, int MaLoai) {
+        List<Phong> list_PhongByMaLoaiPhong = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getLoaiPhong() == MaLoai) {
+                list_PhongByMaLoaiPhong.add(p);
+            }
+        }
+        return list_PhongByMaLoaiPhong;
+    }
+
+    public List<Phong> getPhongByMoTa(List<Phong> list_Phong, String MoTa) {
+        List<Phong> list_PhongByMoTa = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getMoTa().contains(MoTa)) {
+                list_PhongByMoTa.add(p);
+            }
+        }
+        return list_PhongByMoTa;
+    }
+
+    public List<Phong> timPhong(String soPhong, String loaiPhong, String tang, String moTa) {
+        List<Phong> danhSachPhongTimThay = new ArrayList<>();
+
+        // Giả sử bạn có một phương thức để lấy tất cả các phòng
+        List<Phong> tatCaPhong = phong_dao.getAllPhongsSortByMaPhong(); // Cần phải implement phương thức này
+
+        for (Phong p : tatCaPhong) {
+            boolean matches = true;
+
+            // Kiểm tra các điều kiện tìm kiếm
+            if (!soPhong.isEmpty() && p.getMaPhong() != Integer.parseInt(soPhong)) {
+                matches = false;
+            }
+            if (!loaiPhong.isEmpty() && p.getLoaiPhong() != Integer.parseInt(loaiPhong)) {
+                matches = false;
+            }
+            if (!tang.isEmpty() && p.getTang() != Integer.parseInt(tang)) {
+                matches = false;
+            }
+            if (!moTa.isEmpty() && p.getMoTa().contains(moTa)) {
+                matches = false;
+            }
+
+            // Nếu tất cả các điều kiện đều khớp, thêm phòng vào danh sách kết quả
+            if (matches) {
+                danhSachPhongTimThay.add(p);
+            }
+        }
+
+        // Trả về danh sách các phòng tìm thấy
+        return danhSachPhongTimThay;
+    }
+
+
     private void Table_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_PhongMousePressed
         // TODO add your handling code here:
         if (Table_Phong.getSelectedRow() == -1) {

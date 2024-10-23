@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import static GUI.LeTan_DatPhong_GUI.label_MaDonDatPhong;
+import static GUI.LeTan_DatPhong_GUI.label_MaHoaDon;
 import com.sun.management.HotSpotDiagnosticMXBean;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -150,15 +152,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             Table_DonDatPhong.getColumnModel().getColumn(7).setMaxWidth(300);
         }
 
-//        Đọc dữ liệu theo trạng thái Đang ở
+//        Đọc dữ liệu theo trạng thái 
         checkBox_DangO.setSelected(true);
-
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (ddp.getTrangThai().equals("Đang ở")) {
-                list_DonDatPhongTheoTieuChi.add(ddp);
-            }
-        }
-
+        checkBox_DangCho.setSelected(true);
+        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
         list_btn.add(btn_Tim);
@@ -360,9 +357,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     }
 
     public List<DonDatPhong> getDonDatPhongTheoThoiGian(List<DonDatPhong> list_DonDatPhongs, Date NgayBatDau, Date NgayKetThuc) {
+        NgayBatDau = getNgayHienTai();
         List<DonDatPhong> list_DonDatPhongTheoThoiGian = new ArrayList<DonDatPhong>();
         if (NgayKetThuc == null) {
-            for (DonDatPhong ddp : list_DonDatPhong) {
+            for (DonDatPhong ddp : list_DonDatPhongs) {
                 if (ddp.getNgayNhanPhong().after(NgayBatDau)) {
                     list_DonDatPhongTheoThoiGian.add(ddp);
                 }
@@ -370,7 +368,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
             return list_DonDatPhongTheoThoiGian;
         }
-        for (DonDatPhong ddp : list_DonDatPhong) {
+
+        for (DonDatPhong ddp : list_DonDatPhongs) {
             if (ddp.getNgayNhanPhong().after(NgayBatDau) && ddp.getNgayNhanPhong().before(NgayKetThuc)) {
                 list_DonDatPhongTheoThoiGian.add(ddp);
             }
@@ -389,6 +388,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayNhanPhong_BatDau.setDate(null);
         txt_NgayNhanPhong_KetThuc.setDate(null);
         txt_CCCD.requestFocus();
+
+        checkBox_DangCho.setSelected(true);
+        checkBox_DangO.setSelected(true);
+
     }
 
     /**
@@ -629,9 +632,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_HuyDon.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_HuyDon.setMinimumSize(new java.awt.Dimension(140, 45));
         btn_HuyDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_HuyDonMouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_HuyDonMousePressed(evt);
             }
@@ -1017,12 +1017,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
     }//GEN-LAST:event_checkBox_DangChoActionPerformed
 
-    private void btn_HuyDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMouseClicked
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_btn_HuyDonMouseClicked
-
     private void txt_NgayNhanPhong_BatDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhong_BatDauPropertyChange
         // TODO add your handling code here:
 
@@ -1031,15 +1025,13 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txt_NgayNhanPhong_BatDau.getDate() == null || txt_NgayNhanPhong_KetThuc.getDate() == null) {
-            return;
-        }
-
-        if (txt_NgayNhanPhong_BatDau.getDate().after(txt_NgayNhanPhong_KetThuc.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày không hợp lý !!! vui lòng chọn lại");
-            txt_NgayNhanPhong_BatDau.setDate(null);
-            return;
-        }
+        if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
+            if (txt_NgayNhanPhong_BatDau.getDate().after(txt_NgayNhanPhong_KetThuc.getDate())) {
+                JOptionPane.showMessageDialog(this, "Ngày không hợp lý !!! vui lòng chọn lại");
+                txt_NgayNhanPhong_BatDau.setDate(null);
+                return;
+            }
+        } 
 
         list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
@@ -1308,7 +1300,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         LeTan_ThanhToan_GUI.list_DonDatPhong.clear();
         LeTan_ThanhToan_GUI.list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
         LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_hoaDon);
-
+        LeTan_DatPhong_GUI.list_DonDatPhong = list_DonDatPhongTheoTieuChi;
+        LeTan_DatPhong_GUI.list_HoaDon = list_hoaDon;
+        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoTieuChi.size() + 1));
+        label_MaHoaDon.setText("Mã hóa đơn: " + (list_hoaDon.size() + 1));
     }//GEN-LAST:event_btn_HuyDonMousePressed
     public boolean ktraDonDatPhongCuoiCung(DonDatPhong ddpDaXoa) {
         list_DonDatPhongTheoTieuChi.clear();

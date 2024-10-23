@@ -45,7 +45,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
      */
     public LeTan_DatPhong_ChonPhong_GUI(List<Phong> list_Phong, JFrame parent, boolean modal) {
         super(parent, modal);
-        
+
         list_PhongTrong = list_Phong;
         initComponents();
 
@@ -61,9 +61,8 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         header.setDefaultRenderer(renderer);
         //Căn giữa các phần tử trong table
         centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        centerRenderer.setVerticalAlignment(JLabel.CENTER );
-        
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
 
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
 
@@ -186,13 +185,11 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
                 loaiPhong.getTenLoaiPhong(),
                 loaiPhong.getLoaiGiuong(),
                 loaiPhong.getDienTich() + " m2",
-                list_tienNghi, 
-                phong.getMoTa(), 
-
-
-                df.format(loaiPhong.getDonGia()) + " VND"});
+                list_tienNghi,
+                phong.getMoTa(),
+                df.format(loaiPhong.getDonGia()) + " VND",
+                loaiPhong.getSoKhachToiDa()});
         }
-        
 
         for (int i = 0; i < Table_Phong.getColumnCount(); i++) {
             Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
@@ -202,7 +199,7 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
     public String getListTienNghi(List<TienNghi> list_tienNghi) {
         String list = "";
-        
+
         for (TienNghi tn : list_tienNghi) {
             list = list + tn.getTenTienNghi() + ", ";
         }
@@ -311,18 +308,18 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         Table_Phong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_Phong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Phòng", "Số Tầng", "Loại Phòng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô tả", "Đơn giá"
+                "Mã Phòng", "Số Tầng", "Loại Phòng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô tả", "Đơn giá", "SL Khách Tối Đa"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -339,8 +336,9 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             Table_Phong.getColumnModel().getColumn(3).setMaxWidth(150);
             Table_Phong.getColumnModel().getColumn(4).setMaxWidth(120);
             Table_Phong.getColumnModel().getColumn(5).setMaxWidth(400);
-            Table_Phong.getColumnModel().getColumn(6).setMaxWidth(300);
+            Table_Phong.getColumnModel().getColumn(6).setMaxWidth(200);
             Table_Phong.getColumnModel().getColumn(7).setMaxWidth(400);
+            Table_Phong.getColumnModel().getColumn(8).setMaxWidth(150);
         }
 
         jPanel1.add(scroll);
@@ -597,12 +595,17 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             return;
         }
         Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(Table_Phong.getSelectedRow(), 0).toString()));
-
+        int soLuongKhachToiDa = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getSoKhachToiDa();
+        if (LeTan_DatPhong_GUI.table_KhachHang.getRowCount() > soLuongKhachToiDa) {
+            JOptionPane.showMessageDialog(this, "Số lượng khách đã vượt quá số lượng khách tối đa, vui lòng chọn loại khác");
+            return;
+        }
         LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
         LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "");
         LeTan_DatPhong_GUI.txt_Tang.setText(phong.getTang() + "");
         LeTan_DatPhong_GUI.txt_LoaiPhong.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong());
         LeTan_DatPhong_GUI.area_moTa.setText(phong.getMoTa());
+        LeTan_DatPhong_GUI.label_KhachToiDa.setText("Số lượng khách tối đa: " + loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getSoKhachToiDa());
 
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMousePressed

@@ -1076,6 +1076,15 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(table_KhachHang);
+        if (table_KhachHang.getColumnModel().getColumnCount() > 0) {
+            table_KhachHang.getColumnModel().getColumn(0).setMaxWidth(200);
+            table_KhachHang.getColumnModel().getColumn(1).setMaxWidth(200);
+            table_KhachHang.getColumnModel().getColumn(2).setMaxWidth(250);
+            table_KhachHang.getColumnModel().getColumn(3).setMaxWidth(150);
+            table_KhachHang.getColumnModel().getColumn(4).setMaxWidth(200);
+            table_KhachHang.getColumnModel().getColumn(5).setMaxWidth(300);
+            table_KhachHang.getColumnModel().getColumn(6).setMaxWidth(150);
+        }
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(80, 540, 1130, 160);

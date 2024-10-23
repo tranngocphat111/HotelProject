@@ -1204,7 +1204,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private void Table_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhongMousePressed
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-            System.out.println(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0));
+            int maDon = Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString());
+            DonDatPhong donDatPhong = donDatPhong_dao.getDonDatPhongByMa(maDon);
+            new LeTan_DonDatPhong_ChiTietDonDatPhong_GUI(donDatPhong,(JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
         }
     }//GEN-LAST:event_Table_DonDatPhongMousePressed
 
@@ -1217,7 +1219,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         int maDon = Integer.parseInt(model.getValueAt(row, 0).toString());
-        DonDatPhong donDatPhong_CanThem = donDatPhong_dao.getDichVuByMa(maDon);
+        DonDatPhong donDatPhong_CanThem = donDatPhong_dao.getDonDatPhongByMa(maDon);
         
         if(donDatPhong_CanThem.getTrangThai().equals("Đang chờ")){
             JOptionPane.showMessageDialog(this, "Phòng hiện tại chưa ở nên chưa thể thêm dịch vụ, vui lòng chọn đơn đặt phòng khác");
@@ -1235,7 +1237,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         int maDon = Integer.parseInt(model.getValueAt(row, 0).toString());
-        DonDatPhong donDatPhong_CanNhan = donDatPhong_dao.getDichVuByMa(maDon);
+        DonDatPhong donDatPhong_CanNhan = donDatPhong_dao.getDonDatPhongByMa(maDon);
         if (!donDatPhong_CanNhan.getTrangThai().equals("Đang chờ")) {
             JOptionPane.showMessageDialog(this, "Phòng hiện tại đang ở, vui lòng chọn đơn đặt phòng khác");
             return;

@@ -165,7 +165,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                         element.setkEndColor(new java.awt.Color(255, 255, 255));
                         element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                         element.setBorder(null);
-                        System.out.println(element.getName());
                         clickMap.put(element, false);
                         list_TienNghiDuocChon.remove(tienNghi_dao.getTienNghiByMa(Integer.parseInt(element.getName())));
                     }
@@ -997,7 +996,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             txt_Dongia.setText(donGia);
 
             String tiennghi = model.getValueAt(selectedRow, 5) + "";
-            System.out.println(tiennghi);
             String[] list_tn = tiennghi.split(", ");
             list_TienNghiDuocChon = new ArrayList<>();
             resetTienNghi();

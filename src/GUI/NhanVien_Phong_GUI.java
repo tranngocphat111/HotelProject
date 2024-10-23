@@ -65,7 +65,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     public NhanVien_Phong_GUI() {
         initComponents();
-        txt_tang.requestFocus();
 
         jScrollPane2.setOpaque(false);
         jScrollPane2.getViewport().setOpaque(false);
@@ -251,15 +250,19 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         ThongTinPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         ThongTinPhong.setOpaque(false);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Loại Phòng");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tầng");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Giá");
 
+        cb_loaiphong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cb_loaiphong.setPreferredSize(new java.awt.Dimension(108, 22));
         cb_loaiphong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -272,24 +275,28 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
+        txt_gia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txt_gia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_giaActionPerformed(evt);
             }
         });
 
+        txt_tang.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txt_tang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_tangActionPerformed(evt);
             }
         });
 
+        txt_phong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txt_phong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_phongActionPerformed(evt);
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Số Phòng");
 
@@ -318,14 +325,14 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
                 .addGap(43, 43, 43)
                 .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ThongTinPhongLayout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txt_tang, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_gia, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_gia, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55))
         );
         ThongTinPhongLayout.setVerticalGroup(
@@ -335,30 +342,31 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ThongTinPhongLayout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(10, 10, 10)
-                        .addComponent(txt_phong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(ThongTinPhongLayout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(10, 10, 10)
-                            .addComponent(txt_gia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(ThongTinPhongLayout.createSequentialGroup()
-                            .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel25))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel26)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txt_tang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cb_loaiphong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_phong, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ThongTinPhongLayout.createSequentialGroup()
+                        .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinPhongLayout.createSequentialGroup()
+                                .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(jLabel25))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel26)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(ThongTinPhongLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(4, 4, 4)))
+                        .addGroup(ThongTinPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txt_gia, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                            .addComponent(txt_tang)
+                            .addComponent(cb_loaiphong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinPhong);
-        ThongTinPhong.setBounds(80, 90, 830, 100);
+        ThongTinPhong.setBounds(80, 90, 830, 120);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -400,7 +408,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(770, 230, 140, 40);
+        btn_Tim.setBounds(770, 240, 140, 40);
 
         btn_Lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Lammoi.setkGradientFocus(250);
@@ -434,7 +442,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Lammoi);
-        btn_Lammoi.setBounds(600, 230, 140, 40);
+        btn_Lammoi.setBounds(600, 240, 140, 40);
 
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
@@ -465,7 +473,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(430, 230, 140, 40);
+        btn_Xoa.setBounds(430, 240, 140, 40);
 
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
@@ -497,7 +505,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Them);
-        btn_Them.setBounds(80, 230, 140, 40);
+        btn_Them.setBounds(80, 240, 140, 40);
 
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
@@ -529,7 +537,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(250, 230, 140, 40);
+        btn_Sua.setBounds(250, 240, 140, 40);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -540,6 +548,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
         area_mota.setBackground(new java.awt.Color(0, 0, 0));
         area_mota.setColumns(20);
+        area_mota.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         area_mota.setForeground(new java.awt.Color(255, 255, 255));
         area_mota.setLineWrap(true);
         area_mota.setRows(3);
@@ -559,7 +568,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(area_mota);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(950, 90, 250, 180);
+        jScrollPane2.setBounds(950, 90, 250, 190);
 
         Table_Phong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_Phong.setModel(new javax.swing.table.DefaultTableModel(
@@ -597,7 +606,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(80, 320, 1120, 320);
+        jScrollPane3.setBounds(80, 330, 1120, 320);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -731,8 +740,28 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             if (!(cb_loaiphong.getSelectedIndex() == p.getLoaiPhong())
                     || !(txt_tang.getText().equals(p.getTang() + ""))
                     || !(p.getMoTa().contains(area_mota.getText()))) {
-                list_Phong = new ArrayList();
-                DocDuLieuLenTablePhong(list_Phong);
+                if (!(cb_loaiphong.getSelectedIndex() == 0)
+                        || !(txt_tang.getText().equals(""))
+                        || !(p.getMoTa().equals("Mô Tả"))) {
+                    list_Phong = new ArrayList();
+                    DocDuLieuLenTablePhong(list_Phong);
+                }else{
+                    if((cb_loaiphong.getSelectedIndex() == 0)
+                        || (txt_tang.getText().equals(""))
+                        || (p.getMoTa().equals("Mô Tả"))
+                        || (p.getMoTa().equals(""))){
+                        p = getPhongByMaPhong(Integer.parseInt(txt_phong.getText()));
+                        list_Phong = new ArrayList();
+                        list_Phong.add(p);
+                        DocDuLieuLenTablePhong(list_Phong);
+                }else{
+                    p = getPhongByMaPhong(Integer.parseInt(txt_phong.getText()));
+                    list_Phong = new ArrayList();
+                    list_Phong.add(p);
+                    DocDuLieuLenTablePhong(list_Phong);
+                    }
+                    
+                }
             }
         } else {
             list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
@@ -759,7 +788,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
                 if (!area_mota.getText().equals("Mô Tả")) {
                     List list_PhongMoTa = getAllPhongByMoTa(list_PhongTang, area_mota.getText());
                     DocDuLieuLenTablePhong(list_PhongMoTa);
-                }
+                }   
             } else {
                 if (!area_mota.getText().equals("Mô Tả")) {
                     List list_PhongMoTa = getAllPhongByMoTa(list_Phong, area_mota.getText());
@@ -772,6 +801,40 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btn_TimMousePressed
 
+    public List<Phong> timPhong(String soPhong, String loaiPhong, String tang, String moTa) {
+    List<Phong> danhSachPhongTimThay = new ArrayList<>();
+    
+    // Giả sử bạn có một phương thức để lấy tất cả các phòng
+    List<Phong> tatCaPhong = phong_dao.getAllPhongsSortByMaPhong(); // Cần phải implement phương thức này
+
+    for (Phong p : tatCaPhong) {
+        boolean matches = true;
+
+        // Kiểm tra các điều kiện tìm kiếm
+        if (!soPhong.isEmpty() && p.getMaPhong() != Integer.parseInt(soPhong)) {
+            matches = false;
+        }
+        if (!loaiPhong.isEmpty() && p.getLoaiPhong() != Integer.parseInt(loaiPhong)) {
+            matches = false;
+        }
+        if (!tang.isEmpty() && p.getTang()!= Integer.parseInt(tang)) {
+            matches = false;
+        }
+        if (!moTa.isEmpty() && p.getMoTa().contains(moTa)) {
+            matches = false;
+        }
+
+        // Nếu tất cả các điều kiện đều khớp, thêm phòng vào danh sách kết quả
+        if (matches) {
+            danhSachPhongTimThay.add(p);
+        }
+    }
+
+    // Trả về danh sách các phòng tìm thấy
+    return danhSachPhongTimThay;
+}
+
+    
     private void Table_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_PhongMousePressed
         // TODO add your handling code here:
         if (Table_Phong.getSelectedRow() == -1) {
@@ -847,19 +910,19 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         Phong p = new Phong();
-            int selectedRow = Table_Phong.getSelectedRow();
-            int maPhong = Integer.parseInt(txt_phong.getText());
-            int maTang = Integer.parseInt(txt_tang.getText());
-            int loaiPhong = cb_loaiphong.getSelectedIndex();
-            String mota = area_mota.getText();
-            p.setMaPhong(maPhong);
-            p.setTang(maTang);
-            p.setLoaiPhong(loaiPhong);
-            p.setMoTa(mota);
+        int selectedRow = Table_Phong.getSelectedRow();
+        int maPhong = Integer.parseInt(txt_phong.getText());
+        int maTang = Integer.parseInt(txt_tang.getText());
+        int loaiPhong = cb_loaiphong.getSelectedIndex();
+        String mota = area_mota.getText();
+        p.setMaPhong(maPhong);
+        p.setTang(maTang);
+        p.setLoaiPhong(loaiPhong);
+        p.setMoTa(mota);
 
-            phong_dao.updatePhong(p);
-            JOptionPane.showMessageDialog(this, "Sửa thành công");
-            lamMoi();
+        phong_dao.updatePhong(p);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
+        lamMoi();
 
 
     }//GEN-LAST:event_btn_SuaMousePressed

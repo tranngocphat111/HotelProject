@@ -50,6 +50,10 @@ import static GUI.LeTan_ThanhToan_GUI.list_DonDatPhong;
 import java.awt.Color;
 import java.awt.Frame;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -74,7 +78,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private List<KhachHang> list_KhachHangMoi = new ArrayList<>();
     private List<DonDatPhong> list_DonDatPhongTheoHoaDon = new ArrayList<>();
     private List<Phong> list_PhongDaChon = new ArrayList<>();
-
+    DefaultTableCellRenderer centerRenderer;
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
@@ -95,10 +99,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayDi.setDate(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
         setThoiGianBang0(txt_NgayDi);
 
+//        Đọc dữ liệu từ database
         list_Phong = phong_dao.getAllPhong();
-
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
-
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
@@ -108,7 +111,22 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         model = (DefaultTableModel) table_KhachHang.getModel();
         model.setRowCount(0);
+        
 
+        //      căn giữa cho header table  
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+
+        // Thiết lập renderer cho header
+        header.setDefaultRenderer(renderer);
+        //Căn giữa các phần tử trong table
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        centerRenderer.setVerticalAlignment(JLabel.CENTER );
+        
+        
+        
+        
         list_btn.add(btn_LamMoi);
         list_btn.add(btn_them);
         list_btn.add(btn_Xoa);
@@ -795,6 +813,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Giới tính");
 
+        cb_GioiTinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cb_GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
         cb_GioiTinh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -802,6 +821,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
+        txt_CCCD.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_CCCD.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txt_CCCDFocusLost(evt);
@@ -812,6 +832,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 txt_CCCDActionPerformed(evt);
             }
         });
+
+        txt_HoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -825,12 +847,17 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Quốc tịch");
 
+        cb_QuocTich.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cb_QuocTich.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Hàn Quốc", "Trung Quốc" }));
         cb_QuocTich.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_QuocTichActionPerformed(evt);
             }
         });
+
+        txt_SDT.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txt_Email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         jLabel25.setForeground(new java.awt.Color(255, 0, 0));
         jLabel25.setText("*");
@@ -1373,6 +1400,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Thêm thất bại, khách hàng đã tồn tại trong phòng");
             }
 
+        }
+        
+        for (int i = 0; i < table_KhachHang.getColumnCount(); i++) {
+            table_KhachHang.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
 

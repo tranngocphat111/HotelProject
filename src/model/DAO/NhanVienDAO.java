@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import model.DTO.DichVu;
+import model.DTO.DonDatPhong;
+import model.DTO.KhachHang;
 import org.bson.conversions.Bson;
 import org.bson.types.Binary;
 
@@ -61,10 +64,47 @@ public class NhanVienDAO {
         }
     }
     
+    public boolean updateNhanVien(NhanVien nhanVien) {
+        try {
+            
+
+            Document updateDoc = new Document()
+                    .append("maNhanVien", nhanVien.getMaNhanVien())
+                    .append("tenNhanVien", nhanVien.getTenNhanVien())
+                    .append("anhDaiDien", nhanVien.getAnhDaiDien())
+                    .append("SoDienThoai", nhanVien.getSoDienThoai())
+                    .append("CCCD", nhanVien.getCCCD())
+                    .append("diaChi", nhanVien.getDiaChi())
+                    .append("chucVu", nhanVien.getChucVu())
+                    .append("tenTaiKhoan", nhanVien.getTenTaiKhoan())
+                    .append("matKhau", nhanVien.getMatKhau());
+
+            Document updateQuery = new Document("$set", updateDoc);
+            Document filter = new Document("maNhanVien", nhanVien.getMaNhanVien());
+
+            UpdateResult result = nhanVienCollection.updateOne(filter, updateQuery);
+            return result.getMatchedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình cập nhật đơn đặt phòng: " + e.getMessage());
+            return false;
+        }
+    }
     public NhanVien checkAccount(String tenTaiKhoan, String matKhau) {
         Document doc = nhanVienCollection.find(Filters.and(
                 Filters.eq("tenTaiKhoan", tenTaiKhoan),
                 Filters.eq("matKhau", matKhau)
+        )).first();
+
+        if (doc != null) {
+            return NhanVien.fromDocument(doc);
+        } else {
+            return null; // Account not found
+        }
+    }
+    
+     public NhanVien checkAccountTheoTen(String tenTaiKhoan) {
+        Document doc = nhanVienCollection.find(Filters.and(
+                Filters.eq("tenTaiKhoan", tenTaiKhoan)
         )).first();
 
         if (doc != null) {
@@ -78,6 +118,15 @@ public class NhanVienDAO {
         List<NhanVien> list_DV = getAllNhanVien();
         for(NhanVien x : list_DV) {
             if(x.getMaNhanVien() == maNhanVien) return x;
+        }
+        return null;
+    }
+    
+    public NhanVien timTheoTenNhanVien(String TenNhanVien) {
+        
+        List<NhanVien> list_DV = getAllNhanVien();
+        for(NhanVien x : list_DV) {
+            if(x.getTenNhanVien().equals(TenNhanVien)) return x;
         }
         return null;
     }

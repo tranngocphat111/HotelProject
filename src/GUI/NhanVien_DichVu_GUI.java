@@ -721,6 +721,9 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
             
             hinhAnh = x.getHinhAnh();
+            txt_MoTa.setText(x.getMoTa());
+            txtDonGia.setText(String.format("%d",x.getDonGia()));
+            label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
         } else {
             JOptionPane.showMessageDialog(this, "Không có dịch vụ có tên " + tenDV, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
         }

@@ -291,7 +291,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                             .addComponent(txt_TenTienNghi, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
                             .addComponent(icon_TienNghi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
-            btnGradientPanel.setName("" + i++);
+            btnGradientPanel.setName("" + tienNghi.getMaTienNghi());
             list_btnTienNghi.add(btnGradientPanel);
             Panel_TienNghi.add(btnGradientPanel);
         }
@@ -1009,9 +1009,24 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             String[] list_tn = tiennghi.split(", ");
             list_TienNghiDuocChon = new ArrayList<>();
             resetTienNghi();
+            
+            int maLoaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+            
+            LoaiPhong x = loaiPhong_dao.getLoaiPhongByMa(maLoaiPhong);
+            
             for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
-                for (String s : list_tn) {
-                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
+//                for (String s : list_tn) {
+//                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
+//                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
+//                        btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
+//                        btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+//                        btn_tiennghi.setBorder(null);
+//                        clickMap.put(btn_tiennghi, true);
+//                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
+//                    }
+//                }
+                for(TienNghi t : x.getTienNghis()) {
+                    if(t.getMaTienNghi() == Integer.parseInt(btn_tiennghi.getName())) {
                         btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
                         btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
                         btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));

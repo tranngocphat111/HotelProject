@@ -617,16 +617,18 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
 
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
         // TODO add your handling code here:
-        String tenTienNghi = txt_tienNghi.getText();
+        String tenTienNghi = txt_tienNghi.getText().toString();
         
         System.out.println(tenTienNghi);
         if(tenTienNghi.equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa nhập tên tiện nghi cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
         TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-        System.out.println(x.equals(null));
+        System.out.println(x == null);
         int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
         hinhAnh = x.getHinhAnh();
+        label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
+        txt_moTa.setText(x.getMoTa());
         if(viTriCuaX != -1) {
             jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
         } else {

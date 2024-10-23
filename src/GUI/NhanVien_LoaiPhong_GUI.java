@@ -5,6 +5,8 @@
 package GUI;
 
 import Functions.ImageScale;
+import static GUI.NhanVien_Phong_GUI.Table_Phong;
+import static GUI.NhanVien_Phong_GUI.model;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -12,11 +14,14 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -46,6 +51,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private ArrayList<KGradientPanel> list_btnTienNghi = new ArrayList<KGradientPanel>();
     private DefaultTableModel model;
+    private Map<KGradientPanel, Boolean> clickMap = new HashMap<>();
     DefaultTableCellRenderer centerRenderer;
     DecimalFormat df = new DecimalFormat("#,##0");
 
@@ -55,6 +61,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     public NhanVien_LoaiPhong_GUI() {
 
         initComponents();
+
 //        Đọc dữ liệu từ database lên
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_TienNghi = tienNghi_dao.getAllTienNghi();
@@ -82,8 +89,10 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 //        Load dữ liệu lên table
         model = (DefaultTableModel) table_LoaiPhong.getModel();
         model.setRowCount(0);
+        cb_Loaigiuong.insertItemAt("", 0);
+        cb_Loaigiuong.setSelectedIndex(0);
         DocDataLenTable(list_LoaiPhong);
-        
+
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
@@ -127,13 +136,12 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                 }
             });
         });
+        boolean click;
 
 //        Bắt sự kiện chọn Tiện Nghi
         list_btnTienNghi.forEach((element) -> {
-
+            clickMap.put(element, false);
             element.addMouseListener(new MouseListener() {
-                boolean click = false;
-
                 @Override
                 public void mouseClicked(MouseEvent e) {
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -141,21 +149,22 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
+                    boolean click = clickMap.get(element);
                     if (!click) {
                         element.setkEndColor(new java.awt.Color(255, 222, 89));
                         element.setkStartColor(new java.awt.Color(225, 176, 27));
                         element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                         element.setBorder(null);
-                        click = true;
+                        clickMap.put(element, true);
                         list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(element.getName())));
                     } else {
                         element.setkStartColor(new java.awt.Color(255, 255, 255));
                         element.setkEndColor(new java.awt.Color(255, 255, 255));
                         element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                         element.setBorder(null);
-                        click = false;
+                        System.out.println(element.getName());
+                        clickMap.put(element, false);
                         list_TienNghiDuocChon.remove(tienNghi_dao.getTienNghiByMa(Integer.parseInt(element.getName())));
-
                     }
 
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -183,6 +192,20 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         ui.setNorthPane(null);
     }
 
+    public void resetTienNghi() {
+        for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
+            boolean click = clickMap.get(btn_tiennghi);
+            if (click) {
+                btn_tiennghi.setkStartColor(new java.awt.Color(255, 255, 255));
+                btn_tiennghi.setkEndColor(new java.awt.Color(255, 255, 255));
+                btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                btn_tiennghi.setBorder(null);
+                clickMap.put(btn_tiennghi, false);
+                list_TienNghiDuocChon.remove(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
+            }
+        }
+    }
+
     public void DocDataLenTable(List<LoaiPhong> list_LoaiPhongs) {
         for (LoaiPhong loaiPhong : list_LoaiPhongs) {
             model.addRow(new Object[]{
@@ -195,23 +218,23 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                 df.format(loaiPhong.getDonGia()) + " VND"
             });
         }
-        
+
         for (int i = 0; i < table_LoaiPhong.getColumnCount(); i++) {
             table_LoaiPhong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
-    
-    public void addRowTable(LoaiPhong loaiPhong){
+
+    public void addRowTable(LoaiPhong loaiPhong) {
         model.addRow(new Object[]{
-                loaiPhong.getMaLoaiPhong(),
-                loaiPhong.getTenLoaiPhong(),
-                loaiPhong.getLoaiGiuong(),
-                loaiPhong.getSoKhachToiDa(),
-                loaiPhong.getDienTich() + " m2",
-                getListTienNghi(loaiPhong.getTienNghis()),
-                df.format(loaiPhong.getDonGia()) + " VND"
-            });
-    }   
+            loaiPhong.getMaLoaiPhong(),
+            loaiPhong.getTenLoaiPhong(),
+            loaiPhong.getLoaiGiuong(),
+            loaiPhong.getSoKhachToiDa(),
+            loaiPhong.getDienTich() + " m2",
+            getListTienNghi(loaiPhong.getTienNghis()),
+            df.format(loaiPhong.getDonGia()) + " VND"
+        });
+    }
 
     public String getListTienNghi(List<TienNghi> list_tienNghi) {
         String list = "";
@@ -219,7 +242,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         for (TienNghi tn : list_tienNghi) {
             list = list + tn.getTenTienNghi() + ", ";
         }
-        if(list.length() == 0){
+        if (list.length() == 0) {
             return "";
         }
         list = list.substring(0, list.length() - 2);
@@ -328,7 +351,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jLabel2.setBounds(910, 50, 130, 32);
 
         ThongTinLoaiPhong.setBackground(new java.awt.Color(0, 0, 0));
-        ThongTinLoaiPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
+        ThongTinLoaiPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         ThongTinLoaiPhong.setOpaque(false);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -405,12 +428,12 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                         .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(cb_Loaigiuong, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ThongTinLoaiPhongLayout.setVerticalGroup(
             ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ThongTinLoaiPhongLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(29, 29, 29)
                 .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
@@ -428,7 +451,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_Sokhachtoida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_Dongia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinLoaiPhong);
@@ -474,6 +497,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         btn_Lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Lammoi.setkGradientFocus(250);
         btn_Lammoi.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Lammoi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_LammoiMousePressed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -617,6 +645,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
         table_LoaiPhong.setRowHeight(30);
+        table_LoaiPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                table_LoaiPhongMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(table_LoaiPhong);
         if (table_LoaiPhong.getColumnModel().getColumnCount() > 0) {
             table_LoaiPhong.getColumnModel().getColumn(0).setMaxWidth(130);
@@ -652,7 +685,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(Panel_TienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -714,6 +747,64 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_ThemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMousePressed
         // TODO add your handling code here:
+        if (txt_TenLoaiphong.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nhập tên phòng");
+            txt_TenLoaiphong.requestFocus();
+            return;
+        }
+
+        if (txt_Dientich.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nhập diện tích");
+            txt_Dientich.requestFocus();
+            return;
+        }
+
+        String regex = "\\d+";
+        if (!txt_Dientich.getText().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "Diện tích phải là số");
+            txt_Dientich.setText("");
+            txt_Dientich.requestFocus();
+            return;
+        }
+
+        if (cb_Loaigiuong.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Chọn loại giường");
+            txt_Dientich.requestFocus();
+            return;
+        }
+
+        if (txt_Sokhachtoida.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nhập số khách tối đa");
+            txt_Sokhachtoida.requestFocus();
+            return;
+        }
+
+        if (!txt_Sokhachtoida.getText().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "Số khách tối đa phải là số");
+            txt_Sokhachtoida.setText("");
+            txt_Sokhachtoida.requestFocus();
+            return;
+        }
+
+        if (txt_Dongia.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nhập đơn giá");
+            txt_Dongia.requestFocus();
+            return;
+        }
+
+        if (!txt_Dongia.getText().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
+            txt_Dongia.setText("");
+            txt_Dongia.requestFocus();
+            return;
+        }
+
+        if (list_TienNghiDuocChon.size() == 0) {
+            JOptionPane.showMessageDialog(this, "Chọn tiện nghi");
+            txt_Dongia.requestFocus();
+            return;
+        }
+
         LoaiPhong loaiPhongMoi = new LoaiPhong();
         loaiPhongMoi.setMaLoaiPhong(list_LoaiPhong.size() + 1);
         loaiPhongMoi.setTenLoaiPhong(txt_TenLoaiphong.getText());
@@ -722,14 +813,74 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         loaiPhongMoi.setTienNghis(list_TienNghiDuocChon);
         loaiPhongMoi.setLoaiGiuong(cb_Loaigiuong.getSelectedItem().toString());
         loaiPhongMoi.setSoKhachToiDa(Integer.parseInt(txt_Sokhachtoida.getText()));
-        if(loaiPhong_dao.createLoaiPhong(loaiPhongMoi)){
+        if (loaiPhong_dao.createLoaiPhong(loaiPhongMoi)) {
             addRowTable(loaiPhongMoi);
-            JOptionPane.showMessageDialog(this, "Thêm thành công");            
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
         }
 
         list_TienNghi = tienNghi_dao.getAllTienNghi();
-        
+        lamMoi();
     }//GEN-LAST:event_btn_ThemMousePressed
+
+    public void lamMoi() {
+        txt_TenLoaiphong.setText("");
+        txt_TenLoaiphong.requestFocus();
+        txt_Dientich.setText("");
+        cb_Loaigiuong.setSelectedIndex(0);
+        txt_Sokhachtoida.setText("");
+        txt_Dongia.setText("");
+        resetTienNghi();
+        table_LoaiPhong.clearSelection();
+    }
+
+    private void btn_LammoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LammoiMousePressed
+        // TODO add your handling code here:
+        lamMoi();
+    }//GEN-LAST:event_btn_LammoiMousePressed
+
+    private void table_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_LoaiPhongMousePressed
+        // TODO add your handling code here:
+        if (table_LoaiPhong.getSelectedRow() == -1) {
+            return;
+        } else {
+            int selectedRow = table_LoaiPhong.getSelectedRow();
+            String tenloaiphong = model.getValueAt(selectedRow, 1) + "";
+            txt_TenLoaiphong.setText(tenloaiphong);
+            String dientich = model.getValueAt(selectedRow, 4) + "";
+            dientich = dientich.substring(0, dientich.length() - 3);
+            txt_Dientich.setText(dientich);
+            String loaigiuong = model.getValueAt(selectedRow, 2) + "";
+            if (loaigiuong.equals("Đơn")) {
+                cb_Loaigiuong.setSelectedIndex(1);
+            } else {
+                cb_Loaigiuong.setSelectedIndex(2);
+            }
+            String soKhachToida = model.getValueAt(selectedRow, 3) + "";
+            txt_Sokhachtoida.setText(soKhachToida);
+            String donGia = model.getValueAt(selectedRow, 6) + "";
+            donGia = donGia.substring(0, donGia.length() - 4);
+            donGia = donGia.replace(",", "");
+            txt_Dongia.setText(donGia);
+
+            String tiennghi = model.getValueAt(selectedRow, 5) + "";
+            System.out.println(tiennghi);
+            String[] list_tn = tiennghi.split(", ");
+            list_TienNghiDuocChon = new ArrayList<>();
+            resetTienNghi();
+            for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
+                for (String s : list_tn) {
+                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
+                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
+                        btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
+                        btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                        btn_tiennghi.setBorder(null);
+                        clickMap.put(btn_tiennghi, true);
+                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_table_LoaiPhongMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

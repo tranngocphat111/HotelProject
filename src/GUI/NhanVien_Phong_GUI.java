@@ -532,7 +532,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         btn_Sua.setBounds(250, 230, 140, 40);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
-        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setToolTipText("");
         jScrollPane2.setInheritsPopupMenu(true);
@@ -541,7 +541,9 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         area_mota.setBackground(new java.awt.Color(0, 0, 0));
         area_mota.setColumns(20);
         area_mota.setForeground(new java.awt.Color(255, 255, 255));
+        area_mota.setLineWrap(true);
         area_mota.setRows(3);
+        area_mota.setTabSize(4);
         area_mota.setText("Mô Tả");
         area_mota.setCaretColor(new java.awt.Color(255, 255, 255));
         area_mota.setMargin(new java.awt.Insets(4, 6, 2, 6));
@@ -786,7 +788,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             txt_gia.setText(modified);
             area_mota.setText((String) model.getValueAt(selectedRow, 6));
         }
-
     }//GEN-LAST:event_Table_PhongMousePressed
 
     private void txt_phongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_phongActionPerformed
@@ -814,7 +815,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
         // TODO add your handling code here:
         if (Table_Phong.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần xóa");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần sửa");
             return;
         }
 
@@ -844,8 +845,8 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             area_mota.requestFocus();
             return;
         }
-        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn sửa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            Phong p = new Phong();
+
+        Phong p = new Phong();
             int selectedRow = Table_Phong.getSelectedRow();
             int maPhong = Integer.parseInt(txt_phong.getText());
             int maTang = Integer.parseInt(txt_tang.getText());
@@ -859,7 +860,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             phong_dao.updatePhong(p);
             JOptionPane.showMessageDialog(this, "Sửa thành công");
             lamMoi();
-        }
 
 
     }//GEN-LAST:event_btn_SuaMousePressed

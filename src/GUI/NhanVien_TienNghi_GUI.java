@@ -575,6 +575,9 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                 int maDV = x.getMaTienNghi();
                 String moTaDV = txt_moTa.getText();
                 byte[] hinhAnh = this.hinhAnh;
+                
+                
+                
                 System.out.println("Trên label" + String.format("%d %s", maDV, moTaDV));
                 TienNghi y = new TienNghi(maDV, tenTienNghi, moTaDV, hinhAnh);
                 
@@ -586,10 +589,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                 txt_tienNghi.setText("");
                 txt_moTa.setText("");
                 label_Anh.setIcon(null);
-                
-            } else {
-                throw new Exception("Chưa chọn dịch vụ để sửa đổi");
             }
+            
         }
         catch(Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi dữ liệu", JOptionPane.ERROR_MESSAGE);

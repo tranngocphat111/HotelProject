@@ -647,15 +647,21 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         try {
             
             if(jTable1.getSelectedRow() != -1) {
-                String tenDichVu = txt_DichVu.getText();
+                String tenDichVu = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 1).toString();
                 DichVu x = dichVuDAO.timDichVu(tenDichVu);
+                
+                
                 System.out.println(x.toString());
+                tenDichVu = txt_DichVu.getText();
                 int maDV = x.getMaDV();
                 String moTaDV = txt_MoTa.getText();
                 int donGia = Integer.parseInt(txtDonGia.getText());
                 byte[] hinhAnh = this.hinhAnh;
+                
+                
+                
                 System.out.println("Trên label" + String.format("%d %s %d", maDV, moTaDV, donGia));
-                DichVu y = new DichVu(maDV, moTaDV, moTaDV, donGia, hinhAnh);
+                DichVu y = new DichVu(maDV, tenDichVu, moTaDV, donGia, hinhAnh);
                 
                 dichVuDAO.suaDichVu(x, y);
 //                System.out.println(y.toString());
@@ -667,9 +673,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
                 txtDonGia.setText("");
                 label_Anh.setIcon(null);
                 
-            } else {
-                throw new Exception("Chưa chọn dịch vụ để sửa đổi");
-            }
+            } 
         }
         catch (ArithmeticException e) {
             JOptionPane.showMessageDialog(this, "Đơn giá chỉ là số thực", "Lỗi dữ liệu", JOptionPane.ERROR_MESSAGE);

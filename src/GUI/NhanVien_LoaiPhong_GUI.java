@@ -6,6 +6,7 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.NhanVien_Phong_GUI.Table_Phong;
+import static GUI.NhanVien_Phong_GUI.database;
 import static GUI.NhanVien_Phong_GUI.loaiphong_dao;
 import static GUI.NhanVien_Phong_GUI.model;
 import static GUI.NhanVien_Phong_GUI.phong_dao;
@@ -32,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.LoaiPhongDAO;
+import model.DAO.PhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
@@ -48,6 +50,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private MongoDBConnection database = new MongoDBConnection();
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    private List<Phong> list_Phong = new ArrayList<Phong>();
+    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
     private List<TienNghi> list_TienNghi = new ArrayList<TienNghi>();
     private List<TienNghi> list_TienNghiDuocChon = new ArrayList<TienNghi>();
     private TienNghiDAO tienNghi_dao = new TienNghiDAO(database.getDatabase());
@@ -867,7 +871,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
     }
-    
+
     private void btn_ThemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMousePressed
         // TODO add your handling code here:
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
@@ -929,7 +933,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             txt_Dongia.requestFocus();
             return;
         }
-        
+
         for (LoaiPhong lp : list_LoaiPhong) {
             if (lp.getTenLoaiPhong().equals(txt_TenLoaiphong.getText())) {
                 JOptionPane.showMessageDialog(this, "Trùng tên loại phòng");
@@ -1016,7 +1020,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
         // TODO add your handling code here:
-        
+
         if (table_LoaiPhong.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Chọn dòng cần sửa");
             return;
@@ -1078,7 +1082,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             txt_Dongia.requestFocus();
             return;
         }
-        
+
         LoaiPhong lp = new LoaiPhong();
         int selectedRow = table_LoaiPhong.getSelectedRow();
         int maloaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
@@ -1115,15 +1119,34 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
         int maLoaiPhong = Integer.parseInt(model.getValueAt(table_LoaiPhong.getSelectedRow(), 0).toString());
-        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa loại phòng?" + "\n" + "Các phòng liên quan sẽ bị xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             model.removeRow(table_LoaiPhong.getSelectedRow());
             loaiPhong_dao.deleteLoaiPhong(maLoaiPhong);
+            list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+            list_Phong = getAllPhongByLoaiPhong(list_Phong, maLoaiPhong);
+            for(Phong p : list_Phong){
+                phong_dao.deletePhong(p.getMaPhong());
+            }
         }
+        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+        NhanVien_Phong_GUI.DocDuLieuLenTablePhong(list_Phong);
+        NhanVien_Phong_GUI.capnhatComboxLoaiPhong();
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         DocDataLenTable(list_LoaiPhong);
         lamMoi();
     }//GEN-LAST:event_btn_XoaMousePressed
 
+    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            if (phong.getLoaiPhong() == loaiPhong) {
+                list_PhongByLoai.add(phong);
+            }
+
+        }
+
+        return list_PhongByLoai;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;

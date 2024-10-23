@@ -66,6 +66,8 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     public NhanVien_Phong_GUI() {
         initComponents();
 
+        capnhatComboxLoaiPhong();
+        
         jScrollPane2.setOpaque(false);
         jScrollPane2.getViewport().setOpaque(false);
 
@@ -79,13 +81,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         model.setRowCount(0);
         DocDuLieuLenTablePhong(list_Phong);
 
-//      Thêm các loại phòng vào combobox loại phòng
-        list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
 
-        cb_loaiphong.addItem("");
-        for (LoaiPhong lp : list_LoaiPhong) {
-            cb_loaiphong.addItem(lp.getTenLoaiPhong());
-        }
 
         cb_loaiphong.addActionListener(new ActionListener() {
             @Override
@@ -200,6 +196,16 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
         list = list.substring(0, list.length() - 2);
         return list;
+    }
+    
+    public static void capnhatComboxLoaiPhong() {
+//      Thêm các loại phòng vào combobox loại phòng
+        list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
+        cb_loaiphong.removeAllItems();
+        cb_loaiphong.addItem("");
+        for (LoaiPhong lp : list_LoaiPhong) {
+            cb_loaiphong.addItem(lp.getTenLoaiPhong());
+        }
     }
 
     /**
@@ -1002,7 +1008,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
-    private javax.swing.JComboBox<String> cb_loaiphong;
+    public static javax.swing.JComboBox<String> cb_loaiphong;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;

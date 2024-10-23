@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
@@ -479,6 +480,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     }
     private void txt_tienNghiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tienNghiActionPerformed
         // TODO add your handling code here:
+        txt_tienNghi.setText(new String(txt_tienNghi.getText().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
     }//GEN-LAST:event_txt_tienNghiActionPerformed
     
     static DefaultTableModel duaDataVaoModel(List<TienNghi> list_TienNghi) {
@@ -599,16 +601,19 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
         // TODO add your handling code here:
         try {
-            
-            if(jTable1.getSelectedRow() != -1) {
-                String tenTienNghi = txt_tienNghi.getText();
+            int row = jTable1.getSelectedRow();
+            if(row != -1) {
+                String tenTienNghi = jTable1.getModel().getValueAt(row, 1).toString();
                 TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
                 System.out.println(x.toString());
                 int maDV = x.getMaTienNghi();
+                
+                
+                String tenTienNghiSua = txt_tienNghi.getText();
                 String moTaDV = txt_moTa.getText();
                 byte[] hinhAnh = this.hinhAnh;
                 System.out.println("Trên label" + String.format("%d %s", maDV, moTaDV));
-                TienNghi y = new TienNghi(maDV, moTaDV, moTaDV, hinhAnh);
+                TienNghi y = new TienNghi(maDV, tenTienNghiSua, moTaDV, hinhAnh);
                 
                 tienNghiDAO.suaTienNghi(x, y);
 //                System.out.println(y.toString());
@@ -635,6 +640,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         if(row != -1) {
 //            int maDV = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
             String tenDV = jTable1.getModel().getValueAt(row, 1).toString();
+//            tenDV = new String(tenDV.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 //            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
 //            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
 
@@ -648,19 +654,36 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
 
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
         // TODO add your handling code here:
-        String tenTienNghi = txt_tienNghi.getText();
+        
+        String tenTienNghi = txt_tienNghi.getText().toString();
+//        tenTienNghi = new String(tenTienNghi.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        System.out.println(tenTienNghi);
         if(tenTienNghi.equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa nhập tên tiện nghi cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
+<<<<<<< Updated upstream
         System.out.println(x.equals(null));
         int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
         
         if(viTriCuaX != -1) {
             jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
         } else {
+=======
+        System.out.println(x);
+        if(x == null) {
+>>>>>>> Stashed changes
             JOptionPane.showMessageDialog(this, "Không có tiện nghi có tên " + tenTienNghi, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+//        System.out.println(x.equals(null));
+        int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
+        
+        
+        jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
+        hinhAnh = x.getHinhAnh();
+        
 
     }//GEN-LAST:event_btn_TimMouseClicked
 
@@ -670,7 +693,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         
         if(row != -1) {
             String tenTienNghi = jTable1.getModel().getValueAt(row, 1).toString();
-            
+            System.out.println(tenTienNghi);
             TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
 //            System.out.println(x.toString());
 //            System.out.println(x.getHinhAnh());

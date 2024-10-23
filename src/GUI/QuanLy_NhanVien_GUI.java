@@ -519,7 +519,86 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
 
     private void txt_EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_EmailActionPerformed
         // TODO add your handling code here:
+<<<<<<< Updated upstream
     }//GEN-LAST:event_txt_EmailActionPerformed
+=======
+    }//GEN-LAST:event_txt_SDTActionPerformed
+
+    private void CBox_TieuChiTimNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVActionPerformed
+        // TODO add your handling code here:
+        String tieuChiTim = CBox_TieuChiTimNV.getSelectedItem().toString();
+        System.out.println(tieuChiTim);
+        if(tieuChiTim.equals("Chức vụ")) {
+            ChucVu.setVisible(true);
+            txt_Ma_va_Ten.setVisible(false);
+        } else {
+            ChucVu.setVisible(false);
+            txt_Ma_va_Ten.setVisible(true);
+        }
+    }//GEN-LAST:event_CBox_TieuChiTimNVActionPerformed
+
+    private void ChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChucVuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChucVuActionPerformed
+
+    private void CBox_TieuChiTimNVPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVPropertyChange
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_CBox_TieuChiTimNVPropertyChange
+    static DefaultTableModel duaDuLieuVaoTable(List<NhanVien> list_NhanVien) {
+        String[] header = new String [] {
+        "Mã nhân viên", "CCCD/Passport", "Tên nhân viên", "Số điện thoại", "Địa chỉ", "Chức vụ"
+        };
+        Object[][] object = new Object[list_NhanVien.size()][];
+        for(int i = 0; i < list_NhanVien.size(); i++) {
+            NhanVien x = list_NhanVien.get(i);
+            Object[] t = new Object[] {
+                x.getMaNhanVien(),
+                x.getCCCD(),
+                x.getTenNhanVien(),
+                x.getSoDienThoai(),
+                x.getDiaChi(),
+                x.getChucVu()
+            };
+            object[i] = t;
+        }
+        return new DefaultTableModel(object, header);
+    }
+    
+    static NhanVien KiemTraThongTinNhap(String x) throws Exception{
+        
+        try {
+            
+        }
+        catch (Exception e) {
+            
+        }
+        
+        return new NhanVien();
+    }
+    
+    
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        if(row != -1) {
+            String CCCD = jTable1.getModel().getValueAt(row, 1).toString();
+            
+            NhanVien x = nhanVienDAO.timTheoCCCD(CCCD).getFirst();
+            
+            txt_CCCD.setText(x.getCCCD());
+            txt_HoTen.setText(x.getTenNhanVien());
+            System.out.println(x.getSoDienThoai());
+            txt_SDT.setText(x.getSoDienThoai());
+            txt_DC.setText(x.getDiaChi());
+            cb_ChucVu.setSelectedItem(x.getChucVu());
+            
+            anhnhanvien.setIcon(new ImageScale().getScaledImage1(anhnhanvien.getWidth(), anhnhanvien.getHeight(), new ImageIcon(x.getAnhDaiDien())));
+        }
+        
+    }//GEN-LAST:event_jTable1MouseClicked
+>>>>>>> Stashed changes
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

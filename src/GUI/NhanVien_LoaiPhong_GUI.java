@@ -525,6 +525,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_TimMousePressed(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -973,6 +978,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_LammoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LammoiMousePressed
         // TODO add your handling code here:
         lamMoi();
+        DocDataLenTable(list_LoaiPhong);
     }//GEN-LAST:event_btn_LammoiMousePressed
 
     private void table_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_LoaiPhongMousePressed
@@ -1124,7 +1130,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             loaiPhong_dao.deleteLoaiPhong(maLoaiPhong);
             list_Phong = phong_dao.getAllPhongsSortByMaPhong();
             list_Phong = getAllPhongByLoaiPhong(list_Phong, maLoaiPhong);
-            for(Phong p : list_Phong){
+            for (Phong p : list_Phong) {
                 phong_dao.deletePhong(p.getMaPhong());
             }
         }
@@ -1135,6 +1141,35 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         DocDataLenTable(list_LoaiPhong);
         lamMoi();
     }//GEN-LAST:event_btn_XoaMousePressed
+
+    private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
+        // TODO add your handling code here:
+        List<LoaiPhong> list_LP = loaiPhong_dao.getAllLoaiPhong();
+        if (!txt_TenLoaiphong.getText().isEmpty()) {
+            list_LP = getLoaiPhongByTenLoaiPhong(list_LP, txt_TenLoaiphong.getText());
+        }
+        if (!txt_Dientich.getText().isEmpty()) {
+            list_LP = getLoaiPhongByDienTich(list_LP, Integer.parseInt(txt_Dientich.getText()));
+        }
+
+        if (cb_Loaigiuong.getSelectedIndex() != 0) {
+            list_LP = getLoaiPhongByLoaiGiuong(list_LP, cb_Loaigiuong.getSelectedIndex());
+        }
+
+        if (!txt_Sokhachtoida.getText().isEmpty()) {
+            list_LP = getLoaiPhongBySoKhachToiDa(list_LP, Integer.parseInt(txt_Sokhachtoida.getText()));
+        }
+
+        if (!txt_Dongia.getText().isEmpty()) {
+            list_LP = getLoaiPhongByDonGia(list_LP, Integer.parseInt(txt_Dongia.getText()));
+        }
+
+        if (list_TienNghiDuocChon.size() != 0) {
+            list_LP = getLoaiPhongByTienNghi(list_LP, list_TienNghiDuocChon);
+        }
+
+        DocDataLenTable(list_LP);
+    }//GEN-LAST:event_btn_TimMousePressed
 
     public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
         List<Phong> list_PhongByLoai = new ArrayList<Phong>();
@@ -1147,6 +1182,77 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         return list_PhongByLoai;
     }
+
+    public List<LoaiPhong> getLoaiPhongByTenLoaiPhong(List<LoaiPhong> list_LoaiPhong, String loaiPhong) {
+        List<LoaiPhong> list_PhongByTenLoai = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getTenLoaiPhong().equals(loaiPhong)) {
+                list_PhongByTenLoai.add(lp);
+            }
+
+        }
+        return list_PhongByTenLoai;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByDienTich(List<LoaiPhong> list_LoaiPhong, int dientich) {
+        List<LoaiPhong> list_PhongByDienTich = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getDienTich() == dientich) {
+                list_PhongByDienTich.add(lp);
+            }
+
+        }
+        return list_PhongByDienTich;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByLoaiGiuong(List<LoaiPhong> list_LoaiPhong, int loaiGiuong) {
+        List<LoaiPhong> list_PhongByLoaiGiuong = new ArrayList<>();
+        String lg;
+        if (loaiGiuong == 1) {
+            lg = "Đơn";
+        } else {
+            lg = "Đôi";
+        }
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getLoaiGiuong().equals(lg)) {
+                list_PhongByLoaiGiuong.add(lp);
+            }
+        }
+        return list_PhongByLoaiGiuong;
+    }
+
+    public List<LoaiPhong> getLoaiPhongBySoKhachToiDa(List<LoaiPhong> list_LoaiPhong, int sokhachtoida) {
+        List<LoaiPhong> list_PhongBySoKhachToiDa = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getSoKhachToiDa() == sokhachtoida) {
+                list_PhongBySoKhachToiDa.add(lp);
+            }
+        }
+        return list_PhongBySoKhachToiDa;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByDonGia(List<LoaiPhong> list_LoaiPhong, int donGia) {
+        List<LoaiPhong> list_PhongByDonGia = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getDonGia() == donGia) {
+                list_PhongByDonGia.add(lp);
+            }
+        }
+        return list_PhongByDonGia;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByTienNghi(List<LoaiPhong> list_LoaiPhong, List<TienNghi> tiennghi) {
+        String tiennghiTim = getListTienNghi(tiennghi);
+        List<LoaiPhong> list_PhongByTienNghi = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            String tienng = getListTienNghi(lp.getTienNghis());
+            if (tienng.contains(tiennghiTim)) {
+                list_PhongByTienNghi.add(lp);
+            }
+        }
+        return list_PhongByTienNghi;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;

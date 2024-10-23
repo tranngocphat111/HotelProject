@@ -6,6 +6,7 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.NhanVien_Phong_GUI.Table_Phong;
+import static GUI.NhanVien_Phong_GUI.database;
 import static GUI.NhanVien_Phong_GUI.loaiphong_dao;
 import static GUI.NhanVien_Phong_GUI.model;
 import static GUI.NhanVien_Phong_GUI.phong_dao;
@@ -32,10 +33,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.LoaiPhongDAO;
+import model.DAO.PhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
+import static model.DTO.TienNghi.sapXepTienNghiTheoMa;
 import model.MongoDBConnection;
 import test.convertImage;
 
@@ -48,6 +51,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private MongoDBConnection database = new MongoDBConnection();
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    private List<Phong> list_Phong = new ArrayList<Phong>();
+    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
     private List<TienNghi> list_TienNghi = new ArrayList<TienNghi>();
     private List<TienNghi> list_TienNghiDuocChon = new ArrayList<TienNghi>();
     private TienNghiDAO tienNghi_dao = new TienNghiDAO(database.getDatabase());
@@ -67,7 +72,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
 //        Đọc dữ liệu từ database lên
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
-        list_TienNghi = tienNghi_dao.getAllTienNghi();
+        list_TienNghi = tienNghi_dao.SortTienNghiTheoMa();
 
 //      set số dòng của tiện nghi
         Panel_TienNghi.setLayout(new java.awt.GridLayout(getRowTienNghi(list_TienNghi.size()), 2, 18, 17));
@@ -287,7 +292,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                             .addComponent(txt_TenTienNghi, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
                             .addComponent(icon_TienNghi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
-            btnGradientPanel.setName("" + i++);
+            btnGradientPanel.setName("" + tienNghi.getMaTienNghi());
             list_btnTienNghi.add(btnGradientPanel);
             Panel_TienNghi.add(btnGradientPanel);
         }
@@ -521,6 +526,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_TimMousePressed(evt);
+            }
+        });
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -867,7 +877,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
     }
-    
+
     private void btn_ThemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMousePressed
         // TODO add your handling code here:
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
@@ -929,7 +939,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             txt_Dongia.requestFocus();
             return;
         }
-        
+
         for (LoaiPhong lp : list_LoaiPhong) {
             if (lp.getTenLoaiPhong().equals(txt_TenLoaiphong.getText())) {
                 JOptionPane.showMessageDialog(this, "Trùng tên loại phòng");
@@ -943,6 +953,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         loaiPhongMoi.setTenLoaiPhong(txt_TenLoaiphong.getText());
         loaiPhongMoi.setDienTich(Integer.parseInt(txt_Dientich.getText()));
         loaiPhongMoi.setDonGia(Integer.parseInt(txt_Dongia.getText()));
+        sapXepTienNghiTheoMa(list_TienNghiDuocChon);
         loaiPhongMoi.setTienNghis(list_TienNghiDuocChon);
         loaiPhongMoi.setLoaiGiuong(cb_Loaigiuong.getSelectedItem().toString());
         loaiPhongMoi.setSoKhachToiDa(Integer.parseInt(txt_Sokhachtoida.getText()));
@@ -964,11 +975,14 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         txt_Dongia.setText("");
         resetTienNghi();
         table_LoaiPhong.clearSelection();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        DocDataLenTable(list_LoaiPhong);
     }
 
     private void btn_LammoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LammoiMousePressed
         // TODO add your handling code here:
         lamMoi();
+        DocDataLenTable(list_LoaiPhong);
     }//GEN-LAST:event_btn_LammoiMousePressed
 
     private void table_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_LoaiPhongMousePressed
@@ -999,9 +1013,24 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             String[] list_tn = tiennghi.split(", ");
             list_TienNghiDuocChon = new ArrayList<>();
             resetTienNghi();
+            
+            int maLoaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+            
+            LoaiPhong x = loaiPhong_dao.getLoaiPhongByMa(maLoaiPhong);
+            
             for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
-                for (String s : list_tn) {
-                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
+//                for (String s : list_tn) {
+//                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
+//                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
+//                        btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
+//                        btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+//                        btn_tiennghi.setBorder(null);
+//                        clickMap.put(btn_tiennghi, true);
+//                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
+//                    }
+//                }
+                for(TienNghi t : x.getTienNghis()) {
+                    if(t.getMaTienNghi() == Integer.parseInt(btn_tiennghi.getName())) {
                         btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
                         btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
                         btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
@@ -1016,7 +1045,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
         // TODO add your handling code here:
-        
+
         if (table_LoaiPhong.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Chọn dòng cần sửa");
             return;
@@ -1078,7 +1107,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             txt_Dongia.requestFocus();
             return;
         }
-        
+
         LoaiPhong lp = new LoaiPhong();
         int selectedRow = table_LoaiPhong.getSelectedRow();
         int maloaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
@@ -1115,14 +1144,135 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
         int maLoaiPhong = Integer.parseInt(model.getValueAt(table_LoaiPhong.getSelectedRow(), 0).toString());
-        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa loại phòng?" + "\n" + "Các phòng liên quan sẽ bị xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             model.removeRow(table_LoaiPhong.getSelectedRow());
             loaiPhong_dao.deleteLoaiPhong(maLoaiPhong);
+            list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+            list_Phong = getAllPhongByLoaiPhong(list_Phong, maLoaiPhong);
+            for (Phong p : list_Phong) {
+                phong_dao.deletePhong(p.getMaPhong());
+            }
         }
+        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+        NhanVien_Phong_GUI.DocDuLieuLenTablePhong(list_Phong);
+        NhanVien_Phong_GUI.capnhatComboxLoaiPhong();
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         DocDataLenTable(list_LoaiPhong);
         lamMoi();
     }//GEN-LAST:event_btn_XoaMousePressed
+
+    private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
+        // TODO add your handling code here:
+        List<LoaiPhong> list_LP = loaiPhong_dao.getAllLoaiPhong();
+        if (!txt_TenLoaiphong.getText().isEmpty()) {
+            list_LP = getLoaiPhongByTenLoaiPhong(list_LP, txt_TenLoaiphong.getText());
+        }
+        if (!txt_Dientich.getText().isEmpty()) {
+            list_LP = getLoaiPhongByDienTich(list_LP, Integer.parseInt(txt_Dientich.getText()));
+        }
+
+        if (cb_Loaigiuong.getSelectedIndex() != 0) {
+            list_LP = getLoaiPhongByLoaiGiuong(list_LP, cb_Loaigiuong.getSelectedIndex());
+        }
+
+        if (!txt_Sokhachtoida.getText().isEmpty()) {
+            list_LP = getLoaiPhongBySoKhachToiDa(list_LP, Integer.parseInt(txt_Sokhachtoida.getText()));
+        }
+
+        if (!txt_Dongia.getText().isEmpty()) {
+            list_LP = getLoaiPhongByDonGia(list_LP, Integer.parseInt(txt_Dongia.getText()));
+        }
+
+        if (!list_TienNghiDuocChon.isEmpty()) {
+            list_LP = getLoaiPhongByTienNghi(list_LP, list_TienNghiDuocChon);
+        }
+
+        DocDataLenTable(list_LP);
+    }//GEN-LAST:event_btn_TimMousePressed
+
+    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            if (phong.getLoaiPhong() == loaiPhong) {
+                list_PhongByLoai.add(phong);
+            }
+
+        }
+
+        return list_PhongByLoai;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByTenLoaiPhong(List<LoaiPhong> list_LoaiPhong, String loaiPhong) {
+        List<LoaiPhong> list_PhongByTenLoai = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getTenLoaiPhong().equals(loaiPhong)) {
+                list_PhongByTenLoai.add(lp);
+            }
+
+        }
+        return list_PhongByTenLoai;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByDienTich(List<LoaiPhong> list_LoaiPhong, int dientich) {
+        List<LoaiPhong> list_PhongByDienTich = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getDienTich() == dientich) {
+                list_PhongByDienTich.add(lp);
+            }
+
+        }
+        return list_PhongByDienTich;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByLoaiGiuong(List<LoaiPhong> list_LoaiPhong, int loaiGiuong) {
+        List<LoaiPhong> list_PhongByLoaiGiuong = new ArrayList<>();
+        String lg;
+        if (loaiGiuong == 1) {
+            lg = "Đơn";
+        } else {
+            lg = "Đôi";
+        }
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getLoaiGiuong().equals(lg)) {
+                list_PhongByLoaiGiuong.add(lp);
+            }
+        }
+        return list_PhongByLoaiGiuong;
+    }
+
+    public List<LoaiPhong> getLoaiPhongBySoKhachToiDa(List<LoaiPhong> list_LoaiPhong, int sokhachtoida) {
+        List<LoaiPhong> list_PhongBySoKhachToiDa = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getSoKhachToiDa() == sokhachtoida) {
+                list_PhongBySoKhachToiDa.add(lp);
+            }
+        }
+        return list_PhongBySoKhachToiDa;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByDonGia(List<LoaiPhong> list_LoaiPhong, int donGia) {
+        List<LoaiPhong> list_PhongByDonGia = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getDonGia() == donGia) {
+                list_PhongByDonGia.add(lp);
+            }
+        }
+        return list_PhongByDonGia;
+    }
+
+    public List<LoaiPhong> getLoaiPhongByTienNghi(List<LoaiPhong> list_LoaiPhong, List<TienNghi> tiennghi) {
+        String tiennghiTim = getListTienNghi(tiennghi);
+        System.out.println(tiennghiTim);
+        List<LoaiPhong> list_PhongByTienNghi = new ArrayList<>();
+        for (LoaiPhong lp : list_LoaiPhong) {
+            String tienng = getListTienNghi(lp.getTienNghis());
+            System.out.println(tienng);
+            if (tienng.contains(tiennghiTim)) {
+                list_PhongByTienNghi.add(lp);
+            }
+        }
+        return list_PhongByTienNghi;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

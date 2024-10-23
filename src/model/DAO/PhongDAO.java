@@ -4,7 +4,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import model.DTO.Phong;
 import model.MongoDBConnection;
 import org.bson.Document;
@@ -67,6 +69,44 @@ public class PhongDAO {
         }
     }
     
+    public boolean deletePhong(int maPhong) {
+    try {
+        // Tạo điều kiện để tìm tài liệu cần xóa
+        Document query = new Document("maPhong", maPhong);
+        
+        // Thực hiện xóa
+        DeleteResult result = phongCollection.deleteOne(query);
+        
+        // Kiểm tra xem có tài liệu nào đã bị xóa không
+        return result.getDeletedCount() > 0;
+    } catch (Exception e) {
+        System.out.println("Lỗi xảy ra trong quá trình xóa phòng: " + e.getMessage());
+        return false;
+    }
+}
+
+    public boolean updatePhong(Phong updatedPhong) {
+    try {
+        // Tạo điều kiện để tìm tài liệu cần sửa
+        Document query = new Document("maPhong", updatedPhong.getMaPhong());
+
+        // Tạo tài liệu chứa các trường cần cập nhật
+        Document update = new Document("$set", new Document()
+                .append("tang", updatedPhong.getTang())
+                .append("loaiPhong", updatedPhong.getLoaiPhong())
+                .append("moTa", updatedPhong.getMoTa()));
+
+        // Thực hiện cập nhật
+        UpdateResult result = phongCollection.updateOne(query, update);
+
+        // Kiểm tra xem có tài liệu nào đã được cập nhật không
+        return result.getModifiedCount() > 0;
+    } catch (Exception e) {
+        System.out.println("Lỗi xảy ra trong quá trình sửa phòng: " + e.getMessage());
+        return false;
+    }
+}
+
     
     
     public List<Phong> getAllPhongsSortByMaPhong() {

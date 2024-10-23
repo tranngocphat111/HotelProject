@@ -3,7 +3,9 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import model.DTO.LoaiPhong;
 import org.bson.Document;
 
@@ -72,4 +74,59 @@ public class LoaiPhongDAO {
             return false;
         }
     }
+
+    public boolean updateLoaiPhong(LoaiPhong updatedLoaiPhong) {
+        try {
+            // Tạo điều kiện để tìm tài liệu cần sửa
+            Document query = new Document("maLoaiPhong", updatedLoaiPhong.getMaLoaiPhong());
+
+            // Tạo tài liệu chứa các trường cần cập nhật
+            Document update = new Document("$set", new Document()
+                    .append("tenLoaiPhong", updatedLoaiPhong.getTenLoaiPhong())
+                    .append("dienTich", updatedLoaiPhong.getDienTich())
+                    .append("donGia", updatedLoaiPhong.getDonGia())
+                    .append("soKhachToiDa", updatedLoaiPhong.getSoKhachToiDa())
+                    .append("loaiGiuong", updatedLoaiPhong.getLoaiGiuong())
+                    .append("tienNghis", getTienNghisDocuments(updatedLoaiPhong.getTienNghis())));
+
+            // Thực hiện cập nhật
+            UpdateResult result = loaiPhongCollection.updateOne(query, update);
+
+            // Kiểm tra xem có tài liệu nào đã được cập nhật không
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình sửa loại phòng: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteLoaiPhong(int maLoaiPhong) {
+        try {
+            // Tạo điều kiện để tìm tài liệu cần xóa
+            Document query = new Document("maLoaiPhong", maLoaiPhong);
+
+            // Thực hiện xóa
+            DeleteResult result = loaiPhongCollection.deleteOne(query);
+
+            // Kiểm tra xem có tài liệu nào đã bị xóa không
+            return result.getDeletedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình xóa loại phòng: " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Hàm để chuyển đổi danh sách TienNghi thành List<Document>
+    private List<Document> getTienNghisDocuments(List<TienNghi> tienNghis) {
+        List<Document> listTienNghi = new ArrayList<>();
+        for (TienNghi tienNghi : tienNghis) {
+            listTienNghi.add(new Document()
+                    .append("maTienNghi", tienNghi.getMaTienNghi())
+                    .append("tenTienNghi", tienNghi.getTenTienNghi())
+                    .append("moTa", tienNghi.getMoTa())
+                    .append("hinhAnh", tienNghi.getHinhAnh()));
+        }
+        return listTienNghi;
+    }
+
 }

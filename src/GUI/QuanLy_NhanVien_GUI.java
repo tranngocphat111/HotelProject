@@ -634,9 +634,16 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             String DC = txt_DC.getText();
             String ChucVu = cb_ChucVu.getSelectedItem().toString();
             
-            Nhanvien x = new NhanVien
+            NhanVien x = new NhanVien(maNhanVien, HoTen, anhDaiDien, SDT, CCCD, DC, ChucVu);
             
+            nhanVienDAO.createNhanVien(x);
+            jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
             
+            txt_CCCD.setText("");
+            txt_HoTen.setText("");
+            txt_DC.setText("");
+            txt_SDT.setText("");
+            hinhAnh = null;
             
             
             

@@ -17,6 +17,16 @@ public class NhanVien {
     public NhanVien() {
     }
 
+    public NhanVien(int maNhanVien, String tenNhanVien, byte[] anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu) {
+        this.maNhanVien = maNhanVien;
+        this.tenNhanVien = tenNhanVien;
+        this.anhDaiDien = anhDaiDien;
+        this.soDienThoai = soDienThoai;
+        this.CCCD = CCCD;
+        this.diaChi = diaChi;
+        this.chucVu = chucVu;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;

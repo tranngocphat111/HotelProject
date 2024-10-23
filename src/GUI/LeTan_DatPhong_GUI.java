@@ -79,6 +79,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private List<DonDatPhong> list_DonDatPhongTheoHoaDon = new ArrayList<>();
     private List<Phong> list_PhongDaChon = new ArrayList<>();
     DefaultTableCellRenderer centerRenderer;
+
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
@@ -96,8 +97,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         txt_NgayDen.setDate(new Date());
         setThoiGianBang0(txt_NgayDen);
-        txt_NgayDi.setDate(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
-        setThoiGianBang0(txt_NgayDi);
 
 //        Đọc dữ liệu từ database
         list_Phong = phong_dao.getAllPhong();
@@ -111,7 +110,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         model = (DefaultTableModel) table_KhachHang.getModel();
         model.setRowCount(0);
-        
 
         //      căn giữa cho header table  
         DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
@@ -121,12 +119,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         header.setDefaultRenderer(renderer);
         //Căn giữa các phần tử trong table
         centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        centerRenderer.setVerticalAlignment(JLabel.CENTER );
-        
-        
-        
-        
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
+
         list_btn.add(btn_LamMoi);
         list_btn.add(btn_them);
         list_btn.add(btn_Xoa);
@@ -137,6 +132,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayDen.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
+
+                if (txt_NgayDi.getDate() == null) {
+                    return;
+                }
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
 
@@ -206,9 +205,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayDi.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
+                if (txt_NgayDi.getDate() == null) {
+                    return;
+                }
                 setThoiGianBang0(txt_NgayDen);
                 setThoiGianBang0(txt_NgayDi);
-
                 if (txt_NgayDi.getDate().before(txt_NgayDen.getDate())) {
                     JOptionPane.showMessageDialog(null, "Ngày đi phải sau ngày đến");
                     txt_NgayDi.setDate(new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
@@ -466,6 +467,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_Tang.setText("");
         txt_DonGia.setText("");
         area_moTa.setText("Mô tả");
+        txt_NgayDen.setDate(new Date());
+        setThoiGianBang0(txt_NgayDen);
+        txt_NgayDi.setDate(null);
         model.setRowCount(0);
 
     }
@@ -946,16 +950,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
         btn_LamMoi.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_LamMoi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_LamMoiMousePressed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("Làm Mới");
         jLabel18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel18MousePressed(evt);
-            }
-        });
 
         javax.swing.GroupLayout btn_LamMoiLayout = new javax.swing.GroupLayout(btn_LamMoi);
         btn_LamMoi.setLayout(btn_LamMoiLayout);
@@ -1282,7 +1286,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 
         List<Phong> list_PhongTrong = new ArrayList<Phong>();
-        if (txt_NgayDen.getDate().equals(txt_NgayDi.getDate())) {
+        if (txt_NgayDi.getDate() == null) {
             list_PhongTrong = getAllPhongTrong(txt_NgayDen.getDate(), new Date(txt_NgayDen.getDate().getTime() + (24 * 60 * 60 * 1000)));
             new LeTan_DatPhong_ChonPhong_GUI(list_PhongTrong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
             return;
@@ -1401,7 +1405,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
 
         }
-        
+
         for (int i = 0; i < table_KhachHang.getColumnCount(); i++) {
             table_KhachHang.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
@@ -1448,7 +1452,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         }
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
-        ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        if (txt_NgayDi.getDate() == null) {
+            ddp.setNgayTraPhong(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
+
+        } else {
+            ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        }
+
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
 //       Thêm phòng đã chọn vào biến tạm 
         list_PhongDaChon.add(phong_dao.getPhongByMa(Integer.parseInt(txt_Phong.getText())));
@@ -1506,7 +1516,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         }
         ddp.setNgayDatPhong(new Date());
         ddp.setNgayNhanPhong(txt_NgayDen.getDate());
-        ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        if (txt_NgayDi.getDate() == null) {
+            ddp.setNgayTraPhong(new Date(new Date().getTime() + (24 * 60 * 60 * 1000)));
+        } else {
+            ddp.setNgayTraPhong(txt_NgayDi.getDate());
+        }
 
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
         ddp.setKhachO(list_KhachHang_TheoDon);
@@ -1541,6 +1555,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
+        list_DonDatPhongTheoHoaDon = new ArrayList<>();
 
         HoaDon HoaDon_update = hoaDon_dao.getHoaDonByMa(list_HoaDon.size());
         HoaDon_update.setTongTien(getTongtien(HoaDon_update));
@@ -1592,11 +1607,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private void txt_TangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_TangActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_TangActionPerformed
-
-    private void jLabel18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MousePressed
-        // TODO add your handling code here:
-        LamMoi();
-    }//GEN-LAST:event_jLabel18MousePressed
 
     private void table_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_KhachHangMousePressed
         // TODO add your handling code here:
@@ -1707,6 +1717,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_txt_CCCDFocusLost
+
+    private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
+        // TODO add your handling code here:
+        LamMoi();
+        LamMoiThongTinPhong();
+        System.out.println("GUI.LeTan_DatPhong_GUI.btn_LamMoiMousePressed()");
+    }//GEN-LAST:event_btn_LamMoiMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

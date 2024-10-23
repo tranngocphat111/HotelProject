@@ -11,6 +11,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.MongoDBConnection;
 import org.bson.types.Binary;
 
 public class TienNghiDAO {
@@ -127,5 +128,11 @@ public class TienNghiDAO {
             return false;
         }
     }
-
+    public static void main(String[] args) {
+        MongoDBConnection model = new MongoDBConnection();
+        TienNghiDAO tienNghiDAO = new TienNghiDAO(model.getDatabase());
+        
+        TienNghi x = tienNghiDAO.timTienNghi("Tủ lạnh");
+        System.err.println(x.toString());
+    }
 }

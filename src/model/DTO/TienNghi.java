@@ -1,22 +1,24 @@
 package model.DTO;
 
-
+import java.util.Collections;
+import java.util.Comparator;
 import org.bson.Document;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import org.bson.types.Binary;
 
 public class TienNghi {
+
     private int maTienNghi;
     private String tenTienNghi;
     private String moTa;
     private byte[] hinhAnh;
-    
+
 //    private int soLuong;
 //    private Date ngayLapDat;
 //    private Date ngayBaoTriGanNhat;
-
     public TienNghi() {
     }
 
@@ -52,8 +54,6 @@ public class TienNghi {
         final TienNghi other = (TienNghi) obj;
         return Objects.equals(this.tenTienNghi, other.tenTienNghi);
     }
-
-
 
     public int getMaTienNghi() {
         return maTienNghi;
@@ -106,6 +106,10 @@ public class TienNghi {
         }
 
         return tienNghi;
+    }
+
+    public static void sapXepTienNghiTheoMa(List<TienNghi> danhSachTienNghi) {
+        Collections.sort(danhSachTienNghi, Comparator.comparingInt(TienNghi::getMaTienNghi));
     }
 
     @Override

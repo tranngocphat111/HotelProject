@@ -38,6 +38,7 @@ import model.DAO.TienNghiDAO;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
+import static model.DTO.TienNghi.sapXepTienNghiTheoMa;
 import model.MongoDBConnection;
 import test.convertImage;
 
@@ -71,7 +72,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
 //        Đọc dữ liệu từ database lên
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
-        list_TienNghi = tienNghi_dao.getAllTienNghi();
+        list_TienNghi = tienNghi_dao.SortTienNghiTheoMa();
 
 //      set số dòng của tiện nghi
         Panel_TienNghi.setLayout(new java.awt.GridLayout(getRowTienNghi(list_TienNghi.size()), 2, 18, 17));
@@ -952,6 +953,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         loaiPhongMoi.setTenLoaiPhong(txt_TenLoaiphong.getText());
         loaiPhongMoi.setDienTich(Integer.parseInt(txt_Dientich.getText()));
         loaiPhongMoi.setDonGia(Integer.parseInt(txt_Dongia.getText()));
+        sapXepTienNghiTheoMa(list_TienNghiDuocChon);
         loaiPhongMoi.setTienNghis(list_TienNghiDuocChon);
         loaiPhongMoi.setLoaiGiuong(cb_Loaigiuong.getSelectedItem().toString());
         loaiPhongMoi.setSoKhachToiDa(Integer.parseInt(txt_Sokhachtoida.getText()));
@@ -973,6 +975,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         txt_Dongia.setText("");
         resetTienNghi();
         table_LoaiPhong.clearSelection();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        DocDataLenTable(list_LoaiPhong);
     }
 
     private void btn_LammoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LammoiMousePressed
@@ -1179,7 +1183,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             list_LP = getLoaiPhongByDonGia(list_LP, Integer.parseInt(txt_Dongia.getText()));
         }
 
-        if (list_TienNghiDuocChon.size() != 0) {
+        if (!list_TienNghiDuocChon.isEmpty()) {
             list_LP = getLoaiPhongByTienNghi(list_LP, list_TienNghiDuocChon);
         }
 
@@ -1258,9 +1262,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
     public List<LoaiPhong> getLoaiPhongByTienNghi(List<LoaiPhong> list_LoaiPhong, List<TienNghi> tiennghi) {
         String tiennghiTim = getListTienNghi(tiennghi);
+        System.out.println(tiennghiTim);
         List<LoaiPhong> list_PhongByTienNghi = new ArrayList<>();
         for (LoaiPhong lp : list_LoaiPhong) {
             String tienng = getListTienNghi(lp.getTienNghis());
+            System.out.println(tienng);
             if (tienng.contains(tiennghiTim)) {
                 list_PhongByTienNghi.add(lp);
             }

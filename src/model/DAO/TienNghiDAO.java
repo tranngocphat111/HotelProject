@@ -1,8 +1,10 @@
 package model.DAO;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -72,7 +74,7 @@ public class TienNghiDAO {
             tienNghi.setMaTienNghi(doc.getInteger("maTienNghi"));
             tienNghi.setTenTienNghi(doc.getString("tenTienNghi"));
             tienNghi.setMoTa(doc.getString("moTa"));
-            
+
             Binary binaryData = doc.get("hinhAnh", Binary.class);
             byte[] imageData = binaryData.getData();
             tienNghi.setHinhAnh(imageData);
@@ -128,10 +130,37 @@ public class TienNghiDAO {
             return false;
         }
     }
+
+    public List<TienNghi> SortTienNghiTheoMa() {
+        List<TienNghi> danhSachTienNghi = new ArrayList<>();
+
+        try {
+            // Lấy tất cả tài liệu và sắp xếp theo mã tiện nghi
+            FindIterable<Document> documents = tienNghiCollection.find()
+                    .sort(Sorts.ascending("maTienNghi")); // Sắp xếp theo mã tiện nghi
+
+            for (Document doc : documents) {
+                TienNghi tienNghi = new TienNghi();
+                tienNghi.setMaTienNghi(doc.getInteger("maTienNghi"));
+                tienNghi.setTenTienNghi(doc.getString("tenTienNghi"));
+                tienNghi.setMoTa(doc.getString("moTa"));
+                Binary binaryData = doc.get("hinhAnh", Binary.class);
+                byte[] imageData = binaryData.getData();
+                tienNghi.setHinhAnh(imageData);
+
+                danhSachTienNghi.add(tienNghi);
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình lấy danh sách tiện nghi: " + e.getMessage());
+        }
+
+        return danhSachTienNghi;
+    }
+
     public static void main(String[] args) {
         MongoDBConnection model = new MongoDBConnection();
         TienNghiDAO tienNghiDAO = new TienNghiDAO(model.getDatabase());
-        
+
         TienNghi x = tienNghiDAO.timTienNghi("Tủ lạnh");
         System.err.println(x.toString());
     }

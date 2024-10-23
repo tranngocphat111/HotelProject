@@ -6,7 +6,7 @@ import org.bson.types.Binary;
 public class NhanVien {
     private int maNhanVien;
     private String tenNhanVien;
-    private String anhDaiDien;
+    private byte[] anhDaiDien;
     private String soDienThoai;
     private String CCCD;
     private String diaChi;
@@ -43,7 +43,7 @@ public class NhanVien {
         this.maNhanVien = maNhanVien;
     }
     
-    public NhanVien(int maNhanVien, String tenNhanVien, String anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu, String tenTaiKhoan, String matKhau) {
+    public NhanVien(int maNhanVien, String tenNhanVien, byte[] anhDaiDien, String soDienThoai, String CCCD, String diaChi, String chucVu, String tenTaiKhoan, String matKhau) {
         this.maNhanVien = maNhanVien;
         this.tenNhanVien = tenNhanVien;
         this.anhDaiDien = anhDaiDien;
@@ -55,11 +55,11 @@ public class NhanVien {
         this.matKhau = matKhau;
     }
 
-    public String getAnhDaiDien() {
+    public byte[] getAnhDaiDien() {
         return anhDaiDien;
     }
 
-    public void setAnhDaiDien(String anhDaiDien) {
+    public void setAnhDaiDien(byte[] anhDaiDien) {
         this.anhDaiDien = anhDaiDien;
     }
 
@@ -142,9 +142,9 @@ public class NhanVien {
             nhanVien.setTenNhanVien(doc.getString("tenNhanVien"));
         }
         if (doc.containsKey("anhDaiDien")) {
-            Binary binaryData = doc.get("hinhAnh", Binary.class);
-//            byte[] imageData = binaryData.getData();
-//            nhanVien.setAnhDaiDien(imageData);
+            Binary binaryData = doc.get("anhDaiDien", Binary.class);
+            byte[] imageData = binaryData.getData();
+            nhanVien.setAnhDaiDien(imageData);
         }
         if (doc.containsKey("SoDienThoai")) {
             nhanVien.setSoDienThoai(doc.getString("SoDienThoai"));

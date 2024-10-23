@@ -313,9 +313,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Them.setkGradientFocus(250);
         btn_Them.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_ThemMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ThemMouseEntered(evt);
             }
@@ -511,13 +508,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_ChucVuActionPerformed
     
-    private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
-        // TODO add your handling code here:
-
-        System.out.println("đâs");
-
-    }//GEN-LAST:event_btn_ThemMouseClicked
-
+    
     private void btn_ThemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseEntered
         // TODO add your handling code here:
         btn_Them.setkStartColor(new java.awt.Color(255, 225, 27));
@@ -579,6 +570,14 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         }
         return new DefaultTableModel(object, header);
     }
+    
+    static NhanVien KiemTraThongTinNhap(String x) throws Exception{
+        
+        
+        return new NhanVien(PROPERTIES);
+    }
+    
+    
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();

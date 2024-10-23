@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -20,6 +21,7 @@ import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.NhanVienDAO;
 import model.DTO.NhanVien;
+import model.DTO.Phong;
 import model.MongoDBConnection;
 
 /**
@@ -31,6 +33,7 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private MongoDBConnection database = new MongoDBConnection();
     private List<NhanVien> list_NhanVien = new ArrayList<>();
+    private List<NhanVien> list_NhanVienTheoTieuChi = new ArrayList<>();
     private NhanVienDAO nhanVien_dao = new NhanVienDAO(database.getDatabase());
     DefaultTableCellRenderer centerRenderer;
     DefaultTableModel model;
@@ -190,9 +193,19 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
         cb_ChucVu.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         cb_ChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Nhân viên", "Lễ tân", "Quản lý" }));
         cb_ChucVu.setPreferredSize(new java.awt.Dimension(72, 35));
+        cb_ChucVu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_ChucVuActionPerformed(evt);
+            }
+        });
 
         cb_NhanVien.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         cb_NhanVien.setPreferredSize(new java.awt.Dimension(72, 35));
+        cb_NhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_NhanVienActionPerformed(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
@@ -477,8 +490,8 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
             txt_TenDangNhap.requestFocus();
             return;
         }
-        
-        if(nhanVien_dao.checkAccountTheoTen(txt_TenDangNhap.getText()) != null){
+
+        if (nhanVien_dao.checkAccountTheoTen(txt_TenDangNhap.getText()) != null) {
             JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại");
             txt_TenDangNhap.requestFocus();
             return;
@@ -540,10 +553,13 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
             txt_TenDangNhap.requestFocus();
             return;
         }
-        if(nhanVien_dao.checkAccountTheoTen(txt_TenDangNhap.getText()) != null){
-            JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại");
-            txt_TenDangNhap.requestFocus();
-            return;
+        NhanVien nhanVien = nhanVien_dao.checkAccountTheoTen(txt_TenDangNhap.getText());
+        if (nhanVien != null) {
+            if (!nhanVien.getTenNhanVien().equals(cb_NhanVien.getSelectedItem().toString())) {
+                JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại");
+                txt_TenDangNhap.requestFocus();
+                return;
+            }
         }
         if (txt_MatKhau.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Không được để trống mật khẩu");
@@ -571,8 +587,8 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên cần xóa");
             return;
         }
-        
-        if(JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn xóa?","Cảnh báo",JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION){
+
+        if (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
             return;
         }
         NhanVien nv = nhanVien_dao.timTheoMaNhanVien(Integer.parseInt(model.getValueAt(row, 0).toString()));
@@ -583,7 +599,87 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
         list_NhanVien = nhanVien_dao.getAllNhanVien();
         DocDataLenTable(list_NhanVien);
     }//GEN-LAST:event_btn_XoaMousePressed
+    public void LoadNhanVienTheoChucVu(String ChucVu) {
+        cb_NhanVien.removeAllItems();
+        if (ChucVu.equals("")) {
+            cb_NhanVien.addItem("");
+            for (NhanVien nv : list_NhanVien) {
+                cb_NhanVien.addItem(nv.getTenNhanVien());
+            }
+            return;
+        }
 
+        cb_NhanVien.addItem("");
+        for (NhanVien nv : list_NhanVien) {
+            if (nv.getChucVu().equals(ChucVu)) {
+                cb_NhanVien.addItem(nv.getTenNhanVien());
+            }
+        }
+    }
+    private void cb_ChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ChucVuActionPerformed
+        // TODO add your handling code here:
+        if (cb_ChucVu.getSelectedItem() == null || cb_NhanVien.getSelectedItem() == null) {
+            return;
+        }
+        list_NhanVienTheoTieuChi = list_NhanVien;
+        LoadNhanVienTheoChucVu(cb_ChucVu.getSelectedItem().toString());
+
+        if (cb_ChucVu.getSelectedItem().toString().equals("") && cb_NhanVien.getSelectedItem().toString().equals("")) {
+            DocDataLenTable(list_NhanVienTheoTieuChi);
+            return;
+        }
+        if (!cb_ChucVu.getSelectedItem().equals("")) {
+            list_NhanVienTheoTieuChi = getNhanVienTheoChucVu(list_NhanVienTheoTieuChi);
+        }
+
+        if (!cb_NhanVien.getSelectedItem().equals("")) {
+            list_NhanVienTheoTieuChi = getNhanVienTheoTen(list_NhanVienTheoTieuChi);
+        }
+        DocDataLenTable(list_NhanVienTheoTieuChi);
+
+    }//GEN-LAST:event_cb_ChucVuActionPerformed
+
+    private void cb_NhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_NhanVienActionPerformed
+        // TODO add your handling code here:
+        if (cb_ChucVu.getSelectedItem() == null || cb_NhanVien.getSelectedItem() == null) {
+            return;
+        }
+        list_NhanVienTheoTieuChi = list_NhanVien;
+        if (cb_ChucVu.getSelectedItem().toString().equals("") && cb_NhanVien.getSelectedItem().toString().equals("")) {
+            DocDataLenTable(list_NhanVienTheoTieuChi);
+            return;
+        }
+        if (!cb_ChucVu.getSelectedItem().equals("")) {
+            list_NhanVienTheoTieuChi = getNhanVienTheoChucVu(list_NhanVienTheoTieuChi);
+        }
+
+        if (!cb_NhanVien.getSelectedItem().equals("")) {
+            list_NhanVienTheoTieuChi = getNhanVienTheoTen(list_NhanVienTheoTieuChi);
+        }
+        DocDataLenTable(list_NhanVienTheoTieuChi);
+    }//GEN-LAST:event_cb_NhanVienActionPerformed
+
+    public List<NhanVien> getNhanVienTheoChucVu(List<NhanVien> list_NhanViens) {
+        List<NhanVien> list_NhanVienTheoChucVu = new ArrayList<>();
+        for (NhanVien nv : list_NhanViens) {
+            if (nv.getChucVu().equals(cb_ChucVu.getSelectedItem().toString())) {
+                list_NhanVienTheoChucVu.add(nv);
+            }
+        }
+
+        return list_NhanVienTheoChucVu;
+    }
+
+    public List<NhanVien> getNhanVienTheoTen(List<NhanVien> list_NhanViens) {
+        List<NhanVien> list_NhanVienTheoTen = new ArrayList<>();
+        for (NhanVien nv : list_NhanViens) {
+            if (nv.getTenNhanVien().equals(cb_NhanVien.getSelectedItem().toString())) {
+                list_NhanVienTheoTen.add(nv);
+            }
+        }
+
+        return list_NhanVienTheoTen;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;

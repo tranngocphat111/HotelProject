@@ -49,7 +49,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         list_PhongTrong = list_Phong;
         initComponents();
 
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JTableHeader header = Table_Phong.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));

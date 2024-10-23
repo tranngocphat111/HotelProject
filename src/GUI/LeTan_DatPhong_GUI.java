@@ -1513,7 +1513,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 //        Cập nhật trang Đơn đặt phòng
         LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
         LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong));
+        LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi = LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong);
+        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi);
         LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
     }//GEN-LAST:event_btn_HoanTatMousePressed

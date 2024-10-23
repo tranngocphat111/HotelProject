@@ -9,6 +9,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +19,9 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -24,6 +29,7 @@ import keeptoo.KGradientPanel;
 import model.DAO.NhanVienDAO;
 import model.DTO.NhanVien;
 import model.MongoDBConnection;
+import test.convertImage;
 
 /**
  *
@@ -258,6 +264,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Chonhinhanh.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Chonhinhanh.setkGradientFocus(250);
         btn_Chonhinhanh.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Chonhinhanh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ChonhinhanhMouseClicked(evt);
+            }
+        });
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -634,6 +645,12 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             String DC = txt_DC.getText();
             String ChucVu = cb_ChucVu.getSelectedItem().toString();
             
+            if(!nhanVienDAO.timTheoCCCD(CCCD).isEmpty()) {
+                throw new Exception("CCCD không được trùng");
+            }
+            
+            
+            
             NhanVien x = new NhanVien(maNhanVien, HoTen, anhDaiDien, SDT, CCCD, DC, ChucVu);
             
             nhanVienDAO.createNhanVien(x);
@@ -647,14 +664,34 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             
             
             
-            
-            
-            
-            
         } catch(Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_ThemMouseClicked
+
+    private void btn_ChonhinhanhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ChonhinhanhMouseClicked
+        // TODO add your handling code here:
+        JFileChooser frame_chonAnh = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("File ảnh", "png", "jpg", "jpeg", "gif");
+        frame_chonAnh.setFileFilter(filter);
+        frame_chonAnh.setAcceptAllFileFilterUsed(false);
+        
+        int returnValue = frame_chonAnh.showOpenDialog(null);
+        
+        if(returnValue == JFileChooser.APPROVE_OPTION) {
+            String filePath = frame_chonAnh.getSelectedFile().getPath();
+            
+            ImageIcon icon = new ImageScale().load(filePath, anhnhanvien.getWidth(), anhnhanvien.getHeight());
+            
+            try {
+                hinhAnh = new convertImage().convertImageToBinary(filePath);
+            } catch (IOException ex) {
+                Logger.getLogger(NhanVien_TienNghi_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }            
+            
+            anhnhanvien.setIcon(icon);
+        }
+    }//GEN-LAST:event_btn_ChonhinhanhMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

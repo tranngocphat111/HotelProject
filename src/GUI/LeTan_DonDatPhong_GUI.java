@@ -156,9 +156,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         checkBox_DangO.setSelected(true);
         checkBox_DangCho.setSelected(true);
 
+
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
 
         
+
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
 
 

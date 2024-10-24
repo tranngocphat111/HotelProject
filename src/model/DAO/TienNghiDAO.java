@@ -16,7 +16,8 @@ import java.util.List;
 import model.DTO.LoaiPhong;
 import model.MongoDBConnection;
 import org.bson.types.Binary;
-
+import GUI.DangNhap_GUI;
+import static GUI.DangNhap_GUI.database;
 public class TienNghiDAO {
 
     private MongoCollection<Document> tienNghiCollection;
@@ -106,7 +107,7 @@ public class TienNghiDAO {
 
             DeleteResult result = tienNghiCollection.deleteOne(doc);
             
-            LoaiPhongDAO loaiPhongDAO = new LoaiPhongDAO(new MongoDBConnection().getDatabase());
+            LoaiPhongDAO loaiPhongDAO = new LoaiPhongDAO(database);
             
             for(LoaiPhong x : loaiPhongDAO.getAllLoaiPhong()) {
                 x.getTienNghis().remove(tienNghi);
@@ -138,11 +139,13 @@ public class TienNghiDAO {
             UpdateResult result = tienNghiCollection.updateOne(filter, newValue);
             
             
+            LoaiPhongDAO loaiPhongDAO = new LoaiPhongDAO(database);
             
-            
-            
-            
-            
+            for(LoaiPhong x : loaiPhongDAO.getAllLoaiPhong()) {
+                x.getTienNghis().set(x.getTienNghis().indexOf(oldTienNghi), newTienNghi);
+                loaiPhongDAO.updateLoaiPhong(x);
+                
+            }
             
             
             return result.wasAcknowledged();

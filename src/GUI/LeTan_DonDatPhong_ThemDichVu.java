@@ -423,15 +423,9 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         
 //        Đọc dữ liệu lên table_DonDatPhong
         LeTan_DonDatPhong_GUI.list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
-        list_DonDatPhongTheoTieuChi = new ArrayList<>();
-        for (DonDatPhong ddp : LeTan_DonDatPhong_GUI.list_DonDatPhong) {
-            if (ddp.getTrangThai().equals("Đang ở")) {
-                list_DonDatPhongTheoTieuChi.add(ddp);
-            }
-        }
         LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
-        LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(false);
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+        LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
+        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMousePressed
 

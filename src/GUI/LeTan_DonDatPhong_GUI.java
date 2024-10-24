@@ -7,6 +7,7 @@ package GUI;
 import static GUI.DangNhap_GUI.database;
 import static GUI.LeTan_DatPhong_GUI.label_MaDonDatPhong;
 import static GUI.LeTan_DatPhong_GUI.label_MaHoaDon;
+import com.toedter.calendar.JDateChooser;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -154,22 +155,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         checkBox_DangO.setSelected(true);
         checkBox_DangCho.setSelected(true);
 
-
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-
-        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-        
-        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-
-
-
-        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-
-        
-
-        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-
-
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
         list_btn.add(btn_Tim);
@@ -370,21 +356,36 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         return dsDichVu;
     }
 
+    private void setThoiGianBang0(JDateChooser ngay) {
+        if (ngay.getDate() != null) {
+            // Sử dụng Calendar để làm sạch phần thời gian
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngay.getDate());
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            // Lấy lại đối tượng Date với thời gian đã được làm sạch
+            ngay.setDate(calendar.getTime());
+        }
+    }
+
     public List<DonDatPhong> getDonDatPhongTheoThoiGian(List<DonDatPhong> list_DonDatPhongs, Date NgayBatDau, Date NgayKetThuc) {
-        NgayBatDau = getNgayHienTai();
+        
         List<DonDatPhong> list_DonDatPhongTheoThoiGian = new ArrayList<DonDatPhong>();
         if (NgayKetThuc == null) {
             for (DonDatPhong ddp : list_DonDatPhongs) {
-                if (ddp.getNgayNhanPhong().after(NgayBatDau)) {
+                if (NgayBatDau.before(ddp.getNgayNhanPhong()) || NgayBatDau.equals(ddp.getNgayNhanPhong())) {
                     list_DonDatPhongTheoThoiGian.add(ddp);
                 }
             }
-
-            return list_DonDatPhongTheoThoiGian;
+                return list_DonDatPhongTheoThoiGian;
         }
 
         for (DonDatPhong ddp : list_DonDatPhongs) {
-            if (ddp.getNgayNhanPhong().after(NgayBatDau) && ddp.getNgayNhanPhong().before(NgayKetThuc)) {
+            if ((NgayBatDau.before(ddp.getNgayNhanPhong()) || NgayBatDau.equals(ddp.getNgayNhanPhong()))
+                && (NgayKetThuc.after(ddp.getNgayNhanPhong()) || NgayKetThuc.equals(ddp.getNgayNhanPhong()))) {
                 list_DonDatPhongTheoThoiGian.add(ddp);
             }
         }
@@ -402,14 +403,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayNhanPhong_BatDau.setDate(null);
         txt_NgayNhanPhong_KetThuc.setDate(null);
         txt_CCCD.requestFocus();
-
-        checkBox_DangCho.setSelected(true);
-        checkBox_DangO.setSelected(true);
-
-
-
-        checkBox_DangCho.setSelected(true);
-        checkBox_DangO.setSelected(true);
 
         checkBox_DangCho.setSelected(true);
         checkBox_DangO.setSelected(true);
@@ -1041,32 +1034,57 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void txt_NgayNhanPhong_BatDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhong_BatDauPropertyChange
         // TODO add your handling code here:
-
+        list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
         if (txt_NgayNhanPhong_BatDau.getDate() == null && txt_NgayNhanPhong_KetThuc.getDate() == null) {
-            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+            DocDuLieuLenTable(list_DonDatPhong);
             return;
         }
-
+        
+        if(txt_NgayNhanPhong_BatDau.getDate() == null){
+            return;
+        }
         if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
             if (txt_NgayNhanPhong_BatDau.getDate().after(txt_NgayNhanPhong_KetThuc.getDate())) {
                 JOptionPane.showMessageDialog(this, "Ngày không hợp lý !!! vui lòng chọn lại");
                 txt_NgayNhanPhong_BatDau.setDate(null);
                 return;
             }
-        } 
-
-        list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
+        }
+        if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
+            setThoiGianBang0(txt_NgayNhanPhong_KetThuc);
+        }
+        
+        if (txt_NgayNhanPhong_BatDau.getDate() != null) {
+            setThoiGianBang0(txt_NgayNhanPhong_BatDau);
+        }
+        
+        list_DonDatPhongTheoTieuChi.clear();
+        list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhong, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
     }//GEN-LAST:event_txt_NgayNhanPhong_BatDauPropertyChange
 
     private void txt_NgayNhanPhong_KetThucPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhong_KetThucPropertyChange
         // TODO add your handling code here:
+        list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
         if (txt_NgayNhanPhong_BatDau.getDate() == null && txt_NgayNhanPhong_KetThuc.getDate() == null) {
-            DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
+            DocDuLieuLenTable(list_DonDatPhong);
             return;
         }
+        
+        if (txt_NgayNhanPhong_BatDau.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày bắt đầu trước");
+            txt_NgayNhanPhong_KetThuc.setDate(null);
+            return;
 
-        if (txt_NgayNhanPhong_BatDau.getDate() == null || txt_NgayNhanPhong_KetThuc.getDate() == null) {
+        }
+        
+        if(txt_NgayNhanPhong_BatDau.getDate().equals(txt_NgayNhanPhong_KetThuc.getDate())){
+            JOptionPane.showMessageDialog(this, "Khoảng thời gian không hợp lệ, không được bằng nhau");
+            txt_NgayNhanPhong_KetThuc.setDate(null);
+            return;
+        }
+        
+        if (txt_NgayNhanPhong_KetThuc.getDate() == null) {
             return;
 
         }
@@ -1075,7 +1093,16 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             txt_NgayNhanPhong_KetThuc.setDate(null);
             return;
         }
-        list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhongTheoTieuChi, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
+        
+        if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
+            setThoiGianBang0(txt_NgayNhanPhong_KetThuc);
+        }
+        
+        if (txt_NgayNhanPhong_BatDau.getDate() != null) {
+            setThoiGianBang0(txt_NgayNhanPhong_BatDau);
+        }
+        list_DonDatPhongTheoTieuChi.clear();
+        list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhong, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
     }//GEN-LAST:event_txt_NgayNhanPhong_KetThucPropertyChange
@@ -1319,7 +1346,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(this, "Hủy thành công");
         list_hoaDon = new ArrayList<HoaDon>();
         list_hoaDon = hoaDon_Dao.getAllHoaDon();
-        
+
     }//GEN-LAST:event_btn_HuyDonMousePressed
     public boolean ktraDonDatPhongCuoiCung(DonDatPhong ddpDaXoa) {
         list_DonDatPhongTheoTieuChi.clear();

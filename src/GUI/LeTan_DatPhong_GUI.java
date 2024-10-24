@@ -1519,6 +1519,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1));
         JOptionPane.showMessageDialog(this, "Tạo đơn đặt phòng thành công");
+        label_KhachToiDa.setText("Số lượng khách tối đa:");
         LamMoi();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
@@ -1610,6 +1611,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
             label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
         }
+        label_KhachToiDa.setText("Số lượng khách tối đa:");
         JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
         LamMoi();
         LamMoiThongTinPhong();
@@ -1774,9 +1776,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
         // TODO add your handling code here:
         LamMoi();
-        LamMoiThongTinPhong();
         label_KhachToiDa.setText("Số lượng khách tối đa:");
-
+        txt_Phong.setText("");
+        txt_LoaiPhong.setText("");
+        txt_Tang.setText("");
+        txt_DonGia.setText("");
+        area_moTa.setText("Mô tả");
+        txt_NgayDen.setDate(new Date());
+        txt_NgayDi.setDate(null);
+        txt_NgayDen.setEnabled(true);
+        txt_NgayDi.setEnabled(true);
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
 

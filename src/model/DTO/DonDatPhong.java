@@ -1,5 +1,6 @@
 package model.DTO;
 
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -136,8 +137,9 @@ public class DonDatPhong {
         if (doc.containsKey("KhachO")) {
             List<Document> khachODocs = (List<Document>) doc.get("KhachO");
             List<KhachHang> khachO = new ArrayList<>();
+            MongoDatabase database = new MongoDBConnection().getDatabase();
             for (Document khachODoc : khachODocs) {
-                KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(khachODoc.getInteger("maKhachHang"));
+                KhachHang khachHang = new KhachHangDAO(database).getKhachHangByMa(khachODoc.getInteger("maKhachHang"));
                 if(khachHang != null) khachO.add(khachHang);
             }
             donDatPhong.setKhachO(khachO);
@@ -147,9 +149,10 @@ public class DonDatPhong {
         if (doc.containsKey("dichVuSuDung")) {
             List<Document> dichVuDocs = (List<Document>) doc.get("dichVuSuDung");
             List<DichVu> dichVuSuDung = new ArrayList<>();
+            MongoDatabase database = new MongoDBConnection().getDatabase();
             for (Document dichVuDoc : dichVuDocs) {
                 
-                DichVu dichVu = new DichVuDAO(new MongoDBConnection().getDatabase()).getDichVuByMa(dichVuDoc.getInteger("maDV"));
+                DichVu dichVu = new DichVuDAO(database).getDichVuByMa(dichVuDoc.getInteger("maDV"));
                 if(dichVu != null) dichVuSuDung.add(dichVu);
             }
             donDatPhong.setDichVuSuDung(dichVuSuDung);

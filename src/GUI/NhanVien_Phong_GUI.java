@@ -4,29 +4,15 @@
  */
 package GUI;
 
-import static GUI.LeTan_ThanhToan_GUI.DocDuLieuLenTable;
-import static GUI.LeTan_ThanhToan_GUI.Table_hoaDon;
-import static GUI.LeTan_ThanhToan_GUI.centerRenderer;
-import static GUI.LeTan_ThanhToan_GUI.database;
-import static GUI.LeTan_ThanhToan_GUI.getPhongSuDung;
-import static GUI.LeTan_ThanhToan_GUI.model;
-import static GUI.LeTan_ThanhToan_GUI.sdf;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -36,8 +22,6 @@ import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
-import model.DTO.HoaDon;
-import model.DTO.KhachHang;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
@@ -47,29 +31,54 @@ import model.MongoDBConnection;
  *
  * @author Admin
  */
-public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
+public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
-    public static MongoDBConnection database = new MongoDBConnection();
-    public static DefaultTableModel model;
-    public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    public static List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
-    public static LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database.getDatabase());
-    public static List<Phong> list_Phong = new ArrayList<Phong>();
-    public static PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-    public static DefaultTableCellRenderer centerRenderer;
-    public static DecimalFormat df = new DecimalFormat("#,##0");
+    private MongoDBConnection database = new MongoDBConnection();
+    private DefaultTableModel model;
+    private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
+    private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
+    private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database.getDatabase());
+    private List<Phong> list_Phong = new ArrayList<Phong>();
+    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    private final DefaultTableCellRenderer centerRenderer;
+    private DecimalFormat df = new DecimalFormat("#,##0");
+
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-
     public NhanVien_Phong_GUI() {
         initComponents();
 
-        capnhatComboxLoaiPhong();
+//      Chặn edit table
+        String columnNames[] = {"Số Phòng", "Loại Phòng", "Số Tầng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô Tả", "Đơn Giá"};
+        model = new DefaultTableModel(null, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Trả về false để chặn mọi ô không thể chỉnh sửa
+                return false;
+            }
+        };
+        model.setRowCount(0);
 
-        jScrollPane2.setOpaque(false);
-        jScrollPane2.getViewport().setOpaque(false);
+        Table_Phong.setModel(model);
+        Table_Phong.setRowHeight(30);
+        jScrollPane3.setViewportView(Table_Phong);
+        if (Table_Phong.getColumnModel().getColumnCount() > 0) {
+            Table_Phong.getColumnModel().getColumn(0).setPreferredWidth(100);
+            Table_Phong.getColumnModel().getColumn(0).setMaxWidth(100);
+            Table_Phong.getColumnModel().getColumn(1).setPreferredWidth(120);
+            Table_Phong.getColumnModel().getColumn(1).setMaxWidth(120);
+            Table_Phong.getColumnModel().getColumn(2).setPreferredWidth(90);
+            Table_Phong.getColumnModel().getColumn(2).setMaxWidth(90);
+            Table_Phong.getColumnModel().getColumn(3).setPreferredWidth(120);
+            Table_Phong.getColumnModel().getColumn(3).setMaxWidth(120);
+            Table_Phong.getColumnModel().getColumn(4).setPreferredWidth(100);
+            Table_Phong.getColumnModel().getColumn(4).setMaxWidth(100);
+            Table_Phong.getColumnModel().getColumn(6).setPreferredWidth(150);
+            Table_Phong.getColumnModel().getColumn(6).setMaxWidth(150);
+            Table_Phong.getColumnModel().getColumn(7).setPreferredWidth(130);
+            Table_Phong.getColumnModel().getColumn(7).setMaxWidth(130);
+        }
 
 //      Căn giữa các phần tử trong table
         centerRenderer = new DefaultTableCellRenderer();
@@ -80,23 +89,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         model = (DefaultTableModel) Table_Phong.getModel();
         model.setRowCount(0);
         DocDuLieuLenTablePhong(list_Phong);
-
-        cb_loaiphong.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
-                if (cb_loaiphong.getSelectedIndex() == 0) {
-                    txt_gia.setText("");
-                } else {
-                    for (LoaiPhong loaiPhong : list_LoaiPhong) {
-                        if (cb_loaiphong.getSelectedIndex() == loaiPhong.getMaLoaiPhong()) {
-                            txt_gia.setText(df.format(loaiPhong.getDonGia()));
-                        }
-                    }
-
-                }
-            }
-        });
 
 //      Set font cho header_phong
         JTableHeader header_phong = Table_Phong.getTableHeader();
@@ -110,19 +102,12 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 //      Thiết lập renderer cho header phòng
         header_phong.setDefaultRenderer(renderer_phong);
 
+//      bắt sự kiện hover cho nút 
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
         list_btn.add(btn_Lammoi);
         list_btn.add(btn_Tim);
-
-        txt_gia.setFocusable(false);
-        txt_gia.setEditable(false);
-        txt_gia.setBackground(new java.awt.Color(225, 225, 225));
-
-        txt_phong.setFocusable(false);
-        txt_phong.setEditable(false);
-        txt_phong.setBackground(new java.awt.Color(225, 225, 225));
 
         list_btn.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
@@ -161,50 +146,38 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             });
         });
 
+//      sự kiện chọn loại phòng setDonGia
+        cb_loaiphong.addActionListener((ActionEvent e) -> {
+            list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
+            if (cb_loaiphong.getSelectedIndex() == 0) {
+                txt_gia.setText("");
+            } else {
+                for (LoaiPhong loaiPhong : list_LoaiPhong) {
+                    if (cb_loaiphong.getSelectedIndex() == loaiPhong.getMaLoaiPhong()) {
+                        txt_gia.setText(df.format(loaiPhong.getDonGia()));
+                    }
+                }
+
+            }
+        });
+
+        capnhatComboxLoaiPhong();
+
+        txt_gia.setFocusable(false);
+        txt_gia.setEditable(false);
+        txt_gia.setBackground(new java.awt.Color(225, 225, 225));
+
+        txt_phong.setFocusable(false);
+        txt_phong.setEditable(false);
+        txt_phong.setBackground(new java.awt.Color(225, 225, 225));
+
+        jScrollPane2.setOpaque(false);
+        jScrollPane2.getViewport().setOpaque(false);
+
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
-        ui.setNorthPane(null);
-       
-    }
+        BasicInternalFrameUI UI = (BasicInternalFrameUI) this.getUI();
+        UI.setNorthPane(null);
 
-    public static void DocDuLieuLenTablePhong(List<Phong> list_phong) {
-        model.setRowCount(0);
-
-        for (Phong phong : list_phong) {
-            model.addRow(new Object[]{
-                phong.getMaPhong(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong(),
-                phong.getTang(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getLoaiGiuong(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + " m2",
-                getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
-                phong.getMoTa(),
-                df.format(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND"});
-        }
-
-        for (int i = 0; i < Table_Phong.getColumnCount(); i++) {
-            Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-
-    }
-
-    public static String getListTienNghi(List<TienNghi> list_tienNghi) {
-        String list = "";
-        for (TienNghi tn : list_tienNghi) {
-            list = list + tn.getTenTienNghi() + ", ";
-        }
-        list = list.substring(0, list.length() - 2);
-        return list;
-    }
-
-    public static void capnhatComboxLoaiPhong() {
-//      Thêm các loại phòng vào combobox loại phòng
-        list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
-        cb_loaiphong.removeAllItems();
-        cb_loaiphong.addItem("");
-        for (LoaiPhong lp : list_LoaiPhong) {
-            cb_loaiphong.addItem(lp.getTenLoaiPhong());
-        }
     }
 
     /**
@@ -271,37 +244,12 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         cb_loaiphong.setFocusable(false);
         cb_loaiphong.setPreferredSize(new java.awt.Dimension(108, 22));
         cb_loaiphong.setRequestFocusEnabled(false);
-        cb_loaiphong.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                cb_loaiphongMousePressed(evt);
-            }
-        });
-        cb_loaiphong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_loaiphongActionPerformed(evt);
-            }
-        });
 
         txt_gia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txt_gia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_giaActionPerformed(evt);
-            }
-        });
 
         txt_tang.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txt_tang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_tangActionPerformed(evt);
-            }
-        });
 
         txt_phong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txt_phong.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_phongActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -644,15 +592,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_giaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_giaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_giaActionPerformed
-
-    private void cb_loaiphongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_loaiphongActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cb_loaiphongActionPerformed
-
     private void area_motaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_motaFocusGained
         // TODO add your handling code here:
         if (area_mota.getText().equals("Mô Tả")) {
@@ -666,10 +605,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             area_mota.setText("Mô Tả");
         }
     }//GEN-LAST:event_area_motaFocusLost
-
-    private void txt_tangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tangActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_tangActionPerformed
 
     private void btn_ThemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMousePressed
         // TODO add your handling code here:
@@ -711,7 +646,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         if (checkTang(Integer.parseInt(txt_tang.getText()))) {
             p.setMaPhong(Integer.parseInt(txt_tang.getText()) * 100 + 1);
         } else {
-            p.setMaPhong(Integer.parseInt(txt_tang.getText()) * 100 + (getAllPhongByTang(list_Phong, Integer.parseInt(txt_tang.getText())).getLast().getMaPhong() % 100) + 1);
+            p.setMaPhong(Integer.parseInt(txt_tang.getText()) * 100 + (getPhongByTang(list_Phong, Integer.parseInt(txt_tang.getText())).getLast().getMaPhong() % 100) + 1);
         }
         p.setTang(Integer.parseInt(txt_tang.getText()));
         p.setLoaiPhong(cb_loaiphong.getSelectedIndex());
@@ -726,26 +661,20 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         lamMoi();
     }//GEN-LAST:event_btn_LammoiMousePressed
 
-    public void lamMoi() {
-        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        DocDuLieuLenTablePhong(list_Phong);
-        txt_phong.setText("");
-        txt_gia.setText("");
-        cb_loaiphong.setSelectedIndex(0);
-        txt_tang.setText("");
-        txt_gia.setText("");
-        area_mota.setText("Mô Tả");
-        txt_tang.requestFocus();
-    }
-
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
         List<Phong> list_P = phong_dao.getAllPhongsSortByMaPhong();
         if (!txt_phong.getText().isEmpty()) {
             list_P = getPhongByMaPhong(list_P, Integer.parseInt(txt_phong.getText()));
         }
-        if (!txt_tang.getText().isEmpty()) {
-            list_P = getAllPhongByTang(list_P, Integer.parseInt(txt_tang.getText()));
+
+        String regex = "\\d+";
+        if (!txt_tang.getText().matches(regex)) {
+            list_P = new ArrayList<>();
+        } else {
+            if (!txt_tang.getText().isEmpty()) {
+                list_P = getPhongByTang(list_P, Integer.parseInt(txt_tang.getText()));
+            }
         }
 
         if (cb_loaiphong.getSelectedIndex() != 0) {
@@ -753,85 +682,11 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         if (!area_mota.getText().equals("Mô Tả")) {
-            list_P = getAllPhongByMoTa(list_P, area_mota.getText());
+            list_P = getPhongByMoTa(list_P, area_mota.getText());
         }
 
         DocDuLieuLenTablePhong(list_P);
     }//GEN-LAST:event_btn_TimMousePressed
-
-    public List<Phong> getPhongByMaPhong(List<Phong> list_Phong, int MaPhong) {
-        List<Phong> list_PhongByMaLoai = new ArrayList<>();
-        for (Phong p : list_Phong) {
-            if (p.getMaPhong() == MaPhong) {
-                list_PhongByMaLoai.add(p);
-            }
-        }
-        return list_PhongByMaLoai;
-    }
-
-    public List<Phong> getPhongByTang(List<Phong> list_Phong, int getTang) {
-        List<Phong> list_PhongByMaTang = new ArrayList<>();
-        for (Phong p : list_Phong) {
-            if (p.getTang() == getTang) {
-                list_PhongByMaTang.add(p);
-            }
-        }
-        return list_PhongByMaTang;
-    }
-
-    public List<Phong> getPhongByLoaiPhong(List<Phong> list_Phong, int MaLoai) {
-        List<Phong> list_PhongByMaLoaiPhong = new ArrayList<>();
-        for (Phong p : list_Phong) {
-            if (p.getLoaiPhong() == MaLoai) {
-                list_PhongByMaLoaiPhong.add(p);
-            }
-        }
-        return list_PhongByMaLoaiPhong;
-    }
-
-    public List<Phong> getPhongByMoTa(List<Phong> list_Phong, String MoTa) {
-        List<Phong> list_PhongByMoTa = new ArrayList<>();
-        for (Phong p : list_Phong) {
-            if (p.getMoTa().contains(MoTa)) {
-                list_PhongByMoTa.add(p);
-            }
-        }
-        return list_PhongByMoTa;
-    }
-
-    public List<Phong> timPhong(String soPhong, String loaiPhong, String tang, String moTa) {
-        List<Phong> danhSachPhongTimThay = new ArrayList<>();
-
-        // Giả sử bạn có một phương thức để lấy tất cả các phòng
-        List<Phong> tatCaPhong = phong_dao.getAllPhongsSortByMaPhong(); // Cần phải implement phương thức này
-
-        for (Phong p : tatCaPhong) {
-            boolean matches = true;
-
-            // Kiểm tra các điều kiện tìm kiếm
-            if (!soPhong.isEmpty() && p.getMaPhong() != Integer.parseInt(soPhong)) {
-                matches = false;
-            }
-            if (!loaiPhong.isEmpty() && p.getLoaiPhong() != Integer.parseInt(loaiPhong)) {
-                matches = false;
-            }
-            if (!tang.isEmpty() && p.getTang() != Integer.parseInt(tang)) {
-                matches = false;
-            }
-            if (!moTa.isEmpty() && p.getMoTa().contains(moTa)) {
-                matches = false;
-            }
-
-            // Nếu tất cả các điều kiện đều khớp, thêm phòng vào danh sách kết quả
-            if (matches) {
-                danhSachPhongTimThay.add(p);
-            }
-        }
-
-        // Trả về danh sách các phòng tìm thấy
-        return danhSachPhongTimThay;
-    }
-
 
     private void Table_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_PhongMousePressed
         // TODO add your handling code here:
@@ -851,15 +706,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_Table_PhongMousePressed
 
-    private void txt_phongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_phongActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_phongActionPerformed
-
-    private void cb_loaiphongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cb_loaiphongMousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cb_loaiphongMousePressed
-
     private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
         // TODO add your handling code here:
         if (Table_Phong.getSelectedRow() == -1) {
@@ -871,6 +717,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             model.removeRow(Table_Phong.getSelectedRow());
             phong_dao.deletePhong(maPhong);
         }
+        lamMoi();
     }//GEN-LAST:event_btn_XoaMousePressed
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
@@ -925,6 +772,58 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btn_SuaMousePressed
 
+    public void lamMoi() {
+        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+        DocDuLieuLenTablePhong(list_Phong);
+        txt_phong.setText("");
+        txt_gia.setText("");
+        cb_loaiphong.setSelectedIndex(0);
+        txt_tang.setText("");
+        txt_gia.setText("");
+        area_mota.setText("Mô Tả");
+        txt_tang.requestFocus();
+    }
+
+    public List<Phong> getPhongByMaPhong(List<Phong> list_Phong, int MaPhong) {
+        List<Phong> list_PhongByMaLoai = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getMaPhong() == MaPhong) {
+                list_PhongByMaLoai.add(p);
+            }
+        }
+        return list_PhongByMaLoai;
+    }
+
+    public List<Phong> getPhongByTang(List<Phong> list_Phong, int getTang) {
+        List<Phong> list_PhongByMaTang = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getTang() == getTang) {
+                list_PhongByMaTang.add(p);
+            }
+        }
+        return list_PhongByMaTang;
+    }
+
+    public List<Phong> getPhongByLoaiPhong(List<Phong> list_Phong, int MaLoai) {
+        List<Phong> list_PhongByMaLoaiPhong = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getLoaiPhong() == MaLoai) {
+                list_PhongByMaLoaiPhong.add(p);
+            }
+        }
+        return list_PhongByMaLoaiPhong;
+    }
+
+    public List<Phong> getPhongByMoTa(List<Phong> list_Phong, String MoTa) {
+        List<Phong> list_PhongByMoTa = new ArrayList<>();
+        for (Phong p : list_Phong) {
+            if (p.getMoTa().contains(MoTa)) {
+                list_PhongByMoTa.add(p);
+            }
+        }
+        return list_PhongByMoTa;
+    }
+
     public int getMaLoaiPhongBangTenLoaiPhong(String tenLoaiPhong) {
         List<LoaiPhong> list_lp = new ArrayList();
         list_lp = loaiphong_dao.getAllLoaiPhong();
@@ -936,17 +835,6 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         return -1;
     }
 
-    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
-        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-        for (Phong phong : list_PhongTrong) {
-            if (phong.getLoaiPhong() == loaiPhong) {
-                list_PhongByLoai.add(phong);
-            }
-        }
-
-        return list_PhongByLoai;
-    }
-
     public boolean checkTang(int soTang) {
         for (Phong phong : list_Phong) {
             if (phong.getTang() == soTang) {
@@ -956,43 +844,50 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         return true;
     }
 
-    public List<Phong> getAllPhongByTang(List<Phong> list_Phong, int soTang) {
-        List<Phong> list_PhongByTang = new ArrayList<Phong>();
-        for (Phong phong : list_Phong) {
-            if (phong.getTang() == soTang) {
-                list_PhongByTang.add(phong);
-            }
+    public void DocDuLieuLenTablePhong(List<Phong> list_phong) {
+        model.setRowCount(0);
+
+        for (Phong phong : list_phong) {
+            model.addRow(new Object[]{
+                phong.getMaPhong(),
+                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong(),
+                phong.getTang(),
+                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getLoaiGiuong(),
+                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + " m2",
+                getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
+                phong.getMoTa(),
+                df.format(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND"});
         }
-        return list_PhongByTang;
+
+        for (int i = 0; i < Table_Phong.getColumnCount(); i++) {
+            Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
     }
 
-    public List<Phong> getAllPhongByMoTa(List<Phong> list_Phong, String moTa) {
-        List<Phong> list_PhongByMoTa = new ArrayList<Phong>();
-        for (Phong phong : list_Phong) {
-            if (!moTa.equals("Mô Tả")) {
-                if (phong.getMoTa().contains(moTa)) {
-                    list_PhongByMoTa.add(phong);
-                }
-            }
-
+    public String getListTienNghi(List<TienNghi> list_tienNghi) {
+        String list = "";
+        for (TienNghi tn : list_tienNghi) {
+            list = list + tn.getTenTienNghi() + ", ";
         }
-
-        return list_PhongByMoTa;
+        list = list.substring(0, list.length() - 2);
+        return list;
     }
 
-    public Phong getPhongByMaPhong(int maPhong) {
-        for (Phong phong : list_Phong) {
-            if (phong.getMaPhong() == maPhong) {
-                return phong;
-            }
+    public void capnhatComboxLoaiPhong() {
+//      Thêm các loại phòng vào combobox loại phòng
+        list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
+        cb_loaiphong.removeAllItems();
+        cb_loaiphong.addItem("");
+        for (LoaiPhong lp : list_LoaiPhong) {
+            cb_loaiphong.addItem(lp.getTenLoaiPhong());
         }
-        return null;
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
-    public static javax.swing.JTable Table_Phong;
+    private javax.swing.JTable Table_Phong;
     private javax.swing.JPanel ThongTinPhong;
     private javax.swing.JTextArea area_mota;
     private keeptoo.KGradientPanel btn_Lammoi;
@@ -1000,7 +895,7 @@ public class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
-    public static javax.swing.JComboBox<String> cb_loaiphong;
+    private javax.swing.JComboBox<String> cb_loaiphong;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;

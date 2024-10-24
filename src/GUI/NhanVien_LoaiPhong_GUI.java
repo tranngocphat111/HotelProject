@@ -5,11 +5,6 @@
 package GUI;
 
 import Functions.ImageScale;
-import static GUI.NhanVien_Phong_GUI.Table_Phong;
-import static GUI.NhanVien_Phong_GUI.database;
-import static GUI.NhanVien_Phong_GUI.loaiphong_dao;
-import static GUI.NhanVien_Phong_GUI.model;
-import static GUI.NhanVien_Phong_GUI.phong_dao;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -1129,7 +1124,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         lp.setLoaiGiuong(loaiGiuong);
         lp.setTienNghis(list_TienNghiDuocChon);
 
-        loaiphong_dao.updateLoaiPhong(lp);
         JOptionPane.showMessageDialog(this, "Sửa thành công");
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         DocDataLenTable(list_LoaiPhong);
@@ -1154,8 +1148,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
         list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        NhanVien_Phong_GUI.DocDuLieuLenTablePhong(list_Phong);
-        NhanVien_Phong_GUI.capnhatComboxLoaiPhong();
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         DocDataLenTable(list_LoaiPhong);
         lamMoi();

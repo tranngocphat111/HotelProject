@@ -53,9 +53,9 @@ public class LoaiPhongDAO {
             for (TienNghi tienNghi : loaiPhong.getTienNghis()) {
                 List_TienNghi.add(new Document()
                         .append("maTienNghi", tienNghi.getMaTienNghi())
-//                        .append("tenTienNghi", tienNghi.getTenTienNghi())
-//                        .append("moTa", tienNghi.getMoTa())
-//                        .append("hinhAnh", tienNghi.getHinhAnh())
+                        .append("tenTienNghi", tienNghi.getTenTienNghi())
+                        .append("moTa", tienNghi.getMoTa())
+                        .append("hinhAnh", tienNghi.getHinhAnh())
                 );
             }
             Document doc = new Document()

@@ -137,7 +137,7 @@ public class DonDatPhong {
             List<Document> khachODocs = (List<Document>) doc.get("KhachO");
             List<KhachHang> khachO = new ArrayList<>();
             for (Document khachODoc : khachODocs) {
-                KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(khachODoc.getInteger("maKhachHang"));
+                KhachHang khachHang = new KhachHang().fromDocument(khachODoc);
                 if(khachHang != null) khachO.add(khachHang);
             }
             donDatPhong.setKhachO(khachO);
@@ -149,7 +149,7 @@ public class DonDatPhong {
             List<DichVu> dichVuSuDung = new ArrayList<>();
             for (Document dichVuDoc : dichVuDocs) {
                 
-                DichVu dichVu = new DichVuDAO(new MongoDBConnection().getDatabase()).getDichVuByMa(dichVuDoc.getInteger("maDV"));
+                DichVu dichVu = new DichVu().fromDocument(dichVuDoc);
                 if(dichVu != null) dichVuSuDung.add(dichVu);
             }
             donDatPhong.setDichVuSuDung(dichVuSuDung);

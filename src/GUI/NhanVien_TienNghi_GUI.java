@@ -41,21 +41,19 @@ import test.convertImage;
  *
  * @author Admin
  */
-public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
+public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-
     private DefaultTableModel model;
     private TienNghiDAO tienNghiDAO = new TienNghiDAO(database);
     private LoaiPhongDAO loaiphongDAO = new LoaiPhongDAO(database);
     private byte[] hinhAnh = null;
     private DefaultTableCellRenderer centerRenderer;
-    
+
     public NhanVien_TienNghi_GUI() {
         initComponents();
-
 
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -84,18 +82,17 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         list_btn.add(btn_lammoi);
         list_btn.add(btn_Tim);
         list_btn.add(chonAnh_btn);
-        
-        
+
         list_btn.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
-               
+
                 @Override
                 public void mousePressed(MouseEvent e) {
-                        
+
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
@@ -118,16 +115,13 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                     element.setkEndColor(new java.awt.Color(255, 222, 89));
                     element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                     element.setBorder(null);
-                   
+
                 }
             });
         });
-        
-        
-        
-        
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-        BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
+
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
     }
 
@@ -159,9 +153,10 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         label_Anh = new javax.swing.JLabel();
         chonAnh_btn = new keeptoo.KGradientPanel();
         jLabel20 = new javax.swing.JLabel();
-        txt_moTa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_TienNghi = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        area_moTa = new javax.swing.JTextArea();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_TienNghi"); // NOI18N
@@ -221,8 +216,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_lammoi.setkGradientFocus(250);
         btn_lammoi.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_lammoi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_lammoiMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_lammoiMousePressed(evt);
             }
         });
 
@@ -255,8 +250,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_TimMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_TimMousePressed(evt);
             }
         });
 
@@ -289,8 +284,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_them.setkGradientFocus(250);
         btn_them.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_them.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_themMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_themMousePressed(evt);
             }
         });
 
@@ -324,8 +319,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_Xoa.setkGradientFocus(250);
         btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Xoa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_XoaMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_XoaMousePressed(evt);
             }
         });
 
@@ -355,8 +350,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_Sua.setkGradientFocus(250);
         btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_SuaMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_SuaMousePressed(evt);
             }
         });
 
@@ -407,8 +402,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         chonAnh_btn.setkGradientFocus(250);
         chonAnh_btn.setkStartColor(new java.awt.Color(225, 176, 27));
         chonAnh_btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                chonAnh_btnMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                chonAnh_btnMousePressed(evt);
             }
         });
 
@@ -434,16 +429,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         jPanel1.add(chonAnh_btn);
         chonAnh_btn.setBounds(960, 331, 240, 50);
 
-        txt_moTa.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txt_moTa.setPreferredSize(new java.awt.Dimension(80, 32));
-        txt_moTa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_moTaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txt_moTa);
-        txt_moTa.setBounds(610, 120, 310, 160);
-
         table_TienNghi.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         table_TienNghi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -467,9 +452,16 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.Object.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         table_TienNghi.setRowHeight(30);
@@ -480,14 +472,47 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         });
         jScrollPane1.setViewportView(table_TienNghi);
         if (table_TienNghi.getColumnModel().getColumnCount() > 0) {
-            table_TienNghi.getColumnModel().getColumn(0).setPreferredWidth(300);
-            table_TienNghi.getColumnModel().getColumn(0).setMaxWidth(300);
-            table_TienNghi.getColumnModel().getColumn(1).setPreferredWidth(300);
-            table_TienNghi.getColumnModel().getColumn(1).setMaxWidth(300);
+            table_TienNghi.getColumnModel().getColumn(0).setPreferredWidth(130);
+            table_TienNghi.getColumnModel().getColumn(0).setMaxWidth(130);
+            table_TienNghi.getColumnModel().getColumn(1).setPreferredWidth(200);
+            table_TienNghi.getColumnModel().getColumn(1).setMaxWidth(200);
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 450, 1130, 220);
+        jScrollPane1.setBounds(80, 430, 1130, 216);
+
+        jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
+        jScrollPane2.setForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setToolTipText("");
+        jScrollPane2.setInheritsPopupMenu(true);
+        jScrollPane2.setOpaque(false);
+
+        area_moTa.setBackground(new java.awt.Color(0, 0, 0));
+        area_moTa.setColumns(1);
+        area_moTa.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        area_moTa.setForeground(new java.awt.Color(255, 255, 255));
+        area_moTa.setLineWrap(true);
+        area_moTa.setRows(3);
+        area_moTa.setText("Mô Tả");
+        area_moTa.setWrapStyleWord(true);
+        area_moTa.setCaretColor(new java.awt.Color(255, 255, 255));
+        area_moTa.setMargin(new java.awt.Insets(4, 6, 2, 6));
+        area_moTa.setMaximumSize(new java.awt.Dimension(69, 72));
+        area_moTa.setOpaque(false);
+        area_moTa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                area_moTaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                area_moTaFocusLost(evt);
+            }
+        });
+        jScrollPane2.setViewportView(area_moTa);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(610, 120, 310, 160);
 
         Backgroup.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
@@ -519,13 +544,13 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
 
     public void DocDuLieuLenTableTienNghi(List<TienNghi> list_tn) {
         model.setRowCount(0);
-        
+
         for (TienNghi tn : list_tn) {
             model.addRow(new Object[]{
                 tn.getMaTienNghi(),
                 tn.getTenTienNghi(),
                 tn.getMoTa()});
-            }
+        }
         for (int i = 0; i < table_TienNghi.getColumnCount(); i++) {
             table_TienNghi.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
@@ -535,215 +560,12 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     private void txt_tienNghiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tienNghiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_tienNghiActionPerformed
-    
-//    static DefaultTableModel duaDataVaoModel(List<TienNghi> list_TienNghi) {
-//        
-//        
-//        Object[][] object = new Object[list_TienNghi.size()][4];
-//        for(int i = 0; i < object.length; i++) {
-//            TienNghi x = list_TienNghi.get(i);
-//            object[i] = new Object[]{
-//                x.getMaTienNghi(), x.getTenTienNghi(), x.getMoTa()
-//            };
-////            System.out.println(object[i][0]);
-////            System.out.println(object[i][1]);
-////            System.out.println(object[i][2]);
-//            
-//        }
-//        String[] table_header = new String [] {
-//                "Mã tiện nghi", "Tên tiện nghi", "Mô tả"
-//        };
-//        
-//        return new DefaultTableModel(object, table_header);
-//        
-//    }
-    
-    private void txt_moTaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_moTaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_moTaActionPerformed
-
-    private void chonAnh_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chonAnh_btnMouseClicked
-        // TODO add your handling code here:
-        JFileChooser frame_chonAnh = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("File ảnh", "png", "jpg", "jpeg", "gif");
-        frame_chonAnh.setFileFilter(filter);
-        frame_chonAnh.setAcceptAllFileFilterUsed(false);
-        
-        
-        int returnValue = frame_chonAnh.showOpenDialog(null);
-        if(returnValue == JFileChooser.APPROVE_OPTION) {
-            //Đường dẫn của file
-            String filePath = frame_chonAnh.getSelectedFile().getPath();
-            
-            ImageIcon icon = new ImageScale().load(filePath, label_Anh.getWidth(), label_Anh.getHeight());
-            
-            try {
-                hinhAnh = new convertImage().convertImageToBinary(filePath);
-            } catch (IOException ex) {
-                Logger.getLogger(NhanVien_TienNghi_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }            
-            
-            label_Anh.setIcon(icon);
-            
-//            txt_TienNghi.setEnabled(false);
-            
-        }
-    }//GEN-LAST:event_chonAnh_btnMouseClicked
-
-    private void btn_themMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMouseClicked
-        // TODO add your handling code here:
-        
-        try {
-            if(txt_tienNghi.getText().isBlank()) {
-//                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
-                throw new Exception("Chưa nhập tên dịch vụ!");
-            }
-            if(txt_moTa.getText().isBlank()) {
-//                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
-                throw new Exception("Chưa nhập mô tả dịch vụ!");
-            }
-            
-            if(hinhAnh == null) {
-                throw new Exception("Chưa chọn ảnh dịch vụ!");
-            }
-//            if(txtHinhAnh.getText().isBlank()) {
-//                JOptionPane.showMessageDialog(this, "Chưa chọn hình ảnh dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
-//                throw new Exception("Chưa nhập đơn giá dịch vụ!");
-//            }
-            String tenTienNghi = txt_tienNghi.getText();
-            
-            if(tienNghiDAO.timTienNghi(tenTienNghi) != null) {
-//                JOptionPane.showMessageDialog(this, "Đã có dịch vụ có tên " + tenTienNghi, "Trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
-                throw new ExceptionInInitializerError("Trùng dữ liệu");
-            }
-            
-            int maTienNghi = tienNghiDAO.getAllTienNghi().getLast().getMaTienNghi() + 1;
-            String moTaTienNghi = txt_moTa.getText();
-            
-            byte[] img = hinhAnh;
-            
-            //Tạo ra một dịch vụ mới
-            TienNghi x = new TienNghi(maTienNghi, tenTienNghi, moTaTienNghi, hinhAnh);
-            //Đưa dữ liệu vào database
-            tienNghiDAO.createTienNghi(x);
-            
-            
-            //Reset lại dữ liệu trong table
-            
-            
-            //Đưa data vào table 
-            DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
-            
-            txt_tienNghi.setText("");
-            txt_moTa.setText("");
-//            hinhAnh = null;
-            label_Anh.setIcon(null);
-            txt_tienNghi.setEnabled(true);
-            
-        }   
-        catch (ExceptionInInitializerError e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
-        }
-        catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Dữ liệu bị thiếu", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_themMouseClicked
-
-    private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
-        // TODO add your handling code here:
-        try {
-            
-            if(table_TienNghi.getSelectedRow() != -1) {
-                String tenTienNghi = table_TienNghi.getModel().getValueAt(table_TienNghi.getSelectedRow(), 1).toString();
-                TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-                
-                
-                
-                System.out.println(x.toString());
-                tenTienNghi = txt_tienNghi.getText();
-                int maDV = x.getMaTienNghi();
-                String moTaDV = txt_moTa.getText();
-                byte[] hinhAnh = this.hinhAnh;
-                
-                
-                
-                System.out.println("Trên label" + String.format("%d %s", maDV, moTaDV));
-                TienNghi y = new TienNghi(maDV, tenTienNghi, moTaDV, hinhAnh);
-                
-                tienNghiDAO.suaTienNghi(x, y);
-//                System.out.println(y.toString());
-                DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
-                                
-//                txt_TienNghi.setEnabled(true);
-                txt_tienNghi.setText("");
-                txt_moTa.setText("");
-                label_Anh.setIcon(null);
-                for(LoaiPhong lp : loaiphongDAO.getAllLoaiPhong()){
-                    for(int i = 0; i < lp.getTienNghis().size(); i++){
-                        if(maDV == lp.getTienNghis().get(i).getMaTienNghi()){
-                            lp.getTienNghis().set(i, y);
-                        }
-                    }
-                    loaiphongDAO.updateLoaiPhong(lp);
-                }
-                
-        }
-            
-        }
-        catch(Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Lỗi dữ liệu", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btn_SuaMouseClicked
-
-    private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
-        // TODO add your handling code here:
-        int row = table_TienNghi.getSelectedRow();
-        
-        if(row != -1) {
-//            int maDV = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
-            String tenDV = table_TienNghi.getModel().getValueAt(row, 1).toString();
-//            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
-//            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
-
-            TienNghi x = tienNghiDAO.timTienNghi(tenDV);
-            
-            tienNghiDAO.xoaTienNghi(x);
-            
-            DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
-        }
-    }//GEN-LAST:event_btn_XoaMouseClicked
-
-    private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
-        // TODO add your handling code here:
-        String tenTienNghi = txt_tienNghi.getText().toString();
-        
-//        System.out.println(tenTienNghi);
-        if(tenTienNghi.equals("")) {
-            JOptionPane.showMessageDialog(this, "Chưa nhập tên tiện nghi cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
-        }
-        TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-//        System.out.println(x == null);
-        int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
-        hinhAnh = x.getHinhAnh();
-        label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
-        txt_moTa.setText(x.getMoTa());
-        if(viTriCuaX != -1) {
-            table_TienNghi.setRowSelectionInterval(viTriCuaX, viTriCuaX);
-        } else {
-            JOptionPane.showMessageDialog(this, "Không có tiện nghi có tên " + tenTienNghi, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_btn_TimMouseClicked
-
-    private void btn_lammoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_lammoiMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_lammoiMouseClicked
 
     private void table_TienNghiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_TienNghiMousePressed
         // TODO add your handling code here:
-         int row = table_TienNghi.getSelectedRow();
+        int row = table_TienNghi.getSelectedRow();
 
-        if(row != -1) {
+        if (row != -1) {
             String tenTienNghi = table_TienNghi.getModel().getValueAt(row, 1).toString();
 
             TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
@@ -751,7 +573,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
 
             //            System.out.println(x.getHinhAnh());
             txt_tienNghi.setText(x.getTenTienNghi());
-            txt_moTa.setText(x.getMoTa());
+            area_moTa.setText(x.getMoTa());
 
             hinhAnh = x.getHinhAnh();
             System.out.println(hinhAnh == null);
@@ -761,15 +583,268 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             label_Anh.setIcon(icon);
 
             //            txt_DichVu.setEnabled(false);
-
         }
-        
+
     }//GEN-LAST:event_table_TienNghiMousePressed
 
+    private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
+        // TODO add your handling code here:
+        if (area_moTa.getText().equals("Mô Tả")) {
+            area_moTa.setText("");
+        }
+    }//GEN-LAST:event_area_moTaFocusGained
+
+    private void area_moTaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusLost
+        // TODO add your handling code here:
+        if (area_moTa.getText().equals("")) {
+            area_moTa.setText("Mô Tả");
+        }
+    }//GEN-LAST:event_area_moTaFocusLost
+
+    private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
+        // TODO add your handling code here:
+
+        if (txt_tienNghi.getText().isBlank()) {
+//                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
+//                throw new Exception("Chưa nhập tên dịch vụ!");
+            JOptionPane.showMessageDialog(this, "Nhập tiện nghi");
+            txt_tienNghi.requestFocus();
+            return;
+        }
+        if (area_moTa.getText().equals("Mô Tả") || area_moTa.getText().equals("")) {
+//                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nhập mô tả");
+            area_moTa.requestFocus();
+            return;
+        }
+
+        if (hinhAnh == null) {
+            JOptionPane.showMessageDialog(this, "Chọn hình ảnh");
+            return;
+        }
+//            if(txtHinhAnh.getText().isBlank()) {
+//                JOptionPane.showMessageDialog(this, "Chưa chọn hình ảnh dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
+//                throw new Exception("Chưa nhập đơn giá dịch vụ!");
+//            }
+        String tenTienNghi = txt_tienNghi.getText();
+
+        if (tienNghiDAO.timTienNghi(tenTienNghi) != null) {
+//                JOptionPane.showMessageDialog(this, "Đã có dịch vụ có tên " + tenTienNghi, "Trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Trùng tên tiện nghi");
+            txt_tienNghi.requestFocus();
+            return;
+        }
+
+        int maTienNghi = tienNghiDAO.getAllTienNghi().getLast().getMaTienNghi() + 1;
+        String moTaTienNghi = area_moTa.getText();
+
+        byte[] img = hinhAnh;
+
+        //Tạo ra một dịch vụ mới
+        TienNghi x = new TienNghi(maTienNghi, tenTienNghi, moTaTienNghi, hinhAnh);
+        //Đưa dữ liệu vào database
+        tienNghiDAO.createTienNghi(x);
+
+        //Reset lại dữ liệu trong table
+        //Đưa data vào table 
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
+        DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
+
+        txt_tienNghi.setText("");
+        area_moTa.setText("");
+//            hinhAnh = null;
+        label_Anh.setIcon(null);
+        txt_tienNghi.setEnabled(true);
+
+        LamMoi();
+    }//GEN-LAST:event_btn_themMousePressed
+
+    private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
+        // TODO add your handling code here:
+        int row = table_TienNghi.getSelectedRow();
+
+        if (row != -1) {
+
+            if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa tiện nghi?" + "\n" + "Nó có thể thay đổi loại phòng? ", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(row, 0).toString());
+                String tenTN = table_TienNghi.getModel().getValueAt(row, 1).toString();
+//            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
+//            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
+
+                TienNghi x = tienNghiDAO.timTienNghi(tenTN);
+
+                tienNghiDAO.xoaTienNghi(x);
+
+                DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
+                LamMoi();
+            }
+//          
+        } else {
+            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
+            return;
+        }
+    }//GEN-LAST:event_btn_XoaMousePressed
+
+    private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
+        // TODO add your handling code here:
+        if (table_TienNghi.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn dòng cần sửa");
+            return;
+        }
+        if (txt_tienNghi.getText().isBlank()) {
+//                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
+//                throw new Exception("Chưa nhập tên dịch vụ!");
+            JOptionPane.showMessageDialog(this, "Nhập tiện nghi");
+            txt_tienNghi.requestFocus();
+            return;
+        }
+        if (area_moTa.getText().equals("Mô Tả") || area_moTa.getText().equals("")) {
+//                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nhập mô tả");
+            area_moTa.requestFocus();
+            return;
+        }
+
+        if (hinhAnh == null) {
+            JOptionPane.showMessageDialog(this, "Chọn hình ảnh");
+            return;
+        }
+
+        if (table_TienNghi.getSelectedRow() != -1) {
+            String tenTienNghi = table_TienNghi.getModel().getValueAt(table_TienNghi.getSelectedRow(), 1).toString();
+            TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
+
+            System.out.println(x.toString());
+            tenTienNghi = txt_tienNghi.getText();
+            int maDV = x.getMaTienNghi();
+            String moTaDV = area_moTa.getText();
+            byte[] hinhAnh = this.hinhAnh;
+
+            System.out.println("Trên label" + String.format("%d %s", maDV, moTaDV));
+            TienNghi y = new TienNghi(maDV, tenTienNghi, moTaDV, hinhAnh);
+
+            tienNghiDAO.suaTienNghi(x, y);
+//                System.out.println(y.toString());
+            DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
+
+            JOptionPane.showMessageDialog(this, "Sửa thành công");
+
+//                txt_TienNghi.setEnabled(true);
+            LamMoi();
+
+            for (LoaiPhong lp : loaiphongDAO.getAllLoaiPhong()) {
+                for (int i = 0; i < lp.getTienNghis().size(); i++) {
+                    if (maDV == lp.getTienNghis().get(i).getMaTienNghi()) {
+                        lp.getTienNghis().set(i, y);
+                    }
+                }
+                loaiphongDAO.updateLoaiPhong(lp);
+            }
+
+        }
+
+    }//GEN-LAST:event_btn_SuaMousePressed
+
+    private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
+        // TODO add your handling code here:
+//        String tenTienNghi = txt_tienNghi.getText().toString();
+//
+////        System.out.println(tenTienNghi);
+//        if (tenTienNghi.equals("")) {
+//            JOptionPane.showMessageDialog(this, "Chưa nhập tên tiện nghi cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
+//        }
+//        TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
+////        System.out.println(x == null);
+//        int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
+//        hinhAnh = x.getHinhAnh();
+//        label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
+//        area_moTa.setText(x.getMoTa());
+//        if (viTriCuaX != -1) {
+//            table_TienNghi.setRowSelectionInterval(viTriCuaX, viTriCuaX);
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Không có tiện nghi có tên " + tenTienNghi, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
+//        }
+        List<TienNghi> ListTienNghiTim = tienNghiDAO.getAllTienNghi();
+        if (!txt_tienNghi.getText().isEmpty()) {
+            ListTienNghiTim = getListTienNghiTheoTen(ListTienNghiTim, txt_tienNghi.getText());
+            System.out.println(ListTienNghiTim);
+            System.out.println(1);
+        }
+
+        if (!area_moTa.getText().equals("Mô Tả")) {
+            ListTienNghiTim = getListTienNghiTheoMoTa(ListTienNghiTim, area_moTa.getText());
+            System.out.println(ListTienNghiTim);
+            System.out.println(2);
+        }
+
+        
+        DocDuLieuLenTableTienNghi(ListTienNghiTim);
+    }//GEN-LAST:event_btn_TimMousePressed
+
+    public List<TienNghi> getListTienNghiTheoTen(List<TienNghi> list_tn, String TenTienNghi) {
+        List<TienNghi> ListTienNghiTheoTen = new ArrayList<>();
+        for (TienNghi tn : list_tn) {
+            if (tn.getTenTienNghi().equals(TenTienNghi)) {
+                ListTienNghiTheoTen.add(tn);
+            }
+        }
+        return ListTienNghiTheoTen;
+    }
+
+    public List<TienNghi> getListTienNghiTheoMoTa(List<TienNghi> list_tn, String Mota) {
+        List<TienNghi> ListTienNghiTheoMoTa = new ArrayList<>();
+        for (TienNghi tn : list_tn) {
+            if (tn.getMoTa().contains(Mota)) {
+                ListTienNghiTheoMoTa.add(tn);
+            }
+        }
+        return ListTienNghiTheoMoTa;
+    }
+
+    private void chonAnh_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chonAnh_btnMousePressed
+        // TODO add your handling code here:
+        JFileChooser frame_chonAnh = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("File ảnh", "png", "jpg", "jpeg", "gif");
+        frame_chonAnh.setFileFilter(filter);
+        frame_chonAnh.setAcceptAllFileFilterUsed(false);
+
+        int returnValue = frame_chonAnh.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            //Đường dẫn của file
+            String filePath = frame_chonAnh.getSelectedFile().getPath();
+
+            ImageIcon icon = new ImageScale().load(filePath, label_Anh.getWidth(), label_Anh.getHeight());
+
+            try {
+                hinhAnh = new convertImage().convertImageToBinary(filePath);
+            } catch (IOException ex) {
+                Logger.getLogger(NhanVien_TienNghi_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            label_Anh.setIcon(icon);
+
+//            txt_TienNghi.setEnabled(false);
+        }
+    }//GEN-LAST:event_chonAnh_btnMousePressed
+
+    private void btn_lammoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_lammoiMousePressed
+        // TODO add your handling code here:
+        LamMoi();
+    }//GEN-LAST:event_btn_lammoiMousePressed
+
+    public void LamMoi() {
+        txt_tienNghi.setText("");
+        txt_tienNghi.requestFocus();
+        DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
+        hinhAnh = null;
+        area_moTa.setText("Mô Tả");
+        label_Anh.setIcon(null);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
     private javax.swing.JPanel ThongTinTienNghi;
+    public static javax.swing.JTextArea area_moTa;
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
@@ -787,9 +862,9 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel label_Anh;
     private javax.swing.JTable table_TienNghi;
-    private javax.swing.JTextField txt_moTa;
     private javax.swing.JTextField txt_tienNghi;
     // End of variables declaration//GEN-END:variables
 }

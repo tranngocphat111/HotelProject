@@ -509,6 +509,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         area_mota.setRows(3);
         area_mota.setTabSize(4);
         area_mota.setText("Mô Tả");
+        area_mota.setWrapStyleWord(true);
         area_mota.setCaretColor(new java.awt.Color(255, 255, 255));
         area_mota.setMargin(new java.awt.Insets(4, 6, 2, 6));
         area_mota.setOpaque(false);
@@ -688,6 +689,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         if (!area_mota.getText().equals("Mô Tả")) {
             list_P = getPhongByMoTa(list_P, area_mota.getText());
         }
+        
 
         DocDuLieuLenTablePhong(list_P);
     }//GEN-LAST:event_btn_TimMousePressed

@@ -20,16 +20,19 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.LoaiPhong;
+import model.DTO.Phong;
 import model.DTO.TienNghi;
 import model.MongoDBConnection;
 import test.convertImage;
@@ -44,17 +47,41 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
      * Creates new form LeTan_DatPhong_GUI
      */
 
-    
+    private DefaultTableModel model;
     private TienNghiDAO tienNghiDAO = new TienNghiDAO(database);
     private LoaiPhongDAO loaiphongDAO = new LoaiPhongDAO(database);
     private byte[] hinhAnh = null;
+    private DefaultTableCellRenderer centerRenderer;
     
     public NhanVien_TienNghi_GUI() {
         initComponents();
+
+
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
+//      Set font cho header_tiennghi
+        JTableHeader header_tn = table_TienNghi.getTableHeader();
+        header_tn.setPreferredSize(new Dimension(header_tn.getPreferredSize().width, 30));
+        header_tn.setFont(new Font("Arial", Font.BOLD, 15));
+
+//      Căn giữa cho header table tiện nghi
+        DefaultTableCellRenderer renderer_tn = (DefaultTableCellRenderer) header_tn.getDefaultRenderer();
+        renderer_tn.setHorizontalAlignment(JLabel.CENTER);
+
+//      Thiết lập renderer cho header tiennghi
+        header_tn.setDefaultRenderer(renderer_tn);
+
+        List<TienNghi> list_tn = tienNghiDAO.getAllTienNghi();
+        model = (DefaultTableModel) table_TienNghi.getModel();
+        model.setRowCount(0);
+        DocDuLieuLenTableTienNghi(list_tn);
+
         ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
         list_btn.add(btn_them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
+        list_btn.add(btn_lammoi);
         list_btn.add(btn_Tim);
         list_btn.add(chonAnh_btn);
         
@@ -128,13 +155,13 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         jLabel17 = new javax.swing.JLabel();
         btn_Sua = new keeptoo.KGradientPanel();
         jLabel16 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         label_Anh = new javax.swing.JLabel();
         chonAnh_btn = new keeptoo.KGradientPanel();
         jLabel20 = new javax.swing.JLabel();
         txt_moTa = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table_TienNghi = new javax.swing.JTable();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_TienNghi"); // NOI18N
@@ -190,7 +217,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         jPanel1.add(ThongTinTienNghi);
         ThongTinTienNghi.setBounds(80, 120, 490, 160);
 
-        btn_lammoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_lammoi.setkGradientFocus(250);
         btn_lammoi.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -211,21 +237,20 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             btn_lammoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_lammoiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_lammoiLayout.setVerticalGroup(
             btn_lammoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_lammoiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_lammoi);
-        btn_lammoi.setBounds(80, 330, 140, 50);
+        btn_lammoi.setBounds(610, 330, 140, 50);
 
-        btn_Tim.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -246,19 +271,19 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_TimLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_TimLayout.setVerticalGroup(
             btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_TimLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(250, 330, 140, 50);
+        btn_Tim.setBounds(780, 330, 140, 50);
 
         btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_them.setkGradientFocus(250);
@@ -293,9 +318,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         );
 
         jPanel1.add(btn_them);
-        btn_them.setBounds(430, 330, 140, 50);
+        btn_them.setBounds(80, 330, 140, 50);
 
-        btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
         btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -314,20 +338,19 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_Xoa.setLayout(btn_XoaLayout);
         btn_XoaLayout.setHorizontalGroup(
             btn_XoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
         btn_XoaLayout.setVerticalGroup(
             btn_XoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_XoaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(610, 330, 140, 50);
+        btn_Xoa.setBounds(260, 330, 140, 50);
 
-        btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
         btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -347,34 +370,18 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         btn_Sua.setLayout(btn_SuaLayout);
         btn_SuaLayout.setHorizontalGroup(
             btn_SuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
         );
         btn_SuaLayout.setVerticalGroup(
             btn_SuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_SuaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(780, 330, 140, 50);
-
-        JTableHeader header = jTable1.getTableHeader();
-        header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
-        header.setFont(new Font("Arial", Font.BOLD, 15));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTable1.setModel(duaDataVaoModel(tienNghiDAO.getAllTienNghi()));
-        jTable1.setRowHeight(30);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(90, 510, 1110, 230);
+        btn_Sua.setBounds(430, 330, 140, 50);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -437,6 +444,51 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         jPanel1.add(txt_moTa);
         txt_moTa.setBounds(610, 120, 310, 160);
 
+        table_TienNghi.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        table_TienNghi.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"", null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Mã Tiện Nghi", "Tên Tiện Nghi", "Mô Tả"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        table_TienNghi.setRowHeight(30);
+        table_TienNghi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                table_TienNghiMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_TienNghi);
+        if (table_TienNghi.getColumnModel().getColumnCount() > 0) {
+            table_TienNghi.getColumnModel().getColumn(0).setPreferredWidth(300);
+            table_TienNghi.getColumnModel().getColumn(0).setMaxWidth(300);
+            table_TienNghi.getColumnModel().getColumn(1).setPreferredWidth(300);
+            table_TienNghi.getColumnModel().getColumn(1).setMaxWidth(300);
+        }
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(80, 450, 1130, 220);
+
         Backgroup.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -465,31 +517,46 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void DocDuLieuLenTableTienNghi(List<TienNghi> list_tn) {
+        model.setRowCount(0);
+        
+        for (TienNghi tn : list_tn) {
+            model.addRow(new Object[]{
+                tn.getMaTienNghi(),
+                tn.getTenTienNghi(),
+                tn.getMoTa()});
+            }
+        for (int i = 0; i < table_TienNghi.getColumnCount(); i++) {
+            table_TienNghi.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+    }
+
     private void txt_tienNghiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tienNghiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_tienNghiActionPerformed
     
-    static DefaultTableModel duaDataVaoModel(List<TienNghi> list_TienNghi) {
-        
-        
-        Object[][] object = new Object[list_TienNghi.size()][4];
-        for(int i = 0; i < object.length; i++) {
-            TienNghi x = list_TienNghi.get(i);
-            object[i] = new Object[]{
-                x.getMaTienNghi(), x.getTenTienNghi(), x.getMoTa()
-            };
-//            System.out.println(object[i][0]);
-//            System.out.println(object[i][1]);
-//            System.out.println(object[i][2]);
-            
-        }
-        String[] table_header = new String [] {
-                "Mã tiện nghi", "Tên tiện nghi", "Mô tả"
-        };
-        
-        return new DefaultTableModel(object, table_header);
-        
-    }
+//    static DefaultTableModel duaDataVaoModel(List<TienNghi> list_TienNghi) {
+//        
+//        
+//        Object[][] object = new Object[list_TienNghi.size()][4];
+//        for(int i = 0; i < object.length; i++) {
+//            TienNghi x = list_TienNghi.get(i);
+//            object[i] = new Object[]{
+//                x.getMaTienNghi(), x.getTenTienNghi(), x.getMoTa()
+//            };
+////            System.out.println(object[i][0]);
+////            System.out.println(object[i][1]);
+////            System.out.println(object[i][2]);
+//            
+//        }
+//        String[] table_header = new String [] {
+//                "Mã tiện nghi", "Tên tiện nghi", "Mô tả"
+//        };
+//        
+//        return new DefaultTableModel(object, table_header);
+//        
+//    }
     
     private void txt_moTaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_moTaActionPerformed
         // TODO add your handling code here:
@@ -565,7 +632,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             
             
             //Đưa data vào table 
-            jTable1.setModel(duaDataVaoModel(tienNghiDAO.getAllTienNghi()));
+            DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
             
             txt_tienNghi.setText("");
             txt_moTa.setText("");
@@ -586,8 +653,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         // TODO add your handling code here:
         try {
             
-            if(jTable1.getSelectedRow() != -1) {
-                String tenTienNghi = jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 1).toString();
+            if(table_TienNghi.getSelectedRow() != -1) {
+                String tenTienNghi = table_TienNghi.getModel().getValueAt(table_TienNghi.getSelectedRow(), 1).toString();
                 TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
                 
                 
@@ -605,7 +672,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                 
                 tienNghiDAO.suaTienNghi(x, y);
 //                System.out.println(y.toString());
-                jTable1.setModel(duaDataVaoModel(tienNghiDAO.getAllTienNghi()));
+                DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
                                 
 //                txt_TienNghi.setEnabled(true);
                 txt_tienNghi.setText("");
@@ -630,11 +697,11 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
         // TODO add your handling code here:
-        int row = jTable1.getSelectedRow();
+        int row = table_TienNghi.getSelectedRow();
         
         if(row != -1) {
 //            int maDV = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
-            String tenDV = jTable1.getModel().getValueAt(row, 1).toString();
+            String tenDV = table_TienNghi.getModel().getValueAt(row, 1).toString();
 //            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
 //            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
 
@@ -642,7 +709,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
             
             tienNghiDAO.xoaTienNghi(x);
             
-            jTable1.setModel(duaDataVaoModel(tienNghiDAO.getAllTienNghi()));
+            DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
         }
     }//GEN-LAST:event_btn_XoaMouseClicked
 
@@ -650,53 +717,54 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
         // TODO add your handling code here:
         String tenTienNghi = txt_tienNghi.getText().toString();
         
-        System.out.println(tenTienNghi);
+//        System.out.println(tenTienNghi);
         if(tenTienNghi.equals("")) {
             JOptionPane.showMessageDialog(this, "Chưa nhập tên tiện nghi cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
         TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-        System.out.println(x == null);
+//        System.out.println(x == null);
         int viTriCuaX = tienNghiDAO.getAllTienNghi().indexOf(x);
         hinhAnh = x.getHinhAnh();
         label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
         txt_moTa.setText(x.getMoTa());
         if(viTriCuaX != -1) {
-            jTable1.setRowSelectionInterval(viTriCuaX, viTriCuaX);
+            table_TienNghi.setRowSelectionInterval(viTriCuaX, viTriCuaX);
         } else {
             JOptionPane.showMessageDialog(this, "Không có tiện nghi có tên " + tenTienNghi, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btn_TimMouseClicked
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+    private void btn_lammoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_lammoiMouseClicked
         // TODO add your handling code here:
-        int row = jTable1.getSelectedRow();
-        
+    }//GEN-LAST:event_btn_lammoiMouseClicked
+
+    private void table_TienNghiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_TienNghiMousePressed
+        // TODO add your handling code here:
+         int row = table_TienNghi.getSelectedRow();
+
         if(row != -1) {
-            String tenTienNghi = jTable1.getModel().getValueAt(row, 1).toString();
-            
+            String tenTienNghi = table_TienNghi.getModel().getValueAt(row, 1).toString();
+
             TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-            System.out.println(x.toString());
-            
-//            System.out.println(x.getHinhAnh());
+//            System.out.println(x.toString());
+
+            //            System.out.println(x.getHinhAnh());
             txt_tienNghi.setText(x.getTenTienNghi());
             txt_moTa.setText(x.getMoTa());
-            
+
             hinhAnh = x.getHinhAnh();
             System.out.println(hinhAnh == null);
             ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
 
-            System.out.println("Không gặp lỗi");
+//            System.out.println("Không gặp lỗi");
             label_Anh.setIcon(icon);
-            
-//            txt_DichVu.setEnabled(false);
-            
-        }
-    }//GEN-LAST:event_jTable1MouseClicked
 
-    private void btn_lammoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_lammoiMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_lammoiMouseClicked
+            //            txt_DichVu.setEnabled(false);
+
+        }
+        
+    }//GEN-LAST:event_table_TienNghiMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -719,8 +787,8 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_Anh;
+    private javax.swing.JTable table_TienNghi;
     private javax.swing.JTextField txt_moTa;
     private javax.swing.JTextField txt_tienNghi;
     // End of variables declaration//GEN-END:variables

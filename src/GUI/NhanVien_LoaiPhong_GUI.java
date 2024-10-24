@@ -13,9 +13,12 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -65,7 +68,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         initComponents();
 
-//        Đọc dữ liệu từ database lên
+//      Đọc dữ liệu từ database lên
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_TienNghi = tienNghi_dao.SortTienNghiTheoMa();
 
@@ -211,6 +214,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     public void DocDataLenTable(List<LoaiPhong> list_LoaiPhongs) {
         model.setRowCount(0);
         for (LoaiPhong loaiPhong : list_LoaiPhongs) {
+            loaiPhong.sortTienNghis();
             model.addRow(new Object[]{
                 loaiPhong.getMaLoaiPhong(),
                 loaiPhong.getTenLoaiPhong(),
@@ -721,16 +725,20 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(table_LoaiPhong);
         if (table_LoaiPhong.getColumnModel().getColumnCount() > 0) {
             table_LoaiPhong.getColumnModel().getColumn(0).setMaxWidth(130);
-            table_LoaiPhong.getColumnModel().getColumn(1).setMaxWidth(200);
-            table_LoaiPhong.getColumnModel().getColumn(2).setMaxWidth(150);
-            table_LoaiPhong.getColumnModel().getColumn(3).setMaxWidth(170);
-            table_LoaiPhong.getColumnModel().getColumn(4).setMaxWidth(150);
-            table_LoaiPhong.getColumnModel().getColumn(5).setMaxWidth(300);
-            table_LoaiPhong.getColumnModel().getColumn(6).setMaxWidth(300);
+            table_LoaiPhong.getColumnModel().getColumn(1).setPreferredWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(1).setMaxWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(2).setPreferredWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(2).setMaxWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(3).setPreferredWidth(150);
+            table_LoaiPhong.getColumnModel().getColumn(3).setMaxWidth(150);
+            table_LoaiPhong.getColumnModel().getColumn(4).setPreferredWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(4).setMaxWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(6).setPreferredWidth(130);
+            table_LoaiPhong.getColumnModel().getColumn(6).setMaxWidth(130);
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 450, 1130, 220);
+        jScrollPane1.setBounds(80, 460, 1130, 216);
 
         TienNghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         TienNghi.setPreferredSize(new java.awt.Dimension(300, 316));
@@ -1008,24 +1016,14 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             String[] list_tn = tiennghi.split(", ");
             list_TienNghiDuocChon = new ArrayList<>();
             resetTienNghi();
-            
+
             int maLoaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-            
+
             LoaiPhong x = loaiPhong_dao.getLoaiPhongByMa(maLoaiPhong);
-            
+
             for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
-//                for (String s : list_tn) {
-//                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
-//                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
-//                        btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
-//                        btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-//                        btn_tiennghi.setBorder(null);
-//                        clickMap.put(btn_tiennghi, true);
-//                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
-//                    }
-//                }
-                for(TienNghi t : x.getTienNghis()) {
-                    if(t.getMaTienNghi() == Integer.parseInt(btn_tiennghi.getName())) {
+                for (String s : list_tn) {
+                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
                         btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
                         btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
                         btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
@@ -1034,6 +1032,16 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                         list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
                     }
                 }
+//                for(TienNghi t : x.getTienNghis()) {
+//                    if(t.getMaTienNghi() == Integer.parseInt(btn_tiennghi.getName())) {
+//                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
+//                        btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
+//                        btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+//                        btn_tiennghi.setBorder(null);
+//                        clickMap.put(btn_tiennghi, true);
+//                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
+//                    }
+//                }
             }
         }
     }//GEN-LAST:event_table_LoaiPhongMousePressed
@@ -1254,17 +1262,27 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     }
 
     public List<LoaiPhong> getLoaiPhongByTienNghi(List<LoaiPhong> list_LoaiPhong, List<TienNghi> tiennghi) {
-        String tiennghiTim = getListTienNghi(tiennghi);
-        System.out.println(tiennghiTim);
+        // Chuyển danh sách tiện nghi thành danh sách tên tiện nghi
+        List<String> tienNghiTim = convertToTenTienNghiList(tiennghi);
+
         List<LoaiPhong> list_PhongByTienNghi = new ArrayList<>();
         for (LoaiPhong lp : list_LoaiPhong) {
-            String tienng = getListTienNghi(lp.getTienNghis());
-            System.out.println(tienng);
-            if (tienng.contains(tiennghiTim)) {
+            List<String> tenTienNghisPhong = convertToTenTienNghiList(lp.getTienNghis());
+
+            // Kiểm tra xem tất cả tiện nghi trong tienNghiTim có nằm trong tenTienNghisPhong không
+            if (tenTienNghisPhong.containsAll(tienNghiTim)) {
                 list_PhongByTienNghi.add(lp);
             }
         }
         return list_PhongByTienNghi;
+    }
+
+    public List<String> convertToTenTienNghiList(List<TienNghi> tienNghis) {
+        List<String> tenTienNghis = new ArrayList<>();
+        for (TienNghi tienNghi : tienNghis) {
+            tenTienNghis.add(tienNghi.getTenTienNghi());
+        }
+        return tenTienNghis;
     }
 
 

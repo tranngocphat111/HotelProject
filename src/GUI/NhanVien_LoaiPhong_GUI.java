@@ -1124,6 +1124,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         lp.setLoaiGiuong(loaiGiuong);
         lp.setTienNghis(list_TienNghiDuocChon);
 
+        loaiPhong_dao.updateLoaiPhong(lp);
         JOptionPane.showMessageDialog(this, "Sửa thành công");
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         DocDataLenTable(list_LoaiPhong);

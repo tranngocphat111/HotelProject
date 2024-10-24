@@ -846,17 +846,18 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     public void DocDuLieuLenTablePhong(List<Phong> list_phong) {
         model.setRowCount(0);
-
+        
         for (Phong phong : list_phong) {
+            LoaiPhong lp =  loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
             model.addRow(new Object[]{
                 phong.getMaPhong(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong(),
+                lp.getTenLoaiPhong(),
                 phong.getTang(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getLoaiGiuong(),
-                loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDienTich() + " m2",
-                getListTienNghi(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTienNghis()),
+                lp.getLoaiGiuong(),
+                lp.getDienTich() + " m2",
+                getListTienNghi(lp.getTienNghis()),
                 phong.getMoTa(),
-                df.format(loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND"});
+                df.format(lp.getDonGia()) + " VND"});
         }
 
         for (int i = 0; i < Table_Phong.getColumnCount(); i++) {

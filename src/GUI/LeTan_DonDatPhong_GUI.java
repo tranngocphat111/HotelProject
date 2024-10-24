@@ -159,6 +159,15 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
 
+
+
+        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
+
+        
+
+        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
+
+
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
         list_btn.add(btn_Tim);
@@ -397,6 +406,10 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
         checkBox_DangCho.setSelected(true);
         checkBox_DangO.setSelected(true);
+
+        checkBox_DangCho.setSelected(true);
+        checkBox_DangO.setSelected(true);
+
     }
 
     /**

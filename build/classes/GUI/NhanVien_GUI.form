@@ -153,6 +153,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_LoaiPhongMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -218,6 +221,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_PhongMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -286,6 +292,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_TienNghiMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -355,6 +364,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_DichVuMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -424,6 +436,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_KhuyenMaiMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -493,6 +508,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_KhachHangMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">

@@ -16,6 +16,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import keeptoo.KGradientPanel;
+import model.DTO.Phong;
 
 /**
  *
@@ -24,14 +25,13 @@ import keeptoo.KGradientPanel;
 public class NhanVien_GUI extends javax.swing.JFrame {
 
     NhanVien_Phong_GUI phong_Gui = new NhanVien_Phong_GUI();
-    NhanVien_LoaiPhong_GUI loaiphong_Gui = new NhanVien_LoaiPhong_GUI();
-    NhanVien_TienNghi_GUI tiennghi_Gui = new NhanVien_TienNghi_GUI();
-    NhanVien_DichVu_GUI dichvu_Gui = new NhanVien_DichVu_GUI();
-    NhanVien_KhuyenMai_GUI khuyenmai_Gui = new NhanVien_KhuyenMai_GUI();
-    NhanVien_KhachHang_GUI khachhang_Gui = new NhanVien_KhachHang_GUI();
+    NhanVien_LoaiPhong_GUI loaiphong_Gui;
+    NhanVien_TienNghi_GUI tiennghi_Gui;
+    NhanVien_DichVu_GUI dichvu_Gui;
+    NhanVien_KhuyenMai_GUI khuyenmai_Gui;
+    NhanVien_KhachHang_GUI khachhang_Gui;
 
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
-    private List<JInternalFrame> internalFrameList = new ArrayList<>();
     private String tam = "page_Phong";
 
     /**
@@ -48,18 +48,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         phong_Gui.setVisible(true);
 
         jDesktopPane1.add(phong_Gui);
-        jDesktopPane1.add(loaiphong_Gui);
-        jDesktopPane1.add(tiennghi_Gui);
-        jDesktopPane1.add(dichvu_Gui);
-        jDesktopPane1.add(khuyenmai_Gui);
-        jDesktopPane1.add(khachhang_Gui);
-
-        internalFrameList.add(phong_Gui);
-        internalFrameList.add(loaiphong_Gui);
-        internalFrameList.add(tiennghi_Gui);
-        internalFrameList.add(dichvu_Gui);
-        internalFrameList.add(khuyenmai_Gui);
-        internalFrameList.add(khachhang_Gui);
 
         list_page.add(page_Phong);
         list_page.add(page_LoaiPhong);
@@ -85,13 +73,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                             page.setkEndColor(new java.awt.Color(255, 222, 89));
                             page.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1));
                             page.setBorder(null);
-                            for (JInternalFrame internal : internalFrameList) {
-                                if (page.getName().equals(internal.getName())) {
-                                    internal.setVisible(true);
-                                } else {
-                                    internal.setVisible(false);
-                                }
-                            }
                             tam = page.getName();
                         } else {
                             page.setkEndColor(new java.awt.Color(115, 115, 115));
@@ -186,6 +167,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_LoaiPhong.setkStartColor(new java.awt.Color(0, 0, 0));
         page_LoaiPhong.setName("page_LoaiPhong"); // NOI18N
         page_LoaiPhong.setPreferredSize(new java.awt.Dimension(277, 75));
+        page_LoaiPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                page_LoaiPhongMousePressed(evt);
+            }
+        });
 
         label_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_DonDatPhong.setForeground(new java.awt.Color(255, 255, 255));
@@ -220,6 +206,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_Phong.setkStartColor(new java.awt.Color(0, 0, 0));
         page_Phong.setName("page_Phong"); // NOI18N
         page_Phong.setPreferredSize(new java.awt.Dimension(277, 75));
+        page_Phong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                page_PhongMousePressed(evt);
+            }
+        });
 
         label_DatPhong.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_DatPhong.setForeground(new java.awt.Color(255, 255, 255));
@@ -256,6 +247,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_TienNghi.setkStartColor(new java.awt.Color(0, 0, 0));
         page_TienNghi.setName("page_TienNghi"); // NOI18N
         page_TienNghi.setPreferredSize(new java.awt.Dimension(277, 75));
+        page_TienNghi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                page_TienNghiMousePressed(evt);
+            }
+        });
 
         label_ThanhToan2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan2.setForeground(new java.awt.Color(255, 255, 255));
@@ -292,6 +288,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_DichVu.setkStartColor(new java.awt.Color(0, 0, 0));
         page_DichVu.setName("page_DichVu"); // NOI18N
         page_DichVu.setPreferredSize(new java.awt.Dimension(277, 75));
+        page_DichVu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                page_DichVuMousePressed(evt);
+            }
+        });
 
         label_ThanhToan3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan3.setForeground(new java.awt.Color(255, 255, 255));
@@ -328,6 +329,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_KhuyenMai.setkStartColor(new java.awt.Color(0, 0, 0));
         page_KhuyenMai.setName("page_KhuyenMai"); // NOI18N
         page_KhuyenMai.setPreferredSize(new java.awt.Dimension(277, 75));
+        page_KhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                page_KhuyenMaiMousePressed(evt);
+            }
+        });
 
         label_ThanhToan4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan4.setForeground(new java.awt.Color(255, 255, 255));
@@ -364,6 +370,11 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_KhachHang.setkStartColor(new java.awt.Color(0, 0, 0));
         page_KhachHang.setName("page_KhachHang"); // NOI18N
         page_KhachHang.setPreferredSize(new java.awt.Dimension(277, 75));
+        page_KhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                page_KhachHangMousePressed(evt);
+            }
+        });
 
         label_ThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan.setForeground(new java.awt.Color(255, 255, 255));
@@ -544,11 +555,59 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
     private void btn_DangXuatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMousePressed
         // TODO add your handling code here:
-        if(JOptionPane.showConfirmDialog(this,"Cảnh báo", "Bạn chắc chắn muốn đăng xuất",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+        if (JOptionPane.showConfirmDialog(this, "Cảnh báo", "Bạn chắc chắn muốn đăng xuất", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             new DangNhap_GUI().setVisible(true);
             setVisible(false);
         }
     }//GEN-LAST:event_btn_DangXuatMousePressed
+
+    private void page_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_PhongMousePressed
+        // TODO add your handling code here:
+        jDesktopPane1.removeAll();
+        phong_Gui = new NhanVien_Phong_GUI();
+        phong_Gui.setVisible(true);
+        jDesktopPane1.add(phong_Gui);
+    }//GEN-LAST:event_page_PhongMousePressed
+
+    private void page_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_LoaiPhongMousePressed
+        // TODO add your handling code here:
+        jDesktopPane1.removeAll();
+        loaiphong_Gui = new NhanVien_LoaiPhong_GUI();
+        loaiphong_Gui.setVisible(true);
+        jDesktopPane1.add(loaiphong_Gui);
+    }//GEN-LAST:event_page_LoaiPhongMousePressed
+
+    private void page_TienNghiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_TienNghiMousePressed
+        // TODO add your handling code here:4
+        jDesktopPane1.removeAll();
+        tiennghi_Gui = new NhanVien_TienNghi_GUI();
+        tiennghi_Gui.setVisible(true);
+        jDesktopPane1.add(tiennghi_Gui);
+    }//GEN-LAST:event_page_TienNghiMousePressed
+
+    private void page_DichVuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DichVuMousePressed
+        // TODO add your handling code here:
+        jDesktopPane1.removeAll();
+        dichvu_Gui = new NhanVien_DichVu_GUI();
+        dichvu_Gui.setVisible(true);
+        jDesktopPane1.add(dichvu_Gui);
+    }//GEN-LAST:event_page_DichVuMousePressed
+
+    private void page_KhuyenMaiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhuyenMaiMousePressed
+        // TODO add your handling code here:
+        jDesktopPane1.removeAll();
+        khuyenmai_Gui = new NhanVien_KhuyenMai_GUI();
+        khuyenmai_Gui.setVisible(true);
+        jDesktopPane1.add(khuyenmai_Gui);
+    }//GEN-LAST:event_page_KhuyenMaiMousePressed
+
+    private void page_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhachHangMousePressed
+        // TODO add your handling code here:
+        jDesktopPane1.removeAll();
+        khachhang_Gui = new NhanVien_KhachHang_GUI();
+        khachhang_Gui.setVisible(true);
+        jDesktopPane1.add(khachhang_Gui);
+    }//GEN-LAST:event_page_KhachHangMousePressed
 
     /**
      * @param args the command line arguments

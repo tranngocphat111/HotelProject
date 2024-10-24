@@ -5,8 +5,12 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import model.DAO.LoaiPhongDAO;
+import model.DAO.PhongDAO;
+import model.MongoDBConnection;
 
 public class DonDatPhong {
+
     private int maDonDat;
     private Date ngayDatPhong;
     private Date ngayNhanPhong;
@@ -16,6 +20,9 @@ public class DonDatPhong {
     private List<DichVu> dichVuSuDung;
     private int phong;
     private int hoaDon;
+    private MongoDBConnection database = new MongoDBConnection();
+    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
 
     public DonDatPhong(int maDonDat, Date ngayDatPhong, Date ngayNhanPhong, Date ngayTraPhong, String trangThai, List<KhachHang> khachO, List<DichVu> dichVuSuDung, int phong, int hoaDon) {
         this.maDonDat = maDonDat;
@@ -155,18 +162,40 @@ public class DonDatPhong {
         return donDatPhong;
     }
 
+    public int getSoluongNgaySuDung() {
+        long diffInMillies = getNgayTraPhong().getTime() - getNgayNhanPhong().getTime() ;
+        long diffInDays = diffInMillies / (1000 * 60 * 60 * 24); // chuyển từ milliseconds sang ngày
+
+        return (int) diffInDays;
+    }
+
+    public int thanhTien() {
+        LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(getPhong()).getLoaiPhong());
+        int tongTien = 0;
+        if (getDichVuSuDung().size() != 0) {
+            for (DichVu dv : getDichVuSuDung()) {
+                tongTien = tongTien + dv.getDonGia();
+            }
+            
+        }
+        System.out.println(getSoluongNgaySuDung());
+        System.out.println(loaiPhong.getDonGia());
+        System.out.println(tongTien);
+        return getSoluongNgaySuDung() * loaiPhong.getDonGia() + tongTien;
+    }
+
     @Override
     public String toString() {
-        return "DonDatPhong{" +
-                "maDonDat=" + maDonDat +
-                ", ngayDatPhong=" + ngayDatPhong +
-                ", ngayNhanPhong=" + ngayNhanPhong +
-                ", ngayTraPhong=" + ngayTraPhong +
-                ", trangThai=" + trangThai +
-                ", khachO=" + khachO +
-                ", dichVuSuDung=" + dichVuSuDung +
-                ", phong=" + phong +
-                ", hoaDon=" + hoaDon +
-                '}';
+        return "DonDatPhong{"
+                + "maDonDat=" + maDonDat
+                + ", ngayDatPhong=" + ngayDatPhong
+                + ", ngayNhanPhong=" + ngayNhanPhong
+                + ", ngayTraPhong=" + ngayTraPhong
+                + ", trangThai=" + trangThai
+                + ", khachO=" + khachO
+                + ", dichVuSuDung=" + dichVuSuDung
+                + ", phong=" + phong
+                + ", hoaDon=" + hoaDon
+                + '}';
     }
 }

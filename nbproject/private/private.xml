@@ -3,16 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/model/DTO/LoaiPhong.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/GUI/NhanVien_GUI.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/model/DAO/PhongDAO.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/GUI/QuanLy_NhanVien_GUI.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/model/DTO/TienNghi.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/GUI/NhanVien_LoaiPhong_GUI.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/GUI/NhanVien_DichVu_GUI.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/model/DAO/LoaiPhongDAO.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/GUI/NhanVien_TienNghi_GUI.java</file>
-            <file>file:/C:/Users/ASUS/Projects/HotelProject/src/model/DAO/TienNghiDAO.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/LeTan_DatPhong_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/model/DTO/Phong.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_GUI.java</file>
+            <file>file:/D:/MoiTruong_Java/HotelProject/src/GUI/NhanVien_Phong_GUI.java</file>
         </group>
     </open-files>
 </project-private>

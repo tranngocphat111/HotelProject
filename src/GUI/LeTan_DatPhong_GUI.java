@@ -65,14 +65,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private List<Phong> list_Phong = new ArrayList<>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    public static List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO DonDatphong_dao = new DonDatPhongDAO(database.getDatabase());
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private List<KhachHang> list_KhachHang = new ArrayList<>();
     private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
     private DefaultTableModel model;
-    private List<HoaDon> list_HoaDon = new ArrayList<>();
+     public static List<HoaDon> list_HoaDon = new ArrayList<>();
     private HoaDonDAO hoaDon_dao = new HoaDonDAO(database.getDatabase());
     private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<>();
     private List<KhachHang> list_KhachHangMoi = new ArrayList<>();
@@ -452,13 +452,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_Email.setText("");
         cb_GioiTinh.setSelectedIndex(0);
         cb_QuocTich.setSelectedIndex(0);
-
         table_KhachHang.clearSelection();
         txt_CCCD.setEditable(true);
         txt_CCCD.setFocusable(true);
         txt_CCCD.requestFocus();
         txt_CCCD.setBackground(new Color(255, 255, 255));
-
+        label_KhachToiDa.setText("Số lượng khách tối đa:");
     }
 
     public void LamMoiThongTinPhong() {
@@ -471,6 +470,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         setThoiGianBang0(txt_NgayDen);
         txt_NgayDi.setDate(null);
         model.setRowCount(0);
+        txt_NgayDen.setEnabled(true);
+        txt_NgayDi.setEnabled(true);
 
     }
 
@@ -595,6 +596,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         label_MaHoaDon = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         area_moTa = new javax.swing.JTextArea();
+        jPanel2 = new javax.swing.JPanel();
+        label_KhachToiDa = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DatPhong"); // NOI18N
@@ -1238,7 +1241,34 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(area_moTa);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(870, 90, 330, 180);
+        jScrollPane2.setBounds(870, 160, 330, 110);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
+        jPanel2.setOpaque(false);
+
+        label_KhachToiDa.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        label_KhachToiDa.setForeground(new java.awt.Color(255, 255, 255));
+        label_KhachToiDa.setText("Số lượng khách tối đa: ");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(label_KhachToiDa, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(label_KhachToiDa)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(870, 90, 330, 50);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_DatPhong"); // NOI18N
@@ -1344,6 +1374,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             if (!email.matches(regex_email)) {
                 JOptionPane.showMessageDialog(this, "Email không hợp lệ, ví dụ abc@example.com.");
                 txt_Email.requestFocus();
+                return;
+            }
+        }
+        int khachToiDa = Character.getNumericValue(label_KhachToiDa.getText().charAt(label_KhachToiDa.getText().length() - 1));
+
+        if (khachToiDa != -1) {
+            if (list_KhachHang_TheoDon.size() + 1 > khachToiDa) {
+                JOptionPane.showMessageDialog(this, "Số lượng khách đã full, không thể thêm khách hàng");
                 return;
             }
         }
@@ -1479,10 +1517,19 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1));
         JOptionPane.showMessageDialog(this, "Tạo đơn đặt phòng thành công");
         LamMoi();
-        LamMoiThongTinPhong();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
         LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
+
+        txt_Phong.setText("");
+        txt_LoaiPhong.setText("");
+        txt_Tang.setText("");
+        txt_DonGia.setText("");
+        area_moTa.setText("Mô tả");
+        model.setRowCount(0);
+        txt_NgayDen.setEnabled(false);
+        txt_NgayDi.setEnabled(false);
+
 
     }//GEN-LAST:event_btn_ThemDonMousePressed
 
@@ -1572,16 +1619,17 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi);
         LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
+
+
     }//GEN-LAST:event_btn_HoanTatMousePressed
 
     public int getTongtien(HoaDon hoadon) {
         int tongtien = 0;
         for (DonDatPhong ddp : list_DonDatPhong) {
             if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
-                tongtien = tongtien + loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getDonGia();
+                tongtien = tongtien + ddp.thanhTien();
             }
         }
-
         return tongtien;
     }
 
@@ -1767,11 +1815,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel label_MaDonDatPhong;
-    private javax.swing.JLabel label_MaHoaDon;
-    private javax.swing.JTable table_KhachHang;
+    public static javax.swing.JLabel label_KhachToiDa;
+    public static javax.swing.JLabel label_MaDonDatPhong;
+    public static javax.swing.JLabel label_MaHoaDon;
+    public static javax.swing.JTable table_KhachHang;
     private javax.swing.JTextField txt_CCCD;
     public static javax.swing.JTextField txt_DonGia;
     private javax.swing.JTextField txt_Email;

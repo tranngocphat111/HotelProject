@@ -65,14 +65,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private List<Phong> list_Phong = new ArrayList<>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-    public static List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO DonDatphong_dao = new DonDatPhongDAO(database.getDatabase());
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private List<KhachHang> list_KhachHang = new ArrayList<>();
     private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
     private DefaultTableModel model;
-     public static List<HoaDon> list_HoaDon = new ArrayList<>();
+    private List<HoaDon> list_HoaDon = new ArrayList<>();
     private HoaDonDAO hoaDon_dao = new HoaDonDAO(database.getDatabase());
     private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<>();
     private List<KhachHang> list_KhachHangMoi = new ArrayList<>();
@@ -106,7 +106,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_HoaDon = hoaDon_dao.getAllHoaDon();
 
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
-        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.size() + 1));
+        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
 
         model = (DefaultTableModel) table_KhachHang.getModel();
         model.setRowCount(0);
@@ -457,7 +457,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_CCCD.setFocusable(true);
         txt_CCCD.requestFocus();
         txt_CCCD.setBackground(new Color(255, 255, 255));
-        label_KhachToiDa.setText("Số lượng khách tối đa:");
     }
 
     public void LamMoiThongTinPhong() {
@@ -1519,7 +1518,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LamMoi();
         list_KhachHang_TheoDon = new ArrayList<KhachHang>();
         list_KhachHangMoi = new ArrayList<KhachHang>();
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
 
         txt_Phong.setText("");
         txt_LoaiPhong.setText("");
@@ -1547,7 +1545,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         if (dem == 0) {
             hoadon_hientai = new HoaDon();
-            hoadon_hientai.setMaHoaDon(list_HoaDon.size() + 1);
+            hoadon_hientai.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
             hoadon_hientai.setNgayTaoHoaDon(new Date());
             hoadon_hientai.setTongTien(0);
             hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
@@ -1596,7 +1594,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1));
-        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.size() + 1));
+        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
         JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
         LamMoi();
         LamMoiThongTinPhong();
@@ -1604,21 +1602,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_KhachHangMoi = new ArrayList<KhachHang>();
         list_DonDatPhongTheoHoaDon = new ArrayList<>();
 
-        HoaDon HoaDon_update = hoaDon_dao.getHoaDonByMa(list_HoaDon.size());
+        HoaDon HoaDon_update = hoaDon_dao.getHoaDonByMa(list_HoaDon.getLast().getMaHoaDon());
         HoaDon_update.setTongTien(getTongtien(HoaDon_update));
         hoaDon_dao.updateHoaDon(HoaDon_update);
 
         list_HoaDon = new ArrayList<HoaDon>();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_PhongDaChon = new ArrayList<>();
-
-//        Cập nhật trang Đơn đặt phòng
-        LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
-        LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
-        LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi = LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong);
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi);
-        LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
-        LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
 
 
     }//GEN-LAST:event_btn_HoanTatMousePressed
@@ -1770,7 +1760,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         LamMoi();
         LamMoiThongTinPhong();
-        System.out.println("GUI.LeTan_DatPhong_GUI.btn_LamMoiMousePressed()");
+        label_KhachToiDa.setText("Số lượng khách tối đa:");
+
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
 

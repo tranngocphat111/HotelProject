@@ -473,9 +473,6 @@
                   <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_SoDienThoaiActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -137,7 +137,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
             }
         });
-
         cb_GiaPhong.addActionListener(new ActionListener() {
 
             @Override

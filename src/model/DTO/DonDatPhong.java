@@ -174,17 +174,14 @@ public class DonDatPhong {
 
     public int thanhTien() {
         LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(getPhong()).getLoaiPhong());
-        int tongTien = 0;
+        int tongTienDV = 0;
         if (getDichVuSuDung().size() != 0) {
             for (DichVu dv : getDichVuSuDung()) {
-                tongTien = tongTien + dv.getDonGia();
+                tongTienDV = tongTienDV + dv.getDonGia();
             }
             
         }
-        System.out.println(getSoluongNgaySuDung());
-        System.out.println(loaiPhong.getDonGia());
-        System.out.println(tongTien);
-        return getSoluongNgaySuDung() * loaiPhong.getDonGia() + tongTien;
+        return getSoluongNgaySuDung() * loaiPhong.getDonGia() + tongTienDV;
     }
 
     @Override

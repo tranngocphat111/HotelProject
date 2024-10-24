@@ -281,8 +281,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         for (int i = 0; i < Table_DonDatPhong.getColumnCount(); i++) {
             Table_DonDatPhong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
-//      
     }
 
     public List<DonDatPhong> getDonDatPhongTheoLoaiPhong(List<DonDatPhong> list_DDP) {
@@ -372,7 +370,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     }
 
     public List<DonDatPhong> getDonDatPhongTheoThoiGian(List<DonDatPhong> list_DonDatPhongs, Date NgayBatDau, Date NgayKetThuc) {
-        
+
         List<DonDatPhong> list_DonDatPhongTheoThoiGian = new ArrayList<DonDatPhong>();
         if (NgayKetThuc == null) {
             for (DonDatPhong ddp : list_DonDatPhongs) {
@@ -380,12 +378,12 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                     list_DonDatPhongTheoThoiGian.add(ddp);
                 }
             }
-                return list_DonDatPhongTheoThoiGian;
+            return list_DonDatPhongTheoThoiGian;
         }
 
         for (DonDatPhong ddp : list_DonDatPhongs) {
             if ((NgayBatDau.before(ddp.getNgayNhanPhong()) || NgayBatDau.equals(ddp.getNgayNhanPhong()))
-                && (NgayKetThuc.after(ddp.getNgayNhanPhong()) || NgayKetThuc.equals(ddp.getNgayNhanPhong()))) {
+                    && (NgayKetThuc.after(ddp.getNgayNhanPhong()) || NgayKetThuc.equals(ddp.getNgayNhanPhong()))) {
                 list_DonDatPhongTheoThoiGian.add(ddp);
             }
         }
@@ -1039,8 +1037,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             DocDuLieuLenTable(list_DonDatPhong);
             return;
         }
-        
-        if(txt_NgayNhanPhong_BatDau.getDate() == null){
+
+        if (txt_NgayNhanPhong_BatDau.getDate() == null) {
             return;
         }
         if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
@@ -1053,11 +1051,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
             setThoiGianBang0(txt_NgayNhanPhong_KetThuc);
         }
-        
+
         if (txt_NgayNhanPhong_BatDau.getDate() != null) {
             setThoiGianBang0(txt_NgayNhanPhong_BatDau);
         }
-        
+
         list_DonDatPhongTheoTieuChi.clear();
         list_DonDatPhongTheoTieuChi = getDonDatPhongTheoThoiGian(list_DonDatPhong, txt_NgayNhanPhong_BatDau.getDate(), txt_NgayNhanPhong_KetThuc.getDate());
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
@@ -1070,20 +1068,20 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             DocDuLieuLenTable(list_DonDatPhong);
             return;
         }
-        
+
         if (txt_NgayNhanPhong_BatDau.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày bắt đầu trước");
             txt_NgayNhanPhong_KetThuc.setDate(null);
             return;
 
         }
-        
-        if(txt_NgayNhanPhong_BatDau.getDate().equals(txt_NgayNhanPhong_KetThuc.getDate())){
+
+        if (txt_NgayNhanPhong_BatDau.getDate().equals(txt_NgayNhanPhong_KetThuc.getDate())) {
             JOptionPane.showMessageDialog(this, "Khoảng thời gian không hợp lệ, không được bằng nhau");
             txt_NgayNhanPhong_KetThuc.setDate(null);
             return;
         }
-        
+
         if (txt_NgayNhanPhong_KetThuc.getDate() == null) {
             return;
 
@@ -1093,11 +1091,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             txt_NgayNhanPhong_KetThuc.setDate(null);
             return;
         }
-        
+
         if (txt_NgayNhanPhong_KetThuc.getDate() != null) {
             setThoiGianBang0(txt_NgayNhanPhong_KetThuc);
         }
-        
+
         if (txt_NgayNhanPhong_BatDau.getDate() != null) {
             setThoiGianBang0(txt_NgayNhanPhong_BatDau);
         }

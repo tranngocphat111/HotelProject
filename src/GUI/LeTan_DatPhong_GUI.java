@@ -1503,6 +1503,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
 //       Thêm phòng đã chọn vào biến tạm 
         list_PhongDaChon.add(phong_dao.getPhongByMa(Integer.parseInt(txt_Phong.getText())));
+
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
         if (txt_NgayDen.getDate().equals(getNgayHienTai())) {

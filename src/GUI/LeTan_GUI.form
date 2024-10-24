@@ -137,6 +137,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_ThanhToanMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -206,6 +209,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_DonDatPhongMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -271,6 +277,9 @@
                       <Dimension value="[277, 75]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="page_DatPhongMousePressed"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">

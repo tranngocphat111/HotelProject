@@ -1,4 +1,5 @@
 package model.DAO;
+import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -82,6 +83,22 @@ public class KhachHangDAO {
             );
             
             UpdateResult result = khachHangCollection.updateOne(id, update);
+            
+            
+            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+            
+            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+                
+                for(int  i = 0; i < x.getKhachO().size(); i++) {
+                    if(x.getKhachO().get(i).getMaKhachHang() == maKH) {
+                        x.getKhachO().set(i, khachHang);
+                    }
+                }
+                
+                donDatPhongDAO.updateDonDatPhong(x);
+            }
+            
+            
             
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {

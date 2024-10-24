@@ -1,5 +1,6 @@
     package model.DAO;
 
+import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -126,6 +127,14 @@ public class DichVuDAO {
                     
             
             UpdateResult result = dichVuCollection.updateOne(filter, newValue);
+            
+            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+            
+            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+                x.getDichVuSuDung().set(x.getDichVuSuDung().indexOf(oldDVu), newDVu);
+                donDatPhongDAO.updateDonDatPhong(x);
+                
+            }
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());

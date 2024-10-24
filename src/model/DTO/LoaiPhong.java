@@ -122,10 +122,8 @@ public class LoaiPhong {
             List<TienNghi> List_tienNghi = new ArrayList<>();
             for (Document tn : tienNghis) {
                 
-//                TienNghi tienNghi = new TienNghiDAO(new MongoDBConnection().getDatabase()).getTienNghiByMa(tn.getInteger("maTienNghi"));
-                 TienNghi tienNghi = new TienNghi().fromDocument(tn);
-//                if(tienNghi != null) 
-                    List_tienNghi.add(tienNghi);
+                TienNghi tienNghi = new TienNghi().fromDocument(tn);
+                if(tienNghi != null) List_tienNghi.add(tienNghi);
             }
             
             loaiPhong.setTienNghis(List_tienNghi);

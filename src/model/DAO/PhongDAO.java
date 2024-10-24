@@ -14,7 +14,7 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 import model.DTO.NhanVien;
-
+import static GUI.DangNhap_GUI.database;
 public class PhongDAO {
 
     private MongoCollection<Document> phongCollection;

@@ -12,8 +12,10 @@ import model.DTO.KhuyenMai;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class KhuyenMaiDAO {
     private MongoCollection<Document> khuyenMaiCollection;
@@ -29,7 +31,9 @@ public class KhuyenMaiDAO {
                     .append("ngayBatDau", khuyenMai.getNgayBatDau())
                     .append("ngayKetThuc", khuyenMai.getNgayKetThuc())
                     .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
-                    .append("moTa", khuyenMai.getMoTa());
+                    .append("moTa", khuyenMai.getMoTa())
+                    .append("loaiPhong", khuyenMai.getLoaiPhong());
+            
 
             InsertOneResult result = khuyenMaiCollection.insertOne(doc);
             return result.wasAcknowledged();
@@ -61,6 +65,7 @@ public class KhuyenMaiDAO {
                     .append("ngayKetThuc", khuyenMai.getNgayKetThuc())
                     .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
                     .append("moTa", khuyenMai.getMoTa())
+                    .append("loaiPhong", khuyenMai.getLoaiPhong())
             );
             
             UpdateResult result = khuyenMaiCollection.updateOne(id, update);
@@ -68,52 +73,71 @@ public class KhuyenMaiDAO {
             
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+            System.out.println("Lỗi xảy ra trong quá trình chỉnh khuyến mãi: " + e.getMessage());
             return false; // Trả về false nếu có lỗi
         }
     }
     
      public boolean deleteKhuyenMai(int maKM) {
         try {
-            Document id = new Document("maKhachHang",maKM);
+            Document id = new Document("maKhuyenMai",maKM);
             
             DeleteResult result = khuyenMaiCollection.deleteOne(id);
 
             
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+            System.out.println("Lỗi xảy ra trong quá trình xóa khuyến mãi: " + e.getMessage());
             return false; // Trả về false nếu có lỗi
         }
     }
     
-    public List<Document> findKhuyenMai(Date ngayBatDau,Date ngayKetThuc,int tiLeKhuyenMai, String moTa) throws ParseException {
+    public List<Document> findKhuyenMai(Date ngayBatDau, Date ngayKetThuc, int tiLeKhuyenMai, String moTa) throws ParseException {
         List<Document> filters = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
         
-        
-     
-        if (tiLeKhuyenMai >0) {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+1"));
+
+
+        if (tiLeKhuyenMai > 0) {
             filters.add(new Document("tiLeKhuyenMai", tiLeKhuyenMai));
         }
-       
+
+        // Thêm điều kiện cho mô tả
         if (moTa != null && !moTa.isEmpty()) {
             filters.add(new Document("moTa", moTa));
         }
-        
-        if (ngayBatDau != null ) {           
-            filters.add(new Document("ngayBatDau", ngayBatDau));
-        }
-        if (ngayKetThuc != null) {
-            filters.add(new Document("ngayKetThuc", ngayKetThuc));
-        }
 
-      
-        if (filters.isEmpty()) {
+        if(ngayBatDau !=null) {
+//        Calendar startCalendar = Calendar.getInstance();
+//        startCalendar.setTime(ngayBatDau);
+//            
+//        String startDate_Str = dateFormat.format(startCalendar.getTime());
+        filters.add(new Document("ngayBatDau", new Document("$lte", ngayBatDau)));
+        }
+        
+        if(ngayKetThuc != null) {
+//        Calendar endCalendar = Calendar.getInstance();
+//        endCalendar.setTime(ngayKetThuc);
+//        endCalendar.add(Calendar.HOUR_OF_DAY, -1); 
+//
+//     
+//        String endDate_Str = dateFormat.format(endCalendar.getTime());
+
+   
+//         filters.add(new Document("ngayKetThuc", new Document("$lte", new Date(2024-10-08T17:00:00.000+00:00))));
             
-            return khuyenMaiCollection.find().into(new ArrayList<>());
-        } else {
+        }
+      
+        System.out.println(filters);
+
+   
+        if (!filters.isEmpty()) {
             Document query = new Document("$and", filters);
             return khuyenMaiCollection.find(query).into(new ArrayList<>());
+        } else {
+            return khuyenMaiCollection.find().into(new ArrayList<>());
         }
     }
 }

@@ -10,15 +10,17 @@ public class KhuyenMai {
     private Date ngayKetThuc;
     private int tiLeKhuyenMai;
     private String moTa;
+    private String loaiPhong;
 
     public KhuyenMai() {
     }
-     public KhuyenMai(int maKhuyenMai, Date ngayBatDau, Date ngayKetThuc,int tiLeKhuyenMai, String moTa) {
+     public KhuyenMai(int maKhuyenMai, Date ngayBatDau, Date ngayKetThuc,int tiLeKhuyenMai, String moTa,String loaiPhong) {
         this.maKhuyenMai = maKhuyenMai;
         this.ngayBatDau = ngayBatDau;
         this.ngayKetThuc = ngayKetThuc;
         this.tiLeKhuyenMai = tiLeKhuyenMai;
         this.moTa = moTa;
+        this.loaiPhong = loaiPhong;
     }
     
     public int getMaKhuyenMai() {
@@ -60,6 +62,13 @@ public class KhuyenMai {
     public void setMoTa(String moTa) {
         this.moTa = moTa;
     }
+     public String getLoaiPhong() {
+        return loaiPhong;
+    }
+
+    public void setLoaiPhong(String loaiPhong) {
+        this.loaiPhong = loaiPhong;
+    }
 
     public static KhuyenMai fromDocument(Document doc) {
         KhuyenMai khuyenMai = new KhuyenMai();
@@ -79,6 +88,9 @@ public class KhuyenMai {
         if (doc.containsKey("moTa")) {
             khuyenMai.setMoTa(doc.getString("moTa"));
         }
+         if (doc.containsKey("loaiPhong")) {
+            khuyenMai.setMoTa(doc.getString("loaiPhong"));
+        }
 
         return khuyenMai;
     }
@@ -91,6 +103,7 @@ public class KhuyenMai {
                 ", ngayKetThuc=" + ngayKetThuc +
                 ", tiLeKhuyenMai=" + tiLeKhuyenMai +
                 ", moTa='" + moTa + '\'' +
+                ", loaiPhong='" + loaiPhong + '\'' +
                 '}';
     }
 }

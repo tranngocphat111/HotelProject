@@ -191,7 +191,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         })
         ;
         JTableHeader header1 = jTable1.getTableHeader();  
-        JTableHeader header2 = jTable2.getTableHeader(); 
         
       
         
@@ -199,12 +198,11 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         // set table header fon
        
         list_table.add(header1);
-        list_table.add(header2);
         
         list_table.forEach((table) -> {
             table.setPreferredSize(new Dimension(table.getPreferredSize().width, 30));
             table.setPreferredSize(new Dimension(table.getPreferredSize().height, 30));
-            table.setFont(new Font("Arial", Font.PLAIN, 15));
+            table.setFont(new Font("Arial", Font.BOLD, 15));
             centerTable(table);
         });
 
@@ -299,8 +297,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         btn_LamMoi = new keeptoo.KGradientPanel();
         jLabel21 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
@@ -589,6 +585,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(870, 160, 140, 40);
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -612,38 +609,11 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(80, 280, 1120, 500);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã khách hàng", "CCCD/Passport", "Tên khách hàng", "Giới tính", "Số điện thoại", "Email", "Quốc tịch"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
-
-        jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(80, 280, 1120, 500);
 
         btn_LamMoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -824,10 +794,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Chỉnh sửa thành công");
 
         }
-        else{
-            return;
-        }
-      
+       
 
     }//GEN-LAST:event_btn_SuaMouseClicked
 
@@ -839,11 +806,24 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
           cb_GioiTinh.setSelectedItem("Nam");
           cb_QuocTich.setSelectedItem("Việt Nam");
           jTable1.clearSelection();
-          jTable2.setVisible(false);
-          jTable1.setVisible(true);
-             jTable1.getParent().revalidate();
-            jTable1.getParent().repaint();
+          List<Document> list_KH = khachHangDAO.findKhachHang("","","","");
 
+         if (!list_KH.isEmpty()) {
+             this.model.setRowCount(0);
+        for (Document kh : list_KH) {
+            String maKH = kh.getInteger("maKhachHang").toString();
+            String hoTenKH = kh.getString("tenKhachHang");
+            String cccdKH = kh.getString("CCCD");
+            String sdtKH = kh.getString("soDienThoai");
+            String emailKH = kh.getString("email");
+            int gioiTinh = kh.getInteger("gioiTinh");
+            String quocTich = kh.getString("quocTich");
+
+           
+            this.model.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
+          
+        }
+     }
     }//GEN-LAST:event_btn_LamMoiMouseClicked
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
@@ -874,15 +854,8 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
        String email = txt_Email.getText();
        List<Document> list_KH = khachHangDAO.findKhachHang(cccd, email, hoTen, soDienThoai);
   if (!list_KH.isEmpty()) {
-        jTable2.setVisible(true);
-        jTable1.setVisible(false); 
-       
-        System.out.println("jTable1 Visible: " + jTable1.isVisible());
-        System.out.println("jTable2 Visible: " + jTable2.isVisible());
-        
-        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
-        model2.setRowCount(0);  
-        
+       this.model.setRowCount(0);
+         
       
         for (Document kh : list_KH) {
             String maKH = kh.getInteger("maKhachHang").toString();
@@ -894,17 +867,13 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             String quocTich = kh.getString("quocTich");
 
            
-            model2.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
+            this.model.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
           
         }
        
     } else {
 
-        JOptionPane.showMessageDialog(null, "No customers found matching the search criteria.");
-        jTable1.setVisible(true);
-        jTable2.setVisible(false);
-        
-        
+        JOptionPane.showMessageDialog(null, "No customers found matching the search criteria.");   
     }
         
     }//GEN-LAST:event_btn_TimMouseClicked
@@ -934,9 +903,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField txt_CCCD;
     private javax.swing.JTextField txt_Email;
     private javax.swing.JTextField txt_HoTen;

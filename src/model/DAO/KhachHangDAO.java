@@ -7,7 +7,6 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import model.DTO.KhachHang;
-import model.MongoDBConnection;
 import org.bson.Document;
 
 import java.util.ArrayList;

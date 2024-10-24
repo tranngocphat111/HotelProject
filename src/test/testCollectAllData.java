@@ -8,6 +8,8 @@ package test;
  *
  * @author datba
  */
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import model.DAO.*;
 import model.DTO.*;
@@ -15,12 +17,22 @@ import model.MongoDBConnection;
 
 import java.util.ArrayList;
 import java.util.List;
+//import GUI.DangNhap_GUI;
 
 public class testCollectAllData {
     public static void main(String[] args) {
+       
+        
+        
         // Initialize MongoDB connection
+
         MongoDBConnection.connection();
         MongoDatabase database =  MongoDBConnection.getDatabase();
+
+
+//        MongoDBConnection connection = new MongoDBConnection();
+//        MongoDatabase database = connection.getDatabase();
+        
 
         // Test PhongDAO
         PhongDAO phongDAO = new PhongDAO(database);
@@ -93,5 +105,6 @@ public class testCollectAllData {
         for (HoaDon hoaDon : hoaDonList) {
             System.out.println(hoaDon);
         }
+
     }
 }

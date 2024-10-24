@@ -44,7 +44,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     public static DefaultTableModel model;
-    public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database);
     private List<Phong> list_Phong = new ArrayList<Phong>();
@@ -310,7 +310,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Tìm");
+        jLabel18.setText("Tìm theo KH");
         jLabel18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout btn_TimLayout = new javax.swing.GroupLayout(btn_Tim);
@@ -331,7 +331,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(1080, 160, 160, 50);
+        btn_Tim.setBounds(1080, 180, 160, 50);
 
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
@@ -362,7 +362,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(1080, 80, 160, 50);
+        btn_LamMoi.setBounds(1080, 100, 160, 50);
 
         btn_ThanhToan.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_ThanhToan.setkGradientFocus(250);
@@ -716,7 +716,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         return danhsachPhong;
     }
 
-    public static void DocDuLieuLenTable(List<HoaDon> list_HoaDon) {
+    public void DocDuLieuLenTable(List<HoaDon> list_HoaDon) {
         model.setRowCount(0);
         for (HoaDon hoadon : list_HoaDon) {
             model.addRow(new Object[]{

@@ -19,8 +19,8 @@ import java.util.List;
 public class testCollectAllData {
     public static void main(String[] args) {
         // Initialize MongoDB connection
-        MongoDBConnection connection = new MongoDBConnection();
-        MongoDatabase database = connection.getDatabase();
+        MongoDBConnection.connection();
+        MongoDatabase database =  MongoDBConnection.getDatabase();
 
         // Test PhongDAO
         PhongDAO phongDAO = new PhongDAO(database);
@@ -93,6 +93,5 @@ public class testCollectAllData {
         for (HoaDon hoaDon : hoaDonList) {
             System.out.println(hoaDon);
         }
-        connection.closeConnection();
     }
 }

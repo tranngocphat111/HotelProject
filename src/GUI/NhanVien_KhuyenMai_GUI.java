@@ -93,12 +93,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }
     
      public boolean checkInvaildDate(String ngayBatDau, String ngayKetThuc) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
          Date startDate;
         try {
             startDate = dateFormat.parse(ngayBatDau);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(null, "Ngày bắt đầu không hợp lệ. Định dạng phải là yyyy-MM-dd.");
+            JOptionPane.showMessageDialog(null, "Ngày bắt đầu không hợp lệ. Định dạng phải là dd/MM/yyyy.");
             return false;
         }
 
@@ -191,7 +191,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setPreferredSize(new Dimension(header.getPreferredSize().height, 30));
 
-        header.setFont(new Font("Arial", Font.PLAIN, 15));
+        header.setFont(new Font("Arial", Font.BOLD, 15));
         
           DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
@@ -214,30 +214,28 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         //add values to table
         list_km = khuyenMaiDAO.getAllKhuyenMai();
         
-        SimpleDateFormat outputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-        DateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         list_km.forEach((km) -> {
           
-            try {
-                Date beginDate = inputFormat.parse(km.getNgayBatDau().toString());
-                String beginText = outputFormat.format(beginDate);
+           
+                String beginText = outputFormat.format(km.getNgayBatDau());
                 
-                Date endDate = inputFormat.parse(km.getNgayBatDau().toString());
-                String endText = outputFormat.format(endDate);
+               
+                String endText = outputFormat.format(km.getNgayKetThuc());
                 
                 Object[] rowData = {
                     km.getMaKhuyenMai(),
                     beginText,
                     endText,
                     km.getMoTa(),
-                    km.getTiLeKhuyenMai()
+                    km.getTiLeKhuyenMai(),
+                    km.getLoaiPhong(),
                 };
                 
                 model.addRow(rowData);
-            } catch (ParseException ex) {
-                Logger.getLogger(NhanVien_KhuyenMai_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
     });
     
     // make update and remove btn disabled if not select row
@@ -292,6 +290,8 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txt_NgayBatDau = new com.toedter.calendar.JDateChooser();
         txt_NgayDi = new com.toedter.calendar.JDateChooser();
+        cb_Loaigiuong = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txt_TiLeKhuyenMai = new javax.swing.JTextField();
@@ -313,6 +313,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         btn_Tim = new keeptoo.KGradientPanel();
         jLabel20 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
+        Backgroup1 = new javax.swing.JLabel();
 
         setName("page_KhuyenMai"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1283, 830));
@@ -327,6 +328,19 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Ngày bắt đầu");
+
+        cb_Loaigiuong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        cb_Loaigiuong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đơn", "Đôi" }));
+        cb_Loaigiuong.setPreferredSize(new java.awt.Dimension(72, 32));
+        cb_Loaigiuong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_LoaigiuongActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Loại giường");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -351,15 +365,19 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_NgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(112, 112, 112)
+                .addGap(18, 18, 18)
                 .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(txt_NgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                    .addComponent(txt_NgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
                 .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_TiLeKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addGap(14, 14, 14))
+                .addGap(18, 18, 18)
+                .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_Loaigiuong, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         ThongTinKhuyenMaiLayout.setVerticalGroup(
             ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,15 +389,18 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                         .addGap(6, 6, 6))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinKhuyenMaiLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_NgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txt_NgayDi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_TiLeKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(ThongTinKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cb_Loaigiuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_TiLeKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_NgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinKhuyenMai);
@@ -532,20 +553,20 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(250, 220, 140, 40);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Mô tả", "Tỉ lệ khuyến mãi"
+                "Mã khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Mô tả", "Tỉ lệ khuyến mãi", "Loại phòng"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -557,6 +578,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             }
         });
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(120);
@@ -567,6 +589,8 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             jTable1.getColumnModel().getColumn(2).setMaxWidth(500);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(300);
             jTable1.getColumnModel().getColumn(3).setMaxWidth(500);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
         }
 
         jPanel1.add(jScrollPane1);
@@ -678,6 +702,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(Backgroup);
         Backgroup.setBounds(-30, 0, 1283, 803);
 
+        Backgroup1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
+        Backgroup1.setName("page_LoaiPhong"); // NOI18N
+        Backgroup1.setPreferredSize(new java.awt.Dimension(1283, 803));
+        jPanel1.add(Backgroup1);
+        Backgroup1.setBounds(0, 0, 1283, 803);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -701,14 +731,14 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
-       SimpleDateFormat outputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-       DateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+       SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
        this.model = (DefaultTableModel) jTable1.getModel();
        String maKM = generateRandomCode(2);
        Date ngayBatDau = txt_NgayBatDau.getDate();
        Date ngayKetThuc = txt_NgayDi.getDate();
        int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
        String moTa = area_ghichu.getText();
+       String loaiPhong = cb_Loaigiuong.getSelectedItem().toString();
     
        String beginText = outputFormat.format(ngayBatDau);
        String endText = outputFormat.format(ngayKetThuc);
@@ -725,7 +755,8 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                      ngayBatDau,
                      ngayKetThuc,
                      tiLeKhuyenMai, 
-                     moTa);
+                     moTa,
+                     loaiPhong);
 
             khuyenMaiDAO.createKhuyenMai(km);
 
@@ -736,7 +767,8 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 beginText,
                 endText,
                 km.getMoTa(),
-                km.getTiLeKhuyenMai()
+                km.getTiLeKhuyenMai(),
+                km.getLoaiPhong()
             };
             this.model.addRow(rowData);
 
@@ -782,16 +814,15 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_area_ghichuFocusLost
 
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
+       this.model = (DefaultTableModel) jTable1.getModel();
        int selectedRow = jTable1.getSelectedRow();
        String maKM = jTable1.getValueAt(selectedRow,0).toString();
-       SimpleDateFormat outputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-       DateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-       this.model = (DefaultTableModel) jTable1.getModel();
+       SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
        Date ngayBatDau = txt_NgayBatDau.getDate();
        Date ngayKetThuc = txt_NgayDi.getDate();
        int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
        String moTa = area_ghichu.getText();
-    
+       String loaiPhong = cb_Loaigiuong.getSelectedItem().toString();
        String beginText = outputFormat.format(ngayBatDau);
        String endText = outputFormat.format(ngayKetThuc);
        
@@ -807,18 +838,17 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                      ngayBatDau,
                      ngayKetThuc,
                      tiLeKhuyenMai, 
-                     moTa);
+                     moTa,
+                     loaiPhong);
              khuyenMaiDAO.updateKhuyenMai(Integer.parseInt(maKM), km);
              
-            jTable1.setValueAt(km.getNgayBatDau(), selectedRow, 1);       
-            jTable1.setValueAt(km.getNgayKetThuc(), selectedRow, 2); 
+            jTable1.setValueAt(beginText, selectedRow, 1);       
+            jTable1.setValueAt(endText, selectedRow, 2); 
             jTable1.setValueAt(km.getMoTa(), selectedRow, 3); 
             jTable1.setValueAt(km.getTiLeKhuyenMai(), selectedRow, 4); 
-
+            jTable1.setValueAt(km.getLoaiPhong(), selectedRow, 5); 
             JOptionPane.showMessageDialog(this, "Chỉnh sửa thành công");
-         }else {
-            return;
-        }
+         }
     
 
     }//GEN-LAST:event_btn_SuaMouseClicked
@@ -852,13 +882,17 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
        this.model = (DefaultTableModel) jTable1.getModel();
        Date ngayBatDau = txt_NgayBatDau.getDate();
        Date ngayKetThuc = txt_NgayDi.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
        int tiLeKhuyenMai = Integer.parseInt(!txt_TiLeKhuyenMai.getText().equals("") ? txt_TiLeKhuyenMai.getText() : "0");
        String moTa = area_ghichu.getText();
        
-       
+        Date startDate = null;
+        // Khởi tạo ngày kết thúc
+        Date endDate = null;
+    
         List<Document> list_KM = new ArrayList<Document>();
         try {
-            list_KM = khuyenMaiDAO.findKhuyenMai(ngayBatDau,ngayKetThuc, tiLeKhuyenMai, moTa);
+            list_KM = khuyenMaiDAO.findKhuyenMai(startDate,endDate, tiLeKhuyenMai, moTa);
         } catch (ParseException ex) {
             Logger.getLogger(NhanVien_KhuyenMai_GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -877,9 +911,14 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
             
     }//GEN-LAST:event_btn_TimMouseClicked
+
+    private void cb_LoaigiuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaigiuongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_LoaigiuongActionPerformed
        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
+    private javax.swing.JLabel Backgroup1;
     private javax.swing.JPanel ThongTinKhuyenMai;
     private javax.swing.JTextArea area_ghichu;
     private keeptoo.KGradientPanel btn_LamMoi;
@@ -887,7 +926,9 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
+    private javax.swing.JComboBox<String> cb_Loaigiuong;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;

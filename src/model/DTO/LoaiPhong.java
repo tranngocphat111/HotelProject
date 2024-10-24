@@ -3,11 +3,14 @@ package model.DTO;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import model.DAO.TienNghiDAO;
 import model.MongoDBConnection;
 
 public class LoaiPhong {
+
     private int maLoaiPhong;
     private String tenLoaiPhong;
     private int dienTich;
@@ -36,9 +39,6 @@ public class LoaiPhong {
     public void setLoaiGiuong(String loaiGiuong) {
         this.loaiGiuong = loaiGiuong;
     }
-
-   
-    
 
     public int getMaLoaiPhong() {
         return maLoaiPhong;
@@ -72,8 +72,6 @@ public class LoaiPhong {
         this.donGia = donGia;
     }
 
-
-
     public int getSoKhachToiDa() {
         return soKhachToiDa;
     }
@@ -81,8 +79,6 @@ public class LoaiPhong {
     public void setSoKhachToiDa(int soKhachToiDa) {
         this.soKhachToiDa = soKhachToiDa;
     }
-
-
 
     public List<TienNghi> getTienNghis() {
         return tienNghis;
@@ -107,7 +103,7 @@ public class LoaiPhong {
         if (doc.containsKey("donGia")) {
             loaiPhong.setDonGia(doc.getInteger("donGia"));
         }
-        
+
         if (doc.containsKey("soKhachToiDa")) {
             loaiPhong.setSoKhachToiDa(doc.getInteger("soKhachToiDa"));
         }
@@ -118,14 +114,16 @@ public class LoaiPhong {
 //         Convert TienNghi array
         if (doc.containsKey("tienNghis")) {
             List<Document> tienNghis = (List<Document>) doc.get("tienNghis");
-            
+
             List<TienNghi> List_tienNghi = new ArrayList<>();
             for (Document tn : tienNghis) {
-                
+
                 TienNghi tienNghi = new TienNghi().fromDocument(tn);
-                if(tienNghi != null) List_tienNghi.add(tienNghi);
+                if (tienNghi != null) {
+                    List_tienNghi.add(tienNghi);
+                }
             }
-            
+
             loaiPhong.setTienNghis(List_tienNghi);
         }
 
@@ -134,8 +132,18 @@ public class LoaiPhong {
 
     @Override
     public String toString() {
-        return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", dienTich=" + dienTich + ", donGia=" + donGia  + ", soKhachToiDa=" + soKhachToiDa  + ", tienNghis=" + tienNghis + ", loaiGiuong=" + loaiGiuong + '}';
+        return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", dienTich=" + dienTich + ", donGia=" + donGia + ", soKhachToiDa=" + soKhachToiDa + ", tienNghis=" + tienNghis + ", loaiGiuong=" + loaiGiuong + '}';
     }
 
-    
+    public void sortTienNghis() {
+        if (tienNghis != null) {
+            Collections.sort(tienNghis, new Comparator<TienNghi>() {
+                @Override
+                public int compare(TienNghi t1, TienNghi t2) {
+                    return Integer.compare(t1.getMaTienNghi(), t2.getMaTienNghi());
+                }
+            });
+        }
+    }
+
 }

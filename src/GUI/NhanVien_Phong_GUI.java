@@ -79,8 +79,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             Table_Phong.getColumnModel().getColumn(7).setPreferredWidth(130);
             Table_Phong.getColumnModel().getColumn(7).setMaxWidth(130);
         }
-        
-        
+
 //      Căn giữa các phần tử trong table
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -526,6 +525,8 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(950, 90, 250, 190);
 
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(452, 300));
+
         Table_Phong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_Phong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -564,7 +565,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(80, 330, 1120, 320);
+        jScrollPane3.setBounds(80, 330, 1120, 306);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -665,12 +666,13 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
         List<Phong> list_P = phong_dao.getAllPhongsSortByMaPhong();
+        System.out.println(list_P.size());
         if (!txt_phong.getText().isEmpty()) {
             list_P = getPhongByMaPhong(list_P, Integer.parseInt(txt_phong.getText()));
         }
 
         String regex = "\\d+";
-        if (!txt_tang.getText().matches(regex)) {
+        if (!txt_tang.getText().matches(regex) && !txt_tang.getText().isEmpty()) {
             list_P = new ArrayList<>();
         } else {
             if (!txt_tang.getText().isEmpty()) {
@@ -680,6 +682,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
         if (cb_loaiphong.getSelectedIndex() != 0) {
             list_P = getPhongByLoaiPhong(list_P, cb_loaiphong.getSelectedIndex());
+
         }
 
         if (!area_mota.getText().equals("Mô Tả")) {
@@ -847,9 +850,9 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     public void DocDuLieuLenTablePhong(List<Phong> list_phong) {
         model.setRowCount(0);
-        
+
         for (Phong phong : list_phong) {
-            LoaiPhong lp =  loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+            LoaiPhong lp = loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
             model.addRow(new Object[]{
                 phong.getMaPhong(),
                 lp.getTenLoaiPhong(),

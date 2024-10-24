@@ -662,7 +662,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             txt_SDT.setText("");
             hinhAnh = null;
             
-            
+            JOptionPane.showMessageDialog(this, "Đã thêm thành công!", "Thêm dữ liệu", JOptionPane.INFORMATION_MESSAGE);
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);

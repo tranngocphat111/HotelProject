@@ -36,7 +36,7 @@ public class LeTan_DonDatPhong_ChiTietDonDatPhong_GUI extends javax.swing.JDialo
      */
     public LeTan_DonDatPhong_ChiTietDonDatPhong_GUI(DonDatPhong dondatphong, JFrame parent, boolean modal) {
         super(parent, modal);
-        
+        setUndecorated(true);
         initComponents();
 
         model = (DefaultTableModel) table_KhachHang.getModel();
@@ -100,9 +100,9 @@ public class LeTan_DonDatPhong_ChiTietDonDatPhong_GUI extends javax.swing.JDialo
         jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 380));
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
         jPanel1.setPreferredSize(new java.awt.Dimension(1150, 400));
 
         table_KhachHang.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -200,7 +200,7 @@ public class LeTan_DonDatPhong_ChiTietDonDatPhong_GUI extends javax.swing.JDialo
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btn_Huy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

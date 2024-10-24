@@ -17,7 +17,6 @@ public class HoaDon_GUI extends javax.swing.JFrame {
      */
     public HoaDon_GUI() {
         setUndecorated(true);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         initComponents();
         setLocationRelativeTo(null);
 

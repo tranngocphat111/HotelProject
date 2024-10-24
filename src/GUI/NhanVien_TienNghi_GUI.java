@@ -674,7 +674,14 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
                 TienNghi x = tienNghiDAO.timTienNghi(tenTN);
 
                 tienNghiDAO.xoaTienNghi(x);
-
+                
+                List<LoaiPhong> list_lPhong = loaiphongDAO.getAllLoaiPhong();
+                for(LoaiPhong lp : list_lPhong){
+                    if(lp.getTienNghis().size() == 0){
+                        loaiphongDAO.deleteLoaiPhong(lp.getMaLoaiPhong());
+                    }
+                }
+                
                 DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
                 LamMoi();
             }

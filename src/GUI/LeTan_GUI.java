@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
+import javax.swing.JInternalFrame;  
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.InternalFrameUI;

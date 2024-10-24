@@ -5,6 +5,7 @@
 package GUI;
 
 import Functions.ImageScale;
+import static GUI.DangNhap_GUI.database;
 import static GUI.LeTan_DonDatPhong_GUI.GetAllDonDatPhong;
 import static GUI.LeTan_DonDatPhong_GUI.donDatPhong_dao;
 import static GUI.LeTan_DonDatPhong_GUI.list_DonDatPhong;
@@ -20,9 +21,11 @@ import javax.swing.JOptionPane;
 import keeptoo.KGradientPanel;
 import model.DAO.DichVuDAO;
 import model.DAO.DonDatPhongDAO;
+import model.DAO.HoaDonDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
 import model.DTO.DonDatPhong;
+import model.DTO.HoaDon;
 import model.DTO.TienNghi;
 import model.MongoDBConnection;
 
@@ -32,15 +35,15 @@ import model.MongoDBConnection;
  */
 public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
 
-    private MongoDBConnection database = new MongoDBConnection();
     private List<DichVu> list_DichVu = new ArrayList<>();
-    private DichVuDAO dichVu_dao = new DichVuDAO(database.getDatabase());
+    private DichVuDAO dichVu_dao = new DichVuDAO(database);
     DecimalFormat df = new DecimalFormat("#,##0");
     private List<DichVu> list_DichVuDuocChon = new ArrayList<>();
     private ArrayList<KGradientPanel> list_DichVuCoSan = new ArrayList<>();
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private DonDatPhong donDatPhong = new DonDatPhong();
-    private DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database.getDatabase());
+    private DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
+    private HoaDonDAO hoaDon_Dao = new HoaDonDAO(database);
 
     /**
      * Creates new form LeTan_DonDatPhong_ThemDichVui
@@ -63,7 +66,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
                     btn.setkStartColor(new java.awt.Color(228, 30, 30));
                     btn.setFocusable(false);
                     break;
-                    
+
                 }
             }
         }
@@ -80,11 +83,11 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    for(KGradientPanel btn_DaChon : list_DichVuCoSan){
-                        if(btn.getName().equals(btn_DaChon.getName())){
+                    for (KGradientPanel btn_DaChon : list_DichVuCoSan) {
+                        if (btn.getName().equals(btn_DaChon.getName())) {
                             JOptionPane.showMessageDialog(null, "Dịch vụ đang được sử dụng, không được chọn");
                             return;
-                        }    
+                        }
                     }
                     if (click) {
                         btn.setkStartColor(new java.awt.Color(255, 255, 255));
@@ -420,12 +423,17 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         // TODO add your handling code here:
         donDatPhong.setDichVuSuDung(list_DichVuDuocChon);
         donDatPhong_dao.updateDonDatPhong(donDatPhong);
-        
+        HoaDon hoaDon = hoaDon_Dao.getHoaDonByMa(donDatPhong.getHoaDon());
+        list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
+        hoaDon.setTongTien(getTongtien(hoaDon));
+        hoaDon_Dao.updateHoaDon(hoaDon);
+
 //        Đọc dữ liệu lên table_DonDatPhong
         LeTan_DonDatPhong_GUI.list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
         LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
         LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
         LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
+
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMousePressed
 
@@ -433,6 +441,15 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_btn_HuyMousePressed
+    public int getTongtien(HoaDon hoadon) {
+        int tongtien = 0;
+        for (DonDatPhong ddp : list_DonDatPhong) {
+            if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
+                tongtien = tongtien + ddp.thanhTien();
+            }
+        }
+        return tongtien;
+    }
 
     /**
      * @param args the command line arguments

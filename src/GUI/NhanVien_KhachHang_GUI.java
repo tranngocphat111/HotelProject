@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoDatabase;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -36,8 +37,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private ArrayList<JTableHeader> list_table = new ArrayList<JTableHeader>();
 
-    private MongoDBConnection connection = new MongoDBConnection();
-    private MongoDatabase database = connection.getDatabase();
     private KhachHangDAO khachHangDAO = new KhachHangDAO(database);
     private List<KhachHang> list_kh = new ArrayList<KhachHang>();
     private DefaultTableModel model;

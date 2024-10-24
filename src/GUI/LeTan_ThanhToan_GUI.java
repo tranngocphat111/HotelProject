@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTable;
 import static GUI.LeTan_DonDatPhong_GUI.model;
 import java.awt.Dimension;
@@ -42,18 +43,17 @@ import static GUI.LeTan_DonDatPhong_GUI.Table_DonDatPhong;
 public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-    public static MongoDBConnection database = new MongoDBConnection();
     public static DefaultTableModel model;
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
-    private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database.getDatabase());
+    private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database);
     private List<Phong> list_Phong = new ArrayList<Phong>();
-    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(database);
     private List<HoaDon> list_HoaDon = new ArrayList<HoaDon>();
     private List<HoaDon> list_HoaDonTheoTrangThai = new ArrayList<HoaDon>();
-    private HoaDonDAO hoadon_dao = new HoaDonDAO(database.getDatabase());
+    private HoaDonDAO hoadon_dao = new HoaDonDAO(database);
     public static List<DonDatPhong> list_DonDatPhong = new ArrayList<DonDatPhong>();
-    public static DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database.getDatabase());
+    public static DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
     public static DefaultTableCellRenderer centerRenderer;
     public static  DecimalFormat df = new DecimalFormat("#,##0");
 

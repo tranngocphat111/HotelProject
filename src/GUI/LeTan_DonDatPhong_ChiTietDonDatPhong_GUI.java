@@ -6,34 +6,27 @@ package GUI;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import model.DAO.LoaiPhongDAO;
-import model.DAO.PhongDAO;
+
 import model.DTO.DonDatPhong;
 import model.DTO.KhachHang;
-import model.DTO.LoaiPhong;
-import model.DTO.Phong;
-import model.DTO.TienNghi;
-import model.MongoDBConnection;
+
 
 /**
  *
  * @author Admin
  */
 public class LeTan_DonDatPhong_ChiTietDonDatPhong_GUI extends javax.swing.JDialog {
-
-    private MongoDBConnection database = new MongoDBConnection();
     DefaultTableCellRenderer centerRenderer;
     DefaultTableModel model;
     DecimalFormat df = new DecimalFormat("#,##0");

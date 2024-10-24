@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -61,19 +62,18 @@ import javax.swing.table.JTableHeader;
  */
 public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
-    private MongoDBConnection database = new MongoDBConnection();
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private List<Phong> list_Phong = new ArrayList<>();
-    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(database);
     private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
-    private DonDatPhongDAO DonDatphong_dao = new DonDatPhongDAO(database.getDatabase());
+    private DonDatPhongDAO DonDatphong_dao = new DonDatPhongDAO(database);
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<>();
-    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
     private List<KhachHang> list_KhachHang = new ArrayList<>();
-    private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
+    private KhachHangDAO khachHang_dao = new KhachHangDAO(database);
     private DefaultTableModel model;
     private List<HoaDon> list_HoaDon = new ArrayList<>();
-    private HoaDonDAO hoaDon_dao = new HoaDonDAO(database.getDatabase());
+    private HoaDonDAO hoaDon_dao = new HoaDonDAO(database);
     private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<>();
     private List<KhachHang> list_KhachHangMoi = new ArrayList<>();
     private List<DonDatPhong> list_DonDatPhongTheoHoaDon = new ArrayList<>();
@@ -104,9 +104,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
         list_HoaDon = hoaDon_dao.getAllHoaDon();
-
-        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
-        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
+        if (list_HoaDon.size() == 0) {
+            label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+            label_MaHoaDon.setText("Mã hóa đơn: " + 1);
+        } else {
+            label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+            label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
+        }
 
         model = (DefaultTableModel) table_KhachHang.getModel();
         model.setRowCount(0);
@@ -1545,7 +1549,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         if (dem == 0) {
             hoadon_hientai = new HoaDon();
-            hoadon_hientai.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
+
+            if (list_HoaDon.size() == 0) {
+                hoadon_hientai.setMaHoaDon(1);
+            } else {
+                hoadon_hientai.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
+            }
+
             hoadon_hientai.setNgayTaoHoaDon(new Date());
             hoadon_hientai.setTongTien(0);
             hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
@@ -1593,8 +1603,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
         list_KhachHang = khachHang_dao.getAllKhachHang();
-        label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoHoaDon.getLast().getMaDonDat() + 1));
-        label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
+        if (list_HoaDon.size() == 0) {
+            label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+            label_MaHoaDon.setText("Mã hóa đơn: " + 1);
+        } else {
+            label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhong.size() + 1));
+            label_MaHoaDon.setText("Mã hóa đơn: " + (list_HoaDon.getLast().getMaHoaDon() + 1));
+        }
         JOptionPane.showMessageDialog(this, "Tạo hóa đơn thành công");
         LamMoi();
         LamMoiThongTinPhong();

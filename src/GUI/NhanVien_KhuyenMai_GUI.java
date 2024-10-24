@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoDatabase;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,8 +41,6 @@ import org.bson.Document;
  */
 public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-    private MongoDBConnection connection = new MongoDBConnection();
-    private MongoDatabase database = connection.getDatabase();
     private KhuyenMaiDAO khuyenMaiDAO = new KhuyenMaiDAO(database);
     private List<KhuyenMai> list_km = new ArrayList<KhuyenMai>();
     private DefaultTableModel model;

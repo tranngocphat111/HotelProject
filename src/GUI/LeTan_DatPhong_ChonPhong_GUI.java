@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -23,20 +24,17 @@ import model.DAO.PhongDAO;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
-import model.MongoDBConnection;
-
 /**
  *
  * @author Admin
  */
 public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
-    private MongoDBConnection database = new MongoDBConnection();
-    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
     private DefaultTableModel model;
     private List<Phong> list_PhongTrong;
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
-    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(database);
     DefaultTableCellRenderer centerRenderer;
     DecimalFormat df = new DecimalFormat("#,##0");
 

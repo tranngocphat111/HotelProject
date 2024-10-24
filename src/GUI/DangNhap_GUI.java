@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import com.mongodb.client.MongoDatabase;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -20,19 +21,22 @@ import model.MongoDBConnection;
  */
 public class DangNhap_GUI extends javax.swing.JFrame {
 
-    private MongoDBConnection database = new MongoDBConnection();
     private List<NhanVien> list_NhanVien = new ArrayList<NhanVien>();
-    private NhanVienDAO nhanVien_Dao = new NhanVienDAO(database.getDatabase());
     public static NhanVien nhanVien_DangSuDung;
+    public static MongoDatabase database;
+    private NhanVienDAO nhanVien_Dao;
 
     /**
      * Creates new form DangNhap
      */
     public DangNhap_GUI() {
+        MongoDBConnection.connection();
         initComponents();
         setLocationRelativeTo(null);
-
+        database = MongoDBConnection.getDatabase();
+        nhanVien_Dao = new NhanVienDAO(database);
         list_NhanVien = nhanVien_Dao.getAllNhanVien();
+        
 
     }
 

@@ -5,6 +5,7 @@
 package GUI;
 
 import Functions.ImageScale;
+import static GUI.DangNhap_GUI.database;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -40,9 +41,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    private MongoDBConnection mongoDB = new MongoDBConnection();
     
-    private NhanVienDAO nhanVienDAO = new NhanVienDAO(mongoDB.getDatabase());
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO(database);
     
     private byte[] hinhAnh = null;
     

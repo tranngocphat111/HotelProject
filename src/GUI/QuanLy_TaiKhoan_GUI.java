@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -31,10 +32,9 @@ import model.MongoDBConnection;
 public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
 
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-    private MongoDBConnection database = new MongoDBConnection();
     private List<NhanVien> list_NhanVien = new ArrayList<>();
     private List<NhanVien> list_NhanVienTheoTieuChi = new ArrayList<>();
-    private NhanVienDAO nhanVien_dao = new NhanVienDAO(database.getDatabase());
+    private NhanVienDAO nhanVien_dao = new NhanVienDAO(database);
     DefaultTableCellRenderer centerRenderer;
     DefaultTableModel model;
 

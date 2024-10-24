@@ -5,6 +5,7 @@
 package GUI;
 
 import Functions.ImageScale;
+import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoDatabase;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,8 +41,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    private MongoDBConnection connection = new MongoDBConnection();
-    private MongoDatabase database = connection.getDatabase();
+
     
     private TienNghiDAO tienNghiDAO = new TienNghiDAO(database);
     

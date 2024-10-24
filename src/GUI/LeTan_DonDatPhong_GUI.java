@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import static GUI.LeTan_DatPhong_GUI.label_MaDonDatPhong;
 import static GUI.LeTan_DatPhong_GUI.label_MaHoaDon;
 import java.awt.Dimension;
@@ -41,7 +42,6 @@ import model.DTO.HoaDon;
 import model.DTO.KhachHang;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
-import model.MongoDBConnection;
 
 /**
  *
@@ -49,25 +49,24 @@ import model.MongoDBConnection;
  */
 public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
-    public static MongoDBConnection database = new MongoDBConnection();
-    public static LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    public static LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     public static List<DonDatPhong> list_DonDatPhong = new ArrayList<DonDatPhong>();
-    public static DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database.getDatabase());
+    public static DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
     private List<Phong> list_phong = new ArrayList<Phong>();
-    public static PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-    private LoaiPhongDAO LoaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    public static PhongDAO phong_dao = new PhongDAO(database);
+    private LoaiPhongDAO LoaiPhong_dao = new LoaiPhongDAO(database);
     private List<DichVu> list_DichVu = new ArrayList<DichVu>();
-    private DichVuDAO dichVu_dao = new DichVuDAO(database.getDatabase());
+    private DichVuDAO dichVu_dao = new DichVuDAO(database);
     public static DefaultTableModel model;
     public static DefaultTableCellRenderer centerRenderer;
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     public static List<DonDatPhong> list_DonDatPhongTheoTieuChi = new ArrayList<DonDatPhong>();
     public static List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
     private List<KhachHang> list_khachHang = new ArrayList<KhachHang>();
-    private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
+    private KhachHangDAO khachHang_dao = new KhachHangDAO(database);
     private List<HoaDon> list_hoaDon = new ArrayList<>();
-    private HoaDonDAO hoaDon_Dao = new HoaDonDAO(database.getDatabase());
+    private HoaDonDAO hoaDon_Dao = new HoaDonDAO(database);
 
     /**
      * Creates new form LeTan_DatPhong_GUI

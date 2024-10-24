@@ -5,6 +5,7 @@
 package GUI;
 
 import Functions.ImageScale;
+import static GUI.DangNhap_GUI.database;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -43,14 +44,13 @@ import test.convertImage;
  */
 public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
-    private MongoDBConnection database = new MongoDBConnection();
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
-    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
+    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
     private List<Phong> list_Phong = new ArrayList<Phong>();
-    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(database);
     private List<TienNghi> list_TienNghi = new ArrayList<TienNghi>();
     private List<TienNghi> list_TienNghiDuocChon = new ArrayList<TienNghi>();
-    private TienNghiDAO tienNghi_dao = new TienNghiDAO(database.getDatabase());
+    private TienNghiDAO tienNghi_dao = new TienNghiDAO(database);
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private ArrayList<KGradientPanel> list_btnTienNghi = new ArrayList<KGradientPanel>();
     private DefaultTableModel model;

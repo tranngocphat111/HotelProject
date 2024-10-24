@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -33,13 +34,12 @@ import model.MongoDBConnection;
  */
 public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
-    private MongoDBConnection database = new MongoDBConnection();
     private DefaultTableModel model;
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<LoaiPhong>();
-    private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database.getDatabase());
+    private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database);
     private List<Phong> list_Phong = new ArrayList<Phong>();
-    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(database);
     private final DefaultTableCellRenderer centerRenderer;
     private DecimalFormat df = new DecimalFormat("#,##0");
 
@@ -79,7 +79,8 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             Table_Phong.getColumnModel().getColumn(7).setPreferredWidth(130);
             Table_Phong.getColumnModel().getColumn(7).setMaxWidth(130);
         }
-
+        
+        
 //      Căn giữa các phần tử trong table
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

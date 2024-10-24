@@ -5,6 +5,8 @@ import org.bson.Document;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import model.DAO.DichVuDAO;
+import model.DAO.KhachHangDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.MongoDBConnection;
@@ -135,8 +137,8 @@ public class DonDatPhong {
             List<Document> khachODocs = (List<Document>) doc.get("KhachO");
             List<KhachHang> khachO = new ArrayList<>();
             for (Document khachODoc : khachODocs) {
-                KhachHang khachHang = KhachHang.fromDocument(khachODoc);
-                khachO.add(khachHang);
+                KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(khachODoc.getInteger("maKhachHang"));
+                if(khachHang != null) khachO.add(khachHang);
             }
             donDatPhong.setKhachO(khachO);
         }
@@ -146,8 +148,9 @@ public class DonDatPhong {
             List<Document> dichVuDocs = (List<Document>) doc.get("dichVuSuDung");
             List<DichVu> dichVuSuDung = new ArrayList<>();
             for (Document dichVuDoc : dichVuDocs) {
-                DichVu dichVu = DichVu.fromDocument(dichVuDoc);
-                dichVuSuDung.add(dichVu);
+                
+                DichVu dichVu = new DichVuDAO(new MongoDBConnection().getDatabase()).getDichVuByMa(dichVuDoc.getInteger("maDV"));
+                if(dichVu != null) dichVuSuDung.add(dichVu);
             }
             donDatPhong.setDichVuSuDung(dichVuSuDung);
         }

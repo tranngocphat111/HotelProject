@@ -59,12 +59,12 @@ public class DonDatPhongDAO {
             for (KhachHang khachHang : donDatPhong.getKhachO()) {
                 list_KhachHang.add(new Document()
                         .append("maKhachHang", khachHang.getMaKhachHang())
-                        .append("tenKhachHang", khachHang.getTenKhachHang())
-                        .append("soDienThoai", khachHang.getSoDienThoai())
-                        .append("CCCD", khachHang.getCCCD())
-                        .append("gioiTinh", khachHang.getGioiTinh())
-                        .append("email", khachHang.getEmail())
-                        .append("quocTich", khachHang.getQuocTich())
+//                        .append("tenKhachHang", khachHang.getTenKhachHang())
+//                        .append("soDienThoai", khachHang.getSoDienThoai())
+//                        .append("CCCD", khachHang.getCCCD())
+//                        .append("gioiTinh", khachHang.getGioiTinh())
+//                        .append("email", khachHang.getEmail())
+//                        .append("quocTich", khachHang.getQuocTich())
                 );
             }
 
@@ -73,9 +73,9 @@ public class DonDatPhongDAO {
                 list_DichVu.add(
                         new Document()
                                 .append("maDV", dichVu.getMaDV())
-                                .append("tenDV", dichVu.getTenDV())
-                                .append("moTa", dichVu.getMoTa())
-                                .append("donGia", dichVu.getDonGia())
+//                                .append("tenDV", dichVu.getTenDV())
+//                                .append("moTa", dichVu.getMoTa())
+//                                .append("donGia", dichVu.getDonGia())
                 );
             }
 
@@ -104,12 +104,12 @@ public class DonDatPhongDAO {
             for (KhachHang khachHang : donDatPhong.getKhachO()) {
                 list_KhachHang.add(new Document()
                         .append("maKhachHang", khachHang.getMaKhachHang())
-                        .append("tenKhachHang", khachHang.getTenKhachHang())
-                        .append("soDienThoai", khachHang.getSoDienThoai())
-                        .append("CCCD", khachHang.getCCCD())
-                        .append("gioiTinh", khachHang.getGioiTinh())
-                        .append("email", khachHang.getEmail())
-                        .append("quocTich", khachHang.getQuocTich())
+//                        .append("tenKhachHang", khachHang.getTenKhachHang())
+//                        .append("soDienThoai", khachHang.getSoDienThoai())
+//                        .append("CCCD", khachHang.getCCCD())
+//                        .append("gioiTinh", khachHang.getGioiTinh())
+//                        .append("email", khachHang.getEmail())
+//                        .append("quocTich", khachHang.getQuocTich())
                 );
             }
 
@@ -117,9 +117,9 @@ public class DonDatPhongDAO {
             for (DichVu dichVu : donDatPhong.getDichVuSuDung()) {
                 list_DichVu.add(new Document()
                         .append("maDV", dichVu.getMaDV())
-                        .append("tenDV", dichVu.getTenDV())
-                        .append("moTa", dichVu.getMoTa())
-                        .append("donGia", dichVu.getDonGia())
+//                        .append("tenDV", dichVu.getTenDV())
+//                        .append("moTa", dichVu.getMoTa())
+//                        .append("donGia", dichVu.getDonGia())
                 );
             }
 

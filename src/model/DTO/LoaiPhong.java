@@ -123,7 +123,7 @@ public class LoaiPhong {
             for (Document tn : tienNghis) {
                 
                 TienNghi tienNghi = new TienNghiDAO(new MongoDBConnection().getDatabase()).getTienNghiByMa(tn.getInteger("maTienNghi"));
-                List_tienNghi.add(tienNghi);
+                if(tienNghi != null) List_tienNghi.add(tienNghi);
             }
             
             loaiPhong.setTienNghis(List_tienNghi);

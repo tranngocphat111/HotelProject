@@ -155,13 +155,13 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 //        Đọc dữ liệu theo trạng thái 
         checkBox_DangO.setSelected(true);
         checkBox_DangCho.setSelected(true);
-<<<<<<< HEAD
+
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-=======
+
         
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
 
->>>>>>> a6709667e107a4dd44d9df28ff5ad5d471d3479b
+
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
         list_btn.add(btn_Tim);
@@ -394,15 +394,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayNhanPhong_BatDau.setDate(null);
         txt_NgayNhanPhong_KetThuc.setDate(null);
         txt_CCCD.requestFocus();
-<<<<<<< HEAD
 
         checkBox_DangCho.setSelected(true);
         checkBox_DangO.setSelected(true);
 
-=======
+
         checkBox_DangCho.setSelected(true);
         checkBox_DangO.setSelected(true);
->>>>>>> a6709667e107a4dd44d9df28ff5ad5d471d3479b
+
     }
 
     /**

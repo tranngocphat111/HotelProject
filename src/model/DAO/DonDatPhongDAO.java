@@ -1,8 +1,11 @@
 package model.DAO;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.result.DeleteResult;
@@ -152,5 +155,19 @@ public class DonDatPhongDAO {
 
         DeleteResult result = donDatPhongCollection.deleteOne(filter);
         return result.getDeletedCount() > 0;
+    }
+    
+    public ArrayList<DonDatPhong> getDonDatPhongByTang(int tang) {
+        ArrayList<DonDatPhong> list = new ArrayList<>();
+        AggregateIterable<Document> result = donDatPhongCollection.aggregate(Arrays.asList(
+                Aggregates.lookup("Phong", "Phong", "maPhong", "Phongs"),
+                Aggregates.match(Filters.eq("Phongs.tang", tang))
+        ));
+        ArrayList<Document> resultDoc = result.into(new java.util.ArrayList<>());
+        for (Document document : resultDoc) {
+            DonDatPhong donDat = DonDatPhong.fromDocument(document);
+            list.add(donDat);
+        }
+        return list;
     }
 }

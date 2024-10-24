@@ -155,13 +155,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 //        Đọc dữ liệu theo trạng thái 
         checkBox_DangO.setSelected(true);
         checkBox_DangCho.setSelected(true);
-<<<<<<< HEAD
-        list_DonDatPhongTheoTieuChi = list_DonDatPhong;
-=======
-        
+
         list_DonDatPhongTheoTieuChi = list_DonDatPhong;
 
->>>>>>> a6709667e107a4dd44d9df28ff5ad5d471d3479b
         DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
 
         list_btn.add(btn_Tim);
@@ -270,8 +266,20 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     }
 
     public static void DocDuLieuLenTable(List<DonDatPhong> list_DonDatPhongs) {
-        model.setRowCount(0);
+        
+        List<DonDatPhong> list = new ArrayList<>();
         for (DonDatPhong ddp : list_DonDatPhongs) {
+            if (checkBox_DangCho.isSelected() && ddp.getTrangThai().equals("Đang chờ")){
+                list.add(ddp);
+            }
+            if (checkBox_DangO.isSelected() && ddp.getTrangThai().equals("Đang ở")){
+                list.add(ddp);
+            }
+        }
+        
+        
+        model.setRowCount(0);
+        for (DonDatPhong ddp : list) {
             model.addRow(new Object[]{
                 ddp.getMaDonDat(),
                 ddp.getTrangThai(),
@@ -394,15 +402,13 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayNhanPhong_BatDau.setDate(null);
         txt_NgayNhanPhong_KetThuc.setDate(null);
         txt_CCCD.requestFocus();
-<<<<<<< HEAD
 
         checkBox_DangCho.setSelected(true);
         checkBox_DangO.setSelected(true);
 
-=======
+
         checkBox_DangCho.setSelected(true);
         checkBox_DangO.setSelected(true);
->>>>>>> a6709667e107a4dd44d9df28ff5ad5d471d3479b
     }
 
     /**
@@ -1308,11 +1314,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(this, "Hủy thành công");
         list_hoaDon = new ArrayList<HoaDon>();
         list_hoaDon = hoaDon_Dao.getAllHoaDon();
-        LeTan_ThanhToan_GUI.list_DonDatPhong.clear();
-        LeTan_ThanhToan_GUI.list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
-        LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_hoaDon);
-        LeTan_DatPhong_GUI.list_DonDatPhong = list_DonDatPhongTheoTieuChi;
-        LeTan_DatPhong_GUI.list_HoaDon = list_hoaDon;
+//        LeTan_ThanhToan_GUI.list_DonDatPhong.clear();
+//        LeTan_ThanhToan_GUI.list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
+//        LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_hoaDon);
+//        LeTan_DatPhong_GUI.list_DonDatPhong = list_DonDatPhongTheoTieuChi;
+//        LeTan_DatPhong_GUI.list_HoaDon = list_hoaDon;
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: " + (list_DonDatPhongTheoTieuChi.size() + 1));
         label_MaHoaDon.setText("Mã hóa đơn: " + (list_hoaDon.size() + 1));
     }//GEN-LAST:event_btn_HuyDonMousePressed

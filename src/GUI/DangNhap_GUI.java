@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import com.mongodb.client.MongoDatabase;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ import model.MongoDBConnection;
  */
 public class DangNhap_GUI extends javax.swing.JFrame {
 
-    private MongoDBConnection database = new MongoDBConnection();
-    private List<NhanVien> list_NhanVien = new ArrayList<NhanVien>();
-    private NhanVienDAO nhanVien_Dao = new NhanVienDAO(database.getDatabase());
+    private MongoDatabase database;
+    private List<NhanVien> list_NhanVien;
+    private NhanVienDAO nhanVien_Dao;
     public static NhanVien nhanVien_DangSuDung;
 
     /**
@@ -31,7 +32,10 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     public DangNhap_GUI() {
         initComponents();
         setLocationRelativeTo(null);
-
+        MongoDBConnection.connection();
+        database = MongoDBConnection.getDatabase();
+        list_NhanVien = new ArrayList<NhanVien>();
+        nhanVien_Dao = new NhanVienDAO(database);
         list_NhanVien = nhanVien_Dao.getAllNhanVien();
 
     }
@@ -237,7 +241,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         nhanVien_DangSuDung = nv;
 
         if (nv.getChucVu().equals("Lễ tân")) {
-            new LeTan_GUI().setVisible(true);
+            new LeTan_GUI(database).setVisible(true);
             setVisible(false);
             return;
         }
@@ -274,7 +278,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             }
             nhanVien_DangSuDung = nv;
             if (nv.getChucVu().equals("Lễ tân")) {
-                new LeTan_GUI().setVisible(true);
+                new LeTan_GUI(database).setVisible(true);
                 setVisible(false);
                 return;
             }
@@ -310,7 +314,7 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             }
 
             if (nv.getChucVu().equals("Lễ tân")) {
-                new LeTan_GUI().setVisible(true);
+                new LeTan_GUI(database).setVisible(true);
                 setVisible(false);
                 return;
             }

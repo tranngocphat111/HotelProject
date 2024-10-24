@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import com.mongodb.client.MongoDatabase;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.plaf.InternalFrameUI;
 import javax.swing.text.Element;
 import keeptoo.KGradientPanel;
+import model.MongoDBConnection;
 
 /**
  *
@@ -26,24 +28,28 @@ import keeptoo.KGradientPanel;
  */
 public class LeTan_GUI extends javax.swing.JFrame {
     private LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI();
-    private LeTan_ThanhToan_GUI thanhToan_Gui = new LeTan_ThanhToan_GUI();
+    private LeTan_ThanhToan_GUI thanhToan_Gui;
     private LeTan_DonDatPhong_GUI donDatPhong_Gui = new LeTan_DonDatPhong_GUI();
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private List<JInternalFrame> internalFrameList = new ArrayList<>();
     private String tam = "page_DatPhong";
+    private MongoDatabase database;
 
     /**
      * Creates new form NewJFrame
      */
     
     
-    public LeTan_GUI() {
+    public LeTan_GUI(MongoDatabase database) {
         initComponents();
 
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89)); 
+        page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89));
+        this.database = database;
+        thanhToan_Gui = new LeTan_ThanhToan_GUI(database);
+        
         
         datPhong_Gui.setVisible(true);
         
@@ -466,7 +472,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LeTan_GUI().setVisible(true);
+                new LeTan_GUI(MongoDBConnection.getDatabase()).setVisible(true);
             }
         });
     }

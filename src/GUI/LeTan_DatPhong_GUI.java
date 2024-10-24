@@ -46,7 +46,7 @@ import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.MongoDBConnection;
 import GUI.LeTan_GUI;
-import static GUI.LeTan_ThanhToan_GUI.list_DonDatPhong;
+//import static GUI.LeTan_ThanhToan_GUI.list_DonDatPhong;
 import java.awt.Color;
 import java.awt.Frame;
 import javax.swing.JFrame;
@@ -65,14 +65,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private List<Phong> list_Phong = new ArrayList<>();
     private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
-    public static List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO DonDatphong_dao = new DonDatPhongDAO(database.getDatabase());
     private List<LoaiPhong> list_LoaiPhong = new ArrayList<>();
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
     private List<KhachHang> list_KhachHang = new ArrayList<>();
     private KhachHangDAO khachHang_dao = new KhachHangDAO(database.getDatabase());
     private DefaultTableModel model;
-     public static List<HoaDon> list_HoaDon = new ArrayList<>();
+    private List<HoaDon> list_HoaDon = new ArrayList<>();
     private HoaDonDAO hoaDon_dao = new HoaDonDAO(database.getDatabase());
     private List<KhachHang> list_KhachHang_TheoDon = new ArrayList<>();
     private List<KhachHang> list_KhachHangMoi = new ArrayList<>();
@@ -1617,8 +1617,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
         LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi = LeTan_DonDatPhong_GUI.GetAllDonDatPhong(list_DonDatPhong);
         LeTan_DonDatPhong_GUI.DocDuLieuLenTable(LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi);
-        LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
-        LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
+//        LeTan_ThanhToan_GUI.list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
+//        LeTan_ThanhToan_GUI.DocDuLieuLenTable(list_HoaDon);
 
 
     }//GEN-LAST:event_btn_HoanTatMousePressed

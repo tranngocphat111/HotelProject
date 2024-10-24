@@ -4,13 +4,13 @@
  */
 package GUI;
 
-import static GUI.LeTan_ThanhToan_GUI.DocDuLieuLenTable;
-import static GUI.LeTan_ThanhToan_GUI.Table_hoaDon;
-import static GUI.LeTan_ThanhToan_GUI.centerRenderer;
-import static GUI.LeTan_ThanhToan_GUI.database;
-import static GUI.LeTan_ThanhToan_GUI.getPhongSuDung;
-import static GUI.LeTan_ThanhToan_GUI.model;
-import static GUI.LeTan_ThanhToan_GUI.sdf;
+//import static GUI.LeTan_ThanhToan_GUI.DocDuLieuLenTable;
+//import static GUI.LeTan_ThanhToan_GUI.Table_hoaDon;
+//import static GUI.LeTan_ThanhToan_GUI.centerRenderer;
+//import static GUI.LeTan_ThanhToan_GUI.database;
+//import static GUI.LeTan_ThanhToan_GUI.getPhongSuDung;
+//import static GUI.LeTan_ThanhToan_GUI.model;
+//import static GUI.LeTan_ThanhToan_GUI.sdf;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;

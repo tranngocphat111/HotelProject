@@ -27,7 +27,9 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
+import model.DAO.LoaiPhongDAO;
 import model.DAO.TienNghiDAO;
+import model.DTO.LoaiPhong;
 import model.DTO.TienNghi;
 import model.MongoDBConnection;
 import test.convertImage;
@@ -44,7 +46,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
 
     
     private TienNghiDAO tienNghiDAO = new TienNghiDAO(database);
-    
+    private LoaiPhongDAO loaiphongDAO = new LoaiPhongDAO(database);
     private byte[] hinhAnh = null;
     
     public NhanVien_TienNghi_GUI() {
@@ -589,7 +591,16 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame{
                 txt_tienNghi.setText("");
                 txt_moTa.setText("");
                 label_Anh.setIcon(null);
-            }
+                for(LoaiPhong lp : loaiphongDAO.getAllLoaiPhong()){
+                    for(int i = 0; i < lp.getTienNghis().size(); i++){
+                        if(maDV == lp.getTienNghis().get(i).getMaTienNghi()){
+                            lp.getTienNghis().set(i, y);
+                        }
+                    }
+                    loaiphongDAO.updateLoaiPhong(lp);
+                }
+                
+        }
             
         }
         catch(Exception e) {

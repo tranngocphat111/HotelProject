@@ -118,9 +118,11 @@ public class LoaiPhong {
 //         Convert TienNghi array
         if (doc.containsKey("tienNghis")) {
             List<Document> tienNghis = (List<Document>) doc.get("tienNghis");
+            
             List<TienNghi> List_tienNghi = new ArrayList<>();
             for (Document tn : tienNghis) {
-                TienNghi tienNghi = TienNghi.fromDocument(tn);
+                
+                TienNghi tienNghi = new TienNghiDAO(new MongoDBConnection().getDatabase()).getTienNghiByMa(tn.getInteger("maTienNghi"));
                 List_tienNghi.add(tienNghi);
             }
             

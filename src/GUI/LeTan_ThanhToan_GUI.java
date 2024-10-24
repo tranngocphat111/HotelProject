@@ -478,7 +478,15 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             new String [] {
                 "Mã Hóa Đơn", "Ngày Đến", "Ngày Đi", "Phòng", "Loại Phòng", "Số Lượng", "Dịch Vụ"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Table_DonDatPhong.setRowHeight(30);
         jScrollPane1.setViewportView(Table_DonDatPhong);
         if (Table_DonDatPhong.getColumnModel().getColumnCount() > 0) {
@@ -597,7 +605,15 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             new String [] {
                 "Mã Hóa Đơn", "Ngày Tạo", "Phòng", "Dịch Vụ", "Tổng Tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         Table_hoaDon.setRowHeight(30);
         jScrollPane3.setViewportView(Table_hoaDon);
         if (Table_hoaDon.getColumnModel().getColumnCount() > 0) {

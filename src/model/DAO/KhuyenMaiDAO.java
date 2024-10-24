@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class KhuyenMaiDAO {
+
     private MongoCollection<Document> khuyenMaiCollection;
 
     public KhuyenMaiDAO(MongoDatabase database) {
@@ -33,7 +34,6 @@ public class KhuyenMaiDAO {
                     .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
                     .append("moTa", khuyenMai.getMoTa())
                     .append("loaiPhong", khuyenMai.getLoaiPhong());
-            
 
             InsertOneResult result = khuyenMaiCollection.insertOne(doc);
             return result.wasAcknowledged();
@@ -42,7 +42,7 @@ public class KhuyenMaiDAO {
             return false;
         }
     }
-    
+
     public List<KhuyenMai> getAllKhuyenMai() {
         List<KhuyenMai> khuyenMais = new ArrayList<>();
         try (MongoCursor<Document> cursor = khuyenMaiCollection.find().iterator()) {
@@ -54,52 +54,43 @@ public class KhuyenMaiDAO {
         }
         return khuyenMais;
     }
-    
-    
-    public boolean updateKhuyenMai(int maKM,KhuyenMai khuyenMai) {
+
+    public boolean updateKhuyenMai(int maKM, KhuyenMai khuyenMai) {
         try {
-            Document id = new Document("maKhuyenMai",maKM);
+            Document id = new Document("maKhuyenMai", maKM);
             Document update = new Document("$set",
                     new Document(
-                    "ngayBatDau", khuyenMai.getNgayBatDau())
-                    .append("ngayKetThuc", khuyenMai.getNgayKetThuc())
-                    .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
-                    .append("moTa", khuyenMai.getMoTa())
-                    .append("loaiPhong", khuyenMai.getLoaiPhong())
+                            "ngayBatDau", khuyenMai.getNgayBatDau())
+                            .append("ngayKetThuc", khuyenMai.getNgayKetThuc())
+                            .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
+                            .append("moTa", khuyenMai.getMoTa())
+                            .append("loaiPhong", khuyenMai.getLoaiPhong())
             );
-            
+
             UpdateResult result = khuyenMaiCollection.updateOne(id, update);
 
-            
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình chỉnh khuyến mãi: " + e.getMessage());
             return false; // Trả về false nếu có lỗi
         }
     }
-    
-     public boolean deleteKhuyenMai(int maKM) {
+
+    public boolean deleteKhuyenMai(int maKM) {
         try {
-            Document id = new Document("maKhuyenMai",maKM);
-            
+            Document id = new Document("maKhuyenMai", maKM);
+
             DeleteResult result = khuyenMaiCollection.deleteOne(id);
 
-            
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa khuyến mãi: " + e.getMessage());
             return false; // Trả về false nếu có lỗi
         }
     }
-    
+
     public List<Document> findKhuyenMai(Date ngayBatDau, Date ngayKetThuc, int tiLeKhuyenMai, String moTa) throws ParseException {
         List<Document> filters = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-
-        
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+1"));
-
-
         if (tiLeKhuyenMai > 0) {
             filters.add(new Document("tiLeKhuyenMai", tiLeKhuyenMai));
         }
@@ -109,30 +100,34 @@ public class KhuyenMaiDAO {
             filters.add(new Document("moTa", moTa));
         }
 
-        if(ngayBatDau !=null) {
-//        Calendar startCalendar = Calendar.getInstance();
-//        startCalendar.setTime(ngayBatDau);
-//            
-//        String startDate_Str = dateFormat.format(startCalendar.getTime());
-        filters.add(new Document("ngayBatDau", new Document("$lte", ngayBatDau)));
-        }
-        
-        if(ngayKetThuc != null) {
-//        Calendar endCalendar = Calendar.getInstance();
-//        endCalendar.setTime(ngayKetThuc);
-//        endCalendar.add(Calendar.HOUR_OF_DAY, -1); 
-//
-//     
-//        String endDate_Str = dateFormat.format(endCalendar.getTime());
+        if (ngayBatDau != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngayBatDau);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            ngayBatDau = calendar.getTime();
 
-   
-//         filters.add(new Document("ngayKetThuc", new Document("$lte", new Date(2024-10-08T17:00:00.000+00:00))));
-            
+            filters.add(new Document("ngayBatDau", new Document("$gte", ngayBatDau)));
         }
-      
+
+        if (ngayKetThuc != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngayKetThuc);  
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            calendar.set(Calendar.MILLISECOND, 999);
+
+            ngayKetThuc = calendar.getTime();
+
+            filters.add(new Document("ngayKetThuc", new Document("$lte", ngayKetThuc)));
+
+        }
+
         System.out.println(filters);
 
-   
         if (!filters.isEmpty()) {
             Document query = new Document("$and", filters);
             return khuyenMaiCollection.find(query).into(new ArrayList<>());
@@ -141,4 +136,3 @@ public class KhuyenMaiDAO {
         }
     }
 }
-

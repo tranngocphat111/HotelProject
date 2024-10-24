@@ -112,8 +112,8 @@ public class KhachHangDAO {
             
             DeleteResult result = khachHangCollection.deleteOne(id);
 
-            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
-            KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(maKH);
+            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+            KhachHang khachHang = new KhachHangDAO(database).getKhachHangByMa(maKH);
             for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
                 x.getKhachO().remove(khachHang);
                 donDatPhongDAO.updateDonDatPhong(x);

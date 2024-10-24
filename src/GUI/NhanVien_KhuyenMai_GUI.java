@@ -35,66 +35,65 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.DTO.KhachHang;
 import org.bson.Document;
+
 /**
  *
  * @author Admin
  */
 public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
+
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private KhuyenMaiDAO khuyenMaiDAO = new KhuyenMaiDAO(database);
     private List<KhuyenMai> list_km = new ArrayList<KhuyenMai>();
     private DefaultTableModel model;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-        // generate ID
+    // generate ID
     public String generateRandomCode(int length) {
- 
-    String characters = "0123456789";
-    SecureRandom random = new SecureRandom();
-    StringBuilder code = new StringBuilder(length);
 
-    for (int i = 0; i < length; i++) {
-      
-        code.append(characters.charAt(random.nextInt(characters.length())));
+        String characters = "0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder code = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+
+            code.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        return code.toString();
     }
 
-    return code.toString();
-}
-    
-     public static boolean validateForm(String ngayBatDau, String ngayKetThuc, int tiLeKhuyenMai, String moTa) {
-  
+    public static boolean validateForm(String ngayBatDau, String ngayKetThuc, int tiLeKhuyenMai, String moTa) {
+
         if (ngayBatDau == null || ngayBatDau.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống.");
             return false;
         }
-    
-       
+
         if (ngayKetThuc == null || ngayKetThuc.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Ngày kết thúc không được để trống.");
             return false;
         }
-       
-        
-        
+
         if (tiLeKhuyenMai < 0 || tiLeKhuyenMai > 100) {
             JOptionPane.showMessageDialog(null, "Tỉ lệ khuyến mãi phải nằm trong khoảng từ 0 đến 100.");
             return false;
         }
 
-      
         if (moTa != null && moTa.length() > 500) {
             JOptionPane.showMessageDialog(null, "Mô tả không được dài quá 500 ký tự.");
             return false;
         }
 
-      
         return true;
     }
-    
-     public boolean checkInvaildDate(String ngayBatDau, String ngayKetThuc) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-         Date startDate;
+
+    public boolean checkInvaildDate(String ngayBatDau, String ngayKetThuc) {
+
+        Date startDate;
         try {
             startDate = dateFormat.parse(ngayBatDau);
         } catch (ParseException e) {
@@ -109,34 +108,31 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Ngày kết thúc không hợp lệ. Định dạng phải là yyyy-MM-dd.");
             return false;
         }
-         System.out.println(startDate);
-         System.out.println(endDate);
+        System.out.println(startDate);
+        System.out.println(endDate);
 
         // Check if end date is after or same as start date
         if (endDate.before(startDate)) {
             JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.");
             return false;
         }
-       return true;
-     }
-     
+        return true;
+    }
+
     public NhanVien_KhuyenMai_GUI() {
         initComponents();
         this.model = (DefaultTableModel) jTable1.getModel();
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-        BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
-        
-     
-        
+
         // make butotn hover 
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
         list_btn.add(btn_LamMoi);
         list_btn.add(btn_Tim);
-        
-        
+
         list_btn.forEach((element) -> {
 //            if(!element.isEnabled()) {
 //                element.setBackground(new java.awt.Color(173, 216, 230)); // Màu nền xanh nhạt khi bị vô hiệu hóa
@@ -149,10 +145,10 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 public void mouseClicked(MouseEvent e) {
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
-               
+
                 @Override
                 public void mousePressed(MouseEvent e) {
-                        
+
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
@@ -163,94 +159,87 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if(element.isEnabled()) {
-                     element.setkStartColor(new java.awt.Color(255, 225, 27));
-                     element.setkEndColor(new java.awt.Color(255, 222, 89));
-                     element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                     element.setBorder(null); 
+                    if (element.isEnabled()) {
+                        element.setkStartColor(new java.awt.Color(255, 225, 27));
+                        element.setkEndColor(new java.awt.Color(255, 222, 89));
+                        element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                        element.setBorder(null);
                     }
-                   
-                 
+
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if(element.isEnabled()){
+                    if (element.isEnabled()) {
                         element.setkStartColor(new java.awt.Color(225, 176, 27));
                         element.setkEndColor(new java.awt.Color(255, 222, 89));
                         element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                         element.setBorder(null);
                     }
-                   
+
                 }
             });
-        })
-        ;
-          // set table header fon
-        JTableHeader header = jTable1.getTableHeader(); 
+        });
+        // set table header fon
+        JTableHeader header = jTable1.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setPreferredSize(new Dimension(header.getPreferredSize().height, 30));
 
         header.setFont(new Font("Arial", Font.BOLD, 15));
-        
-          DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
 
         // Thiết lập renderer cho header
         header.setDefaultRenderer(renderer);
-        
-        
+
         //Căn giữa các các dòng trong table
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        
+
         centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        centerRenderer.setVerticalAlignment(JLabel.CENTER );
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
         for (int i = 0; i < header.getTable().getColumnCount(); i++) {
             header.getTable().getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-        
+
         //add values to table
         list_km = khuyenMaiDAO.getAllKhuyenMai();
-        
+
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         list_km.forEach((km) -> {
-          
-           
-                String beginText = outputFormat.format(km.getNgayBatDau());
-                
-               
-                String endText = outputFormat.format(km.getNgayKetThuc());
-                
-                Object[] rowData = {
-                    km.getMaKhuyenMai(),
-                    beginText,
-                    endText,
-                    km.getMoTa(),
-                    km.getTiLeKhuyenMai(),
-                    km.getLoaiPhong(),
-                };
-                
-                model.addRow(rowData);
-            
-    });
-    
-    // make update and remove btn disabled if not select row
-       btn_Xoa.setEnabled(false);       
-       btn_Sua.setEnabled(false);
-        
-     jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            String beginText = outputFormat.format(km.getNgayBatDau());
+
+            String endText = outputFormat.format(km.getNgayKetThuc());
+
+            Object[] rowData = {
+                km.getMaKhuyenMai(),
+                beginText,
+                endText,
+                km.getMoTa(),
+                km.getTiLeKhuyenMai(),
+                km.getLoaiPhong(),};
+
+            model.addRow(rowData);
+
+        });
+
+        // make update and remove btn disabled if not select row
+        btn_Xoa.setEnabled(false);
+        btn_Sua.setEnabled(false);
+
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                      int selectedRow = jTable1.getSelectedRow();
+                int selectedRow = jTable1.getSelectedRow();
                 if (selectedRow == -1) {
                     btn_Xoa.setEnabled(false);
                     btn_Sua.setEnabled(false);
-                    
-           
+
                     txt_NgayBatDau.setDate(null);
                     txt_NgayDi.setDate(null);
                     txt_TiLeKhuyenMai.setText("");
@@ -258,19 +247,19 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 } else {
                     btn_Xoa.setEnabled(true);
                     btn_Sua.setEnabled(true);
-                    
-                 try {
-                    Date ngayBatDau = inputFormat.parse(jTable1.getValueAt(selectedRow, 1).toString());
-                    Date ngayKetThuc = inputFormat.parse(jTable1.getValueAt(selectedRow, 2).toString());
-                    
-                    txt_NgayBatDau.setDate(ngayBatDau);
-                    txt_NgayDi.setDate(ngayKetThuc);
-                    txt_TiLeKhuyenMai.setText(jTable1.getValueAt(selectedRow, 4).toString());
-                    area_ghichu.setText(jTable1.getValueAt(selectedRow, 3).toString());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            
+
+                    try {
+                        Date ngayBatDau = inputFormat.parse(jTable1.getValueAt(selectedRow, 1).toString());
+                        Date ngayKetThuc = inputFormat.parse(jTable1.getValueAt(selectedRow, 2).toString());
+
+                        txt_NgayBatDau.setDate(ngayBatDau);
+                        txt_NgayDi.setDate(ngayKetThuc);
+                        txt_TiLeKhuyenMai.setText(jTable1.getValueAt(selectedRow, 4).toString());
+                        area_ghichu.setText(jTable1.getValueAt(selectedRow, 3).toString());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
             }
         });
@@ -306,8 +295,6 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         area_ghichu = new javax.swing.JTextArea();
         btn_Tim = new keeptoo.KGradientPanel();
@@ -581,60 +568,18 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(150);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(270);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(500);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(270);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(500);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(170);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(200);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(300);
             jTable1.getColumnModel().getColumn(3).setMaxWidth(500);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(150);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(220);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(200);
         }
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(80, 280, 1130, 500);
-
-        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Mô tả", "Tỉ lệ khuyến mãi"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        jScrollPane3.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(150);
-            jTable2.getColumnModel().getColumn(1).setPreferredWidth(270);
-            jTable2.getColumnModel().getColumn(1).setMaxWidth(500);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(270);
-            jTable2.getColumnModel().getColumn(2).setMaxWidth(500);
-            jTable2.getColumnModel().getColumn(3).setPreferredWidth(300);
-            jTable2.getColumnModel().getColumn(3).setMaxWidth(500);
-        }
-
-        jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(80, 280, 1130, 500);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
@@ -646,7 +591,9 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         area_ghichu.setBackground(new java.awt.Color(0, 0, 0));
         area_ghichu.setColumns(20);
         area_ghichu.setForeground(new java.awt.Color(255, 255, 255));
+        area_ghichu.setLineWrap(true);
         area_ghichu.setRows(3);
+        area_ghichu.setWrapStyleWord(true);
         area_ghichu.setCaretColor(new java.awt.Color(255, 255, 255));
         area_ghichu.setMargin(new java.awt.Insets(4, 6, 2, 6));
         area_ghichu.setOpaque(false);
@@ -731,37 +678,35 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
-       SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-       this.model = (DefaultTableModel) jTable1.getModel();
-       String maKM = generateRandomCode(2);
-       Date ngayBatDau = txt_NgayBatDau.getDate();
-       Date ngayKetThuc = txt_NgayDi.getDate();
-       int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
-       String moTa = area_ghichu.getText();
-       String loaiPhong = cb_Loaigiuong.getSelectedItem().toString();
-    
-       String beginText = outputFormat.format(ngayBatDau);
-       String endText = outputFormat.format(ngayKetThuc);
-       
-        boolean validate = validateForm(beginText, endText,tiLeKhuyenMai , moTa);
-        
-        if(!checkInvaildDate(beginText,endText)) {
-           return;
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        this.model = (DefaultTableModel) jTable1.getModel();
+        String maKM = generateRandomCode(2);
+        Date ngayBatDau = txt_NgayBatDau.getDate();
+        Date ngayKetThuc = txt_NgayDi.getDate();
+        int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
+        String moTa = area_ghichu.getText();
+        String loaiPhong = cb_Loaigiuong.getSelectedItem().toString();
+
+        String beginText = outputFormat.format(ngayBatDau);
+        String endText = outputFormat.format(ngayKetThuc);
+
+        boolean validate = validateForm(beginText, endText, tiLeKhuyenMai, moTa);
+
+        if (!checkInvaildDate(beginText, endText)) {
+            return;
         }
-        
-        if(validate ) {
-             KhuyenMai km  = new KhuyenMai(
-                     Integer.parseInt(maKM), 
-                     ngayBatDau,
-                     ngayKetThuc,
-                     tiLeKhuyenMai, 
-                     moTa,
-                     loaiPhong);
+
+        if (validate) {
+            KhuyenMai km = new KhuyenMai(
+                    Integer.parseInt(maKM),
+                    ngayBatDau,
+                    ngayKetThuc,
+                    tiLeKhuyenMai,
+                    moTa,
+                    loaiPhong);
 
             khuyenMaiDAO.createKhuyenMai(km);
 
-          
-            
             Object[] rowData = {
                 km.getMaKhuyenMai(),
                 beginText,
@@ -772,11 +717,9 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             };
             this.model.addRow(rowData);
 
-            
             JOptionPane.showMessageDialog(this, "Thêm thành công");
 
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this, "Thiếu dữ liệu hoặc không đúng định dạng");
         }
 
@@ -805,68 +748,70 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
     private void area_ghichuFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_ghichuFocusGained
         // TODO add your handling code here:
-     
+
     }//GEN-LAST:event_area_ghichuFocusGained
 
     private void area_ghichuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_ghichuFocusLost
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_area_ghichuFocusLost
 
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
-       this.model = (DefaultTableModel) jTable1.getModel();
-       int selectedRow = jTable1.getSelectedRow();
-       String maKM = jTable1.getValueAt(selectedRow,0).toString();
-       SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-       Date ngayBatDau = txt_NgayBatDau.getDate();
-       Date ngayKetThuc = txt_NgayDi.getDate();
-       int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
-       String moTa = area_ghichu.getText();
-       String loaiPhong = cb_Loaigiuong.getSelectedItem().toString();
-       String beginText = outputFormat.format(ngayBatDau);
-       String endText = outputFormat.format(ngayKetThuc);
-       
-        boolean validate = validateForm(beginText, endText,tiLeKhuyenMai , moTa);
-        
-        if(!checkInvaildDate(beginText,endText)) {
-           return;
+        this.model = (DefaultTableModel) jTable1.getModel();
+        int selectedRow = jTable1.getSelectedRow();
+        String maKM = jTable1.getValueAt(selectedRow, 0).toString();
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date ngayBatDau = txt_NgayBatDau.getDate();
+        Date ngayKetThuc = txt_NgayDi.getDate();
+        int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
+        String moTa = area_ghichu.getText();
+        String loaiPhong = cb_Loaigiuong.getSelectedItem().toString();
+        String beginText = outputFormat.format(ngayBatDau);
+        String endText = outputFormat.format(ngayKetThuc);
+
+        boolean validate = validateForm(beginText, endText, tiLeKhuyenMai, moTa);
+
+        if (!checkInvaildDate(beginText, endText)) {
+            return;
         }
-        
-        if(validate ) {
-             KhuyenMai km  = new KhuyenMai(
-                     Integer.parseInt(maKM), 
-                     ngayBatDau,
-                     ngayKetThuc,
-                     tiLeKhuyenMai, 
-                     moTa,
-                     loaiPhong);
-             khuyenMaiDAO.updateKhuyenMai(Integer.parseInt(maKM), km);
-             
-            jTable1.setValueAt(beginText, selectedRow, 1);       
-            jTable1.setValueAt(endText, selectedRow, 2); 
-            jTable1.setValueAt(km.getMoTa(), selectedRow, 3); 
-            jTable1.setValueAt(km.getTiLeKhuyenMai(), selectedRow, 4); 
-            jTable1.setValueAt(km.getLoaiPhong(), selectedRow, 5); 
+
+        if (validate) {
+            KhuyenMai km = new KhuyenMai(
+                    Integer.parseInt(maKM),
+                    ngayBatDau,
+                    ngayKetThuc,
+                    tiLeKhuyenMai,
+                    moTa,
+                    loaiPhong);
+            khuyenMaiDAO.updateKhuyenMai(Integer.parseInt(maKM), km);
+
+            jTable1.setValueAt(beginText, selectedRow, 1);
+            jTable1.setValueAt(endText, selectedRow, 2);
+            jTable1.setValueAt(km.getMoTa(), selectedRow, 3);
+            jTable1.setValueAt(km.getTiLeKhuyenMai(), selectedRow, 4);
+            jTable1.setValueAt(km.getLoaiPhong(), selectedRow, 5);
             JOptionPane.showMessageDialog(this, "Chỉnh sửa thành công");
-         }
-    
+        }
+
 
     }//GEN-LAST:event_btn_SuaMouseClicked
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
-          this.model = (DefaultTableModel) jTable1.getModel();
+        this.model = (DefaultTableModel) jTable1.getModel();
         int selectedRow = jTable1.getSelectedRow();
-        
-        if(selectedRow != -1) {
-            String maKH = jTable1.getValueAt(selectedRow,0).toString();
-            
-            khuyenMaiDAO.deleteKhuyenMai(Integer.parseInt(maKH));
-            
-            model.removeRow(selectedRow);
-            
-            JOptionPane.showMessageDialog(this, "Xóa thành công");
-
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn Khuyến mãi cần xóa");
+            return;
         }
+
+        if (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            String maKH = jTable1.getValueAt(selectedRow, 0).toString();
+            khuyenMaiDAO.deleteKhuyenMai(Integer.parseInt(maKH));
+            model.removeRow(selectedRow);
+            JOptionPane.showMessageDialog(this, "Xóa thành công");
+        }
+
+
     }//GEN-LAST:event_btn_XoaMouseClicked
 
     private void btn_LamMoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMouseClicked
@@ -879,43 +824,51 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_LamMoiMouseClicked
 
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
-       this.model = (DefaultTableModel) jTable1.getModel();
-       Date ngayBatDau = txt_NgayBatDau.getDate();
-       Date ngayKetThuc = txt_NgayDi.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-       int tiLeKhuyenMai = Integer.parseInt(!txt_TiLeKhuyenMai.getText().equals("") ? txt_TiLeKhuyenMai.getText() : "0");
-       String moTa = area_ghichu.getText();
-       
-        Date startDate = null;
-        // Khởi tạo ngày kết thúc
-        Date endDate = null;
-    
+        this.model = (DefaultTableModel) jTable1.getModel();
+        Date ngayBatDau = txt_NgayBatDau.getDate();
+        Date ngayKetThuc = txt_NgayDi.getDate();
+        int tiLeKhuyenMai = Integer.parseInt(!txt_TiLeKhuyenMai.getText().equals("") ? txt_TiLeKhuyenMai.getText() : "0");
+        String moTa = area_ghichu.getText();
+
         List<Document> list_KM = new ArrayList<Document>();
         try {
-            list_KM = khuyenMaiDAO.findKhuyenMai(startDate,endDate, tiLeKhuyenMai, moTa);
+            list_KM = khuyenMaiDAO.findKhuyenMai(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa);
+            System.out.println(list_KM);
         } catch (ParseException ex) {
             Logger.getLogger(NhanVien_KhuyenMai_GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
-        for (Document kh : list_KM) {
-            for(var i=0;i<this.model.getRowCount();i++){
-                String id = this.model.getValueAt(i, 0).toString();
-                if(id.equals(kh.getInteger("maKhuyenMai").toString())){
-                    jTable1.setRowSelectionInterval(i, i);
-                }
+        if (!list_KM.isEmpty()) {
+            this.model.setRowCount(0);
+            for (Document km : list_KM) {
+                String maKhuyenMai = km.getInteger("maKhuyenMai").toString();
+                Date ngaybatdau = km.getDate("ngayBatDau");
+                Date ngayketthuc = km.getDate("ngayKetThuc");
+                int tile = km.getInteger("tiLeKhuyenMai");
+                String mota = km.getString("moTa");
+
+                this.model.addRow(new Object[]{
+                    maKhuyenMai,
+                    dateFormat.format(ngaybatdau),
+                    dateFormat.format(ngayketthuc),
+                    mota,
+                    tile
+                });
+
             }
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Không tìm thấy");
         }
 
 
-
-            
     }//GEN-LAST:event_btn_TimMouseClicked
 
     private void cb_LoaigiuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaigiuongActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_LoaigiuongActionPerformed
-       
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
     private javax.swing.JLabel Backgroup1;
@@ -940,9 +893,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private com.toedter.calendar.JDateChooser txt_NgayBatDau;
     private com.toedter.calendar.JDateChooser txt_NgayDi;
     private javax.swing.JTextField txt_TiLeKhuyenMai;

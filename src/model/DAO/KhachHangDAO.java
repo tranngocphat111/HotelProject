@@ -11,6 +11,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 
 public class KhachHangDAO {
@@ -81,7 +82,6 @@ public class KhachHangDAO {
             );
             
             UpdateResult result = khachHangCollection.updateOne(id, update);
-
             
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {
@@ -96,7 +96,13 @@ public class KhachHangDAO {
             
             DeleteResult result = khachHangCollection.deleteOne(id);
 
-            
+            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
+            KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(maKH);
+            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+                x.getKhachO().remove(khachHang);
+                donDatPhongDAO.updateDonDatPhong(x);
+                
+            }
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());

@@ -11,8 +11,10 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.TienNghi;
+import model.MongoDBConnection;
 import org.bson.conversions.Bson;
 import org.bson.types.Binary;
 
@@ -90,7 +92,18 @@ public class DichVuDAO {
                     .append("donGia", dichVu.getDonGia())
                     .append("hinhAnh", dichVu.getHinhAnh());
 
-            DeleteResult result = dichVuCollection.deleteOne(doc);            
+            DeleteResult result = dichVuCollection.deleteOne(doc);  
+            
+            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
+            
+            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+                x.getDichVuSuDung().remove(dichVu);
+                donDatPhongDAO.updateDonDatPhong(x);
+                
+            }
+            
+            
+            
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());

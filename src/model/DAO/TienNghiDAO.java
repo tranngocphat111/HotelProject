@@ -13,6 +13,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.LoaiPhong;
 import model.MongoDBConnection;
 import org.bson.types.Binary;
 
@@ -104,6 +105,17 @@ public class TienNghiDAO {
                     .append("hinhAnh", tienNghi.getHinhAnh());
 
             DeleteResult result = tienNghiCollection.deleteOne(doc);
+            
+            LoaiPhongDAO loaiPhongDAO = new LoaiPhongDAO(new MongoDBConnection().getDatabase());
+            
+            for(LoaiPhong x : loaiPhongDAO.getAllLoaiPhong()) {
+                x.getTienNghis().remove(tienNghi);
+                loaiPhongDAO.updateLoaiPhong(x);
+                
+            }
+            
+            
+            
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa tiện nghi: " + e.getMessage());

@@ -6,10 +6,31 @@ package test;
 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 public class VietQRGen {
+    
+    private static byte[] decodeDataURI(String dataURI) {
+        // Tách phần base64
+        String base64Image = dataURI.split(",")[1]; // Phần sau dấu phẩy là dữ liệu base64
+        return Base64.getDecoder().decode(base64Image);
+    }
+    
+    private static void saveImage(byte[] imageBytes, String filePath) {
+        try (FileOutputStream fos = new FileOutputStream(new File(filePath))) {
+            fos.write(imageBytes);
+            System.out.println("QR Code image saved as: " + filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         // URL API VietQR
@@ -31,7 +52,7 @@ public class VietQRGen {
         requestBody.put("acqId", 970422); // Mã định danh ngân hàng
         requestBody.put("amount", 500000); // Số tiền chuyển
         requestBody.put("addInfo", "Thanh toan HD1"); // Nội dung chuyển tiền
-        requestBody.put("template", "compact"); // Mẫu VietQR trả về
+        requestBody.put("template", "print"); // Mẫu VietQR trả về
         
         // Log request body
         System.out.println("Request Body: " + requestBody);
@@ -45,7 +66,23 @@ public class VietQRGen {
         // In ra kết quả
         if (response.getStatusCode() == HttpStatus.OK) {
             String qrCodeUrl = response.getBody(); // URL hình ảnh QR code trả về từ API
-            System.out.println("QR Code URL: " + qrCodeUrl);
+            try {
+                // Sử dụng Jackson để phân tích cú pháp JSON
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+                String code = jsonNode.path("code").asText();
+                JsonNode data = jsonNode.path("data");
+
+                if ("00".equals(code)) {
+                    String qrDataURL = data.path("qrDataURL").asText(); // Lấy Data URI
+                    saveImage(decodeDataURI(qrDataURL), "qrcode.png"); // Lưu hình ảnh
+                } else {
+                    System.out.println("Error: " + jsonNode.path("desc").asText());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             System.out.println("Error: " + response.getStatusCode());
             System.out.println("Response Body: " + response.getBody());

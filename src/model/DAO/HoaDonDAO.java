@@ -1,10 +1,16 @@
 package model.DAO;
 
+import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import static com.mongodb.client.model.Filters.and;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Filters.lte;
 
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
@@ -13,14 +19,17 @@ import model.DTO.HoaDon;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 import org.bson.conversions.Bson;
 
 public class HoaDonDAO {
 
     private MongoCollection<Document> hoaDonCollection;
+    private MongoCollection<Document> donDatPhongCollection = database.getCollection("DonDatPhong");
 
     public HoaDonDAO(MongoDatabase database) {
         hoaDonCollection = database.getCollection("HoaDon");
@@ -117,6 +126,100 @@ public class HoaDonDAO {
 
     }
 
+    public List<HoaDon> getHoaDonTheoNgay(Date ngayBatDau, Date ngayKetThuc) {
+        // Thiết lập thời gian bắt đầu trong ngày cho ngayBatDau
+        if (ngayBatDau != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngayBatDau);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            ngayBatDau = calendar.getTime();
+        }
+
+        // Thiết lập thời gian kết thúc trong ngày cho ngayKetThuc
+        if (ngayKetThuc != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngayKetThuc);
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            calendar.set(Calendar.MILLISECOND, 999);
+            ngayKetThuc = calendar.getTime();
+        }
+
+        // Bước 1: Lấy danh sách mã hóa đơn từ collection "Đơn đặt phòng"
+        List<Integer> maHoaDonList = new ArrayList<>();
+        for (Document donDatPhong : donDatPhongCollection.find(
+                and(
+                        gte("ngayNhanPhong", ngayBatDau),
+                        lte("ngayTraPhong", ngayKetThuc)
+                ))) {
+            Integer maHoaDon = donDatPhong.getInteger("HoaDon");
+            if (maHoaDon != null) {
+                maHoaDonList.add(maHoaDon);
+            }
+        }
+
+        // Bước 2: Truy vấn collection "Hóa đơn" để lấy danh sách hóa đơn
+        List<HoaDon> hoaDonList = new ArrayList<>();
+        if (!maHoaDonList.isEmpty()) {
+            for (Document doc : hoaDonCollection.find(in("maHoaDon", maHoaDonList))) {
+                HoaDon hoaDon = HoaDon.fromDocument(doc);
+                hoaDonList.add(hoaDon);
+            }
+        }
+        System.out.println(hoaDonList);
+        return hoaDonList;
+    }
+
+    public List<HoaDon> getHoaDonTheoNgayTraPhongHomNay() {
+        // Thiết lập thời gian bắt đầu và kết thúc của ngày hôm nay
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date todayStart = calendar.getTime();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        Date todayEnd = calendar.getTime();
+
+        // Bước 1: Lấy danh sách mã hóa đơn từ collection "Đơn đặt phòng" có ngày trả phòng là hôm nay
+        List<Integer> maHoaDonList = new ArrayList<>();
+        for (Document donDatPhong : donDatPhongCollection.find(
+                and(
+                        gte("ngayTraPhong", todayStart),
+                        lte("ngayTraPhong", todayEnd)
+                ))) {
+            Integer maHoaDon = donDatPhong.getInteger("HoaDon"); // Lấy mã hóa đơn kiểu Integer
+            if (maHoaDon != null) {
+                maHoaDonList.add(maHoaDon);
+            }
+        }
+
+        // Bước 2: Truy vấn collection "Hóa đơn" để lấy danh sách hóa đơn
+        List<HoaDon> hoaDonList = new ArrayList<>();
+        if (!maHoaDonList.isEmpty()) {
+            for (Document doc : hoaDonCollection.find(in("maHoaDon", maHoaDonList))) {
+                HoaDon hoaDon = HoaDon.fromDocument(doc); // Tạo đối tượng HoaDon từ Document
+                hoaDonList.add(hoaDon);
+            }
+        }
+
+        // Bước 3: Sắp xếp danh sách hóa đơn theo ngày trả phòng (dựa vào Đơn đặt phòng) giảm dần
+        hoaDonList.sort((hd1, hd2) -> {
+            Date ngayTraPhong1 = donDatPhongCollection.find(eq("HoaDon", hd1.getMaHoaDon())).first().getDate("ngayTraPhong");
+            Date ngayTraPhong2 = donDatPhongCollection.find(eq("HoaDon", hd2.getMaHoaDon())).first().getDate("ngayTraPhong");
+            return ngayTraPhong2.compareTo(ngayTraPhong1); // Giảm dần
+        });
+
+        return hoaDonList;
+    }
 
     public boolean deleteHoaDon(int maHoaDon) {
         try {

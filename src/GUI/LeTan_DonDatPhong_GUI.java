@@ -826,7 +826,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Đơn", "Trạng Thái", "Ngày Đến", "Ngày Đi", "Phòng", "Loại Phòng", "SL Khách", "Dịch Vụ Sử Dụng"
+                "Mã Đơn", "Trạng Thái", "Ngày Nhận", "Ngày Trả", "Phòng", "Loại Phòng", "SL Khách", "Dịch Vụ Sử Dụng"
             }
         ) {
             Class[] types = new Class [] {
@@ -1142,10 +1142,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                     break; // Không cần kiểm tra thêm khách hàng khác trong đơn
                 }
             }
-        
 
 //         Hiển thị kết quả sau khi lọc
-        DocDuLieuLenTable(list_DDP);
+            DocDuLieuLenTable(list_DDP);
 
         }
     }//GEN-LAST:event_btn_TimMousePressed

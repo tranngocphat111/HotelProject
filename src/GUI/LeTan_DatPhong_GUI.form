@@ -104,12 +104,12 @@
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel1" min="-2" pref="72" max="-2" attributes="0"/>
+                              <Component id="jLabel1" min="-2" pref="138" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel22" min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel4" min="-2" pref="83" max="-2" attributes="0"/>
-                          <Component id="txt_NgayDen" pref="196" max="32767" attributes="0"/>
+                          <Component id="txt_NgayNhanPhong" pref="196" max="32767" attributes="0"/>
                           <Component id="txt_LoaiPhong" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="43" max="32767" attributes="0"/>
@@ -121,12 +121,12 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel3" min="-2" pref="63" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" pref="129" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jLabel23" min="-2" pref="19" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txt_NgayDi" alignment="1" min="-2" pref="191" max="-2" attributes="0"/>
+                                      <Component id="txt_NgayTraPhong" alignment="1" min="-2" pref="191" max="-2" attributes="0"/>
                                       <Component id="txt_Tang" alignment="1" min="-2" pref="191" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -160,7 +160,7 @@
                                   <Component id="jLabel22" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                              <Component id="txt_NgayDen" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txt_NgayNhanPhong" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -168,7 +168,7 @@
                                   <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                              <Component id="txt_NgayDi" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txt_NgayTraPhong" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -213,12 +213,12 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ng&#xe0;y &#x111;&#x1ebf;n"/>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y nh&#x1ead;n ph&#xf2;ng"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="txt_NgayDen">
+            <Component class="com.toedter.calendar.JDateChooser" name="txt_NgayNhanPhong">
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="txt_NgayDi">
+            <Component class="com.toedter.calendar.JDateChooser" name="txt_NgayTraPhong">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -228,7 +228,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ng&#xe0;y &#x111;i"/>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y tr&#x1ea3; ph&#xf2;ng"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">

@@ -122,11 +122,11 @@ public class NhanVienDAO {
         return null;
     }
     
-    public NhanVien timTheoTenNhanVien(String TenNhanVien) {
+    public NhanVien getNhanVienTheoCCCD(String CCCD) {
         
         List<NhanVien> list_DV = getAllNhanVien();
         for(NhanVien x : list_DV) {
-            if(x.getTenNhanVien().equals(TenNhanVien)) return x;
+            if(x.getCCCD().equals(CCCD)) return x;
         }
         return null;
     }

@@ -206,7 +206,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             public void insertUpdate(DocumentEvent e) {
                 KhachHang khachHang = null;
                 for (KhachHang kh : list_khachHang) {
-                    if (kh.getCCCD().equals(txt_CCCD.getText())) {
+                    if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
                         khachHang = kh;
 
                     }
@@ -227,7 +227,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             public void removeUpdate(DocumentEvent e) {
                 KhachHang khachHang = null;
                 for (KhachHang kh : list_khachHang) {
-                    if (kh.getCCCD().equals(txt_CCCD.getText())) {
+                    if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
                         khachHang = kh;
 
                     }
@@ -287,7 +287,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         List<DonDatPhong> list_DDPMoi = new ArrayList<>();
         for (DonDatPhong ddp : list_DDP) {
             Phong phong = phong_dao.getPhongByMa(ddp.getPhong());
-            if (phong.getLoaiPhong() == cb_LoaiPhong.getSelectedIndex()) {
+            if (phong.getLoaiPhong() == loaiPhong_dao.getLoaiPhongByTen(cb_LoaiPhong.getSelectedItem().toString()).getMaLoaiPhong()) {
                 list_DDPMoi.add(ddp);
             }
         }
@@ -710,7 +710,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(1050, 100, 140, 40);
+        btn_Tim.setBounds(1050, 270, 140, 40);
 
         btn_ThemDichVu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThemDichVu.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -744,7 +744,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_ThemDichVu);
-        btn_ThemDichVu.setBounds(1050, 260, 140, 45);
+        btn_ThemDichVu.setBounds(1050, 160, 140, 45);
 
         btn_LamMoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -778,7 +778,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(1050, 160, 140, 40);
+        btn_LamMoi.setBounds(1050, 100, 140, 40);
 
         btn_NhanPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_NhanPhong.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -1110,7 +1110,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         List<DonDatPhong> list_DDP = new ArrayList<>();
 
 // Nếu tất cả các trường đều trống, load toàn bộ dữ liệu
-        if (txt_CCCD.getText().equals("") && txt_HoTen.getText().equals("") && txt_SoDienThoai.getText().equals("")) {
+        if (txt_CCCD.getText().trim().isEmpty() && txt_HoTen.getText().trim().isEmpty() && txt_SoDienThoai.getText().trim().isEmpty()) {
             DocDuLieuLenTable(list_DonDatPhongTheoTieuChi);
             return;
         }
@@ -1122,17 +1122,17 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
             for (KhachHang kh : list_KhachHangtheoDon) {
                 // Kiểm tra CCCD
-                if (!txt_CCCD.getText().equals("") && kh.getCCCD().equals(txt_CCCD.getText())) {
+                if (!txt_CCCD.getText().trim().isEmpty() && kh.getCCCD().equals(txt_CCCD.getText().trim())) {
                     match = true;
                 }
 
                 // Kiểm tra họ tên nếu đã có khớp CCCD hoặc chưa có CCCD
-                if (!txt_HoTen.getText().equals("") && kh.getTenKhachHang().equals(txt_HoTen.getText())) {
+                if (!txt_HoTen.getText().trim().isEmpty() && kh.getTenKhachHang().equals(txt_HoTen.getText().trim())) {
                     match = true;
                 }
 
                 // Kiểm tra số điện thoại nếu đã có khớp CCCD/họ tên hoặc chưa có các điều kiện trước
-                if (!txt_SoDienThoai.getText().equals("") && kh.getSoDienThoai().equals(txt_SoDienThoai.getText())) {
+                if (!txt_SoDienThoai.getText().trim().isEmpty() && kh.getSoDienThoai().equals(txt_SoDienThoai.getText().trim())) {
                     match = true;
                 }
 
@@ -1142,12 +1142,12 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
                     break; // Không cần kiểm tra thêm khách hàng khác trong đơn
                 }
             }
-        }
+        
 
 //         Hiển thị kết quả sau khi lọc
         DocDuLieuLenTable(list_DDP);
 
-
+        }
     }//GEN-LAST:event_btn_TimMousePressed
 
 
@@ -1165,24 +1165,24 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         }
         List<DonDatPhong> list_DDP = list_DonDatPhongTheoTieuChi;
 
-        if (cb_LoaiPhong.getSelectedItem().toString().equals("")
-                && cb_Tang.getSelectedItem().toString().equals("")
-                && cb_Phong.getSelectedItem().toString().equals("")) {
+        if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
+                && cb_Tang.getSelectedItem().toString().isEmpty()
+                && cb_Phong.getSelectedItem().toString().isEmpty()) {
             DocDuLieuLenTable(list_DDP);
             return;
         }
 
-        if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+        if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoLoaiPhong(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
 
-        if (!cb_Tang.getSelectedItem().toString().equals("")) {
+        if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoTang(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
 
-        if (!cb_Phong.getSelectedItem().toString().equals("")) {
+        if (!cb_Phong.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoPhong(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
@@ -1197,24 +1197,24 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
         List<DonDatPhong> list_DDP = list_DonDatPhongTheoTieuChi;
 
-        if (cb_LoaiPhong.getSelectedItem().toString().equals("")
-                && cb_Tang.getSelectedItem().toString().equals("")
-                && cb_Phong.getSelectedItem().toString().equals("")) {
+        if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
+                && cb_Tang.getSelectedItem().toString().isEmpty()
+                && cb_Phong.getSelectedItem().toString().isEmpty()) {
             DocDuLieuLenTable(list_DDP);
             return;
         }
 
-        if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+        if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoLoaiPhong(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
 
-        if (!cb_Tang.getSelectedItem().toString().equals("")) {
+        if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoTang(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
 
-        if (!cb_Phong.getSelectedItem().toString().equals("")) {
+        if (!cb_Phong.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoPhong(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
@@ -1226,24 +1226,24 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         if (cb_LoaiPhong.getSelectedItem() == null || cb_Tang.getSelectedItem() == null || cb_Phong.getSelectedItem() == null) {
             return;
         }
-        if (cb_LoaiPhong.getSelectedItem().toString().equals("")
-                && cb_Tang.getSelectedItem().toString().equals("")
-                && cb_Phong.getSelectedItem().toString().equals("")) {
+        if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
+                && cb_Tang.getSelectedItem().toString().isEmpty()
+                && cb_Phong.getSelectedItem().toString().isEmpty()) {
             DocDuLieuLenTable(list_DDP);
             return;
         }
 
-        if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
+        if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoLoaiPhong(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
 
-        if (!cb_Tang.getSelectedItem().toString().equals("")) {
+        if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoTang(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }
 
-        if (!cb_Phong.getSelectedItem().toString().equals("")) {
+        if (!cb_Phong.getSelectedItem().toString().isEmpty()) {
             list_DDP = getDonDatPhongTheoPhong(list_DDP);
             DocDuLieuLenTable(list_DDP);
         }

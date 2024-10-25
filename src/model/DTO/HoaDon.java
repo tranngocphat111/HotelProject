@@ -83,6 +83,10 @@ public class HoaDon {
             NhanVien nhanVien = NhanVien.fromDocument(nhanVienDoc);
             hoaDon.setNhanVien(nhanVien);
         }
+        
+        if(doc.containsKey("trangThai")){
+             hoaDon.setTrangThai(doc.getBoolean("trangThai"));
+        }
 
         return hoaDon;
     }

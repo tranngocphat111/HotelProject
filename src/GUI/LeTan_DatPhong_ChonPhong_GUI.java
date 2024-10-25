@@ -79,25 +79,25 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Phong> list_Phong = list_PhongTrong;
-                if (cb_LoaiPhong.getSelectedItem().toString().equals("")
-                        && cb_Tang.getSelectedItem().toString().equals("")
-                        && cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
+                        && cb_Tang.getSelectedItem().toString().isEmpty()
+                        && cb_GiaPhong.getSelectedItem().toString().isEmpty()) {
                     DocDuLieuLenTable(list_Phong);
                     return;
                 }
-                if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
-                    list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_LoaiPhong.getSelectedIndex());
+                if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
+                    list_Phong = getAllPhongByLoaiPhong(list_Phong, loaiPhong_dao.getLoaiPhongByTen(cb_LoaiPhong.getSelectedItem().toString()).getMaLoaiPhong());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
                 }
 
-                if (!cb_Tang.getSelectedItem().toString().equals("")) {
+                if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
                     list_Phong = getAllPhongByTang(list_Phong, cb_Tang.getSelectedIndex());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
                 }
 
-                if (!cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                if (!cb_GiaPhong.getSelectedItem().toString().isEmpty()) {
                     list_Phong = getAllPhongByDonGia(list_Phong, cb_GiaPhong.getSelectedIndex());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
@@ -111,25 +111,25 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Phong> list_Phong = list_PhongTrong;
-                if (cb_LoaiPhong.getSelectedItem().toString().equals("")
-                        && cb_Tang.getSelectedItem().toString().equals("")
-                        && cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
+                        && cb_Tang.getSelectedItem().toString().isEmpty()
+                        && cb_GiaPhong.getSelectedItem().toString().isEmpty()) {
                     DocDuLieuLenTable(list_Phong);
                     return;
                 }
-                if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
-                    list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_LoaiPhong.getSelectedIndex());
+                if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
+                    list_Phong = getAllPhongByLoaiPhong(list_Phong, loaiPhong_dao.getLoaiPhongByTen(cb_LoaiPhong.getSelectedItem().toString()).getMaLoaiPhong());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
                 }
 
-                if (!cb_Tang.getSelectedItem().toString().equals("")) {
+                if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
                     list_Phong = getAllPhongByTang(list_Phong, cb_Tang.getSelectedIndex());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
                 }
 
-                if (!cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                if (!cb_GiaPhong.getSelectedItem().toString().isEmpty()) {
                     list_Phong = getAllPhongByDonGia(list_Phong, cb_GiaPhong.getSelectedIndex());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
@@ -142,25 +142,25 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Phong> list_Phong = list_PhongTrong;
-                if (cb_LoaiPhong.getSelectedItem().toString().equals("")
-                        && cb_Tang.getSelectedItem().toString().equals("")
-                        && cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
+                        && cb_Tang.getSelectedItem().toString().isEmpty()
+                        && cb_GiaPhong.getSelectedItem().toString().isEmpty()) {
                     DocDuLieuLenTable(list_Phong);
                     return;
                 }
-                if (!cb_LoaiPhong.getSelectedItem().toString().equals("")) {
-                    list_Phong = getAllPhongByLoaiPhong(list_Phong, cb_LoaiPhong.getSelectedIndex());
+                if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
+                    list_Phong = getAllPhongByLoaiPhong(list_Phong, loaiPhong_dao.getLoaiPhongByTen(cb_LoaiPhong.getSelectedItem().toString()).getMaLoaiPhong());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
                 }
 
-                if (!cb_Tang.getSelectedItem().toString().equals("")) {
+                if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
                     list_Phong = getAllPhongByTang(list_Phong, cb_Tang.getSelectedIndex());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);
                 }
 
-                if (!cb_GiaPhong.getSelectedItem().toString().equals("")) {
+                if (!cb_GiaPhong.getSelectedItem().toString().isEmpty()) {
                     list_Phong = getAllPhongByDonGia(list_Phong, cb_GiaPhong.getSelectedIndex());
                     model.setRowCount(0);
                     DocDuLieuLenTable(list_Phong);

@@ -13,6 +13,7 @@ import model.DTO.HoaDon;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.conversions.Bson;
@@ -83,7 +84,8 @@ public class HoaDonDAO {
         DeleteResult result = hoaDonCollection.deleteOne(filter);
         return result.getDeletedCount() > 0;
     }
-public boolean updateHoaDon(HoaDon hoaDon) {
+
+    public boolean updateHoaDon(HoaDon hoaDon) {
         try {
             Document subdoc = new Document()
                     .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
@@ -115,6 +117,7 @@ public boolean updateHoaDon(HoaDon hoaDon) {
 
     }
 
+
     public boolean deleteHoaDon(int maHoaDon) {
         try {
             Document filter = new Document("maHoaDon", maHoaDon);
@@ -127,5 +130,3 @@ public boolean updateHoaDon(HoaDon hoaDon) {
         }
     }
 }
-
-

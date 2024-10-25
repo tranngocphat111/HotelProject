@@ -184,12 +184,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         list_PhongDay.add(phong_dao.getPhongByMa(ddp.getPhong()));
                     }
                 }
-                if (txt_Phong.getText().equals("")) {
+                if (txt_Phong.getText().trim().isEmpty()) {
                     return;
                 }
                 boolean ktra = true;
                 for (Phong phong : list_PhongDay) {
-                    if (phong.getMaPhong() == Integer.parseInt(txt_Phong.getText())) {
+                    if (phong.getMaPhong() == Integer.parseInt(txt_Phong.getText().trim())) {
                         ktra = false;
                     }
                 }
@@ -233,12 +233,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                         list_PhongDay.add(phong_dao.getPhongByMa(ddp.getPhong()));
                     }
                 }
-                if (txt_Phong.getText().equals("")) {
+                if (txt_Phong.getText().trim().isEmpty()) {
                     return;
                 }
                 boolean ktra = true;
                 for (Phong phong : list_PhongDay) {
-                    if (phong.getMaPhong() == Integer.parseInt(txt_Phong.getText())) {
+                    if (phong.getMaPhong() == Integer.parseInt(txt_Phong.getText().trim())) {
                         ktra = false;
                     }
                 }
@@ -299,7 +299,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void insertUpdate(DocumentEvent e) {
                 KhachHang khachHang = null;
                 for (KhachHang kh : list_KhachHang) {
-                    if (kh.getCCCD().equals(txt_CCCD.getText())) {
+                    if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
                         khachHang = kh;
 
                     }
@@ -328,7 +328,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             public void removeUpdate(DocumentEvent e) {
                 KhachHang khachHang = null;
                 for (KhachHang kh : list_KhachHang) {
-                    if (kh.getCCCD().equals(txt_CCCD.getText())) {
+                    if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
                         khachHang = kh;
 
                     }
@@ -1334,20 +1334,20 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
 
-        if (txt_CCCD.getText().equals("")) {
+        if (txt_CCCD.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được để CCCD trống");
             txt_CCCD.requestFocus();
             return;
         }
 
         String regex = "[0-9]{12}";
-        if (!txt_CCCD.getText().matches(regex)) {
+        if (!txt_CCCD.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "CCCD phải đủ 12 số, không phải là chữ");
             txt_CCCD.requestFocus();
             return;
         }
 
-        if (txt_HoTen.getText().equals("")) {
+        if (txt_HoTen.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được để Họ tên trống");
             txt_HoTen.requestFocus();
             return;
@@ -1355,15 +1355,15 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+)+$";
 
-        if (!txt_HoTen.getText().matches(regex_HoTen)) {
+        if (!txt_HoTen.getText().trim().matches(regex_HoTen)) {
             JOptionPane.showMessageDialog(this, "Họ tên ít nhất 2 từ, không chứa số");
             txt_HoTen.requestFocus();
             return;
         }
 
-        if (!txt_SDT.getText().equals("")) {
+        if (!txt_SDT.getText().trim().isEmpty()) {
             String regex_SDT = "(0[3|5|7|8|9])+([0-9]{8})";
-            String SDT = txt_SDT.getText();
+            String SDT = txt_SDT.getText().trim();
             if (!SDT.matches(regex_SDT)) {
                 JOptionPane.showMessageDialog(this, "Bắt đầu bằng 09 hoặc 03, 07, 08, 10 chữ số");
                 txt_SDT.requestFocus();
@@ -1371,16 +1371,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
 
-        if (!txt_Email.getText().equals("")) {
+        if (!txt_Email.getText().trim().isEmpty()) {
             String regex_email = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-            String email = txt_Email.getText();
+            String email = txt_Email.getText().trim();
             if (!email.matches(regex_email)) {
                 JOptionPane.showMessageDialog(this, "Email không hợp lệ, ví dụ abc@example.com.");
                 txt_Email.requestFocus();
                 return;
             }
         }
-        int khachToiDa = Character.getNumericValue(label_KhachToiDa.getText().charAt(label_KhachToiDa.getText().length() - 1));
+        int khachToiDa = Character.getNumericValue(label_KhachToiDa.getText().trim().charAt(label_KhachToiDa.getText().trim().length() - 1));
 
         if (khachToiDa != -1) {
             if (list_KhachHang_TheoDon.size() + 1 > khachToiDa) {
@@ -1392,7 +1392,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         KhachHang khachHang = null;
         list_KhachHang = khachHang_dao.getAllKhachHang();
         for (KhachHang kh : list_KhachHang) {
-            if (kh.getCCCD().equals(txt_CCCD.getText())) {
+            if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
                 khachHang = kh;
             }
         }
@@ -1412,13 +1412,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
             }
 
-            khachHang.setCCCD(txt_CCCD.getText());
-            khachHang.setTenKhachHang(txt_HoTen.getText());
-            khachHang.setSoDienThoai(txt_SDT.getText());
+            khachHang.setCCCD(txt_CCCD.getText().trim());
+            khachHang.setTenKhachHang(txt_HoTen.getText().trim());
+            khachHang.setSoDienThoai(txt_SDT.getText().trim());
             khachHang.setGioiTinh(cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 1 : 0);
             khachHang.setQuocTich(cb_QuocTich.getSelectedItem().toString());
-            khachHang.setEmail(txt_Email.getText());
-            if (ktraTrungKH(txt_CCCD.getText())) {
+            khachHang.setEmail(txt_Email.getText().trim());
+            if (ktraTrungKH(txt_CCCD.getText().trim())) {
 
                 list_KhachHang_TheoDon.add(khachHang);
                 list_KhachHangMoi.add(khachHang);
@@ -1462,7 +1462,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     HoaDon hoadon_hientai;
     private void btn_ThemDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemDonMousePressed
         // TODO add your handling code here:  
-        if (txt_Phong.getText().equals("")) {
+        if (txt_Phong.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng muốn đặt");
             return;
         }
@@ -1500,9 +1500,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             ddp.setNgayTraPhong(txt_NgayDi.getDate());
         }
 
-        ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
+        ddp.setPhong(Integer.parseInt(txt_Phong.getText().trim()));
 //       Thêm phòng đã chọn vào biến tạm 
-        list_PhongDaChon.add(phong_dao.getPhongByMa(Integer.parseInt(txt_Phong.getText())));
+        list_PhongDaChon.add(phong_dao.getPhongByMa(Integer.parseInt(txt_Phong.getText().trim())));
 
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
@@ -1539,7 +1539,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_HoanTatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HoanTatMousePressed
         // TODO add your handling code here:
-        if (txt_Phong.getText().equals("")) {
+        if (txt_Phong.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng muốn đặt");
             return;
         }
@@ -1579,7 +1579,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             ddp.setNgayTraPhong(txt_NgayDi.getDate());
         }
 
-        ddp.setPhong(Integer.parseInt(txt_Phong.getText()));
+        ddp.setPhong(Integer.parseInt(txt_Phong.getText().trim()));
         ddp.setKhachO(list_KhachHang_TheoDon);
         ddp.setDichVuSuDung(new ArrayList<DichVu>());
         if (txt_NgayDen.getDate().equals(getNgayHienTai())) {
@@ -1644,14 +1644,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
         // TODO add your handling code here:
-        if (area_moTa.getText().equals("Mô tả")) {
+        if (area_moTa.getText().trim().equals("Mô tả")) {
             area_moTa.setText("");
         }
     }//GEN-LAST:event_area_moTaFocusGained
 
     private void area_moTaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusLost
         // TODO add your handling code here:
-        if (area_moTa.getText().equals("")) {
+        if (area_moTa.getText().trim().isEmpty()) {
             area_moTa.setText("Mô tả");
         }
     }//GEN-LAST:event_area_moTaFocusLost
@@ -1698,10 +1698,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         KhachHang khachHang = new KhachHang();
         khachHang.setMaKhachHang(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        khachHang.setCCCD(txt_CCCD.getText());
-        khachHang.setTenKhachHang(txt_HoTen.getText());
-        khachHang.setSoDienThoai(txt_SDT.getText());
-        khachHang.setEmail(txt_Email.getText());
+        khachHang.setCCCD(txt_CCCD.getText().trim());
+        khachHang.setTenKhachHang(txt_HoTen.getText().trim());
+        khachHang.setSoDienThoai(txt_SDT.getText().trim());
+        khachHang.setEmail(txt_Email.getText().trim());
         khachHang.setGioiTinh(cb_GioiTinh.getSelectedIndex() == 0 ? 1 : 0);
         khachHang.setQuocTich(cb_QuocTich.getSelectedItem().toString());
 
@@ -1761,12 +1761,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void txt_CCCDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_CCCDFocusLost
         // TODO add your handling code here:
-        if (txt_CCCD.getText().equals("")) {
+        if (txt_CCCD.getText().trim().isEmpty()) {
             return;
         }
 
         String regex = "[0-9]{12}";
-        if (!txt_CCCD.getText().matches(regex)) {
+        if (!txt_CCCD.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "CCCD phải đủ 12 số, không phải là chữ");
             txt_CCCD.requestFocus();
         }

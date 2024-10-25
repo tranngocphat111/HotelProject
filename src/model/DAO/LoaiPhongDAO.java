@@ -46,6 +46,20 @@ public class LoaiPhongDAO {
         }
         return loaiPhong;
     }
+    
+    public LoaiPhong getLoaiPhongByTen(String tenLoaiPhong) {
+        LoaiPhong loaiPhong = null;
+        Document query = new Document("tenLoaiPhong", tenLoaiPhong);
+        try {
+            Document doc = loaiPhongCollection.find(query).first();
+            if (doc != null) {
+                loaiPhong = LoaiPhong.fromDocument(doc); // Chuyển đổi document thành đối tượng LoaiPhong
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return loaiPhong;
+    }
 
     public boolean createLoaiPhong(LoaiPhong loaiPhong) {
         try {

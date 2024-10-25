@@ -221,12 +221,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     private void btn_DangNhapMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMousePressed
         // TODO add your handling code here:
 
-        if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
+        if (txt_TaiKhoan.getText().trim().isEmpty() || txt_matKhau.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
-            if (txt_matKhau.getText().equals("")) {
+            if (txt_matKhau.getText().trim().isEmpty()) {
                 txt_matKhau.requestFocus();
             }
-            if (txt_TaiKhoan.getText().equals("")) {
+            if (txt_TaiKhoan.getText().trim().isEmpty()) {
                 txt_TaiKhoan.requestFocus();
             }
             return;
@@ -260,12 +260,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     private void txt_matKhauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_matKhauKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
+            if (txt_TaiKhoan.getText().trim().isEmpty() || txt_matKhau.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
-                if (txt_matKhau.getText().equals("")) {
+                if (txt_matKhau.getText().trim().isEmpty()) {
                     txt_matKhau.requestFocus();
                 }
-                if (txt_TaiKhoan.getText().equals("")) {
+                if (txt_TaiKhoan.getText().trim().isEmpty()) {
                     txt_TaiKhoan.requestFocus();
                 }
                 return;
@@ -296,12 +296,12 @@ public class DangNhap_GUI extends javax.swing.JFrame {
     private void txt_TaiKhoanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_TaiKhoanKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (txt_TaiKhoan.getText().equals("") || txt_matKhau.getText().equals("")) {
+            if (txt_TaiKhoan.getText().trim().isEmpty() || txt_matKhau.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không được bỏ trống thông tin");
-                if (txt_matKhau.getText().equals("")) {
+                if (txt_matKhau.getText().trim().isEmpty()) {
                     txt_matKhau.requestFocus();
                 }
-                if (txt_TaiKhoan.getText().equals("")) {
+                if (txt_TaiKhoan.getText().trim().isEmpty()) {
                     txt_TaiKhoan.requestFocus();
                 }
                 return;

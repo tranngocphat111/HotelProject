@@ -12,7 +12,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -42,13 +46,13 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     private PhongDAO phong_dao = new PhongDAO(database);
     private final DefaultTableCellRenderer centerRenderer;
     private DecimalFormat df = new DecimalFormat("#,##0");
+    List<Integer> a = new ArrayList<>();
 
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
     public NhanVien_Phong_GUI() {
         initComponents();
-
 //      Chặn edit table
         String columnNames[] = {"Số Phòng", "Loại Phòng", "Số Tầng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô Tả", "Đơn Giá"};
         model = new DefaultTableModel(null, columnNames) {
@@ -646,11 +650,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
         Phong p = new Phong();
         list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        if (checkTang(Integer.parseInt(txt_tang.getText().trim()))) {
-            p.setMaPhong(Integer.parseInt(txt_tang.getText().trim()) * 100 + 1);
-        } else {
-            p.setMaPhong(Integer.parseInt(txt_tang.getText().trim()) * 100 + (getPhongByTang(list_Phong, Integer.parseInt(txt_tang.getText().trim())).getLast().getMaPhong() % 100) + 1);
-        }
+        p.setMaPhong(taoMaTuDong(getListMaPhong(Integer.parseInt(txt_tang.getText().trim())), Integer.parseInt(txt_tang.getText().trim())));
         p.setTang(Integer.parseInt(txt_tang.getText().trim()));
         p.setLoaiPhong(loaiphong_dao.getLoaiPhongByTen(cb_loaiphong.getSelectedItem().toString()).getMaLoaiPhong());
         p.setMoTa(area_mota.getText().trim());
@@ -689,7 +689,6 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         if (!area_mota.getText().trim().equals("Mô Tả")) {
             list_P = getPhongByMoTa(list_P, area_mota.getText().trim());
         }
-        
 
         DocDuLieuLenTablePhong(list_P);
     }//GEN-LAST:event_btn_TimMousePressed
@@ -888,6 +887,43 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         for (LoaiPhong lp : list_LoaiPhong) {
             cb_loaiphong.addItem(lp.getTenLoaiPhong());
         }
+    }
+
+    public List<Integer> getListMaPhong(int tang) {
+        List<Integer> tam = new ArrayList<>();
+        for (Phong p : getPhongByTang(phong_dao.getAllPhongsSortByMaPhong(), tang)) {
+            tam.add(p.getMaPhong() % 100);
+        }
+        return tam;
+    }
+    public int taoMaTuDong(List<Integer> mangCoSan, int Tang) {
+        Collections.sort(mangCoSan);
+
+        for (int i = 1; i <= mangCoSan.getLast(); i++) {
+            if (!mangCoSan.contains(i)) {
+                return Tang * 100 + i;
+            }
+        }
+
+        return Tang * 100 + mangCoSan.getLast() + 1;
+
+//          int length = mangCoSan.getLast() - mangCoSan.getFirst() + 1;
+//          int[] count_sort = new int[length];
+//          
+//          for(int i = 0; i < mangCoSan.size(); i++) {
+//              count_sort[i] = mangCoSan.get(i);
+//          }
+//          if(count_sort[0] == 0) {
+//              return mangCoSan.getFirst();
+//          }
+//          for(int i = 0; i < count_sort.length; i++) {
+//              
+//              if(count_sort[i] == 0) {
+//                  return count_sort[i-1] + 1 + mangCoSan.getFirst();
+//              }
+//          }
+//          
+//          return mangCoSan.getLast() + 1;
     }
 
 

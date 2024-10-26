@@ -899,6 +899,10 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     public int taoMaTuDong(List<Integer> mangCoSan, int Tang) {
         Collections.sort(mangCoSan);
 
+        if(mangCoSan.size() == 0){
+            return Tang * 100 + 1;
+        }
+        
         for (int i = 1; i <= mangCoSan.getLast(); i++) {
             if (!mangCoSan.contains(i)) {
                 return Tang * 100 + i;

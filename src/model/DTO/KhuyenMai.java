@@ -3,6 +3,7 @@ package model.DTO;
 import org.bson.Document;
 
 import java.util.Date;
+import java.util.List;
 
 public class KhuyenMai {
     private int maKhuyenMai;
@@ -10,15 +11,17 @@ public class KhuyenMai {
     private Date ngayKetThuc;
     private int tiLeKhuyenMai;
     private String moTa;
+    private List<String> loaiPhong;
 
     public KhuyenMai() {
     }
-     public KhuyenMai(int maKhuyenMai, Date ngayBatDau, Date ngayKetThuc,int tiLeKhuyenMai, String moTa) {
+     public KhuyenMai(int maKhuyenMai, Date ngayBatDau, Date ngayKetThuc,int tiLeKhuyenMai, String moTa,List<String> loaiPhong) {
         this.maKhuyenMai = maKhuyenMai;
         this.ngayBatDau = ngayBatDau;
         this.ngayKetThuc = ngayKetThuc;
         this.tiLeKhuyenMai = tiLeKhuyenMai;
         this.moTa = moTa;
+        this.loaiPhong = loaiPhong;
     }
     
     public int getMaKhuyenMai() {
@@ -60,6 +63,13 @@ public class KhuyenMai {
     public void setMoTa(String moTa) {
         this.moTa = moTa;
     }
+     public List<String> getLoaiPhong() {
+        return loaiPhong;
+    }
+
+    public void setLoaiPhong(List<String> loaiPhong) {
+        this.loaiPhong = loaiPhong;
+    }
 
     public static KhuyenMai fromDocument(Document doc) {
         KhuyenMai khuyenMai = new KhuyenMai();
@@ -78,6 +88,9 @@ public class KhuyenMai {
         }
         if (doc.containsKey("moTa")) {
             khuyenMai.setMoTa(doc.getString("moTa"));
+        }
+         if (doc.containsKey("loaiPhong")) {
+            khuyenMai.setLoaiPhong(doc.getList("loaiPhong",String.class));
         }
 
         return khuyenMai;

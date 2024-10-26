@@ -180,7 +180,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tên tiện nghi");
 
-        txt_tienNghi.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txt_tienNghi.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
         txt_tienNghi.setPreferredSize(new java.awt.Dimension(80, 32));
         txt_tienNghi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

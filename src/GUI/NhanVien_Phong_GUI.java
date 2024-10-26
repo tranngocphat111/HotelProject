@@ -153,7 +153,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
                 txt_gia.setText("");
             } else {
                 for (LoaiPhong loaiPhong : list_LoaiPhong) {
-                    if (cb_loaiphong.getSelectedIndex() == loaiPhong.getMaLoaiPhong()) {
+                    if (cb_loaiphong.getSelectedItem().equals(loaiPhong.getTenLoaiPhong())) {
                         txt_gia.setText(df.format(loaiPhong.getDonGia()));
                     }
                 }
@@ -597,14 +597,14 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     private void area_motaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_motaFocusGained
         // TODO add your handling code here:
-        if (area_mota.getText().equals("Mô Tả")) {
+        if (area_mota.getText().trim().equals("Mô Tả")) {
             area_mota.setText("");
         }
     }//GEN-LAST:event_area_motaFocusGained
 
     private void area_motaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_motaFocusLost
         // TODO add your handling code here:
-        if (area_mota.getText().equals("")) {
+        if (area_mota.getText().trim().equals("")) {
             area_mota.setText("Mô Tả");
         }
     }//GEN-LAST:event_area_motaFocusLost
@@ -615,29 +615,29 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Mời chọn loại phòng");
             return;
         }
-        if (txt_tang.getText().equals("")) {
+        if (txt_tang.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Mời nhập số tầng");
             txt_tang.requestFocus();
             return;
         }
 
         String regex = "\\d+";
-        if (!txt_tang.getText().matches(regex)) {
+        if (!txt_tang.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số Tầng phải là số");
             txt_tang.setText("");
             txt_tang.requestFocus();
             return;
         }
 
-        if (area_mota.getText().equals("Mô Tả")) {
+        if (area_mota.getText().trim().equals("Mô Tả")) {
             JOptionPane.showMessageDialog(this, "Mời nhập mô tả");
             area_mota.requestFocus();
             return;
         }
 
-        if (!txt_phong.getText().equals("")) {
+        if (!txt_phong.getText().trim().equals("")) {
             for (Phong phong : list_Phong) {
-                if (Integer.parseInt(txt_phong.getText()) == (phong.getMaPhong())) {
+                if (Integer.parseInt(txt_phong.getText().trim()) == (phong.getMaPhong())) {
                     JOptionPane.showMessageDialog(this, "Trùng mã phòng");
                     return;
                 }
@@ -646,14 +646,14 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
         Phong p = new Phong();
         list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        if (checkTang(Integer.parseInt(txt_tang.getText()))) {
-            p.setMaPhong(Integer.parseInt(txt_tang.getText()) * 100 + 1);
+        if (checkTang(Integer.parseInt(txt_tang.getText().trim()))) {
+            p.setMaPhong(Integer.parseInt(txt_tang.getText().trim()) * 100 + 1);
         } else {
-            p.setMaPhong(Integer.parseInt(txt_tang.getText()) * 100 + (getPhongByTang(list_Phong, Integer.parseInt(txt_tang.getText())).getLast().getMaPhong() % 100) + 1);
+            p.setMaPhong(Integer.parseInt(txt_tang.getText().trim()) * 100 + (getPhongByTang(list_Phong, Integer.parseInt(txt_tang.getText().trim())).getLast().getMaPhong() % 100) + 1);
         }
-        p.setTang(Integer.parseInt(txt_tang.getText()));
-        p.setLoaiPhong(cb_loaiphong.getSelectedIndex());
-        p.setMoTa(area_mota.getText());
+        p.setTang(Integer.parseInt(txt_tang.getText().trim()));
+        p.setLoaiPhong(loaiphong_dao.getLoaiPhongByTen(cb_loaiphong.getSelectedItem().toString()).getMaLoaiPhong());
+        p.setMoTa(area_mota.getText().trim());
         phong_dao.createPhong(p);
         JOptionPane.showMessageDialog(null, "Thêm phòng thành công");
         lamMoi();
@@ -668,26 +668,26 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         List<Phong> list_P = phong_dao.getAllPhongsSortByMaPhong();
         System.out.println(list_P.size());
-        if (!txt_phong.getText().isEmpty()) {
-            list_P = getPhongByMaPhong(list_P, Integer.parseInt(txt_phong.getText()));
+        if (!txt_phong.getText().trim().isEmpty()) {
+            list_P = getPhongByMaPhong(list_P, Integer.parseInt(txt_phong.getText().trim()));
         }
 
         String regex = "\\d+";
-        if (!txt_tang.getText().matches(regex) && !txt_tang.getText().isEmpty()) {
+        if (!txt_tang.getText().trim().matches(regex) && !txt_tang.getText().trim().isEmpty()) {
             list_P = new ArrayList<>();
         } else {
-            if (!txt_tang.getText().isEmpty()) {
-                list_P = getPhongByTang(list_P, Integer.parseInt(txt_tang.getText()));
+            if (!txt_tang.getText().trim().isEmpty()) {
+                list_P = getPhongByTang(list_P, Integer.parseInt(txt_tang.getText().trim()));
             }
         }
 
         if (cb_loaiphong.getSelectedIndex() != 0) {
-            list_P = getPhongByLoaiPhong(list_P, cb_loaiphong.getSelectedIndex());
+            list_P = getPhongByTenLoaiPhong(list_P, cb_loaiphong.getSelectedItem().toString());
 
         }
 
-        if (!area_mota.getText().equals("Mô Tả")) {
-            list_P = getPhongByMoTa(list_P, area_mota.getText());
+        if (!area_mota.getText().trim().equals("Mô Tả")) {
+            list_P = getPhongByMoTa(list_P, area_mota.getText().trim());
         }
         
 
@@ -702,7 +702,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             int selectedRow = Table_Phong.getSelectedRow();
             String phong = model.getValueAt(selectedRow, 0) + "";
             txt_phong.setText(phong);
-            cb_loaiphong.setSelectedIndex(getMaLoaiPhongBangTenLoaiPhong((String) model.getValueAt(selectedRow, 1)));
+            cb_loaiphong.setSelectedItem(model.getValueAt(selectedRow, 1));
             String tang = model.getValueAt(selectedRow, 2) + "";
             txt_tang.setText(tang);
             String modified = (String) model.getValueAt(selectedRow, 7);
@@ -733,14 +733,14 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txt_tang.getText().equals("")) {
+        if (txt_tang.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số tầng");
             txt_tang.requestFocus();
             return;
         }
 
         String regex = "\\d+";
-        if (!txt_tang.getText().matches(regex)) {
+        if (!txt_tang.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số Tầng phải là số");
             txt_tang.setText("");
             txt_tang.requestFocus();
@@ -748,13 +748,13 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         String tang = model.getValueAt(Table_Phong.getSelectedRow(), 2) + "";
-        if (!txt_tang.getText().equals(tang)) {
+        if (!txt_tang.getText().trim().equals(tang)) {
             JOptionPane.showMessageDialog(this, "Không được sửa số tầng");
             txt_tang.requestFocus();
             return;
         }
 
-        if (area_mota.getText().equals("")) {
+        if (area_mota.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mô tả");
             area_mota.requestFocus();
             return;
@@ -762,13 +762,12 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
         Phong p = new Phong();
         int selectedRow = Table_Phong.getSelectedRow();
-        int maPhong = Integer.parseInt(txt_phong.getText());
-        int maTang = Integer.parseInt(txt_tang.getText());
-        int loaiPhong = cb_loaiphong.getSelectedIndex();
-        String mota = area_mota.getText();
+        int maPhong = Integer.parseInt(txt_phong.getText().trim());
+        int maTang = Integer.parseInt(txt_tang.getText().trim());
+        String mota = area_mota.getText().trim();
         p.setMaPhong(maPhong);
         p.setTang(maTang);
-        p.setLoaiPhong(loaiPhong);
+        p.setLoaiPhong(loaiphong_dao.getLoaiPhongByTen(cb_loaiphong.getSelectedItem().toString()).getMaLoaiPhong());
         p.setMoTa(mota);
 
         phong_dao.updatePhong(p);
@@ -810,14 +809,14 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         return list_PhongByMaTang;
     }
 
-    public List<Phong> getPhongByLoaiPhong(List<Phong> list_Phong, int MaLoai) {
-        List<Phong> list_PhongByMaLoaiPhong = new ArrayList<>();
+    public List<Phong> getPhongByTenLoaiPhong(List<Phong> list_Phong, String TenLoai) {
+        List<Phong> list_PhongByTenLoaiPhong = new ArrayList<>();
         for (Phong p : list_Phong) {
-            if (p.getLoaiPhong() == MaLoai) {
-                list_PhongByMaLoaiPhong.add(p);
+            if (loaiphong_dao.getLoaiPhongByMa(p.getLoaiPhong()).getTenLoaiPhong().equals(TenLoai)) {
+                list_PhongByTenLoaiPhong.add(p);
             }
         }
-        return list_PhongByMaLoaiPhong;
+        return list_PhongByTenLoaiPhong;
     }
 
     public List<Phong> getPhongByMoTa(List<Phong> list_Phong, String MoTa) {

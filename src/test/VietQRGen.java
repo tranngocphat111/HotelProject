@@ -48,7 +48,7 @@ public class VietQRGen {
         // Tạo dữ liệu request body
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("accountNo", "1030183164"); // Số tài khoản ngân hàng
-        requestBody.put("accountName", "TRAN NGOC PHAT"); // Tên tài khoản
+        requestBody.put("accountName", "Blue Moon Hotel"); // Tên tài khoản
         requestBody.put("acqId", 970436); // Mã định danh ngân hàng
         requestBody.put("amount", 500000); // Số tiền chuyển
         requestBody.put("addInfo", "Thanh toan HD1"); // Nội dung chuyển tiền
@@ -76,7 +76,7 @@ public class VietQRGen {
 
                 if ("00".equals(code)) {
                     String qrDataURL = data.path("qrDataURL").asText(); // Lấy Data URI
-                    saveImage(decodeDataURI(qrDataURL), "/images/qrcode.png"); // Lưu hình ảnh
+                    saveImage(decodeDataURI(qrDataURL), "./src/images/qrcode.png"); // Lưu hình ảnh
                 } else {
                     System.out.println("Error: " + jsonNode.path("desc").asText());
                 }

@@ -1,4 +1,4 @@
-    package model.DAO;
+package model.DAO;
 
 import static GUI.DangNhap_GUI.database;
 import com.mongodb.client.MongoCollection;
@@ -20,13 +20,13 @@ import org.bson.conversions.Bson;
 import org.bson.types.Binary;
 
 public class DichVuDAO {
+
     private MongoCollection<Document> dichVuCollection;
-    
+
     public MongoCollection<Document> getCollection() {
         return dichVuCollection;
     }
-    
-    
+
     public DichVuDAO(MongoDatabase database) {
         dichVuCollection = database.getCollection("DichVu");
     }
@@ -42,7 +42,7 @@ public class DichVuDAO {
         }
         return dichVus;
     }
-    
+
     public boolean createDichVu(DichVu dichVu) {
         try {
             Document doc = new Document()
@@ -59,14 +59,14 @@ public class DichVuDAO {
             return false;
         }
     }
-    
-   public DichVu getDichVuByMa(int maDichVu) {
+
+    public DichVu getDichVuByMa(int maDichVu) {
         DichVu dichvu = null;
         Document query = new Document("maDV", maDichVu);
         try {
             Document doc = dichVuCollection.find(query).first();
             if (doc != null) {
-                dichvu = DichVu.fromDocument(doc); 
+                dichvu = DichVu.fromDocument(doc);
             }
         } catch (Exception e) {
             e.printStackTrace(); // Bắt lỗi nếu có
@@ -74,16 +74,15 @@ public class DichVuDAO {
         return dichvu;
     }
 
-    
     public DichVu timDichVu(String tenDV) {
         DichVu x = new DichVu(tenDV);
         List<DichVu> list_DV = getAllDichVu();
-        if(!list_DV.contains(x)) {
+        if (!list_DV.contains(x)) {
             return null;
         }
         return list_DV.get(list_DV.indexOf(x));
     }
-    
+
     public boolean xoaDichVu(DichVu dichVu) {
         try {
             Document doc = new Document()
@@ -93,53 +92,51 @@ public class DichVuDAO {
                     .append("donGia", dichVu.getDonGia())
                     .append("hinhAnh", dichVu.getHinhAnh());
 
-            DeleteResult result = dichVuCollection.deleteOne(doc);  
-            
+            DeleteResult result = dichVuCollection.deleteOne(doc);
+
             DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
-            
-            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+
+            for (DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
                 x.getDichVuSuDung().remove(dichVu);
                 donDatPhongDAO.updateDonDatPhong(x);
-                
+
             }
-            
-            
-            
+
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());
             return false;
         }
     }
-    
+
     public boolean suaDichVu(DichVu oldDVu, DichVu newDVu) {
         try {
             Document filter = new Document()
                     .append("maDV", oldDVu.getMaDV());
-            
+
             Document newValue = new Document(
-                    "$set", 
+                    "$set",
                     new Document().append("tenDV", newDVu.getTenDV())
-                                  .append("moTa", newDVu.getMoTa())
-                                  .append("donGia", newDVu.getDonGia())
-                                  .append("hinhAnh", newDVu.getHinhAnh())
+                            .append("moTa", newDVu.getMoTa())
+                            .append("donGia", newDVu.getDonGia())
+                            .append("hinhAnh", newDVu.getHinhAnh())
             );
-                    
-            
+
             UpdateResult result = dichVuCollection.updateOne(filter, newValue);
-            
-            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
-            
-            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
-                x.getDichVuSuDung().set(x.getDichVuSuDung().indexOf(oldDVu), newDVu);
-                donDatPhongDAO.updateDonDatPhong(x);
-                
-            }
+
+//            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+//            if (donDatPhongDAO.getAllDonDatPhong().size() != 0) {
+//                for (DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+//                    x.getDichVuSuDung().set(x.getDichVuSuDung().indexOf(oldDVu), newDVu);
+//                    donDatPhongDAO.updateDonDatPhong(x);
+//
+//                }
+//            }
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());
             return false;
         }
     }
-    
+
 }

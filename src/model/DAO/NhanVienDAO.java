@@ -1,6 +1,8 @@
 package model.DAO;
 
+import GUI.DangNhap_GUI;
 import com.mongodb.client.AggregateIterable;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import model.DTO.DichVu;
 import model.DTO.DonDatPhong;
 import model.DTO.KhachHang;
@@ -83,6 +86,25 @@ public class NhanVienDAO {
             Document filter = new Document("maNhanVien", nhanVien.getMaNhanVien());
 
             UpdateResult result = nhanVienCollection.updateOne(filter, updateQuery);
+            
+            MongoCollection<Document> HoaDonCollection = DangNhap_GUI.database.getCollection("HoaDon");
+            
+            Document filter_hd = new Document("NhanVien.maNhanVien", nhanVien.getMaNhanVien());
+            
+            Document updateDoc_hd = new Document()
+                    .append("NhanVien.maNhanVien", nhanVien.getMaNhanVien())
+                    .append("NhanVien.tenNhanVien", nhanVien.getTenNhanVien())
+                    .append("NhanVien.anhDaiDien", nhanVien.getAnhDaiDien())
+                    .append("NhanVien.SoDienThoai", nhanVien.getSoDienThoai())
+                    .append("NhanVien.CCCD", nhanVien.getCCCD())
+                    .append("NhanVien.diaChi", nhanVien.getDiaChi())
+                    .append("NhanVien.chucVu", nhanVien.getChucVu())
+                    .append("NhanVien.tenTaiKhoan", nhanVien.getTenTaiKhoan())
+                    .append("NhanVien.matKhau", nhanVien.getMatKhau());
+            
+            updateQuery = new Document("$set", updateDoc_hd);
+            HoaDonCollection.updateOne(filter_hd, updateQuery);
+            
             return result.getMatchedCount() > 0;
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình cập nhật đơn đặt phòng: " + e.getMessage());
@@ -230,6 +252,35 @@ public class NhanVienDAO {
         return list_daLoc;
     }
     
+    public List<NhanVien> timNhanVien(String CCCD, String hoTen, String SDT, String diaChi, String chucVu) {
+        
+        Document filter = new Document();
+        if(!CCCD.equals("")) {
+            filter.append("CCCD", CCCD );
+        }
+        if(!hoTen.equals("")) {
+            filter.append("tenNhanVien", hoTen  );
+        }
+        if(!SDT.equals("")) {
+            filter.append("SoDienThoai",  SDT);
+        }
+        if(!diaChi.equals("")) {
+            filter.append("diaChi", diaChi );
+        }
+        if(!chucVu.equals("")) {
+            filter.append("chucVu", chucVu);
+        }
+        
+        
+        FindIterable<Document> list_Document = nhanVienCollection.find(filter);
+        
+        List<NhanVien> list_NhanVien = new ArrayList<>();
+        list_Document.forEach(doc -> {
+            list_NhanVien.add(NhanVien.fromDocument(doc));
+        });
+        
+        return list_NhanVien;
+    }
     
     public boolean xoaNhanVien(NhanVien nhanVien) {
         try {
@@ -251,31 +302,7 @@ public class NhanVienDAO {
             return false;
         }
     }
-    public boolean suaNhanVien(NhanVien oldNV, NhanVien newNV) {
-        try {
-            Document filter = new Document()
-                    .append("maNhanVien", oldNV.getMaNhanVien());
-            
-            Document newValue = new Document(
-                    "$set", 
-                    new Document().append("tenNhanVien", newNV.getTenNhanVien())
-                                    .append("anhDaiDien", newNV.getAnhDaiDien())
-                                    .append("SoDienThoai", newNV.getSoDienThoai())
-                                    .append("CCCD", newNV.getCCCD())
-                                    .append("diaChi", newNV.getDiaChi())
-                                    .append("chucVu", newNV.getChucVu())
-                                    .append("tenTaiKhoan", newNV.getTenTaiKhoan())
-                                    .append("matKhau", newNV.getMatKhau())
-            );
-                    
-            
-            UpdateResult result = nhanVienCollection.updateOne(filter, newValue);
-            return result.wasAcknowledged();
-        } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình sửa nhân viên: " + e.getMessage());
-            return false;
-        }
-    }
+   
 
     public MongoCollection<Document> getCollection() {
         return nhanVienCollection;

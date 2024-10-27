@@ -63,33 +63,37 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         return code.toString();
     }
 
-    public static boolean validateForm(String ngayBatDau, String ngayKetThuc, int tiLeKhuyenMai, String moTa,List<String> loaiPhong) {
+    public boolean validateForm(Date ngayBatDau, Date ngayKetThuc, String tiLeKhuyenMai, String moTa,List<String> loaiPhong) {
 
-        if (ngayBatDau == null || ngayBatDau.trim().isEmpty()) {
+        if (ngayBatDau == null) {
             JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống.");
+            txt_NgayBatDau.requestFocusInWindow();
             return false;
         }
     
        
-        if (ngayKetThuc == null || ngayKetThuc.trim().isEmpty()) {
+        else if (ngayKetThuc == null) {
             JOptionPane.showMessageDialog(null, "Ngày kết thúc không được để trống.");
+            txt_NgayDi.requestFocusInWindow();
             return false;
         }
        
         
         
-        if (tiLeKhuyenMai < 0 || tiLeKhuyenMai > 100) {
+        else if (tiLeKhuyenMai == null || tiLeKhuyenMai.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Tỉ lệ khuyến mãi phải nằm trong khoảng từ 0 đến 100.");
+            txt_TiLeKhuyenMai.requestFocus();
             return false;
         }
 
       
-        if (moTa != null && moTa.length() > 500) {
+        else if (moTa != null && moTa.length() > 500) {
             JOptionPane.showMessageDialog(null, "Mô tả không được dài quá 500 ký tự.");
+            area_ghichu.requestFocus();
             return false;
         }
         
-        if (loaiPhong.size() == 0) {
+        else if (loaiPhong.size() == 0) {
             JOptionPane.showMessageDialog(null, "Phải chọn ít nhất 1 loại phòng.");
             return false;
         }
@@ -822,14 +826,10 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         String maKM = generateRandomCode(2);
         Date ngayBatDau = txt_NgayBatDau.getDate();
         Date ngayKetThuc = txt_NgayDi.getDate();
-        int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
+        String tiLeKhuyenMai = txt_TiLeKhuyenMai.getText();
         String moTa = area_ghichu.getText();
         
-
-        String beginText = outputFormat.format(ngayBatDau);
-        String endText = outputFormat.format(ngayKetThuc);
-        
-            List<String> listLP = new ArrayList<String>();
+        List<String> listLP = new ArrayList<String>();
             if(checkBox_Deluxe.isSelected()) {
                 listLP.add("Deluxe");
             } 
@@ -842,8 +842,14 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                if(checkBox_Suite.isSelected()) {
                 listLP.add("Suite");
             } 
+         boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
+         
+        String beginText = outputFormat.format(ngayBatDau);
+        String endText = outputFormat.format(ngayKetThuc);
+        
             
-        boolean validate = validateForm(beginText, endText, tiLeKhuyenMai, moTa,listLP);
+            
+       
 
         if (!checkInvaildDate(beginText, endText)) {
             return;
@@ -855,7 +861,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                     Integer.parseInt(maKM),
                     ngayBatDau,
                     ngayKetThuc,
-                    tiLeKhuyenMai,
+                    Integer.parseInt(tiLeKhuyenMai),
                     moTa,
                     listLP);
 
@@ -916,12 +922,10 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date ngayBatDau = txt_NgayBatDau.getDate();
         Date ngayKetThuc = txt_NgayDi.getDate();
-        int tiLeKhuyenMai = Integer.parseInt(txt_TiLeKhuyenMai.getText());
+        String tiLeKhuyenMai = txt_TiLeKhuyenMai.getText();
         String moTa = area_ghichu.getText();
-        String beginText = outputFormat.format(ngayBatDau);
-        String endText = outputFormat.format(ngayKetThuc);
         
-         List<String> listLP = new ArrayList<String>();
+          List<String> listLP = new ArrayList<String>();
             if(checkBox_Deluxe.isSelected()) {
                 listLP.add("Deluxe");
             } 
@@ -934,8 +938,11 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                if(checkBox_Suite.isSelected()) {
                 listLP.add("Suite");
         } 
-        boolean validate = validateForm(beginText, endText, tiLeKhuyenMai, moTa,listLP);
-
+        
+        boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
+       
+        String beginText = outputFormat.format(ngayBatDau);
+        String endText = outputFormat.format(ngayKetThuc);
         if (!checkInvaildDate(beginText, endText)) {
             return;
         }
@@ -947,7 +954,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                     Integer.parseInt(maKM),
                     ngayBatDau,
                     ngayKetThuc,
-                    tiLeKhuyenMai,
+                    Integer.parseInt(txt_TiLeKhuyenMai.getText()),
                     moTa,
                     listLP);
             khuyenMaiDAO.updateKhuyenMai(Integer.parseInt(maKM), km);

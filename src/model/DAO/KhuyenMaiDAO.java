@@ -77,7 +77,7 @@ public class KhuyenMaiDAO {
     
      public boolean deleteKhuyenMai(int maKM) {
         try {
-            Document id = new Document("maKhachHang",maKM);
+            Document id = new Document("maKhuyenMai",maKM);
             
             DeleteResult result = khuyenMaiCollection.deleteOne(id);
 

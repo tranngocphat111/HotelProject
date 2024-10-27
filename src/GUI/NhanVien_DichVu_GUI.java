@@ -298,8 +298,8 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         btn_Tim.setkGradientFocus(250);
         btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_TimMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_TimMousePressed(evt);
             }
         });
 
@@ -624,34 +624,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDonGiaActionPerformed
 
-    private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
-        // TODO add your handling code here:
-//        String tenDV = txt_DichVu.getText();
-//        DichVu x = dichVuDAO.timDichVu(tenDV);
-//        jTable1.setRowSelectionInterval(WIDTH, WIDTH);
-        String tenDV = txt_DichVu.getText();
-        if (tenDV.equals("")) {
-            JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
-        }
-
-        DichVu x = dichVuDAO.timDichVu(tenDV);
-
-        int viTriCuaX = dichVuDAO.getAllDichVu().indexOf(x);
-
-        if (viTriCuaX != -1) {
-            table_DichVu.setRowSelectionInterval(viTriCuaX, viTriCuaX);
-
-            hinhAnh = x.getHinhAnh();
-            area_moTa.setText(x.getMoTa());
-            txtDonGia.setText(String.format("%d", x.getDonGia()));
-            label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
-        } else {
-            JOptionPane.showMessageDialog(this, "Không có dịch vụ có tên " + tenDV, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
-        }
-
-
-    }//GEN-LAST:event_btn_TimMouseClicked
-
     private void label_AnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_AnhMouseClicked
         // TODO add your handling code here:
         System.out.println(label_Anh.getIcon());
@@ -891,6 +863,83 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_btn_SuaMousePressed
+
+    private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
+        // TODO add your handling code here:
+        //        String tenDV = txt_DichVu.getText();
+//        DichVu x = dichVuDAO.timDichVu(tenDV);
+//        jTable1.setRowSelectionInterval(WIDTH, WIDTH);
+//        String tenDV = txt_DichVu.getText();
+//        if (tenDV.equals("")) {
+//            JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
+//        }
+//
+//        DichVu x = dichVuDAO.timDichVu(tenDV);
+//
+//        int viTriCuaX = dichVuDAO.getAllDichVu().indexOf(x);
+//
+//        if (viTriCuaX != -1) {
+//            table_DichVu.setRowSelectionInterval(viTriCuaX, viTriCuaX);
+//
+//            hinhAnh = x.getHinhAnh();
+//            area_moTa.setText(x.getMoTa());
+//            txtDonGia.setText(String.format("%d", x.getDonGia()));
+//            label_Anh.setIcon(new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight()));
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Không có dịch vụ có tên " + tenDV, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
+//        }
+
+        List<DichVu> ListDichVuTim = dichVuDAO.getAllDichVu();
+        if (!txt_DichVu.getText().isEmpty()) {
+            ListDichVuTim = getListDichVuTheoTen(ListDichVuTim, txt_DichVu.getText());
+            System.out.println(ListDichVuTim);
+            System.out.println(1);
+        }
+
+        if (!area_moTa.getText().equals("Mô Tả")) {
+            ListDichVuTim = getListDichVuTheoMoTa(ListDichVuTim, area_moTa.getText());
+            System.out.println(ListDichVuTim);
+            System.out.println(2);
+        }
+
+        if (!txtDonGia.getText().isEmpty()) {
+            ListDichVuTim = getListDichVuTheoDonGia(ListDichVuTim, Integer.parseInt(txtDonGia.getText()));
+            System.out.println(ListDichVuTim);
+            System.out.println(3);
+        }
+
+        DocDuLieuLenTableDichVu(ListDichVuTim);
+    }//GEN-LAST:event_btn_TimMousePressed
+
+    public List<DichVu> getListDichVuTheoTen(List<DichVu> list_tn, String TenDichVu) {
+        List<DichVu> ListDichVuTheoTen = new ArrayList<>();
+        for (DichVu tn : list_tn) {
+            if (tn.getTenDV().equals(TenDichVu)) {
+                ListDichVuTheoTen.add(tn);
+            }
+        }
+        return ListDichVuTheoTen;
+    }
+
+    public List<DichVu> getListDichVuTheoMoTa(List<DichVu> list_tn, String Mota) {
+        List<DichVu> ListDichVuTheoMoTa = new ArrayList<>();
+        for (DichVu tn : list_tn) {
+            if (tn.getMoTa().contains(Mota)) {
+                ListDichVuTheoMoTa.add(tn);
+            }
+        }
+        return ListDichVuTheoMoTa;
+    }
+
+    public List<DichVu> getListDichVuTheoDonGia(List<DichVu> list_tn, int DonGia) {
+        List<DichVu> ListDichVuTheoDonGia = new ArrayList<>();
+        for (DichVu tn : list_tn) {
+            if (tn.getDonGia() == DonGia) {
+                ListDichVuTheoDonGia.add(tn);
+            }
+        }
+        return ListDichVuTheoDonGia;
+    }
 
     public void LamMoi() {
         txt_DichVu.setText("");

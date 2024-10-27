@@ -1,10 +1,21 @@
 package model.DAO;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Aggregates.lookup;
+import static com.mongodb.client.model.Aggregates.match;
+import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lte;
+import static com.mongodb.client.model.Filters.or;
+import static com.mongodb.client.model.Projections.computed;
+import static com.mongodb.client.model.Projections.excludeId;
+import static com.mongodb.client.model.Projections.fields;
+import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -13,6 +24,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import model.DTO.DichVu;
 import model.DTO.KhachHang;
@@ -152,5 +164,26 @@ public class DonDatPhongDAO {
 
         DeleteResult result = donDatPhongCollection.deleteOne(filter);
         return result.getDeletedCount() > 0;
+    }
+    
+    public ArrayList<Document> getDonDatPhongTheoNgay(Date ngayBatDau, Date ngayKetThuc) {
+        List<Bson> pipeline = Arrays.asList(
+            lookup("Phong", "Phong", "maPhong", "Phongs"),
+            lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
+            project(fields(
+                excludeId(),
+                include("ngayNhanPhong", "ngayTraPhong"),
+                computed("tenLoaiPhong", "$LoaiPhongs.tenLoaiPhong")
+            )),
+            match(or(
+                and(gte("ngayNhanPhong", ngayBatDau), lte("ngayNhanPhong", ngayKetThuc)),
+                and(gte("ngayTraPhong", ngayBatDau), lte("ngayTraPhong", ngayKetThuc))
+            ))
+        );
+
+        AggregateIterable<Document> results = donDatPhongCollection.aggregate(pipeline);
+        ArrayList<Document> documents = new ArrayList<>();
+        results.into(documents);
+        return documents;
     }
 }

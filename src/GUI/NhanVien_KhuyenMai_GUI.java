@@ -828,9 +828,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         Date ngayKetThuc = txt_NgayDi.getDate();
         String tiLeKhuyenMai = txt_TiLeKhuyenMai.getText();
         String moTa = area_ghichu.getText();
-<<<<<<< HEAD
-=======
-        
+
         List<String> listLP = new ArrayList<String>();
             if(checkBox_Deluxe.isSelected()) {
                 listLP.add("Deluxe");
@@ -845,29 +843,6 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 listLP.add("Suite");
             } 
             boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
-         
-        String beginText = outputFormat.format(ngayBatDau);
-        String endText = outputFormat.format(ngayKetThuc);
-        
-            
-            
-       
->>>>>>> 47a074aa85eb3c7265d8bff14c0297649c080ef9
-
-        List<String> listLP = new ArrayList<String>();
-        if (checkBox_Deluxe.isSelected()) {
-            listLP.add("Deluxe");
-        }
-        if (checkBox_Family.isSelected()) {
-            listLP.add("Family");
-        }
-        if (checkBox_Standard.isSelected()) {
-            listLP.add("Standard");
-        }
-        if (checkBox_Suite.isSelected()) {
-            listLP.add("Suite");
-        }
-        boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa, listLP);
 
         if (validate) {
             String beginText = outputFormat.format(ngayBatDau);

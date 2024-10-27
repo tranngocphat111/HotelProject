@@ -694,10 +694,10 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -715,13 +715,14 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(120);
             jTable1.getColumnModel().getColumn(0).setMaxWidth(150);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(500);
+            jTable1.getColumnModel().getColumn(1).setMaxWidth(220);
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(500);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(220);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(300);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(500);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(450);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(220);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(250);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(300);
         }
 
         jPanel1.add(jScrollPane1);
@@ -1069,7 +1070,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 //                
                  String listP = "";
                 for(String loaip: loaiPhong) {
-                    listP+= loaip + ",";
+                    listP+= loaip + ", ";
                 }
 
                 this.model.addRow(new Object[]{

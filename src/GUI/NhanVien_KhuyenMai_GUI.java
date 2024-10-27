@@ -842,7 +842,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                if(checkBox_Suite.isSelected()) {
                 listLP.add("Suite");
             } 
-         boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
+            boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
          
         String beginText = outputFormat.format(ngayBatDau);
         String endText = outputFormat.format(ngayKetThuc);

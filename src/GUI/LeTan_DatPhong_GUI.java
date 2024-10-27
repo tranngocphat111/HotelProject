@@ -119,6 +119,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_btn.add(btn_Sua);
         list_btn.add(btn_ThemDon);
         list_btn.add(btn_HoanTat);
+        list_btn.add(btn_HuyDon);
 //         Xử lí sự kiện txt_NgayDen
         txt_NgayNhanPhong.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
@@ -568,6 +569,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         label_MaDonDatPhong = new javax.swing.JLabel();
+        btn_HuyDon = new keeptoo.KGradientPanel();
+        jLabel27 = new javax.swing.JLabel();
         btn_LamMoi = new keeptoo.KGradientPanel();
         jLabel18 = new javax.swing.JLabel();
         btn_them = new keeptoo.KGradientPanel();
@@ -588,6 +591,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         area_moTa = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         label_KhachToiDa = new javax.swing.JLabel();
+        icon_next = new javax.swing.JLabel();
+        icon_back = new javax.swing.JLabel();
+        txt_dondatphong_num = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DatPhong"); // NOI18N
@@ -938,7 +944,38 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         label_MaDonDatPhong.setText("Mã đơn đặt phòng: ");
         label_MaDonDatPhong.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(label_MaDonDatPhong);
-        label_MaDonDatPhong.setBounds(80, 760, 240, 25);
+        label_MaDonDatPhong.setBounds(80, 760, 170, 25);
+
+        btn_HuyDon.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_HuyDon.setkGradientFocus(250);
+        btn_HuyDon.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_HuyDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_HuyDonMousePressed(evt);
+            }
+        });
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("Hủy Đơn");
+        jLabel27.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout btn_HuyDonLayout = new javax.swing.GroupLayout(btn_HuyDon);
+        btn_HuyDon.setLayout(btn_HuyDonLayout);
+        btn_HuyDonLayout.setHorizontalGroup(
+            btn_HuyDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_HuyDonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        btn_HuyDonLayout.setVerticalGroup(
+            btn_HuyDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(btn_HuyDon);
+        btn_HuyDon.setBounds(670, 730, 140, 50);
 
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
@@ -1260,6 +1297,43 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(870, 90, 330, 50);
 
+        icon_next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_next_white.png"))); // NOI18N
+        icon_next.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                icon_nextMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                icon_nextMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                icon_nextMousePressed(evt);
+            }
+        });
+        jPanel1.add(icon_next);
+        icon_next.setBounds(320, 760, 20, 30);
+
+        icon_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_back_white.png"))); // NOI18N
+        icon_back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                icon_backMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                icon_backMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                icon_backMousePressed(evt);
+            }
+        });
+        jPanel1.add(icon_back);
+        icon_back.setBounds(260, 760, 20, 30);
+
+        txt_dondatphong_num.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txt_dondatphong_num.setForeground(new java.awt.Color(255, 255, 255));
+        txt_dondatphong_num.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_dondatphong_num.setText("1");
+        jPanel1.add(txt_dondatphong_num);
+        txt_dondatphong_num.setBounds(280, 760, 30, 30);
+
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_DatPhong"); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -1547,7 +1621,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             hoadon_hientai.setTongTien(0);
             hoadon_hientai.setNhanVien(DangNhap_GUI.nhanVien_DangSuDung);
             hoadon_hientai.setTrangThai(false);
-            
+
         }
 
         DonDatPhong ddp = new DonDatPhong();
@@ -1772,6 +1846,40 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayTraPhong.setEnabled(true);
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
+    private void btn_HuyDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_HuyDonMousePressed
+
+    private void icon_backMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_backMouseExited
+        // TODO add your handling code here:
+        icon_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_back_white.png")));
+    }//GEN-LAST:event_icon_backMouseExited
+
+    private void icon_nextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_nextMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_icon_nextMousePressed
+
+    private void icon_nextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_nextMouseExited
+        // TODO add your handling code here:
+        icon_next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_next_white.png")));
+    }//GEN-LAST:event_icon_nextMouseExited
+
+    private void icon_backMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_backMousePressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_icon_backMousePressed
+
+    private void icon_backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_backMouseEntered
+        // TODO add your handling code here:
+        icon_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_back_yellow.png")));
+
+    }//GEN-LAST:event_icon_backMouseEntered
+
+    private void icon_nextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icon_nextMouseEntered
+        // TODO add your handling code here:
+        icon_next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_next_yellow.png"))); // NOI18N
+    }//GEN-LAST:event_icon_nextMouseEntered
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
@@ -1780,6 +1888,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel ThongTinKhachHang;
     public static javax.swing.JTextArea area_moTa;
     private keeptoo.KGradientPanel btn_HoanTat;
+    private keeptoo.KGradientPanel btn_HuyDon;
     private keeptoo.KGradientPanel btn_LamMoi;
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_ThemDon;
@@ -1788,6 +1897,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cb_GioiTinh;
     private javax.swing.JComboBox<String> cb_QuocTich;
     private javax.swing.JLabel icon_Them;
+    private javax.swing.JLabel icon_back;
+    private javax.swing.JLabel icon_next;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1806,6 +1917,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1831,5 +1943,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     public static javax.swing.JLabel txt_Phong;
     private javax.swing.JTextField txt_SDT;
     public static javax.swing.JTextField txt_Tang;
+    private javax.swing.JLabel txt_dondatphong_num;
     // End of variables declaration//GEN-END:variables
 }

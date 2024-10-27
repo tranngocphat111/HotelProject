@@ -48,7 +48,7 @@ public class VietQRGen {
         // Tạo dữ liệu request body
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("accountNo", "1030183164"); // Số tài khoản ngân hàng
-        requestBody.put("accountName", "TRAN NGOC PHAT"); // Tên tài khoản
+        requestBody.put("accountName", "Blue Moon Hotel"); // Tên tài khoản
         requestBody.put("acqId", 970436); // Mã định danh ngân hàng
         requestBody.put("amount", hoaDon.getTongTien()); // Số tiền chuyển
         requestBody.put("addInfo", "Thanh toán HD00" + hoaDon.getMaHoaDon()); // Nội dung chuyển tiền

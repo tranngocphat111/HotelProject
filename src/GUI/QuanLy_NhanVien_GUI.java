@@ -58,6 +58,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         list_btn.add(btn_Xoa);
         list_btn.add(btn_Lammoi);
         list_btn.add(btn_Chonhinhanh);
+        list_btn.add(btn_Tim);
         
         
         list_btn.forEach((element) -> {
@@ -137,13 +138,12 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         jLabel17 = new javax.swing.JLabel();
         btn_Sua = new keeptoo.KGradientPanel();
         jLabel16 = new javax.swing.JLabel();
+        btn_Tim = new keeptoo.KGradientPanel();
+        jLabel19 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         ChuaAnhNhanVien = new javax.swing.JPanel();
         anhnhanvien = new javax.swing.JLabel();
-        CBox_TieuChiTimNV = new javax.swing.JComboBox<>();
-        ChucVu = new javax.swing.JComboBox<>();
-        txt_Ma_va_Ten = new javax.swing.JTextField();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_NhanVien"); // NOI18N
@@ -298,6 +298,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Lammoi.setkGradientFocus(250);
         btn_Lammoi.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Lammoi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_LammoiMouseClicked(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -368,6 +373,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
         btn_Xoa.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Xoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_XoaMouseClicked(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -394,6 +404,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
         btn_Sua.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Sua.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_SuaMouseClicked(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -417,6 +432,40 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
 
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(240, 300, 140, 40);
+
+        btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Tim.setkGradientFocus(250);
+        btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_TimMouseClicked(evt);
+            }
+        });
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Tìm");
+        jLabel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout btn_TimLayout = new javax.swing.GroupLayout(btn_Tim);
+        btn_Tim.setLayout(btn_TimLayout);
+        btn_TimLayout.setHorizontalGroup(
+            btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_TimLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        btn_TimLayout.setVerticalGroup(
+            btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_TimLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel1.add(btn_Tim);
+        btn_Tim.setBounds(720, 300, 140, 40);
 
         JTableHeader header = jTable1.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
@@ -459,41 +508,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
 
         jPanel1.add(ChuaAnhNhanVien);
         ChuaAnhNhanVien.setBounds(1050, 90, 170, 170);
-
-        CBox_TieuChiTimNV.setModel(new javax.swing.DefaultComboBoxModel<>(
-            new String[] {
-                "Tiêu chí tìm",
-                "Mã nhân viên",
-                "Tên nhân viên",
-                "Chức vụ"
-            }
-
-        ));
-        CBox_TieuChiTimNV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CBox_TieuChiTimNVActionPerformed(evt);
-            }
-        });
-        CBox_TieuChiTimNV.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                CBox_TieuChiTimNVPropertyChange(evt);
-            }
-        });
-        jPanel1.add(CBox_TieuChiTimNV);
-        CBox_TieuChiTimNV.setBounds(720, 300, 110, 40);
-
-        ChucVu.setModel(new javax.swing.DefaultComboBoxModel<>());
-        ChucVu.setVisible(false);
-        ChucVu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChucVuActionPerformed(evt);
-            }
-        });
-        jPanel1.add(ChucVu);
-        ChucVu.setBounds(840, 300, 180, 40);
-
-        jPanel1.add(txt_Ma_va_Ten);
-        txt_Ma_va_Ten.setBounds(840, 300, 180, 40);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -547,28 +561,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private void txt_SDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SDTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_SDTActionPerformed
-
-    private void CBox_TieuChiTimNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVActionPerformed
-        // TODO add your handling code here:
-        String tieuChiTim = CBox_TieuChiTimNV.getSelectedItem().toString();
-        System.out.println(tieuChiTim);
-        if(tieuChiTim.equals("Chức vụ")) {
-            ChucVu.setVisible(true);
-            txt_Ma_va_Ten.setVisible(false);
-        } else {
-            ChucVu.setVisible(false);
-            txt_Ma_va_Ten.setVisible(true);
-        }
-    }//GEN-LAST:event_CBox_TieuChiTimNVActionPerformed
-
-    private void ChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChucVuActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ChucVuActionPerformed
-
-    private void CBox_TieuChiTimNVPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CBox_TieuChiTimNVPropertyChange
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_CBox_TieuChiTimNVPropertyChange
     static DefaultTableModel duaDuLieuVaoTable(List<NhanVien> list_NhanVien) {
         String[] header = new String [] {
         "Mã nhân viên", "CCCD/Passport", "Tên nhân viên", "Số điện thoại", "Địa chỉ", "Chức vụ"
@@ -611,31 +603,55 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             txt_SDT.setText(x.getSoDienThoai());
             txt_DC.setText(x.getDiaChi());
             cb_ChucVu.setSelectedItem(x.getChucVu());
-            
+            hinhAnh = x.getAnhDaiDien();
             anhnhanvien.setIcon(new ImageScale().getScaledImage1(anhnhanvien.getWidth(), anhnhanvien.getHeight(), new ImageIcon(x.getAnhDaiDien())));
         }
         
     }//GEN-LAST:event_jTable1MouseClicked
         
+    private void KiemTraDuLieu() throws Exception {
+        if(txt_CCCD.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập CCCD / Passport.");
+        }
+        
+//        String regex = "[0-9]{12}";
+//        if(!txt_CCCD.getText().trim().matches(regex)) {
+//            throw new Exception("CCCD phải đủ 12 chữ số, không phải chữ hoặc kí tự đặc biệt.");
+//        }
+//        
+        if(!nhanVienDAO.timTheoCCCD(txt_CCCD.getText().trim()).isEmpty()) {
+                throw new Exception("CCCD không được trùng");
+        }
+        
+        if(txt_HoTen.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập họ tên.");
+        }
+        
+        String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+)+$";
+        if(!txt_HoTen.getText().trim().matches(regex_HoTen)) {
+            throw new Exception("Họ tên phải ít nhất 2 từ, không được chứa số hoặc kí tự đặc biệt.");
+        }
+        
+        
+        if(txt_SDT.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập số điện thoại.");
+        }
+        String regex_SDT = "(0[3|5|7|8|9])([0-9]{8})";
+        if(!txt_SDT.getText().trim().matches(regex_SDT)) {
+            throw new Exception("Số điện thoại phải bắt đấu bằng 03, 05, 07, 08 hoặc 09, số điện thoại phải có đủ 10 chữ số.");
+        }
+        if(txt_DC.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập địa chỉ");
+        }
+        if(hinhAnh == null) {
+            throw new Exception("Chưa chọn hình ảnh");
+        }
+    }
     
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
         // TODO add your handling code here:
         try {
-            if(txt_CCCD.getText().equals("")) {
-                throw new Exception("Chưa nhập CCCD / Passport.");
-            }
-            if(txt_HoTen.getText().equals("")) {
-                throw new Exception("Chưa nhập họ tên.");
-            }
-            if(txt_SDT.getText().equals("")) {
-                throw new Exception("Chưa nhập số điện thoại.");
-            }
-            if(txt_DC.getText().equals("")) {
-                throw new Exception("Chưa nhập địa chỉ");
-            }
-            if(hinhAnh == null) {
-                throw new Exception("Chưa chọn hình ảnh");
-            }
+            KiemTraDuLieu();
             
             int maNhanVien = nhanVienDAO.getAllNhanVien().getLast().getMaNhanVien()  + 1;
             String HoTen = txt_HoTen.getText();
@@ -645,9 +661,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             String DC = txt_DC.getText();
             String ChucVu = cb_ChucVu.getSelectedItem().toString();
             
-            if(!nhanVienDAO.timTheoCCCD(CCCD).isEmpty()) {
-                throw new Exception("CCCD không được trùng");
-            }
+           
             
             
             
@@ -661,11 +675,11 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             txt_DC.setText("");
             txt_SDT.setText("");
             hinhAnh = null;
-            
+            anhnhanvien.setIcon(null);
             JOptionPane.showMessageDialog(this, "Đã thêm thành công!", "Thêm dữ liệu", JOptionPane.INFORMATION_MESSAGE);
             
         } catch(Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Chưa nhập hoặc đã trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_ThemMouseClicked
 
@@ -693,18 +707,113 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_ChonhinhanhMouseClicked
 
+    private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
+        try {
+            // TODO add your handling code here:
+            KiemTraDuLieu();
+            int row = jTable1.getSelectedRow();
+            if(row == -1) {
+                throw new Exception("Chưa chọn dòng để sửa");
+            }
+            int maNhanVien = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
+            String HoTen = txt_HoTen.getText();
+            byte[] anhDaiDien = hinhAnh;
+            String SDT = txt_SDT.getText();
+            String CCCD = txt_CCCD.getText();
+            String DC = txt_DC.getText();
+            String ChucVu = cb_ChucVu.getSelectedItem().toString();
+            
+            NhanVien x = new NhanVien(HoTen, anhDaiDien, SDT, CCCD, DC, ChucVu);
+            
+            
+            
+            
+            nhanVienDAO.updateNhanVien(x);
+            JOptionPane.showMessageDialog(this, "Đã sửa thành công", "Sửa dữ liệu", JOptionPane.INFORMATION_MESSAGE);
+            
+            txt_CCCD.setText("");
+            txt_HoTen.setText("");
+            txt_DC.setText("");
+            txt_SDT.setText("");
+            hinhAnh = null;
+            anhnhanvien.setIcon(null);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Chưa nhập hoặc đã trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+    }//GEN-LAST:event_btn_SuaMouseClicked
+
+    private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        try {
+        
+            if(row == -1) {
+                throw new Exception("Chưa chọn dòng để xóa");
+            }
+            
+            int[] indeciesOfRemoveRow = jTable1.getSelectedRows();
+            for(int i = 0; i < indeciesOfRemoveRow.length; i++) {
+                int removeRow = indeciesOfRemoveRow[i];
+                int maNhanVienCanXoa = Integer.parseInt(jTable1.getModel().getValueAt(removeRow, 0).toString());
+                NhanVien x = nhanVienDAO.timTheoMaNhanVien(maNhanVienCanXoa);
+                
+                if(x != null) {
+                    nhanVienDAO.xoaNhanVien(x);
+                }
+            }
+            
+            jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
+            JOptionPane.showMessageDialog(this, "Đã xóa thành công nhân viên.", "Xóa nhân viên", JOptionPane.INFORMATION_MESSAGE);
+            
+            
+            
+            
+            
+            
+        }catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Chưa nhập hoặc đã trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_XoaMouseClicked
+
+    private void btn_LammoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LammoiMouseClicked
+        // TODO add your handling code here:
+        txt_CCCD.setText("");
+        txt_HoTen.setText("");
+        txt_DC.setText("");
+        txt_SDT.setText("");
+        hinhAnh = null;
+        anhnhanvien.setIcon(null);
+        jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
+        
+    }//GEN-LAST:event_btn_LammoiMouseClicked
+
+    private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
+        // TODO add your handling code here:
+        String CCCD = txt_CCCD.getText().trim();
+        String hoTen = txt_HoTen.getText().trim();
+        String SDT = txt_SDT.getText().trim();
+        String diaChi = txt_DC.getText().trim();
+        String chucVu = cb_ChucVu.getSelectedItem().toString();
+        DefaultTableModel modelTim = duaDuLieuVaoTable(nhanVienDAO.timNhanVien(CCCD, hoTen, SDT, diaChi, chucVu));
+        jTable1.setModel(modelTim);
+        
+        
+        
+    }//GEN-LAST:event_btn_TimMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
-    private javax.swing.JComboBox<String> CBox_TieuChiTimNV;
     private javax.swing.JPanel ChuaAnhNhanVien;
-    private javax.swing.JComboBox<String> ChucVu;
     private javax.swing.JPanel ThongTinNhanVien;
     private javax.swing.JLabel anhnhanvien;
     private keeptoo.KGradientPanel btn_Chonhinhanh;
     private keeptoo.KGradientPanel btn_Lammoi;
     private keeptoo.KGradientPanel btn_Sua;
     private keeptoo.KGradientPanel btn_Them;
+    private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
     private javax.swing.JComboBox<String> cb_ChucVu;
     private javax.swing.JLabel jLabel10;
@@ -715,6 +824,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -724,7 +834,6 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txt_CCCD;
     private javax.swing.JTextField txt_DC;
     private javax.swing.JTextField txt_HoTen;
-    private javax.swing.JTextField txt_Ma_va_Ten;
     private javax.swing.JTextField txt_SDT;
     // End of variables declaration//GEN-END:variables
 }

@@ -565,48 +565,54 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         phong_Gui = new NhanVien_Phong_GUI();
-        phong_Gui.setVisible(true);
         jDesktopPane1.add(phong_Gui);
+        phong_Gui.setVisible(true);
+
     }//GEN-LAST:event_page_PhongMousePressed
 
     private void page_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_LoaiPhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         loaiphong_Gui = new NhanVien_LoaiPhong_GUI();
-        loaiphong_Gui.setVisible(true);
         jDesktopPane1.add(loaiphong_Gui);
+        loaiphong_Gui.setVisible(true);
+
     }//GEN-LAST:event_page_LoaiPhongMousePressed
 
     private void page_TienNghiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_TienNghiMousePressed
         // TODO add your handling code here:4
         jDesktopPane1.removeAll();
         tiennghi_Gui = new NhanVien_TienNghi_GUI();
-        tiennghi_Gui.setVisible(true);
         jDesktopPane1.add(tiennghi_Gui);
+        tiennghi_Gui.setVisible(true);
+
     }//GEN-LAST:event_page_TienNghiMousePressed
 
     private void page_DichVuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DichVuMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         dichvu_Gui = new NhanVien_DichVu_GUI();
-        dichvu_Gui.setVisible(true);
         jDesktopPane1.add(dichvu_Gui);
+        dichvu_Gui.setVisible(true);
+
     }//GEN-LAST:event_page_DichVuMousePressed
 
     private void page_KhuyenMaiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhuyenMaiMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         khuyenmai_Gui = new NhanVien_KhuyenMai_GUI();
-        khuyenmai_Gui.setVisible(true);
         jDesktopPane1.add(khuyenmai_Gui);
+        khuyenmai_Gui.setVisible(true);
+
     }//GEN-LAST:event_page_KhuyenMaiMousePressed
 
     private void page_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhachHangMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         khachhang_Gui = new NhanVien_KhachHang_GUI();
-        khachhang_Gui.setVisible(true);
         jDesktopPane1.add(khachhang_Gui);
+        khachhang_Gui.setVisible(true);
+
     }//GEN-LAST:event_page_KhachHangMousePressed
 
     /**

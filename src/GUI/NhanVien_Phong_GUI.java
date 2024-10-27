@@ -53,6 +53,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
      */
     public NhanVien_Phong_GUI() {
         initComponents();
+        txt_tang.requestFocus();
 //      Chặn edit table
         String columnNames[] = {"Số Phòng", "Loại Phòng", "Số Tầng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô Tả", "Đơn Giá"};
         model = new DefaultTableModel(null, columnNames) {
@@ -247,7 +248,6 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         cb_loaiphong.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cb_loaiphong.setFocusable(false);
         cb_loaiphong.setPreferredSize(new java.awt.Dimension(108, 22));
-        cb_loaiphong.setRequestFocusEnabled(false);
 
         txt_gia.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
@@ -432,7 +432,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(430, 240, 140, 40);
+        btn_Xoa.setBounds(250, 240, 140, 40);
 
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
@@ -496,7 +496,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(250, 240, 140, 40);
+        btn_Sua.setBounds(420, 240, 140, 40);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -570,7 +570,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(80, 330, 1120, 306);
+        jScrollPane3.setBounds(80, 310, 1120, 396);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));

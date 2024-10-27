@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;  
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.InternalFrameUI;
@@ -419,24 +419,24 @@ public class LeTan_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         datPhong_Gui = new LeTan_DatPhong_GUI();
-        datPhong_Gui.setVisible(true);
         jDesktopPane1.add(datPhong_Gui);
+        datPhong_Gui.setVisible(true);
     }//GEN-LAST:event_page_DatPhongMousePressed
 
     private void page_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DonDatPhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         donDatPhong_Gui = new LeTan_DonDatPhong_GUI();
-        donDatPhong_Gui.setVisible(true);
         jDesktopPane1.add(donDatPhong_Gui);
+        donDatPhong_Gui.setVisible(true);
     }//GEN-LAST:event_page_DonDatPhongMousePressed
 
     private void page_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_ThanhToanMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
         thanhToan_Gui = new LeTan_ThanhToan_GUI();
-        thanhToan_Gui.setVisible(true);
         jDesktopPane1.add(thanhToan_Gui);
+        thanhToan_Gui.setVisible(true);
     }//GEN-LAST:event_page_ThanhToanMousePressed
 
     /**

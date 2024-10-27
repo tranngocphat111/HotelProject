@@ -29,7 +29,8 @@ public class KhuyenMaiDAO {
                     .append("ngayBatDau", khuyenMai.getNgayBatDau())
                     .append("ngayKetThuc", khuyenMai.getNgayKetThuc())
                     .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
-                    .append("moTa", khuyenMai.getMoTa());
+                    .append("moTa", khuyenMai.getMoTa())
+                    .append("loaiPhong",khuyenMai.getLoaiPhong());
 
             InsertOneResult result = khuyenMaiCollection.insertOne(doc);
             return result.wasAcknowledged();
@@ -61,6 +62,7 @@ public class KhuyenMaiDAO {
                     .append("ngayKetThuc", khuyenMai.getNgayKetThuc())
                     .append("tiLeKhuyenMai", khuyenMai.getTiLeKhuyenMai())
                     .append("moTa", khuyenMai.getMoTa())
+                    .append("loaiPhong", khuyenMai.getLoaiPhong())
             );
             
             UpdateResult result = khuyenMaiCollection.updateOne(id, update);
@@ -75,7 +77,7 @@ public class KhuyenMaiDAO {
     
      public boolean deleteKhuyenMai(int maKM) {
         try {
-            Document id = new Document("maKhachHang",maKM);
+            Document id = new Document("maKhuyenMai",maKM);
             
             DeleteResult result = khuyenMaiCollection.deleteOne(id);
 
@@ -87,7 +89,7 @@ public class KhuyenMaiDAO {
         }
     }
     
-    public List<Document> findKhuyenMai(Date ngayBatDau,Date ngayKetThuc,int tiLeKhuyenMai, String moTa) throws ParseException {
+    public List<Document> findKhuyenMai(Date ngayBatDau,Date ngayKetThuc,int tiLeKhuyenMai, String moTa,List<String> loaiPhong) throws ParseException {
         List<Document> filters = new ArrayList<>();
         
         
@@ -105,6 +107,10 @@ public class KhuyenMaiDAO {
         }
         if (ngayKetThuc != null) {
             filters.add(new Document("ngayKetThuc", ngayKetThuc));
+        }
+        if(loaiPhong.size() != 0) {
+            filters.add(new Document("loaiPhong", loaiPhong));
+
         }
 
       

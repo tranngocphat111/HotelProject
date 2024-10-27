@@ -76,7 +76,7 @@ public class VietQRGen {
 
                 if ("00".equals(code)) {
                     String qrDataURL = data.path("qrDataURL").asText(); // Lấy Data URI
-                    saveImage(decodeDataURI(qrDataURL), "src/images/qrcode.png"); // Lưu hình ảnh
+                    saveImage(decodeDataURI(qrDataURL), "/images/qrcode.png"); // Lưu hình ảnh
                 } else {
                     System.out.println("Error: " + jsonNode.path("desc").asText());
                 }

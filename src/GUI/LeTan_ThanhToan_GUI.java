@@ -809,6 +809,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 list_HoaDonTheoTrangThai.add(hoaDon);
             }
         }
+        model_DonDatPhong.setRowCount(0);
         DocDuLieuLenTable(list_HoaDonTheoTrangThai);
         new LeTan_ThanhToan_HoaDon_GUI(hoaDon_update, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
     }//GEN-LAST:event_btn_ThanhToanMousePressed

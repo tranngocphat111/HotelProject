@@ -63,34 +63,54 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
 }
     
     public boolean validateInput(String cccd,String hoTen,String soDienThoai,String email) {
-    
-    if (cccd == null || cccd.isEmpty()) {
-        JOptionPane.showMessageDialog(null,"CCCD không được để trống.");
-        return false;
-    }
-
-    if (hoTen == null || hoTen.isEmpty()) {
-        JOptionPane.showMessageDialog(null,"Họ tên không được để trống.");
-        return false;
-    }
-
-    if (soDienThoai == null || soDienThoai.isEmpty()) {
-        JOptionPane.showMessageDialog(null,"Số điện thoại không được để trống.");
-        return false;
-    }
-    if (!soDienThoai.matches("\\d{10,11}")) {
-        JOptionPane.showMessageDialog(null,"Số điện thoại phải là số và có độ dài từ 10 đến 11 chữ số.");
-        return false;
-    }
-
-    if (email == null || email.isEmpty()) {
-        JOptionPane.showMessageDialog(null,"Email không được để trống.");
-        return false;
-    }
-    if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-        JOptionPane.showMessageDialog(null,"Email không hợp lệ.");
-        return false;
-    }
+     
+        if (cccd == null || cccd.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"CCCD không được để trống.");
+            txt_CCCD.requestFocus();
+            return false;
+        }
+        else if (cccd.length() < 12 || cccd.length() > 12) {
+            JOptionPane.showMessageDialog(null,"CCCD phải có 12 số.");
+            txt_CCCD.requestFocus();
+            return false;
+        }
+        
+         
+        if (hoTen == null || hoTen.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"Họ tên không được để trống.");
+            txt_HoTen.requestFocus();
+            return false;
+        }
+        
+       else if (!hoTen.matches("^[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯ][a-zàáâãèéêìíòóôõùúăđĩũơưạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý]+( [A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯ][a-zàáâãèéêìíòóôõùúăđĩũơưạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý]+)*$")) {
+            JOptionPane.showMessageDialog(null, "Họ tên phải viết hoa ở đầu mỗi chữ.");
+            txt_HoTen.requestFocus();
+            return false;
+        }
+        
+         if (soDienThoai == null || soDienThoai.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"Số điện thoại không được để trống.");
+            txt_SĐT.requestFocus();
+            return false;
+        }
+         
+        else if(soDienThoai.length() < 10 || soDienThoai.length() > 10) {
+            JOptionPane.showMessageDialog(null,"Số điện thoại phải có 10 số.");
+            txt_SĐT.requestFocus();
+            return false;
+        }
+         
+        if (email == null || email.isEmpty()) {
+            JOptionPane.showMessageDialog(null,"Email không được để trống.");
+            txt_Email.requestFocus();
+            return false;
+        }
+        else if (!email.matches("^([a-z]+)@gmail.com$")) {
+            JOptionPane.showMessageDialog(null,"Email phải theo quy tắc xx@gmail.com.");
+            txt_Email.requestFocus();
+            return false;
+        }
+  
     return true;
 }
     public boolean checkExist(String cccd) {
@@ -191,7 +211,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         })
         ;
         JTableHeader header1 = jTable1.getTableHeader();  
-        JTableHeader header2 = jTable2.getTableHeader(); 
         
       
         
@@ -199,7 +218,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         // set table header fon
        
         list_table.add(header1);
-        list_table.add(header2);
         
         list_table.forEach((table) -> {
             table.setPreferredSize(new Dimension(table.getPreferredSize().width, 30));
@@ -299,8 +317,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
         btn_LamMoi = new keeptoo.KGradientPanel();
         jLabel21 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
@@ -353,24 +369,44 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             }
         });
 
+        txt_SĐT.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_SĐTFocusLost(evt);
+            }
+        });
         txt_SĐT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_SĐTActionPerformed(evt);
             }
         });
 
+        txt_CCCD.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_CCCDFocusLost(evt);
+            }
+        });
         txt_CCCD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_CCCDActionPerformed(evt);
             }
         });
 
+        txt_Email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_EmailFocusLost(evt);
+            }
+        });
         txt_Email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_EmailActionPerformed(evt);
             }
         });
 
+        txt_HoTen.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_HoTenFocusLost(evt);
+            }
+        });
         txt_HoTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_HoTenActionPerformed(evt);
@@ -589,6 +625,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(870, 160, 140, 40);
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -612,38 +649,11 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(80, 280, 1120, 500);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã khách hàng", "CCCD/Passport", "Tên khách hàng", "Giới tính", "Số điện thoại", "Email", "Quốc tịch"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTable2);
-
-        jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(80, 280, 1120, 500);
 
         btn_LamMoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -824,9 +834,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Chỉnh sửa thành công");
 
         }
-        else{
-            return;
-        }
+     
       
 
     }//GEN-LAST:event_btn_SuaMouseClicked
@@ -838,11 +846,26 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
           txt_SĐT.setText("");
           cb_GioiTinh.setSelectedItem("Nam");
           cb_QuocTich.setSelectedItem("Việt Nam");
-          jTable1.clearSelection();
-          jTable2.setVisible(false);
-          jTable1.setVisible(true);
-             jTable1.getParent().revalidate();
-            jTable1.getParent().repaint();
+          List<Document> list_KH = khachHangDAO.findKhachHang("", "", "", "");
+         if (!list_KH.isEmpty()) {
+     
+        for (Document kh : list_KH) {
+            String maKH = kh.getInteger("maKhachHang").toString();
+            String hoTenKH = kh.getString("tenKhachHang");
+            String cccdKH = kh.getString("CCCD");
+            String sdtKH = kh.getString("soDienThoai");
+            String emailKH = kh.getString("email");
+            int gioiTinh = kh.getInteger("gioiTinh");
+            String quocTich = kh.getString("quocTich");
+
+           
+            model.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
+            
+
+        }
+        
+         }
+         
 
     }//GEN-LAST:event_btn_LamMoiMouseClicked
 
@@ -873,17 +896,10 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
        String soDienThoai = txt_SĐT.getText();
        String email = txt_Email.getText();
        List<Document> list_KH = khachHangDAO.findKhachHang(cccd, email, hoTen, soDienThoai);
-  if (!list_KH.isEmpty()) {
-        jTable2.setVisible(true);
-        jTable1.setVisible(false); 
        
-        System.out.println("jTable1 Visible: " + jTable1.isVisible());
-        System.out.println("jTable2 Visible: " + jTable2.isVisible());
-        
-        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
-        model2.setRowCount(0);  
-        
-      
+       if (!list_KH.isEmpty()) {
+           model.setRowCount(0);
+     
         for (Document kh : list_KH) {
             String maKH = kh.getInteger("maKhachHang").toString();
             String hoTenKH = kh.getString("tenKhachHang");
@@ -894,20 +910,37 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             String quocTich = kh.getString("quocTich");
 
            
-            model2.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
-          
+            model.addRow(new Object[]{maKH, cccdKH,hoTenKH , gioiTinh == 1 ? "Nam" : "Nữ", sdtKH,emailKH,quocTich});
+            
+
         }
        
     } else {
 
         JOptionPane.showMessageDialog(null, "No customers found matching the search criteria.");
-        jTable1.setVisible(true);
-        jTable2.setVisible(false);
-        
-        
     }
         
     }//GEN-LAST:event_btn_TimMouseClicked
+
+    private void txt_CCCDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_CCCDFocusLost
+
+       
+    }//GEN-LAST:event_txt_CCCDFocusLost
+
+    private void txt_HoTenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_HoTenFocusLost
+     
+        
+    }//GEN-LAST:event_txt_HoTenFocusLost
+
+    private void txt_SĐTFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_SĐTFocusLost
+
+        
+       
+    }//GEN-LAST:event_txt_SĐTFocusLost
+
+    private void txt_EmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_EmailFocusLost
+        
+    }//GEN-LAST:event_txt_EmailFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -934,9 +967,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField txt_CCCD;
     private javax.swing.JTextField txt_Email;
     private javax.swing.JTextField txt_HoTen;

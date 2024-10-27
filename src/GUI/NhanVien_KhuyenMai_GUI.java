@@ -35,74 +35,84 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.DTO.KhachHang;
 import org.bson.Document;
+
 /**
  *
  * @author Admin
  */
 public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
+
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private KhuyenMaiDAO khuyenMaiDAO = new KhuyenMaiDAO(database);
     private List<KhuyenMai> list_km = new ArrayList<KhuyenMai>();
     private DefaultTableModel model;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     String listLP = "";
+
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-        // generate ID
+    // generate ID
     public String generateRandomCode(int length) {
- 
-    String characters = "0123456789";
-    SecureRandom random = new SecureRandom();
-    StringBuilder code = new StringBuilder(length);
 
-    for (int i = 0; i < length; i++) {
-      
-        code.append(characters.charAt(random.nextInt(characters.length())));
-    }
+        String characters = "0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder code = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+
+            code.append(characters.charAt(random.nextInt(characters.length())));
+        }
         return code.toString();
     }
 
-    public boolean validateForm(Date ngayBatDau, Date ngayKetThuc, String tiLeKhuyenMai, String moTa,List<String> loaiPhong) {
-
+    public boolean validateForm(Date ngayBatDau, Date ngayKetThuc, String tiLeKhuyenMai, String moTa, List<String> loaiPhong) {
         if (ngayBatDau == null) {
             JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống.");
             txt_NgayBatDau.requestFocusInWindow();
             return false;
         }
-    
-       
-        else if (ngayKetThuc == null) {
+        if (ngayKetThuc == null) {
             JOptionPane.showMessageDialog(null, "Ngày kết thúc không được để trống.");
             txt_NgayDi.requestFocusInWindow();
             return false;
         }
-       
-        
-        
-        else if (tiLeKhuyenMai == null || tiLeKhuyenMai.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Tỉ lệ khuyến mãi phải nằm trong khoảng từ 0 đến 100.");
+
+        try {
+            if (tiLeKhuyenMai == null || tiLeKhuyenMai.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Không được để trống tỉ lệ khuyến mãi");
+                txt_TiLeKhuyenMai.requestFocus();
+                return false;
+            }
+
+            int khuyenMai = Integer.parseInt(tiLeKhuyenMai);
+
+            if (khuyenMai < 0 || khuyenMai > 100) {
+                JOptionPane.showMessageDialog(null, "Tỉ lệ khuyến mãi phải nằm trong khoảng từ 0 đến 100.");
+                txt_TiLeKhuyenMai.requestFocus();
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Tỉ lệ khuyến mãi phải là số, nằm trong khoảng từ 0 đến 100.");
             txt_TiLeKhuyenMai.requestFocus();
             return false;
         }
 
-      
-        else if (moTa != null && moTa.length() > 500) {
+        if (moTa != null && moTa.length() > 500) {
             JOptionPane.showMessageDialog(null, "Mô tả không được dài quá 500 ký tự.");
             area_ghichu.requestFocus();
             return false;
         }
-        
-        else if (loaiPhong.size() == 0) {
+
+        if (loaiPhong.size() == 0) {
             JOptionPane.showMessageDialog(null, "Phải chọn ít nhất 1 loại phòng.");
             return false;
         }
 
-      
         return true;
     }
-    
-     public boolean checkInvaildDate(String ngayBatDau, String ngayKetThuc) {
+
+    public boolean checkInvaildDate(String ngayBatDau, String ngayKetThuc) {
 
         Date startDate;
         try {
@@ -130,24 +140,20 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         return true;
     }
 
-     
     public NhanVien_KhuyenMai_GUI() {
         initComponents();
         this.model = (DefaultTableModel) jTable1.getModel();
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-        BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
-        
-     
-        
+
         // make butotn hover 
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
         list_btn.add(btn_LamMoi);
         list_btn.add(btn_Tim);
-        
-        
+
         list_btn.forEach((element) -> {
 //            if(!element.isEnabled()) {
 //                element.setBackground(new java.awt.Color(173, 216, 230)); // Màu nền xanh nhạt khi bị vô hiệu hóa
@@ -160,10 +166,10 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 public void mouseClicked(MouseEvent e) {
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
-               
+
                 @Override
                 public void mousePressed(MouseEvent e) {
-                        
+
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
@@ -174,71 +180,68 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    if(element.isEnabled()) {
-                     element.setkStartColor(new java.awt.Color(255, 225, 27));
-                     element.setkEndColor(new java.awt.Color(255, 222, 89));
-                     element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                     element.setBorder(null); 
+                    if (element.isEnabled()) {
+                        element.setkStartColor(new java.awt.Color(255, 225, 27));
+                        element.setkEndColor(new java.awt.Color(255, 222, 89));
+                        element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                        element.setBorder(null);
                     }
-                   
-                 
+
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    if(element.isEnabled()){
+                    if (element.isEnabled()) {
                         element.setkStartColor(new java.awt.Color(225, 176, 27));
                         element.setkEndColor(new java.awt.Color(255, 222, 89));
                         element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                         element.setBorder(null);
                     }
-                   
+
                 }
             });
-        })
-        ;
-          // set table header fon
-        JTableHeader header = jTable1.getTableHeader(); 
+        });
+        // set table header fon
+        JTableHeader header = jTable1.getTableHeader();
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setPreferredSize(new Dimension(header.getPreferredSize().height, 30));
 
         header.setFont(new Font("Arial", Font.PLAIN, 15));
-        
-          DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
 
         // Thiết lập renderer cho header
         header.setDefaultRenderer(renderer);
-        
-        
+
         //Căn giữa các các dòng trong table
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        
+
         centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
-        centerRenderer.setVerticalAlignment(JLabel.CENTER );
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
         for (int i = 0; i < header.getTable().getColumnCount(); i++) {
             header.getTable().getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-        
+
         //add values to table
         list_km = khuyenMaiDAO.getAllKhuyenMai();
-        
+
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
         DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         list_km.forEach((km) -> {
 
-
             String beginText = outputFormat.format(km.getNgayBatDau());
 
             String endText = outputFormat.format(km.getNgayKetThuc());
-             
-            for(String loaip: km.getLoaiPhong()) {
-                listLP+= loaip + ",";
+            listLP = "";
+            for (String loaip : km.getLoaiPhong()) {
+                listLP += loaip + ", ";
             }
-            
+            listLP = listLP.substring(0, listLP.length() - 2);
+
             Object[] rowData = {
                 km.getMaKhuyenMai(),
                 beginText,
@@ -258,12 +261,11 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                      int selectedRow = jTable1.getSelectedRow();
+                int selectedRow = jTable1.getSelectedRow();
                 if (selectedRow == -1) {
                     btn_Xoa.setEnabled(false);
                     btn_Sua.setEnabled(false);
-                    
-           
+
                     txt_NgayBatDau.setDate(null);
                     txt_NgayDi.setDate(null);
                     txt_TiLeKhuyenMai.setText("");
@@ -273,47 +275,42 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                     checkBox_Standard.setSelected(false);
                     checkBox_Suite.setSelected(false);
 
-
                 } else {
                     btn_Xoa.setEnabled(true);
                     btn_Sua.setEnabled(true);
-                    
+
                     try {
                         Date ngayBatDau = inputFormat.parse(jTable1.getValueAt(selectedRow, 1).toString());
                         Date ngayKetThuc = inputFormat.parse(jTable1.getValueAt(selectedRow, 2).toString());
-                        
+
                         txt_NgayBatDau.setDate(ngayBatDau);
                         txt_NgayDi.setDate(ngayKetThuc);
                         txt_TiLeKhuyenMai.setText(jTable1.getValueAt(selectedRow, 4).toString());
                         area_ghichu.setText(jTable1.getValueAt(selectedRow, 3).toString());
-                        
+
                         String loaiPhong = jTable1.getValueAt(selectedRow, 5).toString();
-                        
+
                         if (loaiPhong != null) {
                             if (loaiPhong.contains("Standard")) {
                                 checkBox_Standard.setSelected(true);
-                            }
-                            else{
+                            } else {
                                 checkBox_Standard.setSelected(false);
 
                             }
-              
+
                             if (loaiPhong.contains("Deluxe")) {
                                 checkBox_Deluxe.setSelected(true);
-                            }
-                            else {
-                              checkBox_Deluxe.setSelected(false);
+                            } else {
+                                checkBox_Deluxe.setSelected(false);
                             }
                             if (loaiPhong.contains("Suite")) {
                                 checkBox_Suite.setSelected(true);
-                            }
-                            else{
-                            checkBox_Suite.setSelected(false);
+                            } else {
+                                checkBox_Suite.setSelected(false);
                             }
                             if (loaiPhong.contains("Family")) {
                                 checkBox_Family.setSelected(true);
-                            }
-                            else {
+                            } else {
                                 checkBox_Family.setSelected(false);
 
                             }
@@ -456,17 +453,17 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         BangChonLoaiPhongLayout.setVerticalGroup(
             BangChonLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BangChonLoaiPhongLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(BangChonLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkBox_Suite, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_Deluxe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_Family, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(checkBox_Standard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                .addGap(34, 34, 34))
         );
 
         jPanel1.add(BangChonLoaiPhong);
-        BangChonLoaiPhong.setBounds(90, 340, 810, 100);
+        BangChonLoaiPhong.setBounds(80, 250, 810, 60);
 
         ThongTinKhuyenMai.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinKhuyenMai.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
@@ -534,12 +531,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         ThongTinKhuyenMai.setBounds(80, 90, 810, 100);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 209, 84));
         jLabel14.setText("Áp dụng cho loại phòng");
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(90, 290, 300, 32);
+        jLabel14.setBounds(90, 210, 300, 25);
 
         jLabel19.setBackground(new java.awt.Color(255, 209, 84));
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -582,7 +579,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(590, 220, 140, 40);
+        btn_LamMoi.setBounds(590, 330, 140, 40);
 
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
@@ -623,7 +620,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Them);
-        btn_Them.setBounds(80, 220, 140, 40);
+        btn_Them.setBounds(80, 330, 140, 40);
 
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
@@ -654,7 +651,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(420, 220, 140, 40);
+        btn_Xoa.setBounds(420, 330, 140, 40);
 
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
@@ -686,7 +683,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(250, 220, 140, 40);
+        btn_Sua.setBounds(250, 330, 140, 40);
 
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -730,7 +727,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(90, 470, 1130, 310);
+        jScrollPane1.setBounds(80, 400, 1130, 310);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
@@ -741,8 +738,11 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
         area_ghichu.setBackground(new java.awt.Color(0, 0, 0));
         area_ghichu.setColumns(20);
+        area_ghichu.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         area_ghichu.setForeground(new java.awt.Color(255, 255, 255));
+        area_ghichu.setLineWrap(true);
         area_ghichu.setRows(3);
+        area_ghichu.setWrapStyleWord(true);
         area_ghichu.setCaretColor(new java.awt.Color(255, 255, 255));
         area_ghichu.setMargin(new java.awt.Insets(4, 6, 2, 6));
         area_ghichu.setOpaque(false);
@@ -757,7 +757,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(area_ghichu);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(930, 90, 280, 170);
+        jScrollPane2.setBounds(930, 90, 280, 280);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -791,12 +791,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(750, 220, 140, 40);
+        btn_Tim.setBounds(750, 330, 140, 40);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(-30, 0, 1283, 803);
+        Backgroup.setBounds(0, 0, 1283, 803);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -828,35 +828,29 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         Date ngayKetThuc = txt_NgayDi.getDate();
         String tiLeKhuyenMai = txt_TiLeKhuyenMai.getText();
         String moTa = area_ghichu.getText();
-        
-        List<String> listLP = new ArrayList<String>();
-            if(checkBox_Deluxe.isSelected()) {
-                listLP.add("Deluxe");
-            } 
-             if(checkBox_Family.isSelected()) {
-                listLP.add("Family");
-            } 
-              if(checkBox_Standard.isSelected()) {
-                listLP.add("Standard");
-            } 
-               if(checkBox_Suite.isSelected()) {
-                listLP.add("Suite");
-            } 
-         boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
-         
-        String beginText = outputFormat.format(ngayBatDau);
-        String endText = outputFormat.format(ngayKetThuc);
-        
-            
-            
-       
 
-        if (!checkInvaildDate(beginText, endText)) {
-            return;
+        List<String> listLP = new ArrayList<String>();
+        if (checkBox_Deluxe.isSelected()) {
+            listLP.add("Deluxe");
         }
+        if (checkBox_Family.isSelected()) {
+            listLP.add("Family");
+        }
+        if (checkBox_Standard.isSelected()) {
+            listLP.add("Standard");
+        }
+        if (checkBox_Suite.isSelected()) {
+            listLP.add("Suite");
+        }
+        boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa, listLP);
 
         if (validate) {
-        
+            String beginText = outputFormat.format(ngayBatDau);
+            String endText = outputFormat.format(ngayKetThuc);
+            if (!checkInvaildDate(beginText, endText)) {
+                return;
+            }
+
             KhuyenMai km = new KhuyenMai(
                     Integer.parseInt(maKM),
                     ngayBatDau,
@@ -866,11 +860,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                     listLP);
 
             khuyenMaiDAO.createKhuyenMai(km);
-            
-               String listP = "";
-                for(String loaip: km.getLoaiPhong()) {
-                    listP+= loaip + ",";
-                }
+
+            String listP = "";
+            for (String loaip : km.getLoaiPhong()) {
+                listP += loaip + ", ";
+            }
+            listP = listP.substring(0, listP.length() - 2);
             Object[] rowData = {
                 km.getMaKhuyenMai(),
                 beginText,
@@ -881,10 +876,9 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
             };
             this.model.addRow(rowData);
 
-            
             JOptionPane.showMessageDialog(this, "Thêm thành công");
 
-        } 
+        }
 
     }//GEN-LAST:event_btn_ThemMouseClicked
 
@@ -907,12 +901,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
     private void area_ghichuFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_ghichuFocusGained
         // TODO add your handling code here:
-     
+
     }//GEN-LAST:event_area_ghichuFocusGained
 
     private void area_ghichuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_ghichuFocusLost
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_area_ghichuFocusLost
 
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
@@ -924,23 +918,23 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         Date ngayKetThuc = txt_NgayDi.getDate();
         String tiLeKhuyenMai = txt_TiLeKhuyenMai.getText();
         String moTa = area_ghichu.getText();
-        
-          List<String> listLP = new ArrayList<String>();
-            if(checkBox_Deluxe.isSelected()) {
-                listLP.add("Deluxe");
-            } 
-             if(checkBox_Family.isSelected()) {
-                listLP.add("Family");
-            } 
-              if(checkBox_Standard.isSelected()) {
-                listLP.add("Standard");
-            } 
-               if(checkBox_Suite.isSelected()) {
-                listLP.add("Suite");
-        } 
-        
-        boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
-       
+
+        List<String> listLP = new ArrayList<String>();
+        if (checkBox_Deluxe.isSelected()) {
+            listLP.add("Deluxe");
+        }
+        if (checkBox_Family.isSelected()) {
+            listLP.add("Family");
+        }
+        if (checkBox_Standard.isSelected()) {
+            listLP.add("Standard");
+        }
+        if (checkBox_Suite.isSelected()) {
+            listLP.add("Suite");
+        }
+
+        boolean validate = validateForm(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa, listLP);
+
         String beginText = outputFormat.format(ngayBatDau);
         String endText = outputFormat.format(ngayKetThuc);
         if (!checkInvaildDate(beginText, endText)) {
@@ -948,8 +942,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         }
 
         if (validate) {
-            
-             
+
             KhuyenMai km = new KhuyenMai(
                     Integer.parseInt(maKM),
                     ngayBatDau,
@@ -958,11 +951,12 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                     moTa,
                     listLP);
             khuyenMaiDAO.updateKhuyenMai(Integer.parseInt(maKM), km);
-            
+
             String listP = "";
-                for(String loaip: km.getLoaiPhong()) {
-                    listP+= loaip + ",";
-                }
+            for (String loaip : km.getLoaiPhong()) {
+                listP += loaip + ", ";
+            }
+            listP = listP.substring(0, listP.length() - 2);
 
             jTable1.setValueAt(beginText, selectedRow, 1);
             jTable1.setValueAt(endText, selectedRow, 2);
@@ -976,16 +970,16 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_SuaMouseClicked
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
-          this.model = (DefaultTableModel) jTable1.getModel();
+        this.model = (DefaultTableModel) jTable1.getModel();
         int selectedRow = jTable1.getSelectedRow();
-        
-        if(selectedRow != -1) {
-            String maKH = jTable1.getValueAt(selectedRow,0).toString();
-            
+
+        if (selectedRow != -1) {
+            String maKH = jTable1.getValueAt(selectedRow, 0).toString();
+
             khuyenMaiDAO.deleteKhuyenMai(Integer.parseInt(maKH));
-            
+
             model.removeRow(selectedRow);
-            
+
             JOptionPane.showMessageDialog(this, "Xóa thành công");
 
         }
@@ -1003,11 +997,11 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         checkBox_Suite.setSelected(false);
         List<Document> list_KM = new ArrayList<Document>();
         try {
-            list_KM = khuyenMaiDAO.findKhuyenMai(null,null,0, "",new ArrayList<String>());
+            list_KM = khuyenMaiDAO.findKhuyenMai(null, null, 0, "", new ArrayList<String>());
         } catch (ParseException ex) {
             Logger.getLogger(NhanVien_KhuyenMai_GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if (!list_KM.isEmpty()) {
             this.model.setRowCount(0);
             for (Document km : list_KM) {
@@ -1016,12 +1010,13 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 Date ngayketthuc = km.getDate("ngayKetThuc");
                 int tile = km.getInteger("tiLeKhuyenMai");
                 String mota = km.getString("moTa");
-                List<String> loaiPhong = km.getList("loaiPhong",String.class);
+                List<String> loaiPhong = km.getList("loaiPhong", String.class);
 //                
-                 String listLP = "";
-                for(String loaip: loaiPhong) {
-                    listLP+= loaip + ",";
+                String listLP = "";
+                for (String loaip : loaiPhong) {
+                    listLP += loaip + ", ";
                 }
+                listLP = listLP.substring(0, listLP.length() - 2);
 
                 this.model.addRow(new Object[]{
                     maKhuyenMai,
@@ -1037,33 +1032,32 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_LamMoiMouseClicked
 
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
-       this.model = (DefaultTableModel) jTable1.getModel();
-       Date ngayBatDau = txt_NgayBatDau.getDate();
-       Date ngayKetThuc = txt_NgayDi.getDate();
-       int tiLeKhuyenMai = Integer.parseInt(!txt_TiLeKhuyenMai.getText().equals("") ? txt_TiLeKhuyenMai.getText() : "0");
-       String moTa = area_ghichu.getText();
-       
-       List<String> listLP = new ArrayList<String>();
-            if(checkBox_Deluxe.isSelected()) {
-                listLP.add("Deluxe");
-            } 
-             if(checkBox_Family.isSelected()) {
-                listLP.add("Family");
-            } 
-              if(checkBox_Standard.isSelected()) {
-                listLP.add("Standard");
-            } 
-               if(checkBox_Suite.isSelected()) {
-                listLP.add("Suite");
-        } 
-       
+        this.model = (DefaultTableModel) jTable1.getModel();
+        Date ngayBatDau = txt_NgayBatDau.getDate();
+        Date ngayKetThuc = txt_NgayDi.getDate();
+        int tiLeKhuyenMai = Integer.parseInt(!txt_TiLeKhuyenMai.getText().equals("") ? txt_TiLeKhuyenMai.getText() : "0");
+        String moTa = area_ghichu.getText();
+
+        List<String> listLP = new ArrayList<String>();
+        if (checkBox_Deluxe.isSelected()) {
+            listLP.add("Deluxe");
+        }
+        if (checkBox_Family.isSelected()) {
+            listLP.add("Family");
+        }
+        if (checkBox_Standard.isSelected()) {
+            listLP.add("Standard");
+        }
+        if (checkBox_Suite.isSelected()) {
+            listLP.add("Suite");
+        }
+
         List<Document> list_KM = new ArrayList<Document>();
         try {
-            list_KM = khuyenMaiDAO.findKhuyenMai(ngayBatDau,ngayKetThuc, tiLeKhuyenMai, moTa,listLP);
+            list_KM = khuyenMaiDAO.findKhuyenMai(ngayBatDau, ngayKetThuc, tiLeKhuyenMai, moTa, listLP);
         } catch (ParseException ex) {
             Logger.getLogger(NhanVien_KhuyenMai_GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
         if (!list_KM.isEmpty()) {
             this.model.setRowCount(0);
@@ -1073,12 +1067,13 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
                 Date ngayketthuc = km.getDate("ngayKetThuc");
                 int tile = km.getInteger("tiLeKhuyenMai");
                 String mota = km.getString("moTa");
-                List<String> loaiPhong = km.getList("loaiPhong",String.class);
+                List<String> loaiPhong = km.getList("loaiPhong", String.class);
 //                
-                 String listP = "";
-                for(String loaip: loaiPhong) {
-                    listP+= loaip + ", ";
+                String listP = "";
+                for (String loaip : loaiPhong) {
+                    listP += loaip + ", ";
                 }
+                listP = listP.substring(0, listP.length() - 2);
 
                 this.model.addRow(new Object[]{
                     maKhuyenMai,
@@ -1093,8 +1088,6 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
         }
 
 
-
-            
     }//GEN-LAST:event_btn_TimMouseClicked
 
     private void txt_TiLeKhuyenMaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_TiLeKhuyenMaiActionPerformed
@@ -1103,7 +1096,7 @@ public class NhanVien_KhuyenMai_GUI extends javax.swing.JInternalFrame {
 
     private void checkBox_SuiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_SuiteActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_checkBox_SuiteActionPerformed
 
     private void checkBox_DeluxeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DeluxeActionPerformed

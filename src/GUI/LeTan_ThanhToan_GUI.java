@@ -6,6 +6,8 @@ package GUI;
 
 import static GUI.DangNhap_GUI.database;
 import static GUI.LeTan_DonDatPhong_GUI.getDSDichVu;
+import PrintpDF.PrintPDF;
+import PrintpDF.VietQRGen;
 import com.toedter.calendar.JDateChooser;
 
 import java.awt.Dimension;
@@ -811,6 +813,8 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
         model_DonDatPhong.setRowCount(0);
         DocDuLieuLenTable(list_HoaDonTheoTrangThai);
+        
+        new PrintPDF(hoaDon_update);
         new LeTan_ThanhToan_HoaDon_GUI(hoaDon_update, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 

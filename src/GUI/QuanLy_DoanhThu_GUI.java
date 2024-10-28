@@ -333,7 +333,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         }
         ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong barChart = new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDonDatPhongTheoNgay(ngayBatDau, ngayKetThuc));
         ThongKe_BieuDoTronTheHienPhanTramDoanhThu pieChart = new ThongKe_BieuDoTronTheHienPhanTramDoanhThu(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
-        barChart.setPreferredSize(new Dimension(680, 400));
+//        barChart.setPreferredSize(new Dimension(680, 400));
         addChartToScrollPane(barChart);
         addChartToScrollPane(pieChart);
         

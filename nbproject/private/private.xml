@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/JavaProject/HotelProject/src/GUI/QuanLy_DoanhThu_GUI.java</file>
+            <file>file:/D:/JavaProject/HotelProject/src/test/GODMOD.java</file>
+            <file>file:/D:/JavaProject/HotelProject/src/GUI/ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong.java</file>
+            <file>file:/D:/JavaProject/HotelProject/src/model/DAO/DonDatPhongDAO.java</file>
+            <file>file:/D:/JavaProject/HotelProject/src/test/SerialReader.java</file>
+            <file>file:/D:/JavaProject/HotelProject/src/GUI/ThongKe_BieuDoTronTheHienPhanTramDoanhThu.java</file>
+        </group>
     </open-files>
 </project-private>

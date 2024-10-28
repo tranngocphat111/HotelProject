@@ -1,4 +1,8 @@
+package test;
+
 import com.fazecast.jSerialComm.SerialPort;
+
+
 
 public class SerialReader {
     public static void main(String[] args) {

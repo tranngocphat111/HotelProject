@@ -41,7 +41,7 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThu extends JPanel {
         
         // Tạo ChartPanel chứa biểu đồ
         ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setPreferredSize(new Dimension(680, 400));
+        chartPanel.setPreferredSize(new Dimension(710, 400));
         setLayout(new BorderLayout());
         add(chartPanel, BorderLayout.CENTER);
     }

@@ -139,6 +139,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         ThongTinTienNghi = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txt_tienNghi = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
         btn_lammoi = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         btn_Tim = new keeptoo.KGradientPanel();
@@ -180,13 +181,16 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tên tiện nghi");
 
-        txt_tienNghi.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        txt_tienNghi.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txt_tienNghi.setPreferredSize(new java.awt.Dimension(80, 32));
         txt_tienNghi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_tienNghiActionPerformed(evt);
             }
         });
+
+        jLabel26.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel26.setText("*");
 
         javax.swing.GroupLayout ThongTinTienNghiLayout = new javax.swing.GroupLayout(ThongTinTienNghi);
         ThongTinTienNghi.setLayout(ThongTinTienNghiLayout);
@@ -195,22 +199,27 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             .addGroup(ThongTinTienNghiLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(ThongTinTienNghiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                    .addGroup(ThongTinTienNghiLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txt_tienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         ThongTinTienNghiLayout.setVerticalGroup(
             ThongTinTienNghiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ThongTinTienNghiLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addGroup(ThongTinTienNghiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_tienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addComponent(txt_tienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinTienNghi);
-        ThongTinTienNghi.setBounds(80, 120, 490, 160);
+        ThongTinTienNghi.setBounds(80, 100, 490, 120);
 
         btn_lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_lammoi.setkGradientFocus(250);
@@ -239,12 +248,12 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             btn_lammoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_lammoiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_lammoi);
-        btn_lammoi.setBounds(610, 330, 140, 50);
+        btn_lammoi.setBounds(620, 250, 140, 40);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -273,12 +282,12 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_TimLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(780, 330, 140, 50);
+        btn_Tim.setBounds(790, 250, 140, 40);
 
         btn_them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_them.setkGradientFocus(250);
@@ -313,7 +322,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_them);
-        btn_them.setBounds(80, 330, 140, 50);
+        btn_them.setBounds(80, 250, 140, 40);
 
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
@@ -339,12 +348,12 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             btn_XoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_XoaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(260, 330, 140, 50);
+        btn_Xoa.setBounds(260, 250, 140, 40);
 
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
@@ -369,14 +378,14 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         );
         btn_SuaLayout.setVerticalGroup(
             btn_SuaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_SuaLayout.createSequentialGroup()
+            .addGroup(btn_SuaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(430, 330, 140, 50);
+        btn_Sua.setBounds(430, 250, 140, 40);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -385,17 +394,20 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(label_Anh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(47, Short.MAX_VALUE)
+                .addComponent(label_Anh, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(label_Anh, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(label_Anh, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(960, 120, 240, 160);
+        jPanel2.setBounds(980, 100, 220, 120);
 
         chonAnh_btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         chonAnh_btn.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -418,16 +430,16 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             chonAnh_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chonAnh_btnLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addContainerGap())
         );
         chonAnh_btnLayout.setVerticalGroup(
             chonAnh_btnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
         );
 
         jPanel1.add(chonAnh_btn);
-        chonAnh_btn.setBounds(960, 331, 240, 50);
+        chonAnh_btn.setBounds(980, 250, 220, 40);
 
         table_TienNghi.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         table_TienNghi.setModel(new javax.swing.table.DefaultTableModel(
@@ -479,7 +491,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 430, 1130, 216);
+        jScrollPane1.setBounds(80, 320, 1120, 400);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -512,7 +524,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(area_moTa);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(610, 120, 310, 160);
+        jScrollPane2.setBounds(620, 100, 310, 120);
 
         Backgroup.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
@@ -607,13 +619,13 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         if (txt_tienNghi.getText().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập tên dịch vụ!");
-            JOptionPane.showMessageDialog(this, "Nhập tiện nghi");
+            JOptionPane.showMessageDialog(this, "Nhập tên tiện nghi");
             txt_tienNghi.requestFocus();
             return;
         }
         if (area_moTa.getText().equals("Mô Tả") || area_moTa.getText().equals("")) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(this, "Nhập mô tả");
+            JOptionPane.showMessageDialog(this, "Nhập mô tả tiện nghi");
             area_moTa.requestFocus();
             return;
         }
@@ -865,6 +877,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

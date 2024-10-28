@@ -11,8 +11,8 @@ public class NhanVien {
     private String CCCD;
     private String diaChi;
     private String chucVu;
-    private String tenTaiKhoan;
-    private String matKhau;
+    private String tenTaiKhoan = "";
+    private String matKhau = "";
 
     public NhanVien() {
     }

@@ -381,6 +381,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         cb_Loaigiuong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         cb_Loaigiuong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đơn", "Đôi" }));
+        cb_Loaigiuong.setFocusable(false);
         cb_Loaigiuong.setPreferredSize(new java.awt.Dimension(72, 32));
         cb_Loaigiuong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -480,7 +481,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         ThongTinLoaiPhongLayout.setVerticalGroup(
             ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ThongTinLoaiPhongLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(20, 20, 20)
                 .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
@@ -491,9 +492,9 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cb_Loaigiuong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_TenLoaiphong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_Dientich, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(30, 30, 30)
+                    .addComponent(txt_Dientich, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_TenLoaiphong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
                 .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel13)
@@ -503,16 +504,16 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_Sokhachtoida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_Dongia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(ThongTinLoaiPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinLoaiPhongLayout.createSequentialGroup()
-                    .addContainerGap(147, Short.MAX_VALUE)
+                    .addContainerGap(127, Short.MAX_VALUE)
                     .addComponent(jLabel30)
                     .addGap(55, 55, 55)))
         );
 
         jPanel1.add(ThongTinLoaiPhong);
-        ThongTinLoaiPhong.setBounds(80, 100, 790, 220);
+        ThongTinLoaiPhong.setBounds(80, 100, 790, 200);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -554,7 +555,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(730, 380, 140, 40);
+        btn_Tim.setBounds(730, 320, 140, 40);
 
         btn_Lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Lammoi.setkGradientFocus(250);
@@ -588,7 +589,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Lammoi);
-        btn_Lammoi.setBounds(560, 380, 140, 40);
+        btn_Lammoi.setBounds(560, 320, 140, 40);
 
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
@@ -623,7 +624,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Them);
-        btn_Them.setBounds(80, 380, 140, 40);
+        btn_Them.setBounds(80, 320, 140, 40);
 
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
@@ -654,7 +655,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(400, 380, 140, 40);
+        btn_Xoa.setBounds(400, 320, 140, 40);
 
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
@@ -686,7 +687,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(240, 380, 140, 40);
+        btn_Sua.setBounds(240, 320, 140, 40);
 
         table_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         table_LoaiPhong.setModel(new javax.swing.table.DefaultTableModel(
@@ -745,7 +746,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 460, 1130, 216);
+        jScrollPane1.setBounds(80, 390, 1130, 336);
 
         TienNghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         TienNghi.setPreferredSize(new java.awt.Dimension(300, 316));
@@ -790,11 +791,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
         TienNghiLayout.setVerticalGroup(
             TienNghiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
         );
 
         jPanel1.add(TienNghi);
-        TienNghi.setBounds(910, 100, 300, 316);
+        TienNghi.setBounds(910, 100, 300, 260);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_LoaiPhong"); // NOI18N

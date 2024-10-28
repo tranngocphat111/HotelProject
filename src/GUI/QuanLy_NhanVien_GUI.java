@@ -471,6 +471,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         header.setPreferredSize(new Dimension(header.getPreferredSize().width, 30));
         header.setFont(new Font("Arial", Font.BOLD, 15));
         jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15));
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

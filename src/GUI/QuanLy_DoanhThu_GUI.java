@@ -4,8 +4,20 @@
  */
 package GUI;
 
+import java.awt.Dimension;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import model.DAO.DonDatPhongDAO;
+import model.MongoDBConnection;
+import org.jfree.chart.ChartPanel;
 
 /**
  *
@@ -16,10 +28,21 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
+    private void addChartToScrollPane(JPanel panel) {
+        chartPanel.add(panel);
+        chartPanel.revalidate(); // Cập nhật lại layout
+        chartPanel.repaint(); // Vẽ lại panel
+    }
+
     public QuanLy_DoanhThu_GUI() {
         initComponents();
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-        BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
+        ddpDAO = new DonDatPhongDAO(MongoDBConnection.getDatabase());
+        chartPanel = new JPanel();
+        chartPanel.setLayout(new BoxLayout(chartPanel, BoxLayout.Y_AXIS)); // Đặt layout dọc cho container
+        ScrollChart.setViewportView(chartPanel);
+
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
     }
 
@@ -41,7 +64,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         btn_ThongKe = new keeptoo.KGradientPanel();
-        jLabel16 = new javax.swing.JLabel();
+        btnThongKe = new javax.swing.JLabel();
         ThongTinDat1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         cb_TheoQuy = new javax.swing.JComboBox<>();
@@ -50,6 +73,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         cb_TheoThang = new javax.swing.JComboBox<>();
         panel_ThongKeDoanhThu = new javax.swing.JPanel();
+        ScrollChart = new javax.swing.JScrollPane();
         panel_ThongKeDichVu = new javax.swing.JPanel();
         Backgroup = new javax.swing.JLabel();
 
@@ -130,23 +154,28 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Thống kê");
-        jLabel16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnThongKe.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnThongKe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnThongKe.setText("Thống kê");
+        btnThongKe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThongKe.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnThongKe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThongKeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btn_ThongKeLayout = new javax.swing.GroupLayout(btn_ThongKe);
         btn_ThongKe.setLayout(btn_ThongKeLayout);
         btn_ThongKeLayout.setHorizontalGroup(
             btn_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+            .addComponent(btnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
         );
         btn_ThongKeLayout.setVerticalGroup(
             btn_ThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_ThongKeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(btnThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -218,11 +247,11 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         panel_ThongKeDoanhThu.setLayout(panel_ThongKeDoanhThuLayout);
         panel_ThongKeDoanhThuLayout.setHorizontalGroup(
             panel_ThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
+            .addComponent(ScrollChart, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
         );
         panel_ThongKeDoanhThuLayout.setVerticalGroup(
             panel_ThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
+            .addComponent(ScrollChart, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
         );
 
         jPanel1.add(panel_ThongKeDoanhThu);
@@ -285,18 +314,44 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         btn_ThongKe.setBorder(null);
     }//GEN-LAST:event_btn_ThongKeMouseExited
 
+    private void btnThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThongKeMouseClicked
+        // TODO add your handling code here:
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date ngayBatDau = null;
+        Date ngayKetThuc = null;
+        try {
+            ngayBatDau = sdf.parse(sdf.format(txt_TuNgay.getDate()));
+            ngayKetThuc = sdf.parse(sdf.format(txt_DenNgay.getDate()));
+        } catch (ParseException ex) {
+            Logger.getLogger(QuanLy_DoanhThu_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (ngayBatDau == null && ngayKetThuc == null) {
+
+            return;
+        }
+        ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong barChart = new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDonDatPhongTheoNgay(ngayBatDau, ngayKetThuc));
+        ThongKe_BieuDoTronTheHienPhanTramDoanhThu pieChart = new ThongKe_BieuDoTronTheHienPhanTramDoanhThu(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
+        barChart.setPreferredSize(new Dimension(680, 400));
+        addChartToScrollPane(barChart);
+        addChartToScrollPane(pieChart);
+        
+    }//GEN-LAST:event_btnThongKeMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
+    private javax.swing.JScrollPane ScrollChart;
     private javax.swing.JPanel ThongTinDat;
     private javax.swing.JPanel ThongTinDat1;
+    private javax.swing.JLabel btnThongKe;
     private keeptoo.KGradientPanel btn_ThongKe;
     private javax.swing.JComboBox<String> cb_TheoNam;
     private javax.swing.JComboBox<String> cb_TheoQuy;
     private javax.swing.JComboBox<String> cb_TheoThang;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
@@ -308,4 +363,6 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser txt_DenNgay;
     private com.toedter.calendar.JDateChooser txt_TuNgay;
     // End of variables declaration//GEN-END:variables
+    private DonDatPhongDAO ddpDAO;
+    private JPanel chartPanel;
 }

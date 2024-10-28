@@ -32,7 +32,7 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
 
         // Tạo biểu đồ cột
         JFreeChart barChart = ChartFactory.createBarChart(
-                "Số lượng đặt phòng các loại",
+                "Số Lượng Đặt Phòng Các Loại",
                 "Tên loại phòng",
                 "Số lượng",
                 dataset,

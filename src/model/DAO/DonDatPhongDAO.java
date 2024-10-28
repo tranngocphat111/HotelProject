@@ -186,4 +186,34 @@ public class DonDatPhongDAO {
         results.into(documents);
         return documents;
     }
+    
+    public ArrayList<Document> getDoanhThu(Date ngayBatDau, Date ngayKetThuc) {
+        // Tạo pipeline cho aggregate
+        List<Bson> pipeline = Arrays.asList(
+            lookup("Phong", "Phong", "maPhong", "Phongs"),
+            lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
+            match(or(
+                and(
+                    gte("ngayNhanPhong", ngayBatDau),
+                    lte("ngayNhanPhong", ngayKetThuc)
+                ),
+                and(
+                    gte("ngayTraPhong", ngayBatDau),
+                    lte("ngayTraPhong", ngayKetThuc)
+                )
+            )),
+            project(fields(
+                include("LoaiPhongs.donGia", "ngayNhanPhong", "ngayTraPhong", "dichVuSuDung.tenDV", "dichVuSuDung.donGia")
+            ))
+        );
+
+        // Thực thi aggregate
+        AggregateIterable<Document> results = donDatPhongCollection.aggregate(pipeline);
+
+        // Chuyển kết quả thành ArrayList
+        ArrayList<Document> documents = new ArrayList<>();
+        results.into(documents);
+        
+        return documents;
+    }
 }

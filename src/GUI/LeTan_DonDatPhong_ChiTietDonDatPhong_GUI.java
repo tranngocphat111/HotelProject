@@ -69,7 +69,7 @@ public class LeTan_DonDatPhong_ChiTietDonDatPhong_GUI extends javax.swing.JDialo
                     kh.getMaKhachHang(),
                     kh.getCCCD(),
                     kh.getTenKhachHang(),
-                    kh.getGioiTinh() == 1 ? "Nam" :"Nữ",
+                    kh.getGioiTinh(),
                     kh.getSoDienThoai(),
                     kh.getEmail(),
                     kh.getQuocTich()

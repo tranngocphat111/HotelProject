@@ -19,24 +19,13 @@ public class DonDatPhong {
     private Date ngayTraPhong;
     private String trangThai;
     private List<KhachHang> khachO;
-    private List<DichVu> dichVuSuDung;
-    private int phong;
+    private List<DichVuEmbed> dichVuSuDung;
+    private PhongEmbed phong;
     private int hoaDon;
-    private MongoDBConnection database = new MongoDBConnection();
-    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database.getDatabase());
-    private PhongDAO phong_dao = new PhongDAO(database.getDatabase());
+    
+    private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(MongoDBConnection.getDatabase());
+    private PhongDAO phong_dao = new PhongDAO(MongoDBConnection.getDatabase());
 
-    public DonDatPhong(int maDonDat, Date ngayDatPhong, Date ngayNhanPhong, Date ngayTraPhong, String trangThai, List<KhachHang> khachO, List<DichVu> dichVuSuDung, int phong, int hoaDon) {
-        this.maDonDat = maDonDat;
-        this.ngayDatPhong = ngayDatPhong;
-        this.ngayNhanPhong = ngayNhanPhong;
-        this.ngayTraPhong = ngayTraPhong;
-        this.trangThai = trangThai;
-        this.khachO = khachO;
-        this.dichVuSuDung = dichVuSuDung;
-        this.phong = phong;
-        this.hoaDon = hoaDon;
-    }
 
     public DonDatPhong() {
     }
@@ -89,21 +78,22 @@ public class DonDatPhong {
         this.khachO = khachO;
     }
 
-    public List<DichVu> getDichVuSuDung() {
+    public List<DichVuEmbed> getDichVuSuDung() {
         return dichVuSuDung;
     }
 
-    public void setDichVuSuDung(List<DichVu> dichVuSuDung) {
+    public void setDichVuSuDung(List<DichVuEmbed> dichVuSuDung) {
         this.dichVuSuDung = dichVuSuDung;
     }
 
-    public int getPhong() {
+    public PhongEmbed getPhong() {
         return phong;
     }
 
-    public void setPhong(int phong) {
+    public void setPhong(PhongEmbed phong) {
         this.phong = phong;
     }
+
 
     public int getHoaDon() {
         return hoaDon;
@@ -112,6 +102,8 @@ public class DonDatPhong {
     public void setHoaDon(int hoaDon) {
         this.hoaDon = hoaDon;
     }
+
+    
 
     public static DonDatPhong fromDocument(Document doc) {
         DonDatPhong donDatPhong = new DonDatPhong();
@@ -137,7 +129,7 @@ public class DonDatPhong {
             List<Document> khachODocs = (List<Document>) doc.get("KhachO");
             List<KhachHang> khachO = new ArrayList<>();
             for (Document khachODoc : khachODocs) {
-                KhachHang khachHang = new KhachHang().fromDocument(khachODoc);
+                KhachHang khachHang = KhachHang.fromDocument(khachODoc);
                 if(khachHang != null) khachO.add(khachHang);
             }
             donDatPhong.setKhachO(khachO);
@@ -146,17 +138,20 @@ public class DonDatPhong {
         // Convert DichVuSuDung array
         if (doc.containsKey("dichVuSuDung")) {
             List<Document> dichVuDocs = (List<Document>) doc.get("dichVuSuDung");
-            List<DichVu> dichVuSuDung = new ArrayList<>();
+            List<DichVuEmbed> dichVuSuDung = new ArrayList<>();
             for (Document dichVuDoc : dichVuDocs) {
                 
-                DichVu dichVu = new DichVu().fromDocument(dichVuDoc);
+                DichVuEmbed dichVu = DichVuEmbed.fromDocument(dichVuDoc);
                 if(dichVu != null) dichVuSuDung.add(dichVu);
             }
             donDatPhong.setDichVuSuDung(dichVuSuDung);
         }
 
         if (doc.containsKey("Phong")) {
-            donDatPhong.setPhong(doc.getInteger("Phong"));
+            PhongEmbed phong = PhongEmbed.fromDocument((Document)doc.get("Phong"));
+            if (phong != null) {
+                donDatPhong.setPhong(phong);
+            }
         }
         if (doc.containsKey("HoaDon")) {
             donDatPhong.setHoaDon(doc.getInteger("HoaDon"));
@@ -173,29 +168,22 @@ public class DonDatPhong {
     }
 
     public int thanhTien() {
-        LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(getPhong()).getLoaiPhong());
         int tongTienDV = 0;
         if (getDichVuSuDung().size() != 0) {
-            for (DichVu dv : getDichVuSuDung()) {
-                tongTienDV = tongTienDV + dv.getDonGia();
+            for (DichVuEmbed dv : getDichVuSuDung()) {
+                tongTienDV = tongTienDV + (dv.getDonGia() * dv.getSoLuong());
             }
             
         }
-        return getSoluongNgaySuDung() * loaiPhong.getDonGia() + tongTienDV;
+        return getSoluongNgaySuDung() * phong.getDonGia()  + tongTienDV;
     }
 
     @Override
     public String toString() {
-        return "DonDatPhong{"
-                + "maDonDat=" + maDonDat
-                + ", ngayDatPhong=" + ngayDatPhong
-                + ", ngayNhanPhong=" + ngayNhanPhong
-                + ", ngayTraPhong=" + ngayTraPhong
-                + ", trangThai=" + trangThai
-                + ", khachO=" + khachO
-                + ", dichVuSuDung=" + dichVuSuDung
-                + ", phong=" + phong
-                + ", hoaDon=" + hoaDon
-                + '}';
+        return "DonDatPhong{" + "maDonDat=" + maDonDat + ", ngayDatPhong=" + ngayDatPhong + ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong + ", trangThai=" + trangThai + ", khachO=" + khachO + ", dichVuSuDung=" + dichVuSuDung + ", phong=" + phong + ", hoaDon=" + hoaDon + '}';
     }
+
+    
+
+
 }

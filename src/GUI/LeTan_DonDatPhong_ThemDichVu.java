@@ -10,6 +10,9 @@ import static GUI.LeTan_DonDatPhong_GUI.GetAllDonDatPhong;
 import static GUI.LeTan_DonDatPhong_GUI.donDatPhong_dao;
 import static GUI.LeTan_DonDatPhong_GUI.list_DonDatPhong;
 import static GUI.LeTan_DonDatPhong_GUI.list_DonDatPhongTheoTieuChi;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
@@ -18,12 +21,15 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 import keeptoo.KGradientPanel;
 import model.DAO.DichVuDAO;
 import model.DAO.DonDatPhongDAO;
 import model.DAO.HoaDonDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
+import model.DTO.DichVuEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.TienNghi;
@@ -38,12 +44,15 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     private List<DichVu> list_DichVu = new ArrayList<>();
     private DichVuDAO dichVu_dao = new DichVuDAO(database);
     DecimalFormat df = new DecimalFormat("#,##0");
-    private List<DichVu> list_DichVuDuocChon = new ArrayList<>();
+    private List<DichVuEmbed> list_DichVuDuocChon = new ArrayList<>();
     private ArrayList<KGradientPanel> list_DichVuCoSan = new ArrayList<>();
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private DonDatPhong donDatPhong = new DonDatPhong();
     private DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
     private HoaDonDAO hoaDon_Dao = new HoaDonDAO(database);
+    private List<JLabel> list_Cong = new ArrayList<>();
+    private List<JLabel> list_Tru = new ArrayList<>();
+    private List<JLabel> list_SoLuong = new ArrayList<>();
 
     /**
      * Creates new form LeTan_DonDatPhong_ThemDichVui
@@ -58,13 +67,12 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         list_DichVu = dichVu_dao.getAllDichVu();
         DocDuLieuLenFrame();
 //        Load những dịch vụ mà đơn đặt phòng đã có
-        for (DichVu dv : donDatPhong.getDichVuSuDung()) {
+        for (DichVuEmbed dv : donDatPhong.getDichVuSuDung()) {
             for (KGradientPanel btn : list_btn) {
                 if (dv.getMaDV() == Integer.parseInt(btn.getName())) {
                     list_DichVuCoSan.add(btn);
-                    list_DichVuDuocChon.add(dichVu_dao.getDichVuByMa(Integer.parseInt(btn.getName())));
-                    btn.setkEndColor(new java.awt.Color(242, 92, 92));
-                    btn.setkStartColor(new java.awt.Color(228, 30, 30));
+                    btn.setkEndColor(new java.awt.Color(61, 214, 89));
+                    btn.setkStartColor(new java.awt.Color(13, 195, 6));
                     btn.setFocusable(false);
                     break;
 
@@ -73,121 +81,258 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         }
 
 //        Bắt sự kiện các Dịch vụ
-        list_btn.forEach((btn) -> {
-            btn.addMouseListener(new MouseListener() {
-                boolean click = false;
-
+//        list_btn.forEach((btn) -> {
+//            btn.addMouseListener(new MouseListener() {
+//                boolean click = false;
+//
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mousePressed(MouseEvent e) {
+//                    for (KGradientPanel btn_DaChon : list_DichVuCoSan) {
+//                        if (btn.getName().equals(btn_DaChon.getName())) {
+//                            return;
+//                        }
+//                    }
+//                    if (click) {
+//
+//                        btn.setkStartColor(new java.awt.Color(255, 255, 255));
+//                        btn.setkEndColor(new java.awt.Color(255, 255, 255));
+//                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+//                        btn.setBorder(null);
+//                        click = false;
+//                    } else {
+//                        btn.setkStartColor(new java.awt.Color(255, 225, 27));
+//                        btn.setkEndColor(new java.awt.Color(255, 222, 89));
+//                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+//                        btn.setBorder(null);
+//                        click = true;
+//                    }
+//                }
+//
+//                @Override
+//                public void mouseReleased(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//
+//                }
+//
+//                @Override
+//                public void mouseExited(MouseEvent e) {
+//
+//                }
+//            });
+//        });
+//        Bắt sự kiện dấu trừ
+        list_Tru.forEach((element) -> {
+            element.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    for (KGradientPanel btn_DaChon : list_DichVuCoSan) {
-                        if (btn.getName().equals(btn_DaChon.getName())) {
-                            JOptionPane.showMessageDialog(null, "Dịch vụ đang được sử dụng, không được chọn");
-                            return;
+                    for (JLabel soluong : list_SoLuong) {
+                        if (element.getName().equals(soluong.getName())) {
+                            int TruDi = Integer.parseInt(soluong.getText()) - 1;
+                            if (TruDi >= getSoLuongBanDau(Integer.parseInt(element.getName()))) {
+                                soluong.setText(TruDi + "");
+                                if (TruDi == 0) {
+                                    list_btn.forEach((btn) -> {
+                                        if (element.getName().equals(btn.getName())) {
+                                            btn.setkStartColor(new java.awt.Color(255, 255, 255));
+                                            btn.setkEndColor(new java.awt.Color(255, 255, 255));
+                                            btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                                            btn.setBorder(null);
+
+                                        }
+                                    });
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Không thể giảm được nữa !!!");
+                                return;
+                            }
+
                         }
-                    }
-                    if (click) {
-                        btn.setkStartColor(new java.awt.Color(255, 255, 255));
-                        btn.setkEndColor(new java.awt.Color(255, 255, 255));
-                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                        btn.setBorder(null);
-                        click = false;
-                        list_DichVuDuocChon.remove(dichVu_dao.getDichVuByMa(Integer.parseInt(btn.getName())));
-                    } else {
-                        btn.setkStartColor(new java.awt.Color(255, 225, 27));
-                        btn.setkEndColor(new java.awt.Color(255, 222, 89));
-                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                        btn.setBorder(null);
-                        click = true;
-                        list_DichVuDuocChon.add(dichVu_dao.getDichVuByMa(Integer.parseInt(btn.getName())));
                     }
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
+                }
+            });
+        });
+        //        Bắt sự kiện dấu cộng
+        list_Cong.forEach((element) -> {
+            element.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                }
 
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    for (JLabel soluong : list_SoLuong) {
+                        if (element.getName().equals(soluong.getName())) {
+                            int congThem = Integer.parseInt(soluong.getText()) + 1;
+                            soluong.setText(congThem + "");
+                            list_btn.forEach((btn) -> {
+                                if (element.getName().equals(btn.getName())) {
+
+                                    btn.setkStartColor(new java.awt.Color(255, 225, 27));
+                                    btn.setkEndColor(new java.awt.Color(255, 222, 89));
+                                    btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                                    btn.setBorder(null);
+                                }
+                            });
+
+                        }
+                    }
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
                 }
             });
         });
         setLocationRelativeTo(null);
     }
 
+    public int getSoLuongBanDau(int maDV) {
+        for (DichVuEmbed dv : donDatPhong.getDichVuSuDung()) {
+            if (dv.getMaDV() == maDV) {
+                return dv.getSoLuong();
+            }
+        }
+        return 0;
+    }
+
     public void DocDuLieuLenFrame() {
         int i = 1;
-        Panel_DichVu.setLayout(new java.awt.GridLayout(getRowDichVu(list_DichVu.size()), 2, 18, 17));
+        Panel_DichVus.setLayout(new java.awt.GridLayout(list_DichVu.size(), 1, 0, 30));
         for (DichVu dichVu : list_DichVu) {
             KGradientPanel btn_DichVu = new KGradientPanel();
             btn_DichVu.setkEndColor(new java.awt.Color(255, 255, 255));
-            btn_DichVu.setkGradientFocus(250);
             btn_DichVu.setkStartColor(new java.awt.Color(255, 255, 255));
-
-            JLabel label_TenDichVu = new JLabel();
-            label_TenDichVu.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-            label_TenDichVu.setText(dichVu.getTenDV());
-            label_TenDichVu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            label_TenDichVu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btn_DichVu.setPreferredSize(new java.awt.Dimension(687, 93));
+            btn_DichVu.setLayout(null);
 
             JLabel icon_DichVu = new JLabel();
+            icon_DichVu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             ImageIcon icon = new ImageScale().load1(new ImageIcon(dichVu.getHinhAnh()), 77, 60);
             icon_DichVu.setIcon(icon);
+            btn_DichVu.add(icon_DichVu);
+            icon_DichVu.setBounds(9, 6, 72, 86);
 
             JLabel label_MoTa = new JLabel();
+            label_MoTa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
             label_MoTa.setText(dichVu.getMoTa());
+            btn_DichVu.add(label_MoTa);
+            label_MoTa.setBounds(90, 50, 280, 20);
+
+            JLabel label_TenDichVu = new JLabel();
+            label_TenDichVu.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+            label_TenDichVu.setText(dichVu.getTenDV());
+            btn_DichVu.add(label_TenDichVu);
+            label_TenDichVu.setBounds(90, 10, 161, 50);
 
             JLabel label_DonGia = new JLabel();
-            label_DonGia.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+            label_DonGia.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+            label_DonGia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             label_DonGia.setText(df.format(dichVu.getDonGia()) + " VND");
+            btn_DichVu.add(label_DonGia);
+            label_DonGia.setBounds(370, 10, 230, 70);
 
-            javax.swing.GroupLayout btn_DichVuLayout = new javax.swing.GroupLayout(btn_DichVu);
-            btn_DichVu.setLayout(btn_DichVuLayout);
-            btn_DichVuLayout.setHorizontalGroup(
-                    btn_DichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(btn_DichVuLayout.createSequentialGroup()
+            JPanel panel_soLuongSuDung = new JPanel();
+            panel_soLuongSuDung.setOpaque(false);
+
+            JLabel icon_Cong = new JLabel();
+            icon_Cong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            icon_Cong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_Cong.png"))); // NOI18N
+
+            JLabel icon_Tru = new JLabel();
+            icon_Tru.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            icon_Tru.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_Tru.png"))); // NOI18N
+
+            JLabel label_SoLuong = new JLabel();
+            label_SoLuong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+            label_SoLuong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            if (donDatPhong.getDichVuSuDung().size() != 0) {
+                for (DichVuEmbed dv : donDatPhong.getDichVuSuDung()) {
+                    if (dv.getMaDV() == dichVu.getMaDV()) {
+                        label_SoLuong.setText(dv.getSoLuong() + "");
+                        break;
+                    } else {
+                        label_SoLuong.setText("0");
+                    }
+                }
+            } else {
+                label_SoLuong.setText("0");
+            }
+
+            label_SoLuong.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+            javax.swing.GroupLayout panel_soLuongSuDungLayout = new javax.swing.GroupLayout(panel_soLuongSuDung);
+            panel_soLuongSuDung.setLayout(panel_soLuongSuDungLayout);
+            panel_soLuongSuDungLayout.setHorizontalGroup(
+                    panel_soLuongSuDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel_soLuongSuDungLayout.createSequentialGroup()
                                     .addContainerGap()
-                                    .addComponent(icon_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(btn_DichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(label_TenDichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(label_MoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(label_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addContainerGap(14, Short.MAX_VALUE))
+                                    .addGroup(panel_soLuongSuDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(icon_Cong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(icon_Tru, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(label_SoLuong, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                                    .addContainerGap())
             );
-            btn_DichVuLayout.setVerticalGroup(
-                    btn_DichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_DichVuLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(label_TenDichVu)
-                                    .addGap(0, 0, 0)
-                                    .addComponent(label_MoTa)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(label_DonGia)
-                                    .addGap(0, 6, Short.MAX_VALUE))
-                            .addComponent(icon_DichVu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            panel_soLuongSuDungLayout.setVerticalGroup(
+                    panel_soLuongSuDungLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel_soLuongSuDungLayout.createSequentialGroup()
+                                    .addComponent(icon_Cong, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(3, 3, 3)
+                                    .addComponent(label_SoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, Short.MAX_VALUE)
+                                    .addGap(3, 3, 3)
+                                    .addComponent(icon_Tru, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())
             );
-            btn_DichVu.setName(i++ + "");
+
+            btn_DichVu.add(panel_soLuongSuDung);
+            panel_soLuongSuDung.setBounds(598, 6, 90, 80);
+
+            Panel_DichVus.add(btn_DichVu);
+            btn_DichVu.setName(i + "");
+            icon_Cong.setName(i + "");
+            icon_Tru.setName(i + "");
+            label_SoLuong.setName(i + "");
+            i++;
             list_btn.add(btn_DichVu);
-            Panel_DichVu.add(btn_DichVu);
+            list_Cong.add(icon_Cong);
+            list_Tru.add(icon_Tru);
+            icon_Cong.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            icon_Tru.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            list_SoLuong.add(label_SoLuong);
+            Panel_DichVus.add(btn_DichVu);
         }
-
-    }
-
-    public int getRowDichVu(int n) {
-
-        return n / 2 + n % 2;
 
     }
 
@@ -204,7 +349,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
-        Panel_DichVu = new javax.swing.JPanel();
+        Panel_DichVus = new javax.swing.JPanel();
         btn_XacNhan = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         btn_Huy = new keeptoo.KGradientPanel();
@@ -216,10 +361,9 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         kGradientPanel1.setkEndColor(new java.awt.Color(0, 0, 0));
         kGradientPanel1.setkGradientFocus(250);
         kGradientPanel1.setkStartColor(new java.awt.Color(0, 0, 0));
-        kGradientPanel1.setPreferredSize(new java.awt.Dimension(783, 513));
 
         jPanel1.setOpaque(false);
-        jPanel1.setPreferredSize(new java.awt.Dimension(783, 513));
+        jPanel1.setPreferredSize(new java.awt.Dimension(783, 450));
 
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setBorder(null);
@@ -229,24 +373,24 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setPreferredSize(new java.awt.Dimension(783, 384));
 
-        Panel_DichVu.setBackground(new java.awt.Color(0, 0, 0));
-        Panel_DichVu.setLayout(new java.awt.GridLayout(2, 2, 35, 35));
+        Panel_DichVus.setBackground(new java.awt.Color(0, 0, 0));
+        Panel_DichVus.setLayout(new java.awt.GridLayout(1, 1, 0, 30));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(Panel_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(796, Short.MAX_VALUE))
+                .addGap(56, 56, 56)
+                .addComponent(Panel_DichVus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(740, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(Panel_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(353, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addComponent(Panel_DichVus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(355, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel3);
@@ -334,38 +478,34 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(418, 418, 418)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_XacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(btn_Huy, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(53, 53, 53))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_XacNhan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Huy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
         kGradientPanel1.setLayout(kGradientPanel1Layout);
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 779, Short.MAX_VALUE)
-            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 509, Short.MAX_VALUE)
-            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -422,6 +562,12 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
 
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
+        for (JLabel soluong : list_SoLuong) {
+            if (Integer.parseInt(soluong.getText()) != 0) {
+                DichVuEmbed dv = dichVu_dao.getDichVuEmbedByMa(Integer.parseInt(soluong.getName()));
+                list_DichVuDuocChon.add(new DichVuEmbed(dv.getMaDV(), dv.getTenDV(), dv.getDonGia(), Integer.parseInt(soluong.getText())));
+            }
+        }
         donDatPhong.setDichVuSuDung(list_DichVuDuocChon);
         donDatPhong_dao.updateDonDatPhong(donDatPhong);
         HoaDon hoaDon = hoaDon_Dao.getHoaDonByMa(donDatPhong.getHoaDon());
@@ -510,7 +656,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Panel_DichVu;
+    private javax.swing.JPanel Panel_DichVus;
     private keeptoo.KGradientPanel btn_Huy;
     private keeptoo.KGradientPanel btn_XacNhan;
     private javax.swing.JLabel jLabel19;

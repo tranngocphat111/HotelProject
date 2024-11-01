@@ -125,17 +125,4 @@ public class PhongDAO {
         return phongs;
     }
     
-    
-    
-    public ArrayList<Phong> getAllPhongs() {
-        ArrayList<Phong> phongs = new ArrayList<>();
-        try (MongoCursor<Document> cursor = phongCollection.find().iterator()) {
-            while (cursor.hasNext()) {
-                Document document = cursor.next();
-                Phong phong = Phong.fromDocument(document);
-                phongs.add(phong);
-            }
-        }
-        return phongs;
-    }
 }

@@ -6,13 +6,11 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
-import com.mongodb.client.MongoDatabase;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
@@ -23,18 +21,19 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
+import model.DAO.DonDatPhongDAO;
 import model.DAO.LoaiPhongDAO;
+import model.DAO.PhongDAO;
 import model.DAO.TienNghiDAO;
+import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
-import model.MongoDBConnection;
 import test.convertImage;
 
 /**
@@ -47,8 +46,14 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
      * Creates new form LeTan_DatPhong_GUI
      */
     private DefaultTableModel model;
+    private List<TienNghi> list_TienNghi = new ArrayList<>();
     private TienNghiDAO tienNghiDAO = new TienNghiDAO(database);
+    private List<LoaiPhong> list_LoaiPhong = new ArrayList<>();
     private LoaiPhongDAO loaiphongDAO = new LoaiPhongDAO(database);
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
+    private List<Phong> list_Phong = new ArrayList<Phong>();
+    private PhongDAO phong_dao = new PhongDAO(database);
     private byte[] hinhAnh = null;
     private DefaultTableCellRenderer centerRenderer;
 
@@ -601,14 +606,14 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
     private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
         // TODO add your handling code here:
-        if (area_moTa.getText().equals("Mô Tả")) {
+        if (area_moTa.getText().trim().equals("Mô Tả")) {
             area_moTa.setText("");
         }
     }//GEN-LAST:event_area_moTaFocusGained
 
     private void area_moTaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusLost
         // TODO add your handling code here:
-        if (area_moTa.getText().equals("")) {
+        if (area_moTa.getText().trim().equals("")) {
             area_moTa.setText("Mô Tả");
         }
     }//GEN-LAST:event_area_moTaFocusLost
@@ -616,14 +621,14 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
 
-        if (txt_tienNghi.getText().isBlank()) {
+        if (txt_tienNghi.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập tên dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập tên tiện nghi");
             txt_tienNghi.requestFocus();
             return;
         }
-        if (area_moTa.getText().equals("Mô Tả") || area_moTa.getText().equals("")) {
+        if (area_moTa.getText().trim().equals("Mô Tả") || area_moTa.getText().trim().equals("")) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
             JOptionPane.showMessageDialog(this, "Nhập mô tả tiện nghi");
             area_moTa.requestFocus();
@@ -634,11 +639,11 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Chọn hình ảnh");
             return;
         }
-//            if(txtHinhAnh.getText().isBlank()) {
+//            if(txtHinhAnh.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa chọn hình ảnh dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập đơn giá dịch vụ!");
 //            }
-        String tenTienNghi = txt_tienNghi.getText();
+        String tenTienNghi = txt_tienNghi.getText().trim();
 
         if (tienNghiDAO.timTienNghi(tenTienNghi) != null) {
 //                JOptionPane.showMessageDialog(this, "Đã có dịch vụ có tên " + tenTienNghi, "Trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
@@ -648,7 +653,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         }
 
         int maTienNghi = tienNghiDAO.getAllTienNghi().getLast().getMaTienNghi() + 1;
-        String moTaTienNghi = area_moTa.getText();
+        String moTaTienNghi = area_moTa.getText().trim();
 
         byte[] img = hinhAnh;
 
@@ -673,12 +678,23 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
     private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
         // TODO add your handling code here:
+
+        if (table_TienNghi.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
+            return;
+        }
         int row = table_TienNghi.getSelectedRow();
+
+        int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(row, 0).toString());
+        if (checkTienNghiDangSuDung(maTN)) {
+            JOptionPane.showMessageDialog(this, "Tiện nghi đang được sử dụng!!! Không thể xóa");
+            return;
+        }
 
         if (row != -1) {
 
             if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa tiện nghi?" + "\n" + "Nó có thể thay đổi loại phòng? ", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(row, 0).toString());
+
                 String tenTN = table_TienNghi.getModel().getValueAt(row, 1).toString();
 //            String moTa = jTable1.getModel().getValueAt(row, 2).toString();
 //            int donGia = Integer.parseInt(jTable1.getModel().getValueAt(row, 3).toString());
@@ -686,23 +702,69 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
                 TienNghi x = tienNghiDAO.timTienNghi(tenTN);
 
                 tienNghiDAO.xoaTienNghi(x);
-                
+
                 List<LoaiPhong> list_lPhong = loaiphongDAO.getAllLoaiPhong();
-                for(LoaiPhong lp : list_lPhong){
-                    if(lp.getTienNghis().size() == 0){
+                for (LoaiPhong lp : list_lPhong) {
+                    if (lp.getTienNghis().size() == 0) {
                         loaiphongDAO.deleteLoaiPhong(lp.getMaLoaiPhong());
                     }
                 }
-                
+
                 DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
                 LamMoi();
             }
 //          
-        } else {
-            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
-            return;
-        }
+        } 
     }//GEN-LAST:event_btn_XoaMousePressed
+
+    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            if (phong.getLoaiPhong() == loaiPhong) {
+                list_PhongByLoai.add(phong);
+            }
+
+        }
+
+        return list_PhongByLoai;
+    }
+
+    public List<LoaiPhong> getAllLoaiPhongByMaTienNghi(List<LoaiPhong> list_LoaiPhong, int maTienNghi) {
+        List<LoaiPhong> list_LoaiPhongByTienNghi = new ArrayList<>();
+        list_TienNghi = tienNghiDAO.getAllTienNghi();
+        TienNghi tiennghi = new TienNghi();
+        for (TienNghi tn : list_TienNghi) {
+            if (tn.getMaTienNghi() == maTienNghi) {
+                tiennghi = tn;
+                break;
+            }
+        }
+        for (LoaiPhong loaiphong : list_LoaiPhong) {
+            if (loaiphong.getTienNghis().contains(tiennghi)) {
+                list_LoaiPhongByTienNghi.add(loaiphong);
+            }
+        }
+        return list_LoaiPhongByTienNghi;
+    }
+
+    public boolean checkTienNghiDangSuDung(int maTienNghi) {
+        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiOVaCho();
+        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+        list_LoaiPhong = loaiphongDAO.getAllLoaiPhong();
+        for (DonDatPhong ddp : list_DonDatPhong) {
+            for (LoaiPhong loaiPhong : getAllLoaiPhongByMaTienNghi(list_LoaiPhong, maTienNghi)) {
+                List<Phong> list_ph = getAllPhongByLoaiPhong(list_Phong, loaiPhong.getMaLoaiPhong());
+                for (Phong p : list_ph) {
+                    if (p.getMaPhong() == ddp.getPhong().getMaPhong()) {
+
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
         // TODO add your handling code here:
@@ -710,14 +772,20 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Chọn dòng cần sửa");
             return;
         }
-        if (txt_tienNghi.getText().isBlank()) {
+        int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(table_TienNghi.getSelectedRow(), 0).toString());
+        if (checkTienNghiDangSuDung(maTN)) {
+            JOptionPane.showMessageDialog(this, "Tiện nghi đang được sử dụng!!! Không thể sửa");
+            return;
+        }
+
+        if (txt_tienNghi.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập tên dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập tiện nghi");
             txt_tienNghi.requestFocus();
             return;
         }
-        if (area_moTa.getText().equals("Mô Tả") || area_moTa.getText().equals("")) {
+        if (area_moTa.getText().trim().equals("Mô Tả") || area_moTa.getText().trim().equals("")) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
             JOptionPane.showMessageDialog(this, "Nhập mô tả");
             area_moTa.requestFocus();
@@ -734,9 +802,9 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
 
             System.out.println(x.toString());
-            tenTienNghi = txt_tienNghi.getText();
+            tenTienNghi = txt_tienNghi.getText().trim();
             int maDV = x.getMaTienNghi();
-            String moTaDV = area_moTa.getText();
+            String moTaDV = area_moTa.getText().trim();
             byte[] hinhAnh = this.hinhAnh;
 
             System.out.println("Trên label" + String.format("%d %s", maDV, moTaDV));
@@ -766,7 +834,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
-//        String tenTienNghi = txt_tienNghi.getText().toString();
+//        String tenTienNghi = txt_tienNghi.getText().trim().toString();
 //
 ////        System.out.println(tenTienNghi);
 //        if (tenTienNghi.equals("")) {
@@ -784,19 +852,18 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 //            JOptionPane.showMessageDialog(this, "Không có tiện nghi có tên " + tenTienNghi, "Không tìm thấy dữ liệu", JOptionPane.ERROR_MESSAGE);
 //        }
         List<TienNghi> ListTienNghiTim = tienNghiDAO.getAllTienNghi();
-        if (!txt_tienNghi.getText().isEmpty()) {
-            ListTienNghiTim = getListTienNghiTheoTen(ListTienNghiTim, txt_tienNghi.getText());
+        if (!txt_tienNghi.getText().trim().isEmpty()) {
+            ListTienNghiTim = getListTienNghiTheoTen(ListTienNghiTim, txt_tienNghi.getText().trim());
             System.out.println(ListTienNghiTim);
             System.out.println(1);
         }
 
-        if (!area_moTa.getText().equals("Mô Tả")) {
-            ListTienNghiTim = getListTienNghiTheoMoTa(ListTienNghiTim, area_moTa.getText());
+        if (!area_moTa.getText().trim().equals("Mô Tả")) {
+            ListTienNghiTim = getListTienNghiTheoMoTa(ListTienNghiTim, area_moTa.getText().trim());
             System.out.println(ListTienNghiTim);
             System.out.println(2);
         }
 
-        
         DocDuLieuLenTableTienNghi(ListTienNghiTim);
     }//GEN-LAST:event_btn_TimMousePressed
 

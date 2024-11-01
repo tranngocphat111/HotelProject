@@ -36,7 +36,7 @@ public class testCollectAllData {
 
         // Test PhongDAO
         PhongDAO phongDAO = new PhongDAO(database);
-        ArrayList<Phong> phongList = phongDAO.getAllPhongs();
+        List<Phong> phongList = phongDAO.getAllPhong();
         System.out.println("Phong:");
         for (Phong phong : phongList) {
             System.out.println(phong);
@@ -98,13 +98,13 @@ public class testCollectAllData {
             System.out.println(donDatPhong);
         }
 
-        // Test HoaDonDAO
-        HoaDonDAO hoaDonDAO = new HoaDonDAO(database);
-        List<HoaDon> hoaDonList = hoaDonDAO.getAllHoaDon();
-        System.out.println("\nHoaDon:");
-        for (HoaDon hoaDon : hoaDonList) {
-            System.out.println(hoaDon);
-        }
+//        // Test HoaDonDAO
+//        HoaDonDAO hoaDonDAO = new HoaDonDAO(database);
+//        List<HoaDon> hoaDonList = hoaDonDAO.getAllHoaDon();
+//        System.out.println("\nHoaDon:");
+//        for (HoaDon hoaDon : hoaDonList) {s
+//            System.out.println(hoaDon);
+//        }
 
     }
 }

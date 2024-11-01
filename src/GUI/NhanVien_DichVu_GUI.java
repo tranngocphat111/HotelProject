@@ -37,8 +37,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.DichVuDAO;
+import model.DAO.DonDatPhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
+import model.DTO.DichVuEmbed;
+import model.DTO.DonDatPhong;
+import model.DTO.LoaiPhong;
+import model.DTO.Phong;
 import model.DTO.TienNghi;
 import model.MongoDBConnection;
 import test.convertImage;
@@ -53,10 +58,13 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
      * Creates new form LeTan_DatPhong_GUI
      */
     DecimalFormat df = new DecimalFormat("#,##0");
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private DefaultTableModel model;
     private DefaultTableCellRenderer centerRenderer;
     private DichVuDAO dichVuDAO = new DichVuDAO(database);
+    private List<DichVu> list_DichVu = new ArrayList<>();
     List<DichVu> list_dv = dichVuDAO.getAllDichVu();
 
     private byte[] hinhAnh = null;
@@ -631,14 +639,14 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
     private void area_moTaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusGained
         // TODO add your handling code here:
-        if (area_moTa.getText().equals("Mô Tả")) {
+        if (area_moTa.getText().trim().equals("Mô Tả")) {
             area_moTa.setText("");
         }
     }//GEN-LAST:event_area_moTaFocusGained
 
     private void area_moTaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_area_moTaFocusLost
         // TODO add your handling code here:
-        if (area_moTa.getText().equals("")) {
+        if (area_moTa.getText().trim().equals("")) {
             area_moTa.setText("Mô Tả");
         }
     }//GEN-LAST:event_area_moTaFocusLost
@@ -693,7 +701,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
     private void btn_themMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_themMousePressed
         // TODO add your handling code here:
-        if (txt_DichVu.getText().isBlank()) {
+        if (txt_DichVu.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Nhập tên dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập tên dịch vụ");
@@ -701,7 +709,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txtDonGia.getText().isBlank()) {
+        if (txtDonGia.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập đơn giá dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập đơn giá dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập đơn giá dịch vụ");
@@ -710,14 +718,14 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         }
 
         String regex = "\\d+";
-        if (!txtDonGia.getText().matches(regex)) {
+        if (!txtDonGia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
             txtDonGia.setText("");
             txtDonGia.requestFocus();
             return;
         }
 
-        if (area_moTa.getText().equals("Mô Tả")) {
+        if (area_moTa.getText().trim().equals("Mô Tả")) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Nhập mô tả dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập mô tả dịch vụ");
@@ -730,11 +738,11 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Chọn hình ảnh dịch vụ");
             return;
         }
-//            if(txtHinhAnh.getText().isBlank()) {
+//            if(txtHinhAnh.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa chọn hình ảnh dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập đơn giá dịch vụ!");
 //            }
-        String tenDichVu = txt_DichVu.getText();
+        String tenDichVu = txt_DichVu.getText().trim();
 
         if (dichVuDAO.timDichVu(tenDichVu) != null) {
 //                JOptionPane.showMessageDialog(this, "Đã có dịch vụ có tên " + tenDichVu, "Trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
@@ -744,8 +752,8 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         }
 
         int maDichVu = dichVuDAO.getAllDichVu().getLast().getMaDV() + 1;
-        String moTaDichVu = area_moTa.getText();
-        int donGia = Integer.parseInt(txtDonGia.getText());
+        String moTaDichVu = area_moTa.getText().trim();
+        int donGia = Integer.parseInt(txtDonGia.getText().trim());
 
         byte[] img = hinhAnh;
         for (byte x : hinhAnh) {
@@ -767,9 +775,32 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         LamMoi();
     }//GEN-LAST:event_btn_themMousePressed
 
+    public boolean checkDichVuDangSuDung(int maDichVu) {
+        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiO();
+        for (DonDatPhong ddp : list_DonDatPhong) {
+            for (DichVuEmbed dve : ddp.getDichVuSuDung()) {
+                if (dve.getMaDV() == maDichVu) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
         // TODO add your handling code here:
+
+        if (table_DichVu.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
+            return;
+        }
+
         int row = table_DichVu.getSelectedRow();
+        int maDV = Integer.parseInt(table_DichVu.getModel().getValueAt(row, 0).toString());
+        if (checkDichVuDangSuDung(maDV)) {
+            JOptionPane.showMessageDialog(this, "Dịch vụ đang được sử dụng!!! Không thể xóa");
+            return;
+        }
 
         if (row != -1) {
             if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa dịch vụ?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -785,9 +816,6 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
                 DocDuLieuLenTableDichVu(list_dv);
                 LamMoi();
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Chọn dòng cần xóa");
-            return;
         }
     }//GEN-LAST:event_btn_XoaMousePressed
 
@@ -802,7 +830,15 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Chọn dòng cần sửa");
             return;
         }
-        if (txt_DichVu.getText().isBlank()) {
+        int row = table_DichVu.getSelectedRow();
+        int maDV = Integer.parseInt(table_DichVu.getModel().getValueAt(row, 0).toString());
+
+        if (checkDichVuDangSuDung(maDV)) {
+            JOptionPane.showMessageDialog(this, "Dịch vụ đang được sử dụng!!! Không thể sửa");
+            return;
+        }
+
+        if (txt_DichVu.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Nhập tên dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập tên dịch vụ");
@@ -810,7 +846,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txtDonGia.getText().isBlank()) {
+        if (txtDonGia.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập đơn giá dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Chưa nhập đơn giá dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập đơn giá dịch vụ");
@@ -819,14 +855,14 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         }
 
         String regex = "\\d+";
-        if (!txtDonGia.getText().matches(regex)) {
+        if (!txtDonGia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
             txtDonGia.setText("");
             txtDonGia.requestFocus();
             return;
         }
 
-        if (area_moTa.getText().equals("Mô Tả")) {
+        if (area_moTa.getText().trim().equals("Mô Tả")) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập mô tả dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
 //                throw new Exception("Nhập mô tả dịch vụ!");
             JOptionPane.showMessageDialog(this, "Nhập mô tả dịch vụ");
@@ -843,10 +879,9 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         DichVu x = dichVuDAO.timDichVu(tenDichVu);
 
         System.out.println(x.toString());
-        tenDichVu = txt_DichVu.getText();
-        int maDV = x.getMaDV();
-        String moTaDV = area_moTa.getText();
-        int donGia = Integer.parseInt(txtDonGia.getText());
+        tenDichVu = txt_DichVu.getText().trim();
+        String moTaDV = area_moTa.getText().trim();
+        int donGia = Integer.parseInt(txtDonGia.getText().trim());
         byte[] hinhAnh = this.hinhAnh;
 
         System.out.println("Trên label" + String.format("%d %s %d", maDV, moTaDV, donGia));
@@ -866,10 +901,10 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
-        //        String tenDV = txt_DichVu.getText();
+        //        String tenDV = txt_DichVu.getText().trim();
 //        DichVu x = dichVuDAO.timDichVu(tenDV);
 //        jTable1.setRowSelectionInterval(WIDTH, WIDTH);
-//        String tenDV = txt_DichVu.getText();
+//        String tenDV = txt_DichVu.getText().trim();
 //        if (tenDV.equals("")) {
 //            JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ cần tìm", "Chưa nhập dữ liệu", JOptionPane.ERROR_MESSAGE);
 //        }
@@ -890,20 +925,20 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 //        }
 
         List<DichVu> ListDichVuTim = dichVuDAO.getAllDichVu();
-        if (!txt_DichVu.getText().isEmpty()) {
-            ListDichVuTim = getListDichVuTheoTen(ListDichVuTim, txt_DichVu.getText());
+        if (!txt_DichVu.getText().trim().isEmpty()) {
+            ListDichVuTim = getListDichVuTheoTen(ListDichVuTim, txt_DichVu.getText().trim());
             System.out.println(ListDichVuTim);
             System.out.println(1);
         }
 
-        if (!area_moTa.getText().equals("Mô Tả")) {
-            ListDichVuTim = getListDichVuTheoMoTa(ListDichVuTim, area_moTa.getText());
+        if (!area_moTa.getText().trim().equals("Mô Tả")) {
+            ListDichVuTim = getListDichVuTheoMoTa(ListDichVuTim, area_moTa.getText().trim());
             System.out.println(ListDichVuTim);
             System.out.println(2);
         }
 
-        if (!txtDonGia.getText().isEmpty()) {
-            ListDichVuTim = getListDichVuTheoDonGia(ListDichVuTim, Integer.parseInt(txtDonGia.getText()));
+        if (!txtDonGia.getText().trim().isEmpty()) {
+            ListDichVuTim = getListDichVuTheoDonGia(ListDichVuTim, Integer.parseInt(txtDonGia.getText().trim()));
             System.out.println(ListDichVuTim);
             System.out.println(3);
         }

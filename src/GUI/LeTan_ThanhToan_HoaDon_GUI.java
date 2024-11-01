@@ -9,8 +9,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -19,6 +21,7 @@ import model.DAO.DonDatPhongDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.DTO.DichVu;
+import model.DTO.DichVuEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.LoaiPhong;
@@ -44,20 +47,20 @@ public class LeTan_ThanhToan_HoaDon_GUI extends javax.swing.JDialog {
         super(parent, modal);
         setUndecorated(true);
         initComponents();
-        lable_mahoadon.setText("HD00" + hoaDon.getMaHoaDon());
+        lable_mahoadon.setText("" + hoaDon.getMaHoaDon());
         lable_ngaytao.setText(sdf.format(hoaDon.getNgayTaoHoaDon()));
         list_DonDatPhong = dondatPhong_dao.getAllDonDatPhong();
         Panel_DSPhong.setLayout(new java.awt.GridLayout(getAllDonDatPhongTheoHoaDon(hoaDon).size(), 1));
         panel_DSDichVu.setLayout(new java.awt.GridLayout(getAllDichVutheoHoaDon(hoaDon).size(), 1));
         for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-            LoaiPhong loaiphong = loaiPhong_Dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong());
+            LoaiPhong loaiphong = loaiPhong_Dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong().getMaPhong()).getLoaiPhong());
             JPanel Panel_Phong = new JPanel();
             Panel_Phong.setBackground(new java.awt.Color(255, 255, 255));
 
             JLabel lable_phong = new JLabel();
             lable_phong.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-            lable_phong.setText(ddp.getPhong() + "");
+            lable_phong.setText(ddp.getPhong().getMaPhong() + "");
 
             JLabel lable_loaiphong = new JLabel();
             lable_loaiphong.setText(loaiphong.getTenLoaiPhong());
@@ -115,7 +118,7 @@ public class LeTan_ThanhToan_HoaDon_GUI extends javax.swing.JDialog {
         if (getAllDichVutheoHoaDon(hoaDon).size() == 0) {
             jPanel9.remove(panel_Column2);
         } else {
-            for (DichVu dichvu : getAllDichVutheoHoaDon(hoaDon)) {
+            for (DichVuEmbed dichvu : getAllDichVutheoHoaDon(hoaDon)) {
                 JPanel panel_dichVu = new JPanel();
                 panel_dichVu.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -185,25 +188,27 @@ public class LeTan_ThanhToan_HoaDon_GUI extends javax.swing.JDialog {
         return list_DDP;
     }
 
-    public Set<DichVu> getAllDichVutheoHoaDon(HoaDon hoaDon) {
-        Set<DichVu> list_dichvu = new HashSet<>();
-
+    public Set<DichVuEmbed> getAllDichVutheoHoaDon(HoaDon hoaDon) {
+        Map<Integer, DichVuEmbed> mapDichVu = new HashMap<>();
         for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-            for (DichVu dv : ddp.getDichVuSuDung()) {
-                if (!list_dichvu.contains(dv)) {
-                    list_dichvu.add(dv);
+            for (DichVuEmbed dv : ddp.getDichVuSuDung()) {
+                int maDV = dv.getMaDV();  // Giả sử mỗi DichVuEmbed có một mã dịch vụ duy nhất
+                if (!mapDichVu.containsKey(maDV)) {
+                    // Nếu dịch vụ chưa tồn tại, thêm vào map
+                    mapDichVu.put(maDV, dv);
                 }
             }
         }
-        return list_dichvu;
+
+        return new HashSet<>(mapDichVu.values());
     }
 
-    public int DemSoDichVuSuDung(DichVu dv, HoaDon hoaDon) {
+    public int DemSoDichVuSuDung(DichVuEmbed dv, HoaDon hoaDon) {
         int dem = 0;
         for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-            for (DichVu dichvu : ddp.getDichVuSuDung()) {
+            for (DichVuEmbed dichvu : ddp.getDichVuSuDung()) {
                 if (dv.getMaDV() == dichvu.getMaDV()) {
-                    dem++;
+                    dem = dem + dichvu.getSoLuong();
                 }
             }
         }

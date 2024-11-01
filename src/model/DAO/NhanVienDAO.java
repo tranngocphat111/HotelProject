@@ -87,7 +87,23 @@ public class NhanVienDAO {
 
             UpdateResult result = nhanVienCollection.updateOne(filter, updateQuery);
             
+            MongoCollection<Document> HoaDonCollection = DangNhap_GUI.database.getCollection("HoaDon");
             
+            Document filter_hd = new Document("NhanVien.maNhanVien", nhanVien.getMaNhanVien());
+            
+            Document updateDoc_hd = new Document()
+                    .append("NhanVien.maNhanVien", nhanVien.getMaNhanVien())
+                    .append("NhanVien.tenNhanVien", nhanVien.getTenNhanVien())
+                    .append("NhanVien.anhDaiDien", nhanVien.getAnhDaiDien())
+                    .append("NhanVien.SoDienThoai", nhanVien.getSoDienThoai())
+                    .append("NhanVien.CCCD", nhanVien.getCCCD())
+                    .append("NhanVien.diaChi", nhanVien.getDiaChi())
+                    .append("NhanVien.chucVu", nhanVien.getChucVu())
+                    .append("NhanVien.tenTaiKhoan", nhanVien.getTenTaiKhoan())
+                    .append("NhanVien.matKhau", nhanVien.getMatKhau());
+            
+            updateQuery = new Document("$set", updateDoc_hd);
+            HoaDonCollection.updateOne(filter_hd, updateQuery);
             
             return result.getMatchedCount() > 0;
         } catch (Exception e) {

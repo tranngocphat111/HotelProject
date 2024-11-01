@@ -239,7 +239,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
               kh.getMaKhachHang(),
               kh.getCCCD(),
               kh.getTenKhachHang(),
-              kh.getGioiTinh() == 1 ? "Nam" : "Nữ",
+              kh.getGioiTinh(),
               kh.getSoDienThoai(),
               kh.getEmail(),
               kh.getQuocTich()
@@ -731,7 +731,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
        String maKH = generateRandomCode(2);
        String cccd = txt_CCCD.getText();
        String hoTen = txt_HoTen.getText();
-       int gioiTinh = cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 1 : 0;
+       String gioiTinh = cb_GioiTinh.getSelectedItem().toString();
        String soDienThoai = txt_SĐT.getText();
        String email = txt_Email.getText();
        String quocTich = cb_QuocTich.getSelectedItem().toString();
@@ -752,7 +752,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
               kh.getMaKhachHang(),
               kh.getCCCD(),
               kh.getTenKhachHang(),
-              kh.getGioiTinh() == 1 ? "Nam" : "Nữ",
+              kh.getGioiTinh(),
               kh.getSoDienThoai(),
               kh.getEmail(),
               kh.getQuocTich()
@@ -812,7 +812,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
        String maKH = jTable1.getValueAt(selectedRow,0).toString();
        String cccd = txt_CCCD.getText();
        String hoTen = txt_HoTen.getText();
-       int gioiTinh = cb_GioiTinh.getSelectedItem().toString().equals("Nam") ? 1 : 0;
+       String gioiTinh = cb_GioiTinh.getSelectedItem().toString();
        String soDienThoai = txt_SĐT.getText();
        String email = txt_Email.getText();
        String quocTich = cb_QuocTich.getSelectedItem().toString();
@@ -826,7 +826,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
 
             jTable1.setValueAt(kh.getCCCD(), selectedRow, 1);       // Cột 1: CCCD
             jTable1.setValueAt(kh.getTenKhachHang(), selectedRow, 2); // Cột 2: TenKhachHang
-            jTable1.setValueAt(kh.getGioiTinh() == 1 ? "Nam" : "Nữ", selectedRow, 3); // Cột 3: GioiTinh
+            jTable1.setValueAt(kh.getGioiTinh(), selectedRow, 3); // Cột 3: GioiTinh
             jTable1.setValueAt(kh.getSoDienThoai(), selectedRow, 4); // Cột 4: SoDienThoai
             jTable1.setValueAt(kh.getEmail(), selectedRow, 5);       // Cột 5: Email
             jTable1.setValueAt(kh.getQuocTich(), selectedRow, 6);

@@ -18,6 +18,7 @@ public class LoaiPhong {
     private int soKhachToiDa;
     private List<TienNghi> tienNghis;
     private String loaiGiuong;
+//    private List<Integer> khuyenMai;
 
     public LoaiPhong() {
     }
@@ -110,6 +111,9 @@ public class LoaiPhong {
         if (doc.containsKey("loaiGiuong")) {
             loaiPhong.setLoaiGiuong(doc.getString("loaiGiuong"));
         }
+//        if (doc.containsKey("KhuyenMai")) {
+//            loaiPhong.setKhuyenMai(doc.getList("KhuyenMai", Integer.class));
+//        }
 
 //         Convert TienNghi array
         if (doc.containsKey("tienNghis")) {
@@ -134,6 +138,8 @@ public class LoaiPhong {
     public String toString() {
         return "LoaiPhong{" + "maLoaiPhong=" + maLoaiPhong + ", tenLoaiPhong=" + tenLoaiPhong + ", dienTich=" + dienTich + ", donGia=" + donGia + ", soKhachToiDa=" + soKhachToiDa + ", tienNghis=" + tienNghis + ", loaiGiuong=" + loaiGiuong + '}';
     }
+
+    
 
     public void sortTienNghis() {
         if (tienNghis != null) {

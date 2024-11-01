@@ -8,13 +8,13 @@ public class KhachHang {
     private String soDienThoai;
     private String CCCD;
     private String quocTich;
-    private int gioiTinh;
+    private String gioiTinh;
     private String email;
 
     public KhachHang() {
     }
 
-    public KhachHang(int maKhachHang, String tenKhachHang, String soDienThoai, String CCCD, String quocTich, int gioiTinh, String email) {
+    public KhachHang(int maKhachHang, String tenKhachHang, String soDienThoai, String CCCD, String quocTich, String gioiTinh, String email) {
         this.maKhachHang = maKhachHang;
         this.tenKhachHang = tenKhachHang;
         this.soDienThoai = soDienThoai;
@@ -24,11 +24,11 @@ public class KhachHang {
         this.email = email;
     }
 
-    public int getGioiTinh() {
+    public String getGioiTinh() {
         return gioiTinh;
     }
 
-    public void setGioiTinh(int gioiTinh) {
+    public void setGioiTinh(String gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 
@@ -84,27 +84,26 @@ public class KhachHang {
 
     public static KhachHang fromDocument(Document doc) {
         KhachHang khachHang = new KhachHang();
-
         if (doc.containsKey("maKhachHang")) {
             khachHang.setMaKhachHang(doc.getInteger("maKhachHang"));
         }
-        if (doc.containsKey("tenKhachHang")) {
-            khachHang.setTenKhachHang(doc.getString("tenKhachHang"));
+        if (doc.containsKey("HoTen")) {
+            khachHang.setTenKhachHang(doc.getString("HoTen"));
         }
-        if (doc.containsKey("soDienThoai")) {
-            khachHang.setSoDienThoai(doc.getString("soDienThoai"));
+        if (doc.containsKey("SDT")) {
+            khachHang.setSoDienThoai(doc.getString("SDT"));
         }
         if (doc.containsKey("CCCD")) {
             khachHang.setCCCD(doc.getString("CCCD"));
         }
-        if (doc.containsKey("quocTich")) {
-            khachHang.setQuocTich(doc.getString("quocTich"));
+        if (doc.containsKey("QuocTich")) {
+            khachHang.setQuocTich(doc.getString("QuocTich"));
         }
-        if (doc.containsKey("gioiTinh")) {
-            khachHang.setGioiTinh(doc.getInteger("gioiTinh"));
+        if (doc.containsKey("GioiTinh")) {
+            khachHang.setGioiTinh(doc.getString("GioiTinh"));
         }
-        if (doc.containsKey("email")) {
-            khachHang.setEmail(doc.getString("email"));
+        if (doc.containsKey("Email")) {
+            khachHang.setEmail(doc.getString("Email"));
         }
 
         return khachHang;

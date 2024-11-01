@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import model.DTO.DichVu;
+import model.DTO.DichVuEmbed;
 import model.DTO.KhachHang;
 import org.bson.conversions.Bson;
 
@@ -41,6 +42,36 @@ public class DonDatPhongDAO {
     public List<DonDatPhong> getAllDonDatPhong() {
         List<DonDatPhong> donDatPhongs = new ArrayList<>();
         try (MongoCursor<Document> cursor = donDatPhongCollection.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                DonDatPhong donDatPhong = DonDatPhong.fromDocument(doc);
+                donDatPhongs.add(donDatPhong);
+            }
+        }
+        return donDatPhongs;
+    }
+
+    public List<DonDatPhong> getDonDatPhongTheoTrangThaiOVaCho() {
+        List<DonDatPhong> donDatPhongs = new ArrayList<>();
+        // Danh sách trạng thái cần tìm
+        List<String> trangThaiTimKiem = Arrays.asList("Đang ở", "Đang chờ");
+
+        try (MongoCursor<Document> cursor = donDatPhongCollection.find(new Document("trangThai", new Document("$in", trangThaiTimKiem))).iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                DonDatPhong donDatPhong = DonDatPhong.fromDocument(doc);
+                donDatPhongs.add(donDatPhong);
+            }
+        }
+        return donDatPhongs;
+    }
+
+    public List<DonDatPhong> getDonDatPhongTheoTrangThaiO() {
+        List<DonDatPhong> donDatPhongs = new ArrayList<>();
+        // Trạng thái cần tìm
+        String trangThaiTimKiem = "Đang ở";
+
+        try (MongoCursor<Document> cursor = donDatPhongCollection.find(new Document("trangThai", trangThaiTimKiem)).iterator()) {
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 DonDatPhong donDatPhong = DonDatPhong.fromDocument(doc);
@@ -71,22 +102,22 @@ public class DonDatPhongDAO {
             for (KhachHang khachHang : donDatPhong.getKhachO()) {
                 list_KhachHang.add(new Document()
                         .append("maKhachHang", khachHang.getMaKhachHang())
-                        .append("tenKhachHang", khachHang.getTenKhachHang())
-                        .append("soDienThoai", khachHang.getSoDienThoai())
+                        .append("HoTen", khachHang.getTenKhachHang())
+                        .append("SDT", khachHang.getSoDienThoai())
                         .append("CCCD", khachHang.getCCCD())
-                        .append("gioiTinh", khachHang.getGioiTinh())
-                        .append("email", khachHang.getEmail())
-                        .append("quocTich", khachHang.getQuocTich())
+                        .append("GioiTinh", khachHang.getGioiTinh())
+                        .append("Email", khachHang.getEmail())
+                        .append("QuocTich", khachHang.getQuocTich())
                 );
             }
 
             ArrayList<Document> list_DichVu = new ArrayList<Document>();
-            for (DichVu dichVu : donDatPhong.getDichVuSuDung()) {
+            for (DichVuEmbed dichVu : donDatPhong.getDichVuSuDung()) {
                 list_DichVu.add(
                         new Document()
                                 .append("maDV", dichVu.getMaDV())
                                 .append("tenDV", dichVu.getTenDV())
-                                .append("moTa", dichVu.getMoTa())
+                                .append("soLuong", dichVu.getSoLuong())
                                 .append("donGia", dichVu.getDonGia())
                 );
             }
@@ -99,7 +130,11 @@ public class DonDatPhongDAO {
                     .append("trangThai", donDatPhong.getTrangThai())
                     .append("KhachO", list_KhachHang)
                     .append("dichVuSuDung", list_DichVu)
-                    .append("Phong", donDatPhong.getPhong())
+                    .append("Phong", new Document()
+                            .append("maPhong", donDatPhong.getPhong().getMaPhong())
+                            .append("donGia", donDatPhong.getPhong().getDonGia())
+                                .append("tenLoaiPhong", donDatPhong.getPhong().getTenLoaiPhong())
+                    )
                     .append("HoaDon", donDatPhong.getHoaDon());
 
             InsertOneResult result = donDatPhongCollection.insertOne(doc);
@@ -112,37 +147,49 @@ public class DonDatPhongDAO {
 
     public boolean updateDonDatPhong(DonDatPhong donDatPhong) {
         try {
-            ArrayList<Document> list_KhachHang = new ArrayList<>();
+            ArrayList<Document> list_KhachHang = new ArrayList<Document>();
             for (KhachHang khachHang : donDatPhong.getKhachO()) {
                 list_KhachHang.add(new Document()
                         .append("maKhachHang", khachHang.getMaKhachHang())
-                        .append("tenKhachHang", khachHang.getTenKhachHang())
-                        .append("soDienThoai", khachHang.getSoDienThoai())
+                        .append("HoTen", khachHang.getTenKhachHang())
+                        .append("SDT", khachHang.getSoDienThoai())
                         .append("CCCD", khachHang.getCCCD())
-                        .append("gioiTinh", khachHang.getGioiTinh())
-                        .append("email", khachHang.getEmail())
-                        .append("quocTich", khachHang.getQuocTich())
+                        .append("GioiTinh", khachHang.getGioiTinh())
+                        .append("Email", khachHang.getEmail())
+                        .append("QuocTich", khachHang.getQuocTich())
                 );
             }
 
-            ArrayList<Document> list_DichVu = new ArrayList<>();
-            for (DichVu dichVu : donDatPhong.getDichVuSuDung()) {
-                list_DichVu.add(new Document()
-                        .append("maDV", dichVu.getMaDV())
-                        .append("tenDV", dichVu.getTenDV())
-                        .append("moTa", dichVu.getMoTa())
-                        .append("donGia", dichVu.getDonGia())
+            ArrayList<Document> list_DichVu = new ArrayList<Document>();
+            for (DichVuEmbed dichVu : donDatPhong.getDichVuSuDung()) {
+                list_DichVu.add(
+                        new Document()
+                                .append("maDV", dichVu.getMaDV())
+                                .append("tenDV", dichVu.getTenDV())
+                                .append("soLuong", dichVu.getSoLuong())
+                                .append("donGia", dichVu.getDonGia())
                 );
             }
+
+
+            Document phong = new Document()
+                    .append("maPhong", donDatPhong.getPhong().getMaPhong())
+                    .append("donGia", donDatPhong.getPhong().getDonGia())
+                    .append("tenLoaiPhong", donDatPhong.getPhong().getTenLoaiPhong());
 
             Document updateDoc = new Document()
+                    .append("maDonDat", donDatPhong.getMaDonDat())
                     .append("ngayDatPhong", donDatPhong.getNgayDatPhong())
                     .append("ngayNhanPhong", donDatPhong.getNgayNhanPhong())
                     .append("ngayTraPhong", donDatPhong.getNgayTraPhong())
                     .append("trangThai", donDatPhong.getTrangThai())
                     .append("KhachO", list_KhachHang)
                     .append("dichVuSuDung", list_DichVu)
-                    .append("Phong", donDatPhong.getPhong())
+                    .append("Phong", new Document()
+                            .append("maPhong", donDatPhong.getPhong().getMaPhong())
+                            .append("donGia", donDatPhong.getPhong().getDonGia())
+                                .append("tenLoaiPhong", donDatPhong.getPhong().getTenLoaiPhong())
+                    )
                     .append("HoaDon", donDatPhong.getHoaDon());
 
             Document updateQuery = new Document("$set", updateDoc);
@@ -165,20 +212,20 @@ public class DonDatPhongDAO {
         DeleteResult result = donDatPhongCollection.deleteOne(filter);
         return result.getDeletedCount() > 0;
     }
-    
+
     public ArrayList<Document> getDonDatPhongTheoNgay(Date ngayBatDau, Date ngayKetThuc) {
         List<Bson> pipeline = Arrays.asList(
-            lookup("Phong", "Phong", "maPhong", "Phongs"),
-            lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
-            project(fields(
-                excludeId(),
-                include("ngayNhanPhong", "ngayTraPhong"),
-                computed("tenLoaiPhong", "$LoaiPhongs.tenLoaiPhong")
-            )),
-            match(or(
-                and(gte("ngayNhanPhong", ngayBatDau), lte("ngayNhanPhong", ngayKetThuc)),
-                and(gte("ngayTraPhong", ngayBatDau), lte("ngayTraPhong", ngayKetThuc))
-            ))
+                lookup("Phong", "Phong", "maPhong", "Phongs"),
+                lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
+                project(fields(
+                        excludeId(),
+                        include("ngayNhanPhong", "ngayTraPhong"),
+                        computed("tenLoaiPhong", "$LoaiPhongs.tenLoaiPhong")
+                )),
+                match(or(
+                        and(gte("ngayNhanPhong", ngayBatDau), lte("ngayNhanPhong", ngayKetThuc)),
+                        and(gte("ngayTraPhong", ngayBatDau), lte("ngayTraPhong", ngayKetThuc))
+                ))
         );
 
         AggregateIterable<Document> results = donDatPhongCollection.aggregate(pipeline);
@@ -186,25 +233,25 @@ public class DonDatPhongDAO {
         results.into(documents);
         return documents;
     }
-    
+
     public ArrayList<Document> getDoanhThu(Date ngayBatDau, Date ngayKetThuc) {
         // Tạo pipeline cho aggregate
         List<Bson> pipeline = Arrays.asList(
-            lookup("Phong", "Phong", "maPhong", "Phongs"),
-            lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
-            match(or(
-                and(
-                    gte("ngayNhanPhong", ngayBatDau),
-                    lte("ngayNhanPhong", ngayKetThuc)
-                ),
-                and(
-                    gte("ngayTraPhong", ngayBatDau),
-                    lte("ngayTraPhong", ngayKetThuc)
-                )
-            )),
-            project(fields(
-                include("LoaiPhongs.donGia", "ngayNhanPhong", "ngayTraPhong", "dichVuSuDung.tenDV", "dichVuSuDung.donGia")
-            ))
+                lookup("Phong", "Phong", "maPhong", "Phongs"),
+                lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
+                match(or(
+                        and(
+                                gte("ngayNhanPhong", ngayBatDau),
+                                lte("ngayNhanPhong", ngayKetThuc)
+                        ),
+                        and(
+                                gte("ngayTraPhong", ngayBatDau),
+                                lte("ngayTraPhong", ngayKetThuc)
+                        )
+                )),
+                project(fields(
+                        include("LoaiPhongs.donGia", "ngayNhanPhong", "ngayTraPhong", "dichVuSuDung.tenDV", "dichVuSuDung.donGia")
+                ))
         );
 
         // Thực thi aggregate
@@ -213,7 +260,7 @@ public class DonDatPhongDAO {
         // Chuyển kết quả thành ArrayList
         ArrayList<Document> documents = new ArrayList<>();
         results.into(documents);
-        
+
         return documents;
     }
 }

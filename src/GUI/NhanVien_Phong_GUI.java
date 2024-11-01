@@ -25,8 +25,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
+import model.DAO.DonDatPhongDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
+import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
@@ -44,6 +46,8 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     private LoaiPhongDAO loaiphong_dao = new LoaiPhongDAO(database);
     private List<Phong> list_Phong = new ArrayList<Phong>();
     private PhongDAO phong_dao = new PhongDAO(database);
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
     private final DefaultTableCellRenderer centerRenderer;
     private DecimalFormat df = new DecimalFormat("#,##0");
     List<Integer> a = new ArrayList<>();
@@ -717,7 +721,12 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần xóa");
             return;
         }
+
         int maPhong = Integer.parseInt(model.getValueAt(Table_Phong.getSelectedRow(), 0).toString());
+        if (checkPhongDangSuDung(maPhong)) {
+            JOptionPane.showMessageDialog(this, "Phòng đang được sử dụng!!! Không thể xóa");
+            return;
+        }
         if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             model.removeRow(Table_Phong.getSelectedRow());
             phong_dao.deletePhong(maPhong);
@@ -729,6 +738,12 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (Table_Phong.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần sửa");
+            return;
+        }
+        int selectedRow = Table_Phong.getSelectedRow();
+        int maPhong = Integer.parseInt(txt_phong.getText().trim());
+        if (checkPhongDangSuDung(maPhong)) {
+            JOptionPane.showMessageDialog(this, "Phòng đang được sử dụng!!! Không thể sửa");
             return;
         }
 
@@ -760,8 +775,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
 
         Phong p = new Phong();
-        int selectedRow = Table_Phong.getSelectedRow();
-        int maPhong = Integer.parseInt(txt_phong.getText().trim());
+
         int maTang = Integer.parseInt(txt_tang.getText().trim());
         String mota = area_mota.getText().trim();
         p.setMaPhong(maPhong);
@@ -775,6 +789,16 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_btn_SuaMousePressed
+
+    public boolean checkPhongDangSuDung(int maPhong) {
+        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiOVaCho();
+        for (DonDatPhong ddp : list_DonDatPhong) {
+            if (maPhong == ddp.getPhong().getMaPhong()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void lamMoi() {
         list_Phong = phong_dao.getAllPhongsSortByMaPhong();
@@ -896,13 +920,14 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
         return tam;
     }
+
     public int taoMaTuDong(List<Integer> mangCoSan, int Tang) {
         Collections.sort(mangCoSan);
 
-        if(mangCoSan.size() == 0){
+        if (mangCoSan.size() == 0) {
             return Tang * 100 + 1;
         }
-        
+
         for (int i = 1; i <= mangCoSan.getLast(); i++) {
             if (!mangCoSan.contains(i)) {
                 return Tang * 100 + i;

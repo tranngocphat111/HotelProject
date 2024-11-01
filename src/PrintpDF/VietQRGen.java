@@ -33,7 +33,7 @@ public class VietQRGen {
         }
     }
 
-    public VietQRGen(HoaDon hoaDon) {
+    public VietQRGen() {
         String url = "https://api.vietqr.io/v2/generate";
 
         // Tạo đối tượng RestTemplate
@@ -50,8 +50,8 @@ public class VietQRGen {
         requestBody.put("accountNo", "1030183164"); // Số tài khoản ngân hàng
         requestBody.put("accountName", "Blue Moon Hotel"); // Tên tài khoản
         requestBody.put("acqId", 970436); // Mã định danh ngân hàng
-        requestBody.put("amount", hoaDon.getTongTien()); // Số tiền chuyển
-        requestBody.put("addInfo", "Thanh toán HD00" + hoaDon.getMaHoaDon()); // Nội dung chuyển tiền
+        requestBody.put("amount", 5000); // Số tiền chuyển
+        requestBody.put("addInfo", "Thanh toán HD00" ); // Nội dung chuyển tiền
         requestBody.put("template", "print"); // Mẫu VietQR trả về
 
         // Log request body
@@ -91,7 +91,7 @@ public class VietQRGen {
 
     public static void main(String[] args) {
         // URL API VietQR
-        new VietQRGen(new HoaDon());
+        new VietQRGen();
 
     }
 

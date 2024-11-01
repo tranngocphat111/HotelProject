@@ -5,11 +5,8 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
-import static GUI.LeTan_DonDatPhong_GUI.getDSDichVu;
-import PrintpDF.PrintPDF;
-import PrintpDF.VietQRGen;
 import com.toedter.calendar.JDateChooser;
-
+ 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -37,6 +34,7 @@ import model.DAO.KhachHangDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.DTO.DichVu;
+import model.DTO.DichVuEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.LoaiPhong;
@@ -690,7 +688,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         List<HoaDon> list_hoaDonMoi = new ArrayList<>();
         for (HoaDon hoaDon : list_HoaDons) {
             for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                Phong phong = phong_dao.getPhongByMa(ddp.getPhong());
+                Phong phong = phong_dao.getPhongByMa(ddp.getPhong().getMaPhong());
                 if (phong.getTang() == cb_Tang.getSelectedIndex()) {
                     list_hoaDonMoi.add(hoaDon);
                 }
@@ -704,7 +702,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         List<HoaDon> list_hoaDonMoi = new ArrayList<>();
         for (HoaDon hoaDon : list_HoaDons) {
             for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                Phong phong = phong_dao.getPhongByMa(ddp.getPhong());
+                Phong phong = phong_dao.getPhongByMa(ddp.getPhong().getMaPhong());
                 if (phong.getLoaiPhong() == cb_LoaiPhong.getSelectedIndex()) {
                     list_hoaDonMoi.add(hoaDon);
                 }
@@ -717,7 +715,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         List<HoaDon> list_hoaDonMoi = new ArrayList<>();
         for (HoaDon hoaDon : list_HoaDons) {
             for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                if (ddp.getPhong() == Integer.parseInt(cb_Phong.getSelectedItem().toString())) {
+                if (ddp.getPhong().getMaPhong() == Integer.parseInt(cb_Phong.getSelectedItem().toString())) {
                     list_hoaDonMoi.add(hoaDon);
                 }
             }
@@ -813,8 +811,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
         model_DonDatPhong.setRowCount(0);
         DocDuLieuLenTable(list_HoaDonTheoTrangThai);
-        
-        new PrintPDF(hoaDon_update);
         new LeTan_ThanhToan_HoaDon_GUI(hoaDon_update, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
@@ -829,10 +825,9 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     public String getPhongSuDung(HoaDon hoadon) {
         String danhsachPhong = "";
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
-                danhsachPhong = danhsachPhong + ddp.getPhong() + ", ";
-            }
+        for (Integer maDDp : hoadon.getDonDatPhongs()) {
+            DonDatPhong ddp = dondatphong_dao.getDonDatPhongByMa(maDDp);
+                danhsachPhong = danhsachPhong + ddp.getPhong().getMaPhong() + ", ";
         }
         if (danhsachPhong.length() < 2) {
             return danhsachPhong;
@@ -842,19 +837,19 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     }
 
-    public List<DichVu> getAllDichVutheoHoaDon(HoaDon hoaDon) {
-        Set<DichVu> list_dichvu = new HashSet<>();
+    public List<DichVuEmbed> getAllDichVutheoHoaDon(HoaDon hoaDon) {
+        Set<DichVuEmbed> list_dichvu = new HashSet<>();
 
         for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-            for (DichVu dv : ddp.getDichVuSuDung()) {
+            for (DichVuEmbed dv : ddp.getDichVuSuDung()) {
                 if (!list_dichvu.contains(dv)) {
                     list_dichvu.add(dv);
                 }
             }
         }
 
-        List<DichVu> list_DICHVU = new ArrayList<>();
-        for (DichVu dv : list_dichvu) {
+        List<DichVuEmbed> list_DICHVU = new ArrayList<>();
+        for (DichVuEmbed dv : list_dichvu) {
             list_DICHVU.add(dv);
         }
         return list_DICHVU;
@@ -878,12 +873,12 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     }
 
-    public String getDSDichVu(List<DichVu> list_DichVu) {
+    public String getDSDichVu(List<DichVuEmbed> list_DichVu) {
         if (list_DichVu.size() == 0) {
             return "";
         }
         String dsDichVu = "";
-        for (DichVu dv : list_DichVu) {
+        for (DichVuEmbed dv : list_DichVu) {
             dsDichVu = dsDichVu + dv.getTenDV() + ", ";
         }
         dsDichVu = dsDichVu.substring(0, dsDichVu.length() - 2);
@@ -897,8 +892,8 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 ddp.getMaDonDat(),
                 sdf.format(ddp.getNgayNhanPhong()),
                 sdf.format(ddp.getNgayTraPhong()),
-                ddp.getPhong(),
-                loaiphong_dao.getLoaiPhongByMa(phong_dao.getPhongByMa(ddp.getPhong()).getLoaiPhong()).getTenLoaiPhong(),
+                ddp.getPhong().getMaPhong(),
+                ddp.getPhong().getTenLoaiPhong(),
                 ddp.getKhachO().size(),
                 getDSDichVu(ddp.getDichVuSuDung())
             });

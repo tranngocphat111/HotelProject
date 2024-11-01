@@ -3,6 +3,7 @@ package model.DAO;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -33,6 +34,20 @@ public class LoaiPhongDAO {
         return loaiPhongs;
     }
 
+    public List<LoaiPhong> getAllLoaiPhongSort() {
+        List<LoaiPhong> loaiPhongs = new ArrayList<>();
+        try (MongoCursor<Document> cursor = loaiPhongCollection.find()
+                .sort(Sorts.ascending("maLoaiPhong"))
+                .iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                LoaiPhong loaiPhong = LoaiPhong.fromDocument(doc);
+                loaiPhongs.add(loaiPhong);
+            }
+        }
+        return loaiPhongs;
+    }
+
     public LoaiPhong getLoaiPhongByMa(int maLoaiPhong) {
         LoaiPhong loaiPhong = null;
         Document query = new Document("maLoaiPhong", maLoaiPhong);
@@ -46,7 +61,7 @@ public class LoaiPhongDAO {
         }
         return loaiPhong;
     }
-    
+
     public LoaiPhong getLoaiPhongByTen(String tenLoaiPhong) {
         LoaiPhong loaiPhong = null;
         Document query = new Document("tenLoaiPhong", tenLoaiPhong);
@@ -143,6 +158,4 @@ public class LoaiPhongDAO {
         return listTienNghi;
     }
 
-    
-    
 }

@@ -9,6 +9,7 @@ public class DichVu {
     private String tenDV;
     private String moTa;
     private int donGia;
+//    private int soLuong;
     private byte[] hinhAnh;
 
     public DichVu() {
@@ -39,14 +40,24 @@ public class DichVu {
     public DichVu(String tenDV) {
         this.tenDV = tenDV;
     }
-    
-    public DichVu(int maDV, String tenDV, String moTa, int donGia, byte[] hinhAnh) {
+
+//    public int getSoLuong() {
+//        return soLuong;
+//    }
+//
+//    public void setSoLuong(int soLuong) {
+//        this.soLuong = soLuong;
+//    }
+
+    public DichVu(int maDV, String tenDV, String moTa, int donGia,  byte[] hinhAnh) {
         this.maDV = maDV;
         this.tenDV = tenDV;
         this.moTa = moTa;
         this.donGia = donGia;
         this.hinhAnh = hinhAnh;
     }
+    
+
 
 
     public byte[] getHinhAnh() {
@@ -104,6 +115,9 @@ public class DichVu {
         if (doc.containsKey("donGia")) {
             dichVu.setDonGia(doc.getInteger("donGia"));
         }
+//        if (doc.containsKey("soLuong")) {
+//            dichVu.setDonGia(doc.getInteger("soLuong"));
+//        }
         if (doc.containsKey("hinhAnh")) {
             Binary binaryData = doc.get("hinhAnh", Binary.class);
             byte[] imageData = binaryData.getData();
@@ -113,10 +127,6 @@ public class DichVu {
         return dichVu;
     }
 
-    @Override
-    public String toString() {
-        return "DichVu{" + "maDV=" + maDV + ", tenDV=" + tenDV + ", moTa=" + moTa + ", donGia=" + donGia + ", hinhAnh=" + hinhAnh + '}';
-    }
 
 
 }

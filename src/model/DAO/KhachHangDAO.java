@@ -52,13 +52,13 @@ public class KhachHangDAO {
     public boolean createKhachHang(KhachHang khachHang) {
         try {
             Document doc = new Document()
-                    .append("maKhachHang", khachHang.getMaKhachHang())
-                    .append("tenKhachHang", khachHang.getTenKhachHang())
-                    .append("soDienThoai", khachHang.getSoDienThoai())
-                    .append("CCCD", khachHang.getCCCD())
-                    .append("gioiTinh", khachHang.getGioiTinh())
-                    .append("email", khachHang.getEmail())
-                    .append("quocTich", khachHang.getQuocTich());
+                        .append("maKhachHang", khachHang.getMaKhachHang())
+                        .append("HoTen", khachHang.getTenKhachHang())
+                        .append("SDT", khachHang.getSoDienThoai())
+                        .append("CCCD", khachHang.getCCCD())
+                        .append("GioiTinh", khachHang.getGioiTinh())
+                        .append("Email", khachHang.getEmail())
+                        .append("QuocTich", khachHang.getQuocTich());
 
             InsertOneResult result = khachHangCollection.insertOne(doc);
             return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
@@ -74,12 +74,12 @@ public class KhachHangDAO {
             Document id = new Document("maKhachHang",maKH);
             Document update = new Document("$set",
                     new Document(
-                    "tenKhachHang", khachHang.getTenKhachHang())
-                    .append("soDienThoai", khachHang.getSoDienThoai())
+                    "Hoten", khachHang.getTenKhachHang())
+                    .append("SDT", khachHang.getSoDienThoai())
                     .append("CCCD", khachHang.getCCCD())
-                    .append("gioiTinh", khachHang.getGioiTinh())
-                    .append("email", khachHang.getEmail())
-                    .append("quocTich", khachHang.getQuocTich())
+                    .append("GioiTinh", khachHang.getGioiTinh())
+                    .append("Email", khachHang.getEmail())
+                    .append("QuocTich", khachHang.getQuocTich())
             );
             
             UpdateResult result = khachHangCollection.updateOne(id, update);
@@ -132,17 +132,17 @@ public class KhachHangDAO {
 
         
         if (tenKhachHang != null && !tenKhachHang.isEmpty()) {
-            filters.add(new Document("tenKhachHang", tenKhachHang));
+            filters.add(new Document("Hoten", tenKhachHang));
         }
         if (cccd != null && !cccd.isEmpty()) {
             filters.add(new Document("CCCD", cccd));
         }
         if (email != null && !email.isEmpty()) {
-            filters.add(new Document("email", email));
+            filters.add(new Document("Email", email));
         }
        
         if (soDienThoai != null && !soDienThoai.isEmpty()) {
-            filters.add(new Document("soDienThoai", soDienThoai));
+            filters.add(new Document("SDT", soDienThoai));
         }
 
       

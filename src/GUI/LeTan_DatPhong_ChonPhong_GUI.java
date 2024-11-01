@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -64,6 +66,19 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
 
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
 
+//          Tải dữ liệu tầng lên cb_Tang
+        Set<Integer> set = new HashSet<>();
+        for (Phong p : list_Phong) {
+            if (!set.contains(p.getTang())) {
+                set.add(p.getTang());
+            }
+        }
+        cb_Tang.addItem("");
+        set.forEach(t -> {
+            cb_Tang.addItem(t.toString());
+        });
+        
+//        Tải dữ liệu lên cb_LoaiPhong
         cb_LoaiPhong.addItem("");
         for (LoaiPhong lp : list_LoaiPhong) {
             cb_LoaiPhong.addItem(lp.getTenLoaiPhong());
@@ -339,10 +354,10 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             Table_Phong.getColumnModel().getColumn(2).setMaxWidth(150);
             Table_Phong.getColumnModel().getColumn(3).setMaxWidth(150);
             Table_Phong.getColumnModel().getColumn(4).setMaxWidth(120);
-            Table_Phong.getColumnModel().getColumn(5).setMaxWidth(400);
+            Table_Phong.getColumnModel().getColumn(5).setMaxWidth(450);
             Table_Phong.getColumnModel().getColumn(6).setMaxWidth(200);
-            Table_Phong.getColumnModel().getColumn(7).setMaxWidth(400);
-            Table_Phong.getColumnModel().getColumn(8).setMaxWidth(150);
+            Table_Phong.getColumnModel().getColumn(7).setMaxWidth(250);
+            Table_Phong.getColumnModel().getColumn(8).setMaxWidth(230);
         }
 
         jPanel1.add(scroll);
@@ -456,7 +471,6 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
             }
         });
 
-        cb_Tang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3" }));
         cb_Tang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_TangActionPerformed(evt);

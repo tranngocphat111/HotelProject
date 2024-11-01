@@ -12,6 +12,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.DTO.DichVuEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.TienNghi;
@@ -60,13 +61,13 @@ public class DichVuDAO {
         }
     }
 
-    public DichVu getDichVuByMa(int maDichVu) {
-        DichVu dichvu = null;
+    public DichVuEmbed getDichVuEmbedByMa(int maDichVu) {
+        DichVuEmbed dichvu = null;
         Document query = new Document("maDV", maDichVu);
         try {
             Document doc = dichVuCollection.find(query).first();
             if (doc != null) {
-                dichvu = DichVu.fromDocument(doc);
+                dichvu = DichVuEmbed.fromDocument(doc);
             }
         } catch (Exception e) {
             e.printStackTrace(); // Bắt lỗi nếu có

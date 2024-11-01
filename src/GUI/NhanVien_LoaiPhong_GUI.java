@@ -10,20 +10,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -31,15 +26,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
+import model.DAO.DonDatPhongDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.DAO.TienNghiDAO;
+import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
 import static model.DTO.TienNghi.sapXepTienNghiTheoMa;
-import model.MongoDBConnection;
-import test.convertImage;
 
 /**
  *
@@ -51,6 +46,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
     private List<Phong> list_Phong = new ArrayList<Phong>();
     private PhongDAO phong_dao = new PhongDAO(database);
+    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
     private List<TienNghi> list_TienNghi = new ArrayList<TienNghi>();
     private List<TienNghi> list_TienNghiDuocChon = new ArrayList<TienNghi>();
     private TienNghiDAO tienNghi_dao = new TienNghiDAO(database);
@@ -69,7 +66,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         initComponents();
 
 //      Đọc dữ liệu từ database lên
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
         list_TienNghi = tienNghi_dao.SortTienNghiTheoMa();
 
 //      set số dòng của tiện nghi
@@ -292,6 +289,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                             .addComponent(icon_TienNghi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
             btnGradientPanel.setName("" + tienNghi.getMaTienNghi());
+            System.out.println("name: " + btnGradientPanel.getName());
             list_btnTienNghi.add(btnGradientPanel);
             Panel_TienNghi.add(btnGradientPanel);
         }
@@ -655,7 +653,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(400, 320, 140, 40);
+        btn_Xoa.setBounds(240, 320, 140, 40);
 
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
@@ -687,7 +685,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(240, 320, 140, 40);
+        btn_Sua.setBounds(400, 320, 140, 40);
 
         table_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         table_LoaiPhong.setModel(new javax.swing.table.DefaultTableModel(
@@ -830,20 +828,20 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_SokhachtoidaActionPerformed
 
     public void checkRegex() {
-        if (txt_TenLoaiphong.getText().equals("")) {
+        if (txt_TenLoaiphong.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập tên phòng");
             txt_TenLoaiphong.requestFocus();
             return;
         }
 
-        if (txt_Dientich.getText().equals("")) {
+        if (txt_Dientich.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập diện tích");
             txt_Dientich.requestFocus();
             return;
         }
 
         String regex = "\\d+";
-        if (!txt_Dientich.getText().matches(regex)) {
+        if (!txt_Dientich.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Diện tích phải là số");
             txt_Dientich.setText("");
             txt_Dientich.requestFocus();
@@ -856,26 +854,26 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txt_Sokhachtoida.getText().equals("")) {
+        if (txt_Sokhachtoida.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập số khách tối đa");
             txt_Sokhachtoida.requestFocus();
             return;
         }
 
-        if (!txt_Sokhachtoida.getText().matches(regex)) {
+        if (!txt_Sokhachtoida.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số khách tối đa phải là số");
             txt_Sokhachtoida.setText("");
             txt_Sokhachtoida.requestFocus();
             return;
         }
 
-        if (txt_Dongia.getText().equals("")) {
+        if (txt_Dongia.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập đơn giá");
             txt_Dongia.requestFocus();
             return;
         }
 
-        if (!txt_Dongia.getText().matches(regex)) {
+        if (!txt_Dongia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
             txt_Dongia.setText("");
             txt_Dongia.requestFocus();
@@ -891,22 +889,29 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_ThemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMousePressed
         // TODO add your handling code here:
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
 
-        if (txt_TenLoaiphong.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Nhập tên phòng");
+        if (txt_TenLoaiphong.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nhập tên loại phòng");
             txt_TenLoaiphong.requestFocus();
             return;
         }
 
-        if (txt_Dientich.getText().equals("")) {
+        for (LoaiPhong lp : list_LoaiPhong) {
+            if (lp.getTenLoaiPhong().equals(txt_TenLoaiphong.getText().trim())) {
+                JOptionPane.showMessageDialog(this, "Trùng tên loại phòng");
+                return;
+            }
+        }
+
+        if (txt_Dientich.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập diện tích");
             txt_Dientich.requestFocus();
             return;
         }
 
         String regex = "\\d+";
-        if (!txt_Dientich.getText().matches(regex)) {
+        if (!txt_Dientich.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Diện tích phải là số");
             txt_Dientich.setText("");
             txt_Dientich.requestFocus();
@@ -919,26 +924,26 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txt_Sokhachtoida.getText().equals("")) {
+        if (txt_Sokhachtoida.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập số khách tối đa");
             txt_Sokhachtoida.requestFocus();
             return;
         }
 
-        if (!txt_Sokhachtoida.getText().matches(regex)) {
+        if (!txt_Sokhachtoida.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số khách tối đa phải là số");
             txt_Sokhachtoida.setText("");
             txt_Sokhachtoida.requestFocus();
             return;
         }
 
-        if (txt_Dongia.getText().equals("")) {
+        if (txt_Dongia.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập đơn giá");
             txt_Dongia.requestFocus();
             return;
         }
 
-        if (!txt_Dongia.getText().matches(regex)) {
+        if (!txt_Dongia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
             txt_Dongia.setText("");
             txt_Dongia.requestFocus();
@@ -951,27 +956,18 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        for (LoaiPhong lp : list_LoaiPhong) {
-            if (lp.getTenLoaiPhong().equals(txt_TenLoaiphong.getText())) {
-                JOptionPane.showMessageDialog(this, "Trùng tên loại phòng");
-                return;
-            }
-        }
-
         LoaiPhong loaiPhongMoi = new LoaiPhong();
 
-        loaiPhongMoi.setMaLoaiPhong(list_LoaiPhong.getLast().getMaLoaiPhong() + 1);
-        loaiPhongMoi.setTenLoaiPhong(txt_TenLoaiphong.getText());
-        loaiPhongMoi.setDienTich(Integer.parseInt(txt_Dientich.getText()));
-        loaiPhongMoi.setDonGia(Integer.parseInt(txt_Dongia.getText()));
+        loaiPhongMoi.setMaLoaiPhong(taoMaTuDong(getListLoaiPhong()));
+        loaiPhongMoi.setTenLoaiPhong(txt_TenLoaiphong.getText().trim());
+        loaiPhongMoi.setDienTich(Integer.parseInt(txt_Dientich.getText().trim()));
+        loaiPhongMoi.setDonGia(Integer.parseInt(txt_Dongia.getText().trim()));
         sapXepTienNghiTheoMa(list_TienNghiDuocChon);
         loaiPhongMoi.setTienNghis(list_TienNghiDuocChon);
         loaiPhongMoi.setLoaiGiuong(cb_Loaigiuong.getSelectedItem().toString());
-        loaiPhongMoi.setSoKhachToiDa(Integer.parseInt(txt_Sokhachtoida.getText()));
-        if (loaiPhong_dao.createLoaiPhong(loaiPhongMoi)) {
-            addRowTable(loaiPhongMoi);
-            JOptionPane.showMessageDialog(this, "Thêm thành công");
-        }
+        loaiPhongMoi.setSoKhachToiDa(Integer.parseInt(txt_Sokhachtoida.getText().trim()));
+        loaiPhong_dao.createLoaiPhong(loaiPhongMoi);
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
 
         list_TienNghi = tienNghi_dao.getAllTienNghi();
         lamMoi();
@@ -986,7 +982,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         txt_Dongia.setText("");
         resetTienNghi();
         table_LoaiPhong.clearSelection();
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
         DocDataLenTable(list_LoaiPhong);
     }
 
@@ -1061,20 +1057,36 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Chọn dòng cần sửa");
             return;
         }
-        if (txt_TenLoaiphong.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Nhập tên phòng");
+        int selectedRow = table_LoaiPhong.getSelectedRow();
+        int maloaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        if (checkLoaiPhongDangSuDung(maloaiPhong)) {
+            System.out.println("check");
+            JOptionPane.showMessageDialog(this, "Loại phòng đang được sử dụng!!! Không thể sửa");
+            return;
+        }
+
+        if (txt_TenLoaiphong.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Nhập tên loại phòng");
             txt_TenLoaiphong.requestFocus();
             return;
         }
 
-        if (txt_Dientich.getText().equals("")) {
+        for (LoaiPhong lp : loaiPhong_dao.getAllLoaiPhongSort()) {
+            if (txt_TenLoaiphong.getText().trim().equals(lp.getTenLoaiPhong())) {
+                JOptionPane.showMessageDialog(this, "Tên loại phòng trùng");
+                txt_TenLoaiphong.requestFocus();
+                return;
+            }
+        }
+
+        if (txt_Dientich.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập diện tích");
             txt_Dientich.requestFocus();
             return;
         }
 
         String regex = "\\d+";
-        if (!txt_Dientich.getText().matches(regex)) {
+        if (!txt_Dientich.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Diện tích phải là số");
             txt_Dientich.setText("");
             txt_Dientich.requestFocus();
@@ -1087,26 +1099,26 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txt_Sokhachtoida.getText().equals("")) {
+        if (txt_Sokhachtoida.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập số khách tối đa");
             txt_Sokhachtoida.requestFocus();
             return;
         }
 
-        if (!txt_Sokhachtoida.getText().matches(regex)) {
+        if (!txt_Sokhachtoida.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số khách tối đa phải là số");
             txt_Sokhachtoida.setText("");
             txt_Sokhachtoida.requestFocus();
             return;
         }
 
-        if (txt_Dongia.getText().equals("")) {
+        if (txt_Dongia.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập đơn giá");
             txt_Dongia.requestFocus();
             return;
         }
 
-        if (!txt_Dongia.getText().matches(regex)) {
+        if (!txt_Dongia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
             txt_Dongia.setText("");
             txt_Dongia.requestFocus();
@@ -1120,12 +1132,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         LoaiPhong lp = new LoaiPhong();
-        int selectedRow = table_LoaiPhong.getSelectedRow();
-        int maloaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-        String tenLoaiPhong = txt_TenLoaiphong.getText();
-        int dienTich = Integer.parseInt(txt_Dientich.getText());
-        int soLuongKhachToiDa = Integer.parseInt(txt_Sokhachtoida.getText());
-        int donGia = Integer.parseInt(txt_Dongia.getText());
+
+        String tenLoaiPhong = txt_TenLoaiphong.getText().trim();
+        int dienTich = Integer.parseInt(txt_Dientich.getText().trim());
+        int soLuongKhachToiDa = Integer.parseInt(txt_Sokhachtoida.getText().trim());
+        int donGia = Integer.parseInt(txt_Dongia.getText().trim());
         String loaiGiuong;
         if (cb_Loaigiuong.getSelectedIndex() == 1) {
             loaiGiuong = "Đơn";
@@ -1142,7 +1153,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         loaiPhong_dao.updateLoaiPhong(lp);
         JOptionPane.showMessageDialog(this, "Sửa thành công");
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
         DocDataLenTable(list_LoaiPhong);
         lamMoi();
 
@@ -1154,7 +1165,13 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần xóa");
             return;
         }
+
         int maLoaiPhong = Integer.parseInt(model.getValueAt(table_LoaiPhong.getSelectedRow(), 0).toString());
+        if (checkLoaiPhongDangSuDung(maLoaiPhong)) {
+            JOptionPane.showMessageDialog(this, "Loại phòng đang được sử dụng!!! Không thể xóa");
+            return;
+        }
+
         if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa loại phòng?" + "\n" + "Các phòng liên quan sẽ bị xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             model.removeRow(table_LoaiPhong.getSelectedRow());
             loaiPhong_dao.deleteLoaiPhong(maLoaiPhong);
@@ -1165,31 +1182,47 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
         list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhong();
+        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
         DocDataLenTable(list_LoaiPhong);
         lamMoi();
     }//GEN-LAST:event_btn_XoaMousePressed
 
+    public boolean checkLoaiPhongDangSuDung(int maLoaiPhong) {
+        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiOVaCho();
+        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
+        for (DonDatPhong ddp : list_DonDatPhong) {
+            List<Phong> list_ph = getAllPhongByLoaiPhong(list_Phong, maLoaiPhong);
+            for (Phong p : list_ph) {
+                if (p.getMaPhong() == ddp.getPhong().getMaPhong()) {
+
+                    return true;
+                }
+            }
+        }
+        System.out.println("false");
+        return false;
+    }
+
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
-        List<LoaiPhong> list_LP = loaiPhong_dao.getAllLoaiPhong();
-        if (!txt_TenLoaiphong.getText().isEmpty()) {
-            list_LP = getLoaiPhongByTenLoaiPhong(list_LP, txt_TenLoaiphong.getText());
+        List<LoaiPhong> list_LP = loaiPhong_dao.getAllLoaiPhongSort();
+        if (!txt_TenLoaiphong.getText().trim().isEmpty()) {
+            list_LP = getLoaiPhongByTenLoaiPhong(list_LP, txt_TenLoaiphong.getText().trim());
         }
-        if (!txt_Dientich.getText().isEmpty()) {
-            list_LP = getLoaiPhongByDienTich(list_LP, Integer.parseInt(txt_Dientich.getText()));
+        if (!txt_Dientich.getText().trim().isEmpty()) {
+            list_LP = getLoaiPhongByDienTich(list_LP, Integer.parseInt(txt_Dientich.getText().trim()));
         }
 
         if (cb_Loaigiuong.getSelectedIndex() != 0) {
             list_LP = getLoaiPhongByLoaiGiuong(list_LP, cb_Loaigiuong.getSelectedIndex());
         }
 
-        if (!txt_Sokhachtoida.getText().isEmpty()) {
-            list_LP = getLoaiPhongBySoKhachToiDa(list_LP, Integer.parseInt(txt_Sokhachtoida.getText()));
+        if (!txt_Sokhachtoida.getText().trim().isEmpty()) {
+            list_LP = getLoaiPhongBySoKhachToiDa(list_LP, Integer.parseInt(txt_Sokhachtoida.getText().trim()));
         }
 
-        if (!txt_Dongia.getText().isEmpty()) {
-            list_LP = getLoaiPhongByDonGia(list_LP, Integer.parseInt(txt_Dongia.getText()));
+        if (!txt_Dongia.getText().trim().isEmpty()) {
+            list_LP = getLoaiPhongByDonGia(list_LP, Integer.parseInt(txt_Dongia.getText().trim()));
         }
 
         if (!list_TienNghiDuocChon.isEmpty()) {
@@ -1291,6 +1324,31 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             tenTienNghis.add(tienNghi.getTenTienNghi());
         }
         return tenTienNghis;
+    }
+
+    public List<Integer> getListLoaiPhong() {
+        List<Integer> tam = new ArrayList<>();
+        for (LoaiPhong lp : loaiPhong_dao.getAllLoaiPhongSort()) {
+            tam.add(lp.getMaLoaiPhong());
+        }
+        return tam;
+    }
+
+    public int taoMaTuDong(List<Integer> mangCoSan) {
+        Collections.sort(mangCoSan);
+
+        if (mangCoSan.size() == 0) {
+            return 1;
+        }
+
+        for (int i = 1; i <= mangCoSan.getLast(); i++) {
+            if (!mangCoSan.contains(i)) {
+                return i;
+            }
+        }
+
+        return mangCoSan.getLast() + 1;
+
     }
 
 

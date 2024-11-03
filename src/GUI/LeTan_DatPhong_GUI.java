@@ -87,6 +87,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
 
+        btn_HuyDon.setEnabled(false);
+        btn_HuyDon.setkEndColor(new java.awt.Color(102, 102, 102));
+        btn_HuyDon.setkStartColor(new java.awt.Color(161, 161, 161));
         txt_NgayNhanPhong.setDate(new Date());
         setThoiGianBang0(txt_NgayNhanPhong);
 
@@ -446,6 +449,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         for (KhachHang kh : list_KhachHangMoi) {
             if (kh.getCCCD().equals(CCCD)) {
                 return false;
+            }
+        }
+        for (DonDatPhong ddp : list_DonDatPhongTheoHoaDon) {
+            System.out.println(ddp.getKhachO());
+            for (KhachHang kh : ddp.getKhachO()) {
+                if (kh.getCCCD().equals(CCCD)) {
+                    return false;
+                }
             }
         }
 
@@ -1514,6 +1525,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             khachHang.setQuocTich(cb_QuocTich.getSelectedItem().toString());
             khachHang.setEmail(txt_Email.getText().trim());
             if (ktraTrungKH(txt_CCCD.getText().trim())) {
+                System.out.println("ktraTrungKH");
                 if (!ktraTrungKHMoi(txt_CCCD.getText().trim())) {
                     JOptionPane.showMessageDialog(this, "Khách hàng đã tồn tại trong 1 trong các phòng trước!! vui lòng nhập khách hàng khác");
                     return;
@@ -1535,6 +1547,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         } else {
             if (ktraTrungKH(khachHang.getCCCD())) {
+                System.out.println("123456789111");
+                if (!ktraTrungKHMoi(txt_CCCD.getText().trim())) {
+                    JOptionPane.showMessageDialog(this, "Khách hàng đã tồn tại trong 1 trong các phòng trước!! vui lòng nhập khách hàng khác");
+                    return;
+                }
                 list_KhachHang_TheoDon.add(khachHang);
                 ThemKhachHangVaoTable(khachHang);
                 JOptionPane.showMessageDialog(this, "Thêm thành công");
@@ -1572,6 +1589,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Chưa có khách hàng !!! Vui phòng thêm khách hàng");
             return;
         }
+
+        table_KhachHang.setEnabled(true);
 
         list_HoaDon = hoaDon_dao.getAllHoaDon();
         list_DonDatPhong = DonDatphong_dao.getAllDonDatPhong();
@@ -1907,6 +1926,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         txt_NgayTraPhong.setDate(null);
         txt_NgayNhanPhong.setEnabled(true);
         txt_NgayTraPhong.setEnabled(true);
+        model.setRowCount(0);
+        for (KhachHang kh : list_KhachHang_TheoDon) {
+            ThemKhachHangVaoTable(kh);
+        }
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
     public void DocDuLieuTheoDonDatPhong(DonDatPhong dondatphong) {
@@ -1957,6 +1980,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     }
     private void btn_HuyDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMousePressed
         // TODO add your handling code here:
+        if (!btn_HuyDon.isEnabled()) {
+            return;
+        }
+
         if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn hủy?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
             return;
         }
@@ -2021,10 +2048,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         if (maHienTai == list_DonDatPhongTheoHoaDon.size() + 1) {
             return;
         }
+
         for (int i = 0; i < list_DonDatPhongTheoHoaDon.size(); i++) {
             System.out.println(maHienTai);
             if (list_DonDatPhongTheoHoaDon.get(i).getMaDonDat() == list_DonDatPhongTheoHoaDon.get(maHienTai - 1).getMaDonDat()) {
                 label_dondatphong_num.setText("" + (maHienTai + 1));
+                if (maHienTai + 1 == list_DonDatPhongTheoHoaDon.size() + 1) {
+                    table_KhachHang.setEnabled(true);
+                    model.setRowCount(0);
+                    for (KhachHang kh : list_KhachHang_TheoDon) {
+                        ThemKhachHangVaoTable(kh);
+                    }
+                }
                 if (i + 1 == list_DonDatPhongTheoHoaDon.size()) {
                     LamMoi();
                     txt_Phong.setText("");
@@ -2032,7 +2067,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     txt_Tang.setText("");
                     txt_DonGia.setText("");
                     area_moTa.setText("Mô tả");
-                    model.setRowCount(0);
                     label_KhachToiDa.setText("Số lượng khách tối đa:");
 
                     txt_Phong.setEnabled(true);
@@ -2084,6 +2118,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         if (maHienTai == 1) {
             return;
         }
+        table_KhachHang.setEnabled(false);
+        btn_HuyDon.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_HuyDon.setkStartColor(new java.awt.Color(225, 176, 27));
 
         for (int i = list_DonDatPhongTheoHoaDon.size() - 1; i >= 0; i--) {
             if (list_DonDatPhongTheoHoaDon.get(maHienTai - 2).getMaDonDat() == list_DonDatPhongTheoHoaDon.get(i).getMaDonDat()) {

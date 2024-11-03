@@ -1944,6 +1944,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Sua.setEnabled(false);
         btn_LamMoi.setEnabled(false);
         btn_HoanTat.setEnabled(false);
+        btn_HuyDon.setEnabled(true);
 
 //        set màu
         for (KGradientPanel k : list_btn) {
@@ -1960,7 +1961,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
         int maDDPXoa = Integer.parseInt(label_dondatphong_num.getText());
-        if (maDDPXoa == list_DonDatPhongTheoHoaDon.getLast().getMaDonDat()) {
+        if (maDDPXoa == list_DonDatPhongTheoHoaDon.size()) {
             list_DonDatPhongTheoHoaDon.remove(list_DonDatPhongTheoHoaDon.getLast());
             LamMoi();
             txt_Phong.setText("");
@@ -1994,10 +1995,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
         for (int i = 0; i < list_DonDatPhongTheoHoaDon.size(); i++) {
-            if (list_DonDatPhongTheoHoaDon.get(i).getMaDonDat() == maDDPXoa) {
+            if (i + 1 == maDDPXoa) {
                 list_DonDatPhongTheoHoaDon.remove(list_DonDatPhongTheoHoaDon.get(i));
                 list_DonDatPhongTheoHoaDon.get(i).setMaDonDat(maDDPXoa);
-                DocDuLieuTheoDonDatPhong(list_DonDatPhongTheoHoaDon.get(i + 1));
+                DocDuLieuTheoDonDatPhong(list_DonDatPhongTheoHoaDon.get(i));
                 for (int j = i; j < list_DonDatPhongTheoHoaDon.size(); j++) {
                     list_DonDatPhongTheoHoaDon.get(j).setMaDonDat(maDDPXoa);
                     maDDPXoa++;
@@ -2047,11 +2048,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     btn_Sua.setEnabled(true);
                     btn_LamMoi.setEnabled(true);
                     btn_HoanTat.setEnabled(true);
-
+                    btn_HuyDon.setEnabled(false);
 //        set màu
                     for (KGradientPanel k : list_btn) {
-                        k.setkEndColor(new java.awt.Color(255, 222, 89));
-                        k.setkStartColor(new java.awt.Color(225, 176, 27));
+                        if (k.isEnabled()) {
+                            k.setkEndColor(new java.awt.Color(255, 222, 89));
+                            k.setkStartColor(new java.awt.Color(225, 176, 27));
+                        } else {
+                            k.setkEndColor(new java.awt.Color(102, 102, 102));
+                            k.setkStartColor(new java.awt.Color(161, 161, 161));
+
+                        }
+
                     }
                 } else {
                     DocDuLieuTheoDonDatPhong(list_DonDatPhongTheoHoaDon.get(i + 1));

@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -64,7 +65,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     public NhanVien_LoaiPhong_GUI() {
 
         initComponents();
-
+        table_LoaiPhong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //      Đọc dữ liệu từ database lên
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
         list_TienNghi = tienNghi_dao.SortTienNghiTheoMa();
@@ -95,6 +96,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         cb_Loaigiuong.insertItemAt("Tất cả", 0);
         cb_Loaigiuong.setSelectedIndex(0);
         DocDataLenTable(list_LoaiPhong);
+
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
 
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
@@ -140,7 +143,55 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             });
         });
         boolean click;
+        table_LoaiPhong.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                // Kiểm tra nếu không còn sự kiện đang thay đổi
+                if (table_LoaiPhong.getSelectedRow() == -1) {
+                    return;
+                } else {
+                    int selectedRow = table_LoaiPhong.getSelectedRow();
+                    String tenloaiphong = model.getValueAt(selectedRow, 1) + "";
+                    txt_TenLoaiphong.setText(tenloaiphong);
+                    String dientich = model.getValueAt(selectedRow, 4) + "";
+                    dientich = dientich.substring(0, dientich.length() - 3);
+                    txt_Dientich.setText(dientich);
+                    String loaigiuong = model.getValueAt(selectedRow, 2) + "";
+                    if (loaigiuong.equals("Đơn")) {
+                        cb_Loaigiuong.setSelectedIndex(1);
+                    } else {
+                        cb_Loaigiuong.setSelectedIndex(2);
+                    }
+                    String soKhachToida = model.getValueAt(selectedRow, 3) + "";
+                    txt_Sokhachtoida.setText(soKhachToida);
+                    String donGia = model.getValueAt(selectedRow, 6) + "";
+                    donGia = donGia.substring(0, donGia.length() - 4);
+                    donGia = donGia.replace(",", "");
+                    txt_Dongia.setText(donGia);
 
+                    String tiennghi = model.getValueAt(selectedRow, 5) + "";
+                    String[] list_tn = tiennghi.split(", ");
+                    list_TienNghiDuocChon = new ArrayList<>();
+                    resetTienNghi();
+
+                    int maLoaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+
+                    LoaiPhong x = loaiPhong_dao.getLoaiPhongByMa(maLoaiPhong);
+
+                    for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
+                        for (String s : list_tn) {
+                            if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
+                                btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
+                                btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
+                                btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                                btn_tiennghi.setBorder(null);
+                                clickMap.put(btn_tiennghi, true);
+                                list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
+                            }
+                        }
+                    }
+                }
+            }
+        });
 //        Bắt sự kiện chọn Tiện Nghi
         list_btnTienNghi.forEach((element) -> {
             clickMap.put(element, false);
@@ -849,7 +900,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         if (cb_Loaigiuong.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Chọn loại giường");
+            JOptionPane.showMessageDialog(this, "Chọn loại giường khác 'Tất cả'");
             txt_Dientich.requestFocus();
             return;
         }
@@ -904,22 +955,28 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
 
+        String regex = "^[a-zA-Z].*";
+        if (!txt_TenLoaiphong.getText().trim().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "Tên loại phòng bắt đầu bằng chữ");
+            txt_TenLoaiphong.requestFocus();
+            return;
+        }
+
         if (txt_Dientich.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập diện tích");
             txt_Dientich.requestFocus();
             return;
         }
 
-        String regex = "\\d+";
+        regex = "\\d+";
         if (!txt_Dientich.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Diện tích phải là số");
-            txt_Dientich.setText("");
             txt_Dientich.requestFocus();
             return;
         }
 
         if (cb_Loaigiuong.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Chọn loại giường");
+            JOptionPane.showMessageDialog(this, "Chọn loại giường khác 'Tất cả'");
             txt_Dientich.requestFocus();
             return;
         }
@@ -932,7 +989,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         if (!txt_Sokhachtoida.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số khách tối đa phải là số");
-            txt_Sokhachtoida.setText("");
             txt_Sokhachtoida.requestFocus();
             return;
         }
@@ -945,7 +1001,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         if (!txt_Dongia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
-            txt_Dongia.setText("");
             txt_Dongia.requestFocus();
             return;
         }
@@ -957,8 +1012,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         LoaiPhong loaiPhongMoi = new LoaiPhong();
-
-        loaiPhongMoi.setMaLoaiPhong(taoMaTuDong(getListLoaiPhong()));
+        int tam = taoMaTuDong(getListLoaiPhong());
+        loaiPhongMoi.setMaLoaiPhong(tam);
         loaiPhongMoi.setTenLoaiPhong(txt_TenLoaiphong.getText().trim());
         loaiPhongMoi.setDienTich(Integer.parseInt(txt_Dientich.getText().trim()));
         loaiPhongMoi.setDonGia(Integer.parseInt(txt_Dongia.getText().trim()));
@@ -967,10 +1022,19 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         loaiPhongMoi.setLoaiGiuong(cb_Loaigiuong.getSelectedItem().toString());
         loaiPhongMoi.setSoKhachToiDa(Integer.parseInt(txt_Sokhachtoida.getText().trim()));
         loaiPhong_dao.createLoaiPhong(loaiPhongMoi);
-        JOptionPane.showMessageDialog(this, "Thêm thành công");
 
         list_TienNghi = tienNghi_dao.getAllTienNghi();
-        lamMoi();
+
+        model.insertRow(0, new Object[]{
+            tam,
+            txt_TenLoaiphong.getText().trim(),
+            cb_Loaigiuong.getSelectedItem().toString(),
+            Integer.valueOf(txt_Sokhachtoida.getText().trim()),
+            Integer.valueOf(txt_Dientich.getText().trim()) + " m2",
+            getListTienNghi(list_TienNghiDuocChon),
+            df.format(Integer.parseInt(txt_Sokhachtoida.getText().trim())) + " VND"});
+        table_LoaiPhong.setRowSelectionInterval(1, 0);
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
     }//GEN-LAST:event_btn_ThemMousePressed
 
     public void lamMoi() {
@@ -994,48 +1058,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
     private void table_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_LoaiPhongMousePressed
         // TODO add your handling code here:
-        if (table_LoaiPhong.getSelectedRow() == -1) {
-            return;
-        } else {
-            int selectedRow = table_LoaiPhong.getSelectedRow();
-            String tenloaiphong = model.getValueAt(selectedRow, 1) + "";
-            txt_TenLoaiphong.setText(tenloaiphong);
-            String dientich = model.getValueAt(selectedRow, 4) + "";
-            dientich = dientich.substring(0, dientich.length() - 3);
-            txt_Dientich.setText(dientich);
-            String loaigiuong = model.getValueAt(selectedRow, 2) + "";
-            if (loaigiuong.equals("Đơn")) {
-                cb_Loaigiuong.setSelectedIndex(1);
-            } else {
-                cb_Loaigiuong.setSelectedIndex(2);
-            }
-            String soKhachToida = model.getValueAt(selectedRow, 3) + "";
-            txt_Sokhachtoida.setText(soKhachToida);
-            String donGia = model.getValueAt(selectedRow, 6) + "";
-            donGia = donGia.substring(0, donGia.length() - 4);
-            donGia = donGia.replace(",", "");
-            txt_Dongia.setText(donGia);
 
-            String tiennghi = model.getValueAt(selectedRow, 5) + "";
-            String[] list_tn = tiennghi.split(", ");
-            list_TienNghiDuocChon = new ArrayList<>();
-            resetTienNghi();
-
-            int maLoaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-
-            LoaiPhong x = loaiPhong_dao.getLoaiPhongByMa(maLoaiPhong);
-
-            for (KGradientPanel btn_tiennghi : list_btnTienNghi) {
-                for (String s : list_tn) {
-                    if (s.trim().equals(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())).getTenTienNghi())) {
-                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
-                        btn_tiennghi.setkStartColor(new java.awt.Color(225, 176, 27));
-                        btn_tiennghi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                        btn_tiennghi.setBorder(null);
-                        clickMap.put(btn_tiennghi, true);
-                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
-                    }
-                }
 //                for(TienNghi t : x.getTienNghis()) {
 //                    if(t.getMaTienNghi() == Integer.parseInt(btn_tiennghi.getName())) {
 //                        btn_tiennghi.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -1046,8 +1069,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 //                        list_TienNghiDuocChon.add(tienNghi_dao.getTienNghiByMa(Integer.parseInt(btn_tiennghi.getName())));
 //                    }
 //                }
-            }
-        }
+
     }//GEN-LAST:event_table_LoaiPhongMousePressed
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
@@ -1060,7 +1082,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         int selectedRow = table_LoaiPhong.getSelectedRow();
         int maloaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
         if (checkLoaiPhongDangSuDung(maloaiPhong)) {
-            System.out.println("check");
             JOptionPane.showMessageDialog(this, "Loại phòng đang được sử dụng!!! Không thể sửa");
             return;
         }
@@ -1079,22 +1100,28 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             }
         }
 
+        String regex = "^[a-zA-Z].*";
+        if (!txt_TenLoaiphong.getText().trim().matches(regex)) {
+            JOptionPane.showMessageDialog(this, "Tên loại phòng bắt đầu bằng chữ");
+            txt_TenLoaiphong.requestFocus();
+            return;
+        }
+
         if (txt_Dientich.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập diện tích");
             txt_Dientich.requestFocus();
             return;
         }
 
-        String regex = "\\d+";
+        regex = "\\d+";
         if (!txt_Dientich.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Diện tích phải là số");
-            txt_Dientich.setText("");
             txt_Dientich.requestFocus();
             return;
         }
 
         if (cb_Loaigiuong.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Chọn loại giường");
+            JOptionPane.showMessageDialog(this, "Chọn loại giường khác 'Tất cả'");
             txt_Dientich.requestFocus();
             return;
         }
@@ -1107,7 +1134,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         if (!txt_Sokhachtoida.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số khách tối đa phải là số");
-            txt_Sokhachtoida.setText("");
             txt_Sokhachtoida.requestFocus();
             return;
         }
@@ -1120,7 +1146,6 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         if (!txt_Dongia.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Đơn giá phải là số");
-            txt_Dongia.setText("");
             txt_Dongia.requestFocus();
             return;
         }
@@ -1150,12 +1175,30 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         lp.setDonGia(donGia);
         lp.setLoaiGiuong(loaiGiuong);
         lp.setTienNghis(list_TienNghiDuocChon);
+        sapXepTienNghiTheoMa(list_TienNghiDuocChon);
+
+        for (LoaiPhong lphong : loaiPhong_dao.getAllLoaiPhongSort()) {
+            sapXepTienNghiTheoMa(lphong.getTienNghis());
+            if (lphong.getTenLoaiPhong().equals(lp.getTenLoaiPhong())
+                    && lp.getDienTich() == lphong.getDienTich()
+                    && lphong.getLoaiGiuong().equals(lp.getLoaiGiuong())
+                    && lphong.getSoKhachToiDa() == lp.getSoKhachToiDa()
+                    && lphong.getDonGia() == lp.getDonGia()
+                    && getListTienNghi(list_TienNghiDuocChon).equals(getListTienNghi(lphong.getTienNghis()))) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa thay đổi gì");
+                return;
+            }
+        }
+
+        model.setValueAt(tenLoaiPhong, selectedRow, 1);
+        model.setValueAt(loaiGiuong, selectedRow, 2);
+        model.setValueAt(soLuongKhachToiDa, selectedRow, 3);
+        model.setValueAt(dienTich + " m2", selectedRow, 4);
+        model.setValueAt(getListTienNghi(list_TienNghiDuocChon), selectedRow, 5);
+        model.setValueAt(df.format(donGia) + " VND", selectedRow, 6);
 
         loaiPhong_dao.updateLoaiPhong(lp);
         JOptionPane.showMessageDialog(this, "Sửa thành công");
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
-        DocDataLenTable(list_LoaiPhong);
-        lamMoi();
 
     }//GEN-LAST:event_btn_SuaMousePressed
 
@@ -1180,11 +1223,15 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             for (Phong p : list_Phong) {
                 phong_dao.deletePhong(p.getMaPhong());
             }
+            txt_TenLoaiphong.setText("");
+            txt_TenLoaiphong.requestFocus();
+            txt_Dientich.setText("");
+            cb_Loaigiuong.setSelectedIndex(0);
+            txt_Sokhachtoida.setText("");
+            txt_Dongia.setText("");
+            resetTienNghi();
         }
-        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
-        DocDataLenTable(list_LoaiPhong);
-        lamMoi();
+
     }//GEN-LAST:event_btn_XoaMousePressed
 
     public boolean checkLoaiPhongDangSuDung(int maLoaiPhong) {

@@ -58,6 +58,29 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
      */
     public NhanVien_Phong_GUI() {
         initComponents();
+
+        Table_Phong.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                // Kiểm tra nếu không còn sự kiện đang thay đổi
+                if (Table_Phong.getSelectedRow() == -1) {
+                    return;
+                } else {
+                    txt_tang.setFocusable(false);
+                    txt_tang.setEditable(false);
+                    txt_tang.setBackground(new java.awt.Color(225, 225, 225));
+                    int selectedRow = Table_Phong.getSelectedRow();
+                    String phong = model.getValueAt(selectedRow, 0) + "";
+                    txt_phong.setText(phong);
+                    cb_loaiphong.setSelectedItem(model.getValueAt(selectedRow, 1));
+                    String tang = model.getValueAt(selectedRow, 2) + "";
+                    txt_tang.setText(tang);
+                    String modified = (String) model.getValueAt(selectedRow, 7);
+                    modified = modified.substring(0, modified.length() - 4);
+                    txt_gia.setText(modified);
+                    area_mota.setText((String) model.getValueAt(selectedRow, 6));
+                }
+            }
+        });
         txt_tang.requestFocus();
         Table_Phong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //      Chặn edit table
@@ -634,7 +657,6 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         String regex = "\\d+";
         if (!txt_tang.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số Tầng phải là số");
-            txt_tang.setText("");
             txt_tang.requestFocus();
             return;
         }
@@ -664,7 +686,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         phong_dao.createPhong(p);
 
         LoaiPhong lp = loaiphong_dao.getLoaiPhongByMa(loaiphong_dao.getLoaiPhongByTen(cb_loaiphong.getSelectedItem().toString()).getMaLoaiPhong());
-        model.insertRow(0,new Object[]{
+        model.insertRow(0, new Object[]{
             tam,
             lp.getTenLoaiPhong(),
             Integer.valueOf(txt_tang.getText().trim()),
@@ -714,24 +736,9 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     private void Table_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_PhongMousePressed
         // TODO add your handling code here:
-        if (Table_Phong.getSelectedRow() == -1) {
-            return;
-        } else {
-            txt_tang.setFocusable(false);
-            txt_tang.setEditable(false);
-            txt_tang.setBackground(new java.awt.Color(225, 225, 225));
-            int selectedRow = Table_Phong.getSelectedRow();
-            String phong = model.getValueAt(selectedRow, 0) + "";
-            txt_phong.setText(phong);
-            cb_loaiphong.setSelectedItem(model.getValueAt(selectedRow, 1));
-            String tang = model.getValueAt(selectedRow, 2) + "";
-            txt_tang.setText(tang);
-            String modified = (String) model.getValueAt(selectedRow, 7);
-            modified = modified.substring(0, modified.length() - 4);
-            txt_gia.setText(modified);
-            area_mota.setText((String) model.getValueAt(selectedRow, 6));
-        }
+
     }//GEN-LAST:event_Table_PhongMousePressed
+
 
     private void btn_XoaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMousePressed
         // TODO add your handling code here:
@@ -747,8 +754,16 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         }
         if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             model.removeRow(Table_Phong.getSelectedRow());
-            phong_dao.deletePhong(maPhong);   
-            Table_Phong.remove(Table_Phong.getSelectedRow());
+            phong_dao.deletePhong(maPhong);
+            txt_tang.setFocusable(true);
+            txt_tang.setEditable(true);
+            txt_tang.setBackground(new java.awt.Color(255, 255, 255));
+            txt_phong.setText("");
+            cb_loaiphong.setSelectedIndex(0);
+            txt_tang.setText("");
+            txt_gia.setText("");
+            area_mota.setText("Mô Tả");
+            txt_tang.requestFocus();
         }
     }//GEN-LAST:event_btn_XoaMousePressed
 
@@ -779,7 +794,6 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         String regex = "\\d+";
         if (!txt_tang.getText().trim().matches(regex)) {
             JOptionPane.showMessageDialog(this, "Số Tầng phải là số");
-            txt_tang.setText("");
             txt_tang.requestFocus();
             return;
         }
@@ -806,7 +820,6 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         p.setLoaiPhong(loaiphong_dao.getLoaiPhongByTen(cb_loaiphong.getSelectedItem().toString()).getMaLoaiPhong());
         p.setMoTa(mota);
 
-        int i = 1;
         for (Phong ph : phong_dao.getAllPhong()) {
 
             if (ph.getMaPhong() == p.getMaPhong()

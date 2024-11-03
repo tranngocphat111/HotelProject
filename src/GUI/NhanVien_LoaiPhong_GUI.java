@@ -92,7 +92,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 //        Load dữ liệu lên table
         model = (DefaultTableModel) table_LoaiPhong.getModel();
         model.setRowCount(0);
-        cb_Loaigiuong.insertItemAt("", 0);
+        cb_Loaigiuong.insertItemAt("Tất cả", 0);
         cb_Loaigiuong.setSelectedIndex(0);
         DocDataLenTable(list_LoaiPhong);
 
@@ -1072,7 +1072,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         for (LoaiPhong lp : loaiPhong_dao.getAllLoaiPhongSort()) {
-            if (txt_TenLoaiphong.getText().trim().equals(lp.getTenLoaiPhong())) {
+            if (txt_TenLoaiphong.getText().trim().equals(lp.getTenLoaiPhong()) && lp.getMaLoaiPhong() != maloaiPhong) {
                 JOptionPane.showMessageDialog(this, "Tên loại phòng trùng");
                 txt_TenLoaiphong.requestFocus();
                 return;

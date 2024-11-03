@@ -312,6 +312,9 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_TimMousePressed(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btn_TimMouseReleased(evt);
+            }
         });
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -542,6 +545,11 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         checkBox_DaThanhToan.setMinimumSize(new java.awt.Dimension(100, 50));
         checkBox_DaThanhToan.setPreferredSize(new java.awt.Dimension(100, 50));
         checkBox_DaThanhToan.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_CheckBox_active.png"))); // NOI18N
+        checkBox_DaThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBox_DaThanhToanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ThongTinKhachHang1Layout = new javax.swing.GroupLayout(ThongTinKhachHang1);
         ThongTinKhachHang1.setLayout(ThongTinKhachHang1Layout);
@@ -952,9 +960,9 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     }
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
-        list_HoaDonTheoTieuChi.clear();
-        list_HoaDonTheoTieuChi = list_HoaDon;
-        list_HoaDonTheoTieuChi = getHoaDonTheoTrangThai(list_HoaDonTheoTieuChi);
+//        list_HoaDonTheoTieuChi.clear();
+//        list_HoaDonTheoTieuChi = list_HoaDon;
+//        list_HoaDonTheoTieuChi = getHoaDonTheoTrangThai(list_HoaDonTheoTieuChi);
         if (cb_LoaiPhong.getSelectedItem().toString().isEmpty()
                 && cb_Tang.getSelectedItem().toString().isEmpty()
                 && cb_Phong.getSelectedItem().toString().isEmpty()
@@ -1094,6 +1102,17 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             new LeTan_DonDatPhong_ChiTietDonDatPhong_GUI(donDatPhong, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
         }
     }//GEN-LAST:event_Table_DonDatPhongMousePressed
+
+    private void btn_TimMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_TimMouseReleased
+
+    private void checkBox_DaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_DaThanhToanActionPerformed
+        // TODO add your handling code here:
+        list_HoaDon = hoadon_dao.getAllHoaDon();
+        list_HoaDonTheoTieuChi = getHoaDonTheoTrangThai(list_HoaDon);
+        DocDuLieuLenTable(list_HoaDonTheoTieuChi);
+    }//GEN-LAST:event_checkBox_DaThanhToanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

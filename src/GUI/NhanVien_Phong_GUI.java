@@ -34,6 +34,8 @@ import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
 import model.MongoDBConnection;
+import GUI.ScrollBarCustom;
+import java.awt.Color;
 
 /**
  *
@@ -58,7 +60,10 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
      */
     public NhanVien_Phong_GUI() {
         initComponents();
-
+        Table_Phong.setSelectionBackground(new Color(255,222,89));
+        Table_Phong.setSelectionForeground(new Color(0,0,0));
+        jScrollPane3.setVerticalScrollBar(new ScrollBarCustom());
+        jScrollPane3.getVerticalScrollBar().setUnitIncrement(80);
         Table_Phong.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 // Kiểm tra nếu không còn sự kiện đang thay đổi
@@ -573,7 +578,16 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
             new String [] {
                 "Số Phòng", "Loại Phòng", "Số Tầng", "Loại Giường", "Diện Tích", "Tiện Nghi", "Mô Tả", "Đơn Giá"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Table_Phong.setFocusable(false);
         Table_Phong.setRowHeight(30);
         Table_Phong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {

@@ -6,6 +6,7 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -65,6 +66,10 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     public NhanVien_LoaiPhong_GUI() {
 
         initComponents();
+        table_LoaiPhong.setSelectionBackground(new Color(255,222,89));
+        table_LoaiPhong.setSelectionForeground(new Color(0,0,0));
+        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(5);
         table_LoaiPhong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //      Đọc dữ liệu từ database lên
         list_LoaiPhong = loaiPhong_dao.getAllLoaiPhongSort();
@@ -773,6 +778,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_LoaiPhong.setFocusable(false);
         table_LoaiPhong.setRowHeight(30);
         table_LoaiPhong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -1032,7 +1038,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             Integer.valueOf(txt_Sokhachtoida.getText().trim()),
             Integer.valueOf(txt_Dientich.getText().trim()) + " m2",
             getListTienNghi(list_TienNghiDuocChon),
-            df.format(Integer.parseInt(txt_Sokhachtoida.getText().trim())) + " VND"});
+            df.format(Integer.parseInt(txt_Dongia.getText().trim())) + " VND"});
         table_LoaiPhong.setRowSelectionInterval(1, 0);
         JOptionPane.showMessageDialog(this, "Thêm thành công");
     }//GEN-LAST:event_btn_ThemMousePressed

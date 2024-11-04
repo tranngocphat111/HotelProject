@@ -60,8 +60,8 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
      */
     public NhanVien_Phong_GUI() {
         initComponents();
-        Table_Phong.setSelectionBackground(new Color(255,222,89));
-        Table_Phong.setSelectionForeground(new Color(0,0,0));
+        Table_Phong.setSelectionBackground(new Color(255, 222, 89));
+        Table_Phong.setSelectionForeground(new Color(0, 0, 0));
         jScrollPane3.setVerticalScrollBar(new ScrollBarCustom());
         jScrollPane3.getVerticalScrollBar().setUnitIncrement(80);
         Table_Phong.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -942,8 +942,11 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
 
     public void DocDuLieuLenTablePhong(List<Phong> list_phong) {
         model.setRowCount(0);
-
+        if(loaiphong_dao.getAllLoaiPhong().size() == 0 ){
+            return;
+        }
         for (Phong phong : list_phong) {
+            
             LoaiPhong lp = loaiphong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
             model.addRow(new Object[]{
                 phong.getMaPhong(),

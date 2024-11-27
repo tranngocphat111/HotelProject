@@ -386,6 +386,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         btn_Tang = new keeptoo.KGradientPanel();
         jLabel41 = new javax.swing.JLabel();
         Panel_Phongs = new javax.swing.JPanel();
+        panel_Tang2 = new javax.swing.JPanel();
+        btn_Tang2 = new keeptoo.KGradientPanel();
+        jLabel44 = new javax.swing.JLabel();
+        Panel_Phongs2 = new javax.swing.JPanel();
+        panel_Tang3 = new javax.swing.JPanel();
+        btn_Tang3 = new keeptoo.KGradientPanel();
+        jLabel45 = new javax.swing.JLabel();
+        Panel_Phongs3 = new javax.swing.JPanel();
+        panel_Tang4 = new javax.swing.JPanel();
+        btn_Tang4 = new keeptoo.KGradientPanel();
+        jLabel46 = new javax.swing.JLabel();
+        Panel_Phongs4 = new javax.swing.JPanel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DatPhong"); // NOI18N
@@ -1220,11 +1232,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(940, 200));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(940, 520));
 
         Panel_ListPhong.setBackground(new java.awt.Color(0, 0, 0));
-        Panel_ListPhong.setPreferredSize(new java.awt.Dimension(940, 200));
-        Panel_ListPhong.setLayout(new java.awt.GridLayout(1, 1));
+        Panel_ListPhong.setLayout(new javax.swing.BoxLayout(Panel_ListPhong, javax.swing.BoxLayout.Y_AXIS));
 
         panel_Tang.setOpaque(false);
 
@@ -1263,17 +1275,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         Panel_Phongs.setOpaque(false);
-        Panel_Phongs.setPreferredSize(new java.awt.Dimension(0, 0));
 
         javax.swing.GroupLayout Panel_PhongsLayout = new javax.swing.GroupLayout(Panel_Phongs);
         Panel_Phongs.setLayout(Panel_PhongsLayout);
         Panel_PhongsLayout.setHorizontalGroup(
             Panel_PhongsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 69, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         Panel_PhongsLayout.setVerticalGroup(
             Panel_PhongsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 13, Short.MAX_VALUE)
+            .addGap(0, 233, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panel_TangLayout = new javax.swing.GroupLayout(panel_Tang);
@@ -1283,26 +1294,233 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             .addGroup(panel_TangLayout.createSequentialGroup()
                 .addComponent(btn_Tang, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 858, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_TangLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
-                .addGap(862, 862, 862))
+            .addGroup(panel_TangLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panel_TangLayout.setVerticalGroup(
             panel_TangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_TangLayout.createSequentialGroup()
                 .addComponent(btn_Tang, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, 13, Short.MAX_VALUE)
-                .addGap(464, 464, 464))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Panel_Phongs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         Panel_ListPhong.add(panel_Tang);
 
+        panel_Tang2.setOpaque(false);
+
+        btn_Tang2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Tang2.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Tang2.setkGradientFocus(250);
+        btn_Tang2.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tang2.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_Tang2.setPreferredSize(new java.awt.Dimension(110, 47));
+        btn_Tang2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_Tang2MousePressed(evt);
+            }
+        });
+
+        jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel44.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel44.setText("Tầng 1");
+        jLabel44.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel44.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout btn_Tang2Layout = new javax.swing.GroupLayout(btn_Tang2);
+        btn_Tang2.setLayout(btn_Tang2Layout);
+        btn_Tang2Layout.setHorizontalGroup(
+            btn_Tang2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_Tang2Layout.createSequentialGroup()
+                .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        btn_Tang2Layout.setVerticalGroup(
+            btn_Tang2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_Tang2Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addComponent(jLabel44)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        Panel_Phongs2.setOpaque(false);
+
+        javax.swing.GroupLayout Panel_Phongs2Layout = new javax.swing.GroupLayout(Panel_Phongs2);
+        Panel_Phongs2.setLayout(Panel_Phongs2Layout);
+        Panel_Phongs2Layout.setHorizontalGroup(
+            Panel_Phongs2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        Panel_Phongs2Layout.setVerticalGroup(
+            Panel_Phongs2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout panel_Tang2Layout = new javax.swing.GroupLayout(panel_Tang2);
+        panel_Tang2.setLayout(panel_Tang2Layout);
+        panel_Tang2Layout.setHorizontalGroup(
+            panel_Tang2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_Tang2Layout.createSequentialGroup()
+                .addComponent(btn_Tang2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 858, Short.MAX_VALUE))
+            .addComponent(Panel_Phongs2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panel_Tang2Layout.setVerticalGroup(
+            panel_Tang2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_Tang2Layout.createSequentialGroup()
+                .addComponent(btn_Tang2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(Panel_Phongs2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
+        Panel_ListPhong.add(panel_Tang2);
+
+        panel_Tang3.setOpaque(false);
+
+        btn_Tang3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Tang3.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Tang3.setkGradientFocus(250);
+        btn_Tang3.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tang3.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_Tang3.setPreferredSize(new java.awt.Dimension(110, 47));
+        btn_Tang3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_Tang3MousePressed(evt);
+            }
+        });
+
+        jLabel45.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel45.setText("Tầng 1");
+        jLabel45.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel45.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout btn_Tang3Layout = new javax.swing.GroupLayout(btn_Tang3);
+        btn_Tang3.setLayout(btn_Tang3Layout);
+        btn_Tang3Layout.setHorizontalGroup(
+            btn_Tang3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_Tang3Layout.createSequentialGroup()
+                .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        btn_Tang3Layout.setVerticalGroup(
+            btn_Tang3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_Tang3Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addComponent(jLabel45)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        Panel_Phongs3.setOpaque(false);
+
+        javax.swing.GroupLayout Panel_Phongs3Layout = new javax.swing.GroupLayout(Panel_Phongs3);
+        Panel_Phongs3.setLayout(Panel_Phongs3Layout);
+        Panel_Phongs3Layout.setHorizontalGroup(
+            Panel_Phongs3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        Panel_Phongs3Layout.setVerticalGroup(
+            Panel_Phongs3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 35, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout panel_Tang3Layout = new javax.swing.GroupLayout(panel_Tang3);
+        panel_Tang3.setLayout(panel_Tang3Layout);
+        panel_Tang3Layout.setHorizontalGroup(
+            panel_Tang3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_Tang3Layout.createSequentialGroup()
+                .addComponent(btn_Tang3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 858, Short.MAX_VALUE))
+            .addComponent(Panel_Phongs3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panel_Tang3Layout.setVerticalGroup(
+            panel_Tang3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_Tang3Layout.createSequentialGroup()
+                .addComponent(btn_Tang3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(Panel_Phongs3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
+        Panel_ListPhong.add(panel_Tang3);
+
+        panel_Tang4.setOpaque(false);
+
+        btn_Tang4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Tang4.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Tang4.setkGradientFocus(250);
+        btn_Tang4.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Tang4.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_Tang4.setPreferredSize(new java.awt.Dimension(110, 47));
+        btn_Tang4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_Tang4MousePressed(evt);
+            }
+        });
+
+        jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel46.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel46.setText("Tầng 1");
+        jLabel46.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel46.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout btn_Tang4Layout = new javax.swing.GroupLayout(btn_Tang4);
+        btn_Tang4.setLayout(btn_Tang4Layout);
+        btn_Tang4Layout.setHorizontalGroup(
+            btn_Tang4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_Tang4Layout.createSequentialGroup()
+                .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        btn_Tang4Layout.setVerticalGroup(
+            btn_Tang4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_Tang4Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addComponent(jLabel46)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        Panel_Phongs4.setOpaque(false);
+
+        javax.swing.GroupLayout Panel_Phongs4Layout = new javax.swing.GroupLayout(Panel_Phongs4);
+        Panel_Phongs4.setLayout(Panel_Phongs4Layout);
+        Panel_Phongs4Layout.setHorizontalGroup(
+            Panel_Phongs4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        Panel_Phongs4Layout.setVerticalGroup(
+            Panel_Phongs4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 35, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout panel_Tang4Layout = new javax.swing.GroupLayout(panel_Tang4);
+        panel_Tang4.setLayout(panel_Tang4Layout);
+        panel_Tang4Layout.setHorizontalGroup(
+            panel_Tang4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_Tang4Layout.createSequentialGroup()
+                .addComponent(btn_Tang4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 858, Short.MAX_VALUE))
+            .addComponent(Panel_Phongs4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panel_Tang4Layout.setVerticalGroup(
+            panel_Tang4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_Tang4Layout.createSequentialGroup()
+                .addComponent(btn_Tang4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(Panel_Phongs4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
+        Panel_ListPhong.add(panel_Tang4);
+
         jScrollPane1.setViewportView(Panel_ListPhong);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(310, 20, 940, 520);
+        jScrollPane1.setBounds(310, 70, 940, 470);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_DatPhong"); // NOI18N
@@ -1369,6 +1587,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_LamMoi1MousePressed
 
+    private void btn_Tang2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_Tang2MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_Tang2MousePressed
+
+    private void btn_Tang3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_Tang3MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_Tang3MousePressed
+
+    private void btn_Tang4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_Tang4MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_Tang4MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
@@ -1388,12 +1618,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel Panel_ChuThich8;
     private javax.swing.JPanel Panel_ListPhong;
     private javax.swing.JPanel Panel_Phongs;
+    private javax.swing.JPanel Panel_Phongs2;
+    private javax.swing.JPanel Panel_Phongs3;
+    private javax.swing.JPanel Panel_Phongs4;
     private javax.swing.JPanel Panel_TienNghis;
     private javax.swing.JPanel SideBar;
     private keeptoo.KGradientPanel btn_LamMoi;
     private keeptoo.KGradientPanel btn_LamMoi1;
     private javax.swing.JPanel btn_Loc;
     private keeptoo.KGradientPanel btn_Tang;
+    private keeptoo.KGradientPanel btn_Tang2;
+    private keeptoo.KGradientPanel btn_Tang3;
+    private keeptoo.KGradientPanel btn_Tang4;
     private keeptoo.KGradientPanel btn_ThemPhong;
     private keeptoo.KGradientPanel btn_ThemPhong3;
     private javax.swing.JLabel button_ThongBao;
@@ -1432,6 +1668,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1446,6 +1685,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel label_Avatar;
     private javax.swing.JPanel line;
     private javax.swing.JPanel panel_Tang;
+    private javax.swing.JPanel panel_Tang2;
+    private javax.swing.JPanel panel_Tang3;
+    private javax.swing.JPanel panel_Tang4;
     private com.toedter.calendar.JDateChooser txt_NgayNhanPhong;
     private com.toedter.calendar.JDateChooser txt_NgayTraPhong;
     public static javax.swing.JLabel txt_TenNguoiDaiDien;

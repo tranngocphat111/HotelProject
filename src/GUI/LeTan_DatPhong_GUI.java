@@ -168,7 +168,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel75 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel7 = new javax.swing.JPanel();
         panel_TienNghiCuaPhong = new javax.swing.JPanel();
         icon_TienNghi = new javax.swing.JLabel();
         jLabel253 = new javax.swing.JLabel();
@@ -180,6 +179,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel259 = new javax.swing.JLabel();
         jLabel260 = new javax.swing.JLabel();
         jLabel261 = new javax.swing.JLabel();
+        jLabel262 = new javax.swing.JLabel();
+        jLabel263 = new javax.swing.JLabel();
         panel_Phong1 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         label_SoPhong3 = new javax.swing.JLabel();
@@ -1533,74 +1534,72 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
         );
 
-        jPanel4.setBackground(new java.awt.Color(255, 209, 84));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel4.setOpaque(false);
 
-        jScrollPane1.setBackground(new java.awt.Color(255, 209, 84));
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setToolTipText("");
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(60, 85));
         jScrollPane1.setOpaque(false);
         jScrollPane1.setPreferredSize(new java.awt.Dimension(60, 85));
 
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setPreferredSize(new java.awt.Dimension(0, 0));
+        panel_TienNghiCuaPhong.setBackground(new java.awt.Color(255, 255, 255));
+        panel_TienNghiCuaPhong.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 4, 2));
+        panel_TienNghiCuaPhong.setLayout(new java.awt.GridLayout(6, 2, 6, 0));
 
-        panel_TienNghiCuaPhong.setOpaque(false);
-        panel_TienNghiCuaPhong.setLayout(new java.awt.GridLayout(6, 2, 12, 0));
-
+        icon_TienNghi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         icon_TienNghi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(icon_TienNghi);
 
+        jLabel253.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel253.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel253);
 
+        jLabel254.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel254.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel254);
 
+        jLabel255.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel255.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel255);
 
+        jLabel256.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel256.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel256);
 
+        jLabel257.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel257.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel257);
 
+        jLabel258.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel258.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel258);
 
+        jLabel259.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel259.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel259);
 
+        jLabel260.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel260.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel260);
 
+        jLabel261.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel261.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
         panel_TienNghiCuaPhong.add(jLabel261);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(panel_TienNghiCuaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 114, Short.MAX_VALUE)
-            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel7Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(panel_TienNghiCuaPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        jLabel262.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel262.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
+        panel_TienNghiCuaPhong.add(jLabel262);
 
-        jScrollPane1.setViewportView(jPanel7);
+        jLabel263.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel263.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
+        panel_TienNghiCuaPhong.add(jLabel263);
+
+        jScrollPane1.setViewportView(panel_TienNghiCuaPhong);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1828,7 +1827,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             .addGroup(jPanel25Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -6545,6 +6544,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel260;
     private javax.swing.JLabel jLabel261;
+    private javax.swing.JLabel jLabel262;
+    private javax.swing.JLabel jLabel263;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -6722,7 +6723,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel67;
     private javax.swing.JPanel jPanel68;
     private javax.swing.JPanel jPanel69;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel70;
     private javax.swing.JPanel jPanel71;
     private javax.swing.JPanel jPanel72;

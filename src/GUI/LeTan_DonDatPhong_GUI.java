@@ -5,8 +5,6 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
-import static GUI.LeTan_DatPhong_GUI.label_MaDonDatPhong;
-import static GUI.LeTan_DatPhong_GUI.label_MaHoaDon;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Dimension;
 import java.awt.Font;

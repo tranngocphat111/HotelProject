@@ -614,16 +614,11 @@ public class LeTan_DatPhong_ChonPhong_GUI extends javax.swing.JDialog {
         }
         Phong phong = phong_dao.getPhongByMa(Integer.parseInt(model.getValueAt(Table_Phong.getSelectedRow(), 0).toString()));
         int soLuongKhachToiDa = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getSoKhachToiDa();
-        if (LeTan_DatPhong_GUI.table_KhachHang.getRowCount() > soLuongKhachToiDa) {
-            JOptionPane.showMessageDialog(this, "Số lượng khách đã vượt quá số lượng khách tối đa, vui lòng chọn loại khác");
-            return;
-        }
-        LeTan_DatPhong_GUI.txt_DonGia.setText(df.format(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getDonGia()) + " VND");
-        LeTan_DatPhong_GUI.txt_Phong.setText(phong.getMaPhong() + "");
-        LeTan_DatPhong_GUI.txt_Tang.setText(phong.getTang() + "");
-        LeTan_DatPhong_GUI.txt_LoaiPhong.setText(loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getTenLoaiPhong());
-        LeTan_DatPhong_GUI.area_moTa.setText(phong.getMoTa());
-        LeTan_DatPhong_GUI.label_KhachToiDa.setText("Số lượng khách tối đa: " + loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong()).getSoKhachToiDa());
+//        if (LeTan_DatPhong_GUI.table_KhachHang.getRowCount() > soLuongKhachToiDa) {
+//            JOptionPane.showMessageDialog(this, "Số lượng khách đã vượt quá số lượng khách tối đa, vui lòng chọn loại khác");
+//            return;
+//        }
+       
 
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMousePressed

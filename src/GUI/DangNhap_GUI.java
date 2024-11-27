@@ -31,9 +31,10 @@ public class DangNhap_GUI extends javax.swing.JFrame {
      */
     public DangNhap_GUI() {
         MongoDBConnection.connection();
+        database = MongoDBConnection.getDatabase();
         initComponents();
         setLocationRelativeTo(null);
-        database = MongoDBConnection.getDatabase();
+        
         nhanVien_Dao = new NhanVienDAO(database);
         list_NhanVien = nhanVien_Dao.getAllNhanVien();
         

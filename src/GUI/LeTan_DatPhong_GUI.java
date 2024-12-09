@@ -9,6 +9,7 @@ import static GUI.DangNhap_GUI.database;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
@@ -27,6 +28,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -70,6 +72,31 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
+        Scroll_ChuThich.setOpaque(false); // Làm JScrollPane trong suốt
+        Scroll_ChuThich.getViewport().setOpaque(false);
+        Scroll_ChuThich.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        // Không vẽ gì cả, loại bỏ hoàn toàn nền
+    }
+});
+        Scroll_PhongDaChon.setOpaque(false); // Làm JScrollPane trong suốt
+        Scroll_PhongDaChon.getViewport().setOpaque(false);
+             Scroll_PhongDaChon.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        // Không vẽ gì cả, loại bỏ hoàn toàn nền
+    }
+});
+               Scroll_Phong.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
+    @Override
+    public void paint(Graphics g, JComponent c) {
+        // Không vẽ gì cả, loại bỏ hoàn toàn nền
+    }
+});
+        Scroll_Phong.setOpaque(false); // Làm JScrollPane trong suốt
+        Scroll_Phong.getViewport().setOpaque(false);
+
 
 //        Set avatar
         jPanel3.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, new Color(255, 209, 84)));
@@ -100,7 +127,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             JLabel icon_TienNghi = new JLabel();
             ImageIcon icon = new ImageScale().load1(new ImageIcon(tienNghi.getHinhAnh()), 30, 30);
             icon_TienNghi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            
+
             icon_TienNghi.setIcon(changeIconColor(icon));
 
             javax.swing.GroupLayout Panel_TienNghi_ChuThichLayout = new javax.swing.GroupLayout(Panel_TienNghi_ChuThich);
@@ -970,6 +997,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         line = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         Scroll_PhongDaChon = new javax.swing.JScrollPane();
+        panel_GrPhong = new javax.swing.JPanel();
         Panel_PhongDuocChons = new javax.swing.JPanel();
         panel_PhongDuocChon = new javax.swing.JPanel();
         circlePanel_Close = new GUI.CirclePanel();
@@ -1412,6 +1440,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Scroll_ChuThich.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         Panel_TienNghis.setBackground(new java.awt.Color(0, 0, 0));
+        Panel_TienNghis.setOpaque(false);
         Panel_TienNghis.setLayout(new java.awt.GridLayout(4, 2));
         Scroll_ChuThich.setViewportView(Panel_TienNghis);
 
@@ -1420,7 +1449,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         SideBarLayout.setHorizontalGroup(
             SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SideBarLayout.createSequentialGroup()
-                .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(SideBarLayout.createSequentialGroup()
                         .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1452,9 +1481,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                                 .addGroup(SideBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Panel_ChuThich4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Panel_ChuThich3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 13, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SideBarLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(SideBarLayout.createSequentialGroup()
+                        .addContainerGap(274, Short.MAX_VALUE)
                         .addComponent(Scroll_ChuThich, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1582,6 +1611,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Scroll_Phong.setPreferredSize(new java.awt.Dimension(940, 520));
 
         Panel_ListPhong.setBackground(new java.awt.Color(0, 0, 0));
+        Panel_ListPhong.setOpaque(false);
         Panel_ListPhong.setLayout(new javax.swing.BoxLayout(Panel_ListPhong, javax.swing.BoxLayout.Y_AXIS));
         Scroll_Phong.setViewportView(Panel_ListPhong);
 
@@ -1618,9 +1648,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Scroll_PhongDaChon.setOpaque(false);
         Scroll_PhongDaChon.setPreferredSize(new java.awt.Dimension(150, 150));
 
+        panel_GrPhong.setBackground(new java.awt.Color(0, 0, 0));
+        panel_GrPhong.setAutoscrolls(true);
+        panel_GrPhong.setOpaque(false);
+
         Panel_PhongDuocChons.setBackground(new java.awt.Color(0, 0, 0));
         Panel_PhongDuocChons.setAutoscrolls(true);
-        Panel_PhongDuocChons.setLayout(new java.awt.GridLayout(1, 1, 15, 0));
+        Panel_PhongDuocChons.setOpaque(false);
+        Panel_PhongDuocChons.setLayout(new java.awt.GridLayout(1, 6, 15, 15));
 
         panel_PhongDuocChon.setBackground(new java.awt.Color(255, 255, 153));
         panel_PhongDuocChon.setOpaque(false);
@@ -1869,7 +1904,23 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         Panel_PhongDuocChons.add(panel_PhongDuocChon);
 
-        Scroll_PhongDaChon.setViewportView(Panel_PhongDuocChons);
+        javax.swing.GroupLayout panel_GrPhongLayout = new javax.swing.GroupLayout(panel_GrPhong);
+        panel_GrPhong.setLayout(panel_GrPhongLayout);
+        panel_GrPhongLayout.setHorizontalGroup(
+            panel_GrPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_GrPhongLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+        panel_GrPhongLayout.setVerticalGroup(
+            panel_GrPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+        );
+
+        Panel_PhongDuocChons.getAccessibleContext().setAccessibleParent(panel_GrPhong);
+
+        Scroll_PhongDaChon.setViewportView(panel_GrPhong);
 
         jPanel1.add(Scroll_PhongDaChon);
         Scroll_PhongDaChon.setBounds(320, 570, 910, 170);
@@ -1916,6 +1967,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
         LoadPhongDuocChon(list_PhongDuocChon);
         Panel_ListPhong.removeAll();
+        Panel_ListPhong.revalidate(); // Cập nhật lại bố cục
+        Panel_ListPhong.repaint(); // Vẽ lại giao diện
         LoadPhong(list_PhongDuocChon);
     }//GEN-LAST:event_btn_ThemPhongMousePressed
 
@@ -2017,6 +2070,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel label_SoLuongKhach;
     private javax.swing.JLabel label_SoPhong;
     private javax.swing.JPanel line;
+    private javax.swing.JPanel panel_GrPhong;
     private javax.swing.JPanel panel_Phong;
     private javax.swing.JPanel panel_PhongDuocChon;
     private javax.swing.JLabel txt_NgayNhan;

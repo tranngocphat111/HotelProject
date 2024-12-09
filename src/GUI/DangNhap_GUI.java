@@ -34,10 +34,9 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         database = MongoDBConnection.getDatabase();
         initComponents();
         setLocationRelativeTo(null);
-        
+
         nhanVien_Dao = new NhanVienDAO(database);
         list_NhanVien = nhanVien_Dao.getAllNhanVien();
-        
 
     }
 
@@ -203,7 +202,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
         btn_DangNhap.setBorder(null);
 
-
     }//GEN-LAST:event_btn_DangNhapMouseEntered
 
     private void btn_DangNhapMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangNhapMouseExited
@@ -211,7 +209,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         btn_DangNhap.setkStartColor(new java.awt.Color(0, 0, 0));
         btn_DangNhap.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 209, 84), 1, true));
         btn_DangNhap.setBorder(null);
-
 
     }//GEN-LAST:event_btn_DangNhapMouseExited
 
@@ -254,7 +251,6 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             new QuanLy_GUI().setVisible(true);
             setVisible(false);
         }
-
 
     }//GEN-LAST:event_btn_DangNhapMousePressed
 

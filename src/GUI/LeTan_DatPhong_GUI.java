@@ -74,8 +74,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
-        
-        
+
         Scroll_ChuThich.setOpaque(false); // Làm JScrollPane trong suốt
         Scroll_ChuThich.getViewport().setOpaque(false);
         Scroll_ChuThich.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
@@ -84,8 +83,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 // Không vẽ gì cả, loại bỏ hoàn toàn nền
             }
         });
-        
-        
+
         Scroll_PhongDaChon.setOpaque(false); // Làm JScrollPane trong suốt
         Scroll_PhongDaChon.getViewport().setOpaque(false);
         Scroll_PhongDaChon.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
@@ -94,8 +92,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 // Không vẽ gì cả, loại bỏ hoàn toàn nền
             }
         });
-        
-        
+
         Scroll_Phong.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
             @Override
             public void paint(Graphics g, JComponent c) {
@@ -132,7 +129,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             label_TenTienNghi.setText(tienNghi.getTenTienNghi());
 
             JLabel icon_TienNghi = new JLabel();
-            ImageIcon icon = new ImageScale().load1(new ImageIcon(tienNghi.getHinhAnh()), 30, 30);
+            ImageIcon icon = new ImageScale().load1(new ImageIcon(tienNghi.getHinhAnh()), 27, 27);
             icon_TienNghi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
             icon_TienNghi.setIcon(changeIconColor(icon));
@@ -556,10 +553,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
-    public void LoadPhongDuocChon(List<Phong> list_phong) {
+    public void LoadPhongDuocChon() {
+        System.out.println(list_PhongDuocChon.size());
 
-        Panel_PhongDuocChons.setLayout(new java.awt.GridLayout(1, list_phong.size(), 15, 0));
-        for (Phong phong : list_PhongDuocChonTheo1thoiGian) {
+        Panel_PhongDuocChons.setLayout(new java.awt.GridLayout(1, list_PhongDuocChon.size(), 15, 0));
+        for (Phong phong : list_PhongDuocChon) {
             LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
             JPanel panel_PhongDuocChon = new JPanel();
             panel_PhongDuocChon.setBackground(new java.awt.Color(255, 255, 153));
@@ -758,7 +756,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
             for (TienNghi tiennghi : loaiPhong.getTienNghis()) {
                 JLabel icon_TienNghi = new JLabel();
-                ImageIcon icon = new ImageScale().load1(new ImageIcon(tiennghi.getHinhAnh()), 20, 20);
+                ImageIcon icon = new ImageScale().load1(new ImageIcon(tiennghi.getHinhAnh()), 18, 18);
                 icon_TienNghi.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 icon_TienNghi.setIcon(icon);
                 panel_TienNghiCuaPhong.add(icon_TienNghi);
@@ -1031,33 +1029,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Scroll_PhongDaChon = new javax.swing.JScrollPane();
         panel_GrPhong = new javax.swing.JPanel();
         Panel_PhongDuocChons = new javax.swing.JPanel();
-        panel_PhongDuocChon = new javax.swing.JPanel();
-        circlePanel_Close = new GUI.CirclePanel();
-        icon_Close = new javax.swing.JLabel();
-        panel_Phong = new javax.swing.JPanel();
-        jPanel131 = new javax.swing.JPanel();
-        label_SoPhong = new javax.swing.JLabel();
-        jPanel132 = new javax.swing.JPanel();
-        label_SoLuongKhach = new javax.swing.JLabel();
-        jLabel318 = new javax.swing.JLabel();
-        jLabel319 = new javax.swing.JLabel();
-        label_LoaiGiuong = new javax.swing.JLabel();
-        jLabel320 = new javax.swing.JLabel();
-        label_LoaiPhong = new javax.swing.JLabel();
-        jPanel133 = new javax.swing.JPanel();
-        label_DonGia = new javax.swing.JLabel();
-        jPanel135 = new javax.swing.JPanel();
-        jLabel328 = new javax.swing.JLabel();
-        txt_NgayTra = new javax.swing.JLabel();
-        txt_NgayNhan = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        PaneL_TienNghis = new javax.swing.JPanel();
-        jLabel322 = new javax.swing.JLabel();
-        jLabel323 = new javax.swing.JLabel();
-        jLabel324 = new javax.swing.JLabel();
-        jLabel325 = new javax.swing.JLabel();
-        jLabel326 = new javax.swing.JLabel();
-        jLabel327 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DatPhong"); // NOI18N
@@ -1689,259 +1660,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Panel_PhongDuocChons.setOpaque(false);
         Panel_PhongDuocChons.setLayout(new java.awt.GridLayout(1, 6, 15, 15));
 
-        panel_PhongDuocChon.setBackground(new java.awt.Color(255, 255, 153));
-        panel_PhongDuocChon.setOpaque(false);
-        panel_PhongDuocChon.setPreferredSize(new java.awt.Dimension(150, 150));
-        panel_PhongDuocChon.setLayout(null);
-
-        icon_Close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icon_Close.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_close.png"))); // NOI18N
-        icon_Close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        icon_Close.setPreferredSize(new java.awt.Dimension(25, 25));
-
-        javax.swing.GroupLayout circlePanel_CloseLayout = new javax.swing.GroupLayout(circlePanel_Close);
-        circlePanel_Close.setLayout(circlePanel_CloseLayout);
-        circlePanel_CloseLayout.setHorizontalGroup(
-            circlePanel_CloseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circlePanel_CloseLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(icon_Close, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        circlePanel_CloseLayout.setVerticalGroup(
-            circlePanel_CloseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circlePanel_CloseLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(icon_Close, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        panel_PhongDuocChon.add(circlePanel_Close);
-        circlePanel_Close.setBounds(122, 7, 25, 25);
-
-        panel_Phong.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel131.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel131.setOpaque(false);
-
-        label_SoPhong.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        label_SoPhong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_SoPhong.setText("101");
-        label_SoPhong.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout jPanel131Layout = new javax.swing.GroupLayout(jPanel131);
-        jPanel131.setLayout(jPanel131Layout);
-        jPanel131Layout.setHorizontalGroup(
-            jPanel131Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel131Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(label_SoPhong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel131Layout.setVerticalGroup(
-            jPanel131Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel131Layout.createSequentialGroup()
-                .addComponent(label_SoPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-
-        jPanel132.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel132.setOpaque(false);
-        jPanel132.setPreferredSize(new java.awt.Dimension(77, 72));
-
-        label_SoLuongKhach.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        label_SoLuongKhach.setText("3");
-
-        jLabel318.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-
-        jLabel319.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_LoaiGiuong_mini.png"))); // NOI18N
-
-        label_LoaiGiuong.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        label_LoaiGiuong.setText("Đôi");
-
-        jLabel320.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-
-        label_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        label_LoaiPhong.setText("Family");
-
-        javax.swing.GroupLayout jPanel132Layout = new javax.swing.GroupLayout(jPanel132);
-        jPanel132.setLayout(jPanel132Layout);
-        jPanel132Layout.setHorizontalGroup(
-            jPanel132Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel132Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel132Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel132Layout.createSequentialGroup()
-                        .addComponent(jLabel318)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label_SoLuongKhach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel132Layout.createSequentialGroup()
-                        .addComponent(jLabel319)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label_LoaiGiuong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel132Layout.createSequentialGroup()
-                        .addComponent(jLabel320)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label_LoaiPhong, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))))
-        );
-        jPanel132Layout.setVerticalGroup(
-            jPanel132Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel132Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel132Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_SoLuongKhach, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel318))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel132Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_LoaiGiuong, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel319))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel132Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel320)))
-        );
-
-        jPanel133.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel133.setOpaque(false);
-
-        label_DonGia.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        label_DonGia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_DonGia.setText("1.000.000");
-
-        javax.swing.GroupLayout jPanel133Layout = new javax.swing.GroupLayout(jPanel133);
-        jPanel133.setLayout(jPanel133Layout);
-        jPanel133Layout.setHorizontalGroup(
-            jPanel133Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel133Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(label_DonGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel133Layout.setVerticalGroup(
-            jPanel133Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel133Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(label_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        jPanel135.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel135.setOpaque(false);
-
-        jLabel328.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel328.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel328.setText("-");
-
-        txt_NgayTra.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txt_NgayTra.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_NgayTra.setText("27/09");
-
-        txt_NgayNhan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txt_NgayNhan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txt_NgayNhan.setText("12/09");
-
-        javax.swing.GroupLayout jPanel135Layout = new javax.swing.GroupLayout(jPanel135);
-        jPanel135.setLayout(jPanel135Layout);
-        jPanel135Layout.setHorizontalGroup(
-            jPanel135Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel135Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(txt_NgayNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel328, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(txt_NgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel135Layout.setVerticalGroup(
-            jPanel135Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel135Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(txt_NgayTra)
-                .addComponent(jLabel328, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txt_NgayNhan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel4.setOpaque(false);
-        jPanel4.setPreferredSize(new java.awt.Dimension(60, 85));
-
-        PaneL_TienNghis.setOpaque(false);
-        PaneL_TienNghis.setLayout(new java.awt.GridLayout(3, 2, 8, 6));
-
-        jLabel322.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-        PaneL_TienNghis.add(jLabel322);
-
-        jLabel323.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-        PaneL_TienNghis.add(jLabel323);
-
-        jLabel324.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-        PaneL_TienNghis.add(jLabel324);
-
-        jLabel325.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-        PaneL_TienNghis.add(jLabel325);
-
-        jLabel326.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-        PaneL_TienNghis.add(jLabel326);
-
-        jLabel327.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
-        PaneL_TienNghis.add(jLabel327);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(PaneL_TienNghis, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(PaneL_TienNghis, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-
-        javax.swing.GroupLayout panel_PhongLayout = new javax.swing.GroupLayout(panel_Phong);
-        panel_Phong.setLayout(panel_PhongLayout);
-        panel_PhongLayout.setHorizontalGroup(
-            panel_PhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_PhongLayout.createSequentialGroup()
-                .addGroup(panel_PhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel132, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel131, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))
-            .addComponent(jPanel133, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel135, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        panel_PhongLayout.setVerticalGroup(
-            panel_PhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_PhongLayout.createSequentialGroup()
-                .addGroup(panel_PhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_PhongLayout.createSequentialGroup()
-                        .addComponent(jPanel131, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel132, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
-                .addComponent(jPanel133, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel135, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panel_PhongDuocChon.add(panel_Phong);
-        panel_Phong.setBounds(0, 16, 140, 134);
-
-        Panel_PhongDuocChons.add(panel_PhongDuocChon);
-
         javax.swing.GroupLayout panel_GrPhongLayout = new javax.swing.GroupLayout(panel_GrPhong);
         panel_GrPhong.setLayout(panel_GrPhongLayout);
         panel_GrPhongLayout.setHorizontalGroup(
             panel_GrPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_GrPhongLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(0, 0, 0)
                 .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -1955,7 +1679,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         Scroll_PhongDaChon.setViewportView(panel_GrPhong);
 
         jPanel1.add(Scroll_PhongDaChon);
-        Scroll_PhongDaChon.setBounds(320, 570, 910, 170);
+        Scroll_PhongDaChon.setBounds(348, 570, 880, 170);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_DatPhong"); // NOI18N
@@ -1992,7 +1716,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_ThemPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemPhongMousePressed
         // TODO add your handling code here:
-        LoadPhongDuocChon(list_PhongDuocChonTheo1thoiGian);
+        Panel_PhongDuocChons.removeAll();
+        Panel_PhongDuocChons.revalidate();
+        Panel_PhongDuocChons.repaint();
+        ThemPhongDaChon(list_PhongDuocChonTheo1thoiGian);
+        LoadPhongDuocChon();
         Panel_ListPhong.removeAll();
         Panel_ListPhong.revalidate();
         Panel_ListPhong.repaint();
@@ -2001,11 +1729,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_PanelTienNghi_Phong.clear();
         list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon(list_PhongSauKhiLocHoacChon);
         LoadPhong(list_PhongSauKhiLocHoacChon);
-        ThemPhongDaChon(list_PhongDuocChonTheo1thoiGian);
         list_PhongDuocChonTheo1thoiGian.clear();
         EventChooseRoom();
-        Panel_ListPhong.revalidate(); // Cập nhật lại bố cục
-        Panel_ListPhong.repaint(); // Vẽ lại giao diện
+
 
     }//GEN-LAST:event_btn_ThemPhongMousePressed
 
@@ -2036,7 +1762,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
     private javax.swing.JPanel Jpanel_NguoiDaiDien;
-    private javax.swing.JPanel PaneL_TienNghis;
     private javax.swing.JPanel Panel_ChuThich;
     private javax.swing.JPanel Panel_ChuThich1;
     private javax.swing.JPanel Panel_ChuThich2;
@@ -2056,8 +1781,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_ThemPhong3;
     private javax.swing.JLabel button_ThongBao;
     private GUI.CirclePanel_Atatar circlePanel1;
-    private GUI.CirclePanel circlePanel_Close;
-    private javax.swing.JLabel icon_Close;
     private javax.swing.JLabel icon_Them;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -2073,16 +1796,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel318;
-    private javax.swing.JLabel jLabel319;
-    private javax.swing.JLabel jLabel320;
-    private javax.swing.JLabel jLabel322;
-    private javax.swing.JLabel jLabel323;
-    private javax.swing.JLabel jLabel324;
-    private javax.swing.JLabel jLabel325;
-    private javax.swing.JLabel jLabel326;
-    private javax.swing.JLabel jLabel327;
-    private javax.swing.JLabel jLabel328;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel5;
@@ -2091,28 +1804,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel131;
-    private javax.swing.JPanel jPanel132;
-    private javax.swing.JPanel jPanel133;
-    private javax.swing.JPanel jPanel135;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel label_Avatar;
-    private javax.swing.JLabel label_DonGia;
-    private javax.swing.JLabel label_LoaiGiuong;
-    private javax.swing.JLabel label_LoaiPhong;
-    private javax.swing.JLabel label_SoLuongKhach;
-    private javax.swing.JLabel label_SoPhong;
     private javax.swing.JPanel line;
     private javax.swing.JPanel panel_GrPhong;
-    private javax.swing.JPanel panel_Phong;
-    private javax.swing.JPanel panel_PhongDuocChon;
-    private javax.swing.JLabel txt_NgayNhan;
     private com.toedter.calendar.JDateChooser txt_NgayNhanPhong;
-    private javax.swing.JLabel txt_NgayTra;
     private com.toedter.calendar.JDateChooser txt_NgayTraPhong;
     public static javax.swing.JLabel txt_TenNguoiDaiDien;
     // End of variables declaration//GEN-END:variables

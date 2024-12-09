@@ -11,29 +11,29 @@ import org.bson.types.Binary;
  *
  * @author datba
  */
-public class DichVuEmbed {
+public class DichVuSuDungEmbed {
 
-    private int maDV;
+    private int maDVSD;
     private String tenDV;
     private int donGia;
     private int soLuong;
 
-    public DichVuEmbed(int maDV, String tenDV, int donGia, int soLuong) {
-        this.maDV = maDV;
+    public DichVuSuDungEmbed(int maDVSD, String tenDV, int donGia, int soLuong) {
+        this.maDVSD = maDVSD;
         this.tenDV = tenDV;
         this.donGia = donGia;
         this.soLuong = soLuong;
     }
 
-    public DichVuEmbed() {
+    public DichVuSuDungEmbed() {
     }
 
-    public int getMaDV() {
-        return maDV;
+    public int getMaDVSD() {
+        return maDVSD;
     }
 
-    public void setMaDV(int maDV) {
-        this.maDV = maDV;
+    public void setMaDVSD(int maDVSD) {
+        this.maDVSD = maDVSD;
     }
 
     public String getTenDV() {
@@ -60,11 +60,11 @@ public class DichVuEmbed {
         this.soLuong = soLuong;
     }
     
-    public static DichVuEmbed fromDocument(Document doc) {
-        DichVuEmbed dichVu = new DichVuEmbed();
+    public static DichVuSuDungEmbed fromDocument(Document doc) {
+        DichVuSuDungEmbed dichVu = new DichVuSuDungEmbed();
 
-        if (doc.containsKey("maDV")) {
-            dichVu.setMaDV(doc.getInteger("maDV"));
+        if (doc.containsKey("maDVSD")) {
+            dichVu.setMaDVSD(doc.getInteger("maDVSD"));
         }
         if (doc.containsKey("tenDV")) {
             dichVu.setTenDV(doc.getString("tenDV"));
@@ -80,7 +80,7 @@ public class DichVuEmbed {
 
     @Override
     public String toString() {
-        return "DichVuEmbed{" + "maDV=" + maDV + ", tenDV=" + tenDV + ", donGia=" + donGia + ", soLuong=" + soLuong + '}';
+        return "DichVuEmbed{" + "maDVSD=" + maDVSD + ", tenDV=" + tenDV + ", donGia=" + donGia + ", soLuong=" + soLuong + '}';
     }
     
     

@@ -34,7 +34,7 @@ import model.DAO.KhachHangDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.DTO.DichVu;
-import model.DTO.DichVuEmbed;
+import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.LoaiPhong;
@@ -99,7 +99,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
 
         checkBox_DaThanhToan.setSelected(false);
-        DocDuLieuLenTable(list_HoaDonTheoTrangThai);
+//        DocDuLieuLenTable(list_HoaDonTheoTrangThai);
 
 //      Thêm các loại phòng vào combobox loại phòng
         list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
@@ -682,99 +682,8 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public List<DonDatPhong> getAllDonDatPhongTheoHoaDon(HoaDon hoaDon) {
-        List<DonDatPhong> list_DDP = new ArrayList<>();
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (ddp.getHoaDon() == hoaDon.getMaHoaDon()) {
-                list_DDP.add(ddp);
-            }
-        }
-        return list_DDP;
-    }
 
-    public List<HoaDon> getHoaDonTheoTang(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                Phong phong = phong_dao.getPhongByMa(ddp.getPhong().getMaPhong());
-                if (phong.getTang() == cb_Tang.getSelectedIndex()) {
-                    list_hoaDonMoi.add(hoaDon);
-                }
-            }
-        }
 
-        return list_hoaDonMoi;
-    }
-
-    public List<HoaDon> getHoaDonTheoLoaiPhong(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                Phong phong = phong_dao.getPhongByMa(ddp.getPhong().getMaPhong());
-                if (phong.getLoaiPhong() == cb_LoaiPhong.getSelectedIndex()) {
-                    list_hoaDonMoi.add(hoaDon);
-                }
-            }
-        }
-        return list_hoaDonMoi;
-    }
-
-    public List<HoaDon> getHoaDonTheoPhong(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                if (ddp.getPhong().getMaPhong() == Integer.parseInt(cb_Phong.getSelectedItem().toString())) {
-                    list_hoaDonMoi.add(hoaDon);
-                }
-            }
-        }
-        return list_hoaDonMoi;
-    }
-
-    public List<HoaDon> getHoaDonTheoCCCD(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                for (KhachHang kh : ddp.getKhachO()) {
-                    if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
-                        list_hoaDonMoi.add(hoaDon);
-                    }
-                }
-            }
-
-        }
-        return list_hoaDonMoi;
-    }
-
-    public List<HoaDon> getHoaDonTheoTenKhachHang(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                for (KhachHang kh : ddp.getKhachO()) {
-                    if (kh.getTenKhachHang().equals(txt_HoTen.getText().trim())) {
-                        list_hoaDonMoi.add(hoaDon);
-                    }
-                }
-            }
-
-        }
-        return list_hoaDonMoi;
-    }
-
-    public List<HoaDon> getHoaDonTheoSDT(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-                for (KhachHang kh : ddp.getKhachO()) {
-                    if (kh.getCCCD().equals(txt_SoDienThoai.getText().trim())) {
-                        list_hoaDonMoi.add(hoaDon);
-                    }
-                }
-            }
-
-        }
-        return list_hoaDonMoi;
-    }
 
     public List<HoaDon> getHoaDonTheoTrangThai(List<HoaDon> list_HoaDons) {
         List<HoaDon> list_hoaDonMoi = new ArrayList<>();
@@ -791,147 +700,30 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     private void btn_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanMousePressed
 
         // TODO add your handling code here:
-        int row = Table_hoaDon.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn cần thanh toán");
-            return;
-        }
-
-        HoaDon hoaDon_update = hoadon_dao.getHoaDonByMa(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        if (hoaDon_update.isTrangThai()) {
-            JOptionPane.showMessageDialog(this, "Hóa đơn đã thanh toán vui lòng chọn hóa đơn chưa thanh toán");
-            return;
-        }
-
-        if (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn thanh toán?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
-            return;
-        }
-        hoaDon_update.setTrangThai(true);
-        capNhatTrangThaiDonDatPhong(hoaDon_update);
-        hoadon_dao.updateHoaDon(hoaDon_update);
-        list_HoaDon = hoadon_dao.getAllHoaDon();
-
-        list_HoaDonTheoTrangThai.clear();
-        for (HoaDon hoaDon : list_HoaDon) {
-            if (!hoaDon.isTrangThai()) {
-                list_HoaDonTheoTrangThai.add(hoaDon);
-            }
-        }
-        model_DonDatPhong.setRowCount(0);
-        DocDuLieuLenTable(list_HoaDonTheoTrangThai);
-        new LeTan_ThanhToan_HoaDon_GUI(hoaDon_update, (JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
+        
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
-    public void capNhatTrangThaiDonDatPhong(HoaDon hoaDon) {
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (ddp.getHoaDon() == hoaDon.getMaHoaDon()) {
-                ddp.setTrangThai("Đã trả phòng");
-                dondatphong_dao.updateDonDatPhong(ddp);
-            }
-        }
-    }
 
-    public String getPhongSuDung(HoaDon hoadon) {
-        String danhsachPhong = "";
-        for (Integer maDDp : hoadon.getDonDatPhongs()) {
-            DonDatPhong ddp = dondatphong_dao.getDonDatPhongByMa(maDDp);
-                danhsachPhong = danhsachPhong + ddp.getPhong().getMaPhong() + ", ";
-        }
-        if (danhsachPhong.length() < 2) {
-            return danhsachPhong;
-        }
-        danhsachPhong = danhsachPhong.substring(0, danhsachPhong.length() - 2);
-        return danhsachPhong;
 
-    }
 
-    public List<DichVuEmbed> getAllDichVutheoHoaDon(HoaDon hoaDon) {
-        Set<DichVuEmbed> list_dichvu = new HashSet<>();
-
-        for (DonDatPhong ddp : getAllDonDatPhongTheoHoaDon(hoaDon)) {
-            for (DichVuEmbed dv : ddp.getDichVuSuDung()) {
-                if (!list_dichvu.contains(dv)) {
-                    list_dichvu.add(dv);
-                }
-            }
-        }
-
-        List<DichVuEmbed> list_DICHVU = new ArrayList<>();
-        for (DichVuEmbed dv : list_dichvu) {
-            list_DICHVU.add(dv);
-        }
-        return list_DICHVU;
-    }
-
-    public void DocDuLieuLenTable(List<HoaDon> list_HoaDon) {
-        model.setRowCount(0);
-        for (HoaDon hoadon : list_HoaDon) {
-            model.addRow(new Object[]{
-                hoadon.getMaHoaDon(),
-                sdf.format(hoadon.getNgayTaoHoaDon()),
-                getPhongSuDung(hoadon),
-                getDSDichVu(getAllDichVutheoHoaDon(hoadon)),
-                df.format(hoadon.getTongTien()) + " VND"
-            });
-        }
-
-        for (int i = 0; i < Table_hoaDon.getColumnCount(); i++) {
-            Table_hoaDon.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-
-    }
-
-    public String getDSDichVu(List<DichVuEmbed> list_DichVu) {
+    public String getDSDichVu(List<DichVuSuDungEmbed> list_DichVu) {
         if (list_DichVu.size() == 0) {
             return "";
         }
         String dsDichVu = "";
-        for (DichVuEmbed dv : list_DichVu) {
+        for (DichVuSuDungEmbed dv : list_DichVu) {
             dsDichVu = dsDichVu + dv.getTenDV() + ", ";
         }
         dsDichVu = dsDichVu.substring(0, dsDichVu.length() - 2);
         return dsDichVu;
     }
 
-    public void DocDuLieuLenTableDDP(List<DonDatPhong> list_DonDatPhongs) {
-        model_DonDatPhong.setRowCount(0);
-        for (DonDatPhong ddp : list_DonDatPhongs) {
-            model_DonDatPhong.addRow(new Object[]{
-                ddp.getMaDonDat(),
-                sdf.format(ddp.getNgayNhanPhong()),
-                sdf.format(ddp.getNgayTraPhong()),
-                ddp.getPhong().getMaPhong(),
-                ddp.getPhong().getTenLoaiPhong(),
-                ddp.getKhachO().size(),
-                getDSDichVu(ddp.getDichVuSuDung())
-            });
-        }
-
-        for (int i = 0; i < Table_DonDatPhong.getColumnCount(); i++) {
-            Table_DonDatPhong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
-    }
+    
 
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
         // TODO add your handling code here:
-        txt_CCCD.setText("");
-        txt_HoTen.setText("");
-        txt_SoDienThoai.setText("");
-        txt_NgayNhanPhong.setDate(null);
-        txt_NgayTraPhong.setDate(null);
-        cb_LoaiPhong.setSelectedIndex(0);
-        cb_Phong.setSelectedIndex(0);
-        cb_Tang.setSelectedIndex(0);
-        list_HoaDonTheoTrangThai.clear();
-        for (HoaDon hoaDon : list_HoaDon) {
-            if (!hoaDon.isTrangThai()) {
-                list_HoaDonTheoTrangThai.add(hoaDon);
-            }
-        }
-        DocDuLieuLenTable(list_HoaDonTheoTrangThai);
-        checkBox_DaThanhToan.setSelected(false);
-        model_DonDatPhong.setRowCount(0);
+
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
     private void setThoiGianBang0(JDateChooser ngay) {
@@ -971,7 +763,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 && txt_SoDienThoai.getText().trim().isEmpty()
                 && txt_NgayNhanPhong.getDate() == null
                 && txt_NgayTraPhong.getDate() == null) {
-            DocDuLieuLenTable(list_HoaDonTheoTieuChi);
+//            DocDuLieuLenTable(list_HoaDonTheoTieuChi);
             return;
         }
 
@@ -1056,30 +848,8 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             }
         }
 
-        if (!cb_LoaiPhong.getSelectedItem().toString().isEmpty()) {
-            list_HoaDonTheoTieuChi = getHoaDonTheoLoaiPhong(list_HoaDonTheoTieuChi);
-        }
-
-        if (!cb_Tang.getSelectedItem().toString().isEmpty()) {
-            list_HoaDonTheoTieuChi = getHoaDonTheoTang(list_HoaDonTheoTieuChi);
-        }
-
-        if (!cb_Phong.getSelectedItem().toString().isEmpty()) {
-            list_HoaDonTheoTieuChi = getHoaDonTheoPhong(list_HoaDonTheoTieuChi);
-        }
-
-        if (!txt_CCCD.getText().trim().isEmpty()) {
-            list_HoaDonTheoTieuChi = getHoaDonTheoCCCD(list_HoaDonTheoTieuChi);
-        }
-
-        if (!txt_HoTen.getText().trim().isEmpty()) {
-            list_HoaDonTheoTieuChi = getHoaDonTheoTenKhachHang(list_HoaDonTheoTieuChi);
-        }
-
-        if (!txt_SoDienThoai.getText().trim().isEmpty()) {
-            list_HoaDonTheoTieuChi = getHoaDonTheoSDT(list_HoaDonTheoTieuChi);
-        }
-        DocDuLieuLenTable(list_HoaDonTheoTieuChi);
+        
+//        DocDuLieuLenTable(list_HoaDonTheoTieuChi);
 
 
     }//GEN-LAST:event_btn_TimMousePressed
@@ -1091,7 +861,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             return;
         }
         HoaDon hoaDon = hoadon_dao.getHoaDonByMa(Integer.parseInt(model.getValueAt(row, 0).toString()));
-        DocDuLieuLenTableDDP(getAllDonDatPhongTheoHoaDon(hoaDon));
     }//GEN-LAST:event_Table_hoaDonMousePressed
 
     private void Table_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhongMousePressed
@@ -1111,7 +880,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         list_HoaDon = hoadon_dao.getAllHoaDon();
         list_HoaDonTheoTieuChi = getHoaDonTheoTrangThai(list_HoaDon);
-        DocDuLieuLenTable(list_HoaDonTheoTieuChi);
+//        DocDuLieuLenTable(list_HoaDonTheoTieuChi);
     }//GEN-LAST:event_checkBox_DaThanhToanActionPerformed
 
 

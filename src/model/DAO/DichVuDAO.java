@@ -12,7 +12,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.DTO.DichVuEmbed;
+import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.TienNghi;
@@ -61,13 +61,13 @@ public class DichVuDAO {
         }
     }
 
-    public DichVuEmbed getDichVuEmbedByMa(int maDichVu) {
-        DichVuEmbed dichvu = null;
+    public DichVuSuDungEmbed getDichVuEmbedByMa(int maDichVu) {
+        DichVuSuDungEmbed dichvu = null;
         Document query = new Document("maDV", maDichVu);
         try {
             Document doc = dichVuCollection.find(query).first();
             if (doc != null) {
-                dichvu = DichVuEmbed.fromDocument(doc);
+                dichvu = DichVuSuDungEmbed.fromDocument(doc);
             }
         } catch (Exception e) {
             e.printStackTrace(); // Bắt lỗi nếu có
@@ -95,13 +95,13 @@ public class DichVuDAO {
 
             DeleteResult result = dichVuCollection.deleteOne(doc);
 
-            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
-
-            for (DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
-                x.getDichVuSuDung().remove(dichVu);
-                donDatPhongDAO.updateDonDatPhong(x);
-
-            }
+//            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
+//
+//            for (DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+//                x.getDichVuSuDung().remove(dichVu);
+//                donDatPhongDAO.updateDonDatPhong(x);
+//
+//            }
 
             return result.wasAcknowledged();
         } catch (Exception e) {

@@ -8,13 +8,14 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 import model.DTO.Phong;
-import model.MongoDBConnection;
+
 import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.DTO.NhanVien;
-import static GUI.DangNhap_GUI.database;
+
+import com.mongodb.client.model.Filters;
+
 public class PhongDAO {
 
     private MongoCollection<Document> phongCollection;
@@ -23,10 +24,21 @@ public class PhongDAO {
         phongCollection = database.getCollection("Phong");
     }
 
-
     public List<Phong> getAllPhong() {
         List<Phong> Phongs = new ArrayList<>();
         try (MongoCursor<Document> cursor = phongCollection.find().iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                Phong phong = Phong.fromDocument(doc);
+                Phongs.add(phong);
+            }
+        }
+        return Phongs;
+    }
+
+    public List<Phong> getAllPhongTheoTang(int soTang) {
+        List<Phong> Phongs = new ArrayList<>();
+        try (MongoCursor<Document> cursor = phongCollection.find(Filters.eq("tang", soTang)).iterator()) {
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 Phong phong = Phong.fromDocument(doc);
@@ -50,9 +62,6 @@ public class PhongDAO {
         return phong;
     }
 
-
-
-
     public boolean createPhong(Phong phong) {
         try {
             Document doc = new Document()
@@ -68,47 +77,45 @@ public class PhongDAO {
             return false;
         }
     }
-    
+
     public boolean deletePhong(int maPhong) {
-    try {
-        // Tạo điều kiện để tìm tài liệu cần xóa
-        Document query = new Document("maPhong", maPhong);
-        
-        // Thực hiện xóa
-        DeleteResult result = phongCollection.deleteOne(query);
-        
-        // Kiểm tra xem có tài liệu nào đã bị xóa không
-        return result.getDeletedCount() > 0;
-    } catch (Exception e) {
-        System.out.println("Lỗi xảy ra trong quá trình xóa phòng: " + e.getMessage());
-        return false;
+        try {
+            // Tạo điều kiện để tìm tài liệu cần xóa
+            Document query = new Document("maPhong", maPhong);
+
+            // Thực hiện xóa
+            DeleteResult result = phongCollection.deleteOne(query);
+
+            // Kiểm tra xem có tài liệu nào đã bị xóa không
+            return result.getDeletedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình xóa phòng: " + e.getMessage());
+            return false;
+        }
     }
-}
 
     public boolean updatePhong(Phong updatedPhong) {
-    try {
-        // Tạo điều kiện để tìm tài liệu cần sửa
-        Document query = new Document("maPhong", updatedPhong.getMaPhong());
+        try {
+            // Tạo điều kiện để tìm tài liệu cần sửa
+            Document query = new Document("maPhong", updatedPhong.getMaPhong());
 
-        // Tạo tài liệu chứa các trường cần cập nhật
-        Document update = new Document("$set", new Document()
-                .append("tang", updatedPhong.getTang())
-                .append("loaiPhong", updatedPhong.getLoaiPhong())
-                .append("moTa", updatedPhong.getMoTa()));
+            // Tạo tài liệu chứa các trường cần cập nhật
+            Document update = new Document("$set", new Document()
+                    .append("tang", updatedPhong.getTang())
+                    .append("loaiPhong", updatedPhong.getLoaiPhong())
+                    .append("moTa", updatedPhong.getMoTa()));
 
-        // Thực hiện cập nhật
-        UpdateResult result = phongCollection.updateOne(query, update);
+            // Thực hiện cập nhật
+            UpdateResult result = phongCollection.updateOne(query, update);
 
-        // Kiểm tra xem có tài liệu nào đã được cập nhật không
-        return result.getModifiedCount() > 0;
-    } catch (Exception e) {
-        System.out.println("Lỗi xảy ra trong quá trình sửa phòng: " + e.getMessage());
-        return false;
+            // Kiểm tra xem có tài liệu nào đã được cập nhật không
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình sửa phòng: " + e.getMessage());
+            return false;
+        }
     }
-}
 
-    
-    
     public List<Phong> getAllPhongsSortByMaPhong() {
         List<Phong> phongs = new ArrayList<>();
         try (MongoCursor<Document> cursor = phongCollection.find()
@@ -124,5 +131,5 @@ public class PhongDAO {
         }
         return phongs;
     }
-    
+
 }

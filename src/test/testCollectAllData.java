@@ -97,6 +97,10 @@ public class testCollectAllData {
         for (DonDatPhong donDatPhong : donDatPhongList) {
             System.out.println(donDatPhong);
         }
+        
+        
+        
+        
 
 //        // Test HoaDonDAO
 //        HoaDonDAO hoaDonDAO = new HoaDonDAO(database);

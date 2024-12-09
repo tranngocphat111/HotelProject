@@ -36,7 +36,7 @@ import model.DAO.KhachHangDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.DTO.DichVu;
-import model.DTO.DichVuEmbed;
+import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.KhachHang;
@@ -341,12 +341,12 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         return ngayhientai;
     }
 
-    public static String getDSDichVu(List<DichVuEmbed> list_DichVu) {
+    public static String getDSDichVu(List<DichVuSuDungEmbed> list_DichVu) {
         if (list_DichVu.size() == 0) {
             return "";
         }
         String dsDichVu = "";
-        for (DichVuEmbed dv : list_DichVu) {
+        for (DichVuSuDungEmbed dv : list_DichVu) {
             dsDichVu = dsDichVu + dv.getTenDV() + ", ";
         }
         dsDichVu = dsDichVu.substring(0, dsDichVu.length() - 2);

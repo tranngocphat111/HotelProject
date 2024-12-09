@@ -29,7 +29,7 @@ import model.DAO.DonDatPhongDAO;
 import model.DAO.HoaDonDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
-import model.DTO.DichVuEmbed;
+import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.TienNghi;
@@ -44,7 +44,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     private List<DichVu> list_DichVu = new ArrayList<>();
     private DichVuDAO dichVu_dao = new DichVuDAO(database);
     DecimalFormat df = new DecimalFormat("#,##0");
-    private List<DichVuEmbed> list_DichVuDuocChon = new ArrayList<>();
+    private List<DichVuSuDungEmbed> list_DichVuDuocChon = new ArrayList<>();
     private ArrayList<KGradientPanel> list_DichVuCoSan = new ArrayList<>();
     private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     private DonDatPhong donDatPhong = new DonDatPhong();
@@ -67,7 +67,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         list_DichVu = dichVu_dao.getAllDichVu();
         DocDuLieuLenFrame();
 //        Load những dịch vụ mà đơn đặt phòng đã có
-        for (DichVuEmbed dv : donDatPhong.getDichVuSuDung()) {
+        for (DichVuSuDungEmbed dv : donDatPhong.getDichVuSuDung()) {
             for (KGradientPanel btn : list_btn) {
                 if (dv.getMaDV() == Integer.parseInt(btn.getName())) {
                     list_DichVuCoSan.add(btn);
@@ -220,7 +220,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     }
 
     public int getSoLuongBanDau(int maDV) {
-        for (DichVuEmbed dv : donDatPhong.getDichVuSuDung()) {
+        for (DichVuSuDungEmbed dv : donDatPhong.getDichVuSuDung()) {
             if (dv.getMaDV() == maDV) {
                 return dv.getSoLuong();
             }
@@ -279,7 +279,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
             label_SoLuong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
             label_SoLuong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             if (donDatPhong.getDichVuSuDung().size() != 0) {
-                for (DichVuEmbed dv : donDatPhong.getDichVuSuDung()) {
+                for (DichVuSuDungEmbed dv : donDatPhong.getDichVuSuDung()) {
                     if (dv.getMaDV() == dichVu.getMaDV()) {
                         label_SoLuong.setText(dv.getSoLuong() + "");
                         break;
@@ -564,8 +564,8 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         // TODO add your handling code here:
         for (JLabel soluong : list_SoLuong) {
             if (Integer.parseInt(soluong.getText()) != 0) {
-                DichVuEmbed dv = dichVu_dao.getDichVuEmbedByMa(Integer.parseInt(soluong.getName()));
-                list_DichVuDuocChon.add(new DichVuEmbed(dv.getMaDV(), dv.getTenDV(), dv.getDonGia(), Integer.parseInt(soluong.getText())));
+                DichVuSuDungEmbed dv = dichVu_dao.getDichVuEmbedByMa(Integer.parseInt(soluong.getName()));
+                list_DichVuDuocChon.add(new DichVuSuDungEmbed(dv.getMaDV(), dv.getTenDV(), dv.getDonGia(), Integer.parseInt(soluong.getText())));
             }
         }
         donDatPhong.setDichVuSuDung(list_DichVuDuocChon);

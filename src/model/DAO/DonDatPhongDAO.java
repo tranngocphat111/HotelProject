@@ -27,8 +27,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import model.DTO.DichVu;
-import model.DTO.DichVuEmbed;
+import model.DTO.DichVuSuDungEmbed;
 import model.DTO.KhachHang;
+import model.DTO.PhongEmbed;
 import org.bson.conversions.Bson;
 
 public class DonDatPhongDAO {
@@ -95,6 +96,20 @@ public class DonDatPhongDAO {
         return donDatPhong;
     }
 
+    public ArrayList<Document> list_DichVuPhong(PhongEmbed phong) {
+        ArrayList<Document> list_DichVu = new ArrayList<Document>();
+        for (DichVuSuDungEmbed dichVu : phong.getDichVuSuDung()) {
+            list_DichVu.add(
+                    new Document()
+                            .append("maDVSD", dichVu.getMaDVSD())
+                            .append("tenDV", dichVu.getTenDV())
+                            .append("soLuong", dichVu.getSoLuong())
+                            .append("donGia", dichVu.getDonGia())
+            );
+        }
+        return list_DichVu;
+    }
+
     public boolean createDonDatPhong(DonDatPhong donDatPhong) {
         try {
 
@@ -111,31 +126,31 @@ public class DonDatPhongDAO {
                 );
             }
 
-            ArrayList<Document> list_DichVu = new ArrayList<Document>();
-            for (DichVuEmbed dichVu : donDatPhong.getDichVuSuDung()) {
-                list_DichVu.add(
+            ArrayList<Document> list_phong = new ArrayList<Document>();
+            for (PhongEmbed phong : donDatPhong.getPhongs()) {
+                list_phong.add(
                         new Document()
-                                .append("maDV", dichVu.getMaDV())
-                                .append("tenDV", dichVu.getTenDV())
-                                .append("soLuong", dichVu.getSoLuong())
-                                .append("donGia", dichVu.getDonGia())
+                                .append("maPhong", phong.getMaPhong())
+                                .append("donGia", phong.getDonGia())
+                                .append("tenLoaiPhong", phong.getTenLoaiPhong())
+                                .append("dichVuSuDung", list_DichVuPhong(phong))
+                                .append("ngayNhanPhongDuKien", phong.getNgayNhanPhongDuKien())
+                                .append("ngayTraPhongDuKien", phong.getNgayTraPhongDuKien())
+                                .append("ngayNhanPhong", phong.getNgayNhanPhong())
+                                .append("ngayTraPhong", phong.getNgayTraPhong())
+                                .append("trangThaiPhong", phong.getTrangThaiPhong())
+                                .append("tienDaThanhToan", phong.getTienDaThanhToan())
                 );
             }
 
             Document doc = new Document()
                     .append("maDonDat", donDatPhong.getMaDonDat())
-                    .append("ngayDatPhong", donDatPhong.getNgayDatPhong())
-                    .append("ngayNhanPhong", donDatPhong.getNgayNhanPhong())
-                    .append("ngayTraPhong", donDatPhong.getNgayTraPhong())
+                    .append("ngayTaoDon", donDatPhong.getNgayTaoDon())
                     .append("trangThai", donDatPhong.getTrangThai())
-                    .append("KhachO", list_KhachHang)
-                    .append("dichVuSuDung", list_DichVu)
-                    .append("Phong", new Document()
-                            .append("maPhong", donDatPhong.getPhong().getMaPhong())
-                            .append("donGia", donDatPhong.getPhong().getDonGia())
-                                .append("tenLoaiPhong", donDatPhong.getPhong().getTenLoaiPhong())
-                    )
-                    .append("HoaDon", donDatPhong.getHoaDon());
+                    .append("nguoiDat", donDatPhong.getNguoiDat())
+                    .append("nguoiO", list_KhachHang)
+                    .append("phong", list_phong
+                    );
 
             InsertOneResult result = donDatPhongCollection.insertOne(doc);
             return result.wasAcknowledged();
@@ -145,94 +160,8 @@ public class DonDatPhongDAO {
         }
     }
 
-    public boolean updateDonDatPhong(DonDatPhong donDatPhong) {
-        try {
-            ArrayList<Document> list_KhachHang = new ArrayList<Document>();
-            for (KhachHang khachHang : donDatPhong.getKhachO()) {
-                list_KhachHang.add(new Document()
-                        .append("maKhachHang", khachHang.getMaKhachHang())
-                        .append("HoTen", khachHang.getTenKhachHang())
-                        .append("SDT", khachHang.getSoDienThoai())
-                        .append("CCCD", khachHang.getCCCD())
-                        .append("GioiTinh", khachHang.getGioiTinh())
-                        .append("Email", khachHang.getEmail())
-                        .append("QuocTich", khachHang.getQuocTich())
-                );
-            }
 
-            ArrayList<Document> list_DichVu = new ArrayList<Document>();
-            for (DichVuEmbed dichVu : donDatPhong.getDichVuSuDung()) {
-                list_DichVu.add(
-                        new Document()
-                                .append("maDV", dichVu.getMaDV())
-                                .append("tenDV", dichVu.getTenDV())
-                                .append("soLuong", dichVu.getSoLuong())
-                                .append("donGia", dichVu.getDonGia())
-                );
-            }
-
-
-            Document phong = new Document()
-                    .append("maPhong", donDatPhong.getPhong().getMaPhong())
-                    .append("donGia", donDatPhong.getPhong().getDonGia())
-                    .append("tenLoaiPhong", donDatPhong.getPhong().getTenLoaiPhong());
-
-            Document updateDoc = new Document()
-                    .append("maDonDat", donDatPhong.getMaDonDat())
-                    .append("ngayDatPhong", donDatPhong.getNgayDatPhong())
-                    .append("ngayNhanPhong", donDatPhong.getNgayNhanPhong())
-                    .append("ngayTraPhong", donDatPhong.getNgayTraPhong())
-                    .append("trangThai", donDatPhong.getTrangThai())
-                    .append("KhachO", list_KhachHang)
-                    .append("dichVuSuDung", list_DichVu)
-                    .append("Phong", new Document()
-                            .append("maPhong", donDatPhong.getPhong().getMaPhong())
-                            .append("donGia", donDatPhong.getPhong().getDonGia())
-                                .append("tenLoaiPhong", donDatPhong.getPhong().getTenLoaiPhong())
-                    )
-                    .append("HoaDon", donDatPhong.getHoaDon());
-
-            Document updateQuery = new Document("$set", updateDoc);
-            Document filter = new Document("maDonDat", donDatPhong.getMaDonDat());
-
-            UpdateResult result = donDatPhongCollection.updateOne(filter, updateQuery);
-            return result.getMatchedCount() > 0;
-        } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình cập nhật đơn đặt phòng: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean xoaDonDatPhongByMaDonDat(int maDonDat) {
-        Bson filter = and(
-                eq("maDonDat", maDonDat),
-                eq("trangThai", "Đang chờ")
-        );
-
-        DeleteResult result = donDatPhongCollection.deleteOne(filter);
-        return result.getDeletedCount() > 0;
-    }
-
-    public ArrayList<Document> getDonDatPhongTheoNgay(Date ngayBatDau, Date ngayKetThuc) {
-        List<Bson> pipeline = Arrays.asList(
-                lookup("Phong", "Phong", "maPhong", "Phongs"),
-                lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
-                project(fields(
-                        excludeId(),
-                        include("ngayNhanPhong", "ngayTraPhong"),
-                        computed("tenLoaiPhong", "$LoaiPhongs.tenLoaiPhong")
-                )),
-                match(or(
-                        and(gte("ngayNhanPhong", ngayBatDau), lte("ngayNhanPhong", ngayKetThuc)),
-                        and(gte("ngayTraPhong", ngayBatDau), lte("ngayTraPhong", ngayKetThuc))
-                ))
-        );
-
-        AggregateIterable<Document> results = donDatPhongCollection.aggregate(pipeline);
-        ArrayList<Document> documents = new ArrayList<>();
-        results.into(documents);
-        return documents;
-    }
+    
 
     public ArrayList<Document> getDoanhThu(Date ngayBatDau, Date ngayKetThuc) {
         // Tạo pipeline cho aggregate

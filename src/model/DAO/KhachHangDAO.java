@@ -85,18 +85,18 @@ public class KhachHangDAO {
             UpdateResult result = khachHangCollection.updateOne(id, update);
             
             
-            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
-            
-            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
-                
-                for(int  i = 0; i < x.getKhachO().size(); i++) {
-                    if(x.getKhachO().get(i).getMaKhachHang() == maKH) {
-                        x.getKhachO().set(i, khachHang);
-                    }
-                }
-                
-                donDatPhongDAO.updateDonDatPhong(x);
-            }
+//            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+//            
+//            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+//                
+//                for(int  i = 0; i < x.getKhachO().size(); i++) {
+//                    if(x.getKhachO().get(i).getMaKhachHang() == maKH) {
+//                        x.getKhachO().set(i, khachHang);
+//                    }
+//                }
+//                
+//                donDatPhongDAO.updateDonDatPhong(x);
+//            }
             
             
             
@@ -107,25 +107,25 @@ public class KhachHangDAO {
         }
     }
     
-     public boolean deleteKhachHang(int maKH) {
-        try {
-            Document id = new Document("maKhachHang",maKH);
-            
-            DeleteResult result = khachHangCollection.deleteOne(id);
-
-            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
-            KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(maKH);
-            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
-                x.getKhachO().remove(khachHang);
-                donDatPhongDAO.updateDonDatPhong(x);
-                
-            }
-            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
-        } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
-            return false; // Trả về false nếu có lỗi
-        }
-    }
+//     public boolean deleteKhachHang(int maKH) {
+//        try {
+//            Document id = new Document("maKhachHang",maKH);
+//            
+//            DeleteResult result = khachHangCollection.deleteOne(id);
+//
+//            DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(new MongoDBConnection().getDatabase());
+//            KhachHang khachHang = new KhachHangDAO(new MongoDBConnection().getDatabase()).getKhachHangByMa(maKH);
+//            for(DonDatPhong x : donDatPhongDAO.getAllDonDatPhong()) {
+//                x.getKhachO().remove(khachHang);
+//                donDatPhongDAO.updateDonDatPhong(x);
+//                
+//            }
+//            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
+//        } catch (Exception e) {
+//            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+//            return false; // Trả về false nếu có lỗi
+//        }
+//    }
     
     public List<Document> findKhachHang(String cccd,String email,String tenKhachHang, String soDienThoai) {
         List<Document> filters = new ArrayList<>();

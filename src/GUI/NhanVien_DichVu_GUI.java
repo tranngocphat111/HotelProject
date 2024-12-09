@@ -40,7 +40,7 @@ import model.DAO.DichVuDAO;
 import model.DAO.DonDatPhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
-import model.DTO.DichVuEmbed;
+import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
@@ -778,7 +778,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     public boolean checkDichVuDangSuDung(int maDichVu) {
         list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiO();
         for (DonDatPhong ddp : list_DonDatPhong) {
-            for (DichVuEmbed dve : ddp.getDichVuSuDung()) {
+            for (DichVuSuDungEmbed dve : ddp.getDichVuSuDung()) {
                 if (dve.getMaDV() == maDichVu) {
                     return true;
                 }

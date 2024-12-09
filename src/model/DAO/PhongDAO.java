@@ -36,17 +36,7 @@ public class PhongDAO {
         return Phongs;
     }
 
-    public List<Phong> getAllPhongTheoTang(int soTang) {
-        List<Phong> Phongs = new ArrayList<>();
-        try (MongoCursor<Document> cursor = phongCollection.find(Filters.eq("tang", soTang)).iterator()) {
-            while (cursor.hasNext()) {
-                Document doc = cursor.next();
-                Phong phong = Phong.fromDocument(doc);
-                Phongs.add(phong);
-            }
-        }
-        return Phongs;
-    }
+
 
     public Phong getPhongByMa(int maPhong) {
         Phong phong = null;

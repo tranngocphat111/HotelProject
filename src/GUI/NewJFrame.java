@@ -28,7 +28,7 @@ public class NewJFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         panel_Tang = new javax.swing.JPanel();
-        btn_ThemPhong1 = new keeptoo.KGradientPanel();
+        SoTang = new keeptoo.KGradientPanel();
         jLabel41 = new javax.swing.JLabel();
         Panel_Phongs = new javax.swing.JPanel();
         panel_Phong = new javax.swing.JPanel();
@@ -388,15 +388,15 @@ public class NewJFrame extends javax.swing.JFrame {
 
         panel_Tang.setOpaque(false);
 
-        btn_ThemPhong1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_ThemPhong1.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_ThemPhong1.setkGradientFocus(250);
-        btn_ThemPhong1.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_ThemPhong1.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_ThemPhong1.setPreferredSize(new java.awt.Dimension(110, 47));
-        btn_ThemPhong1.addMouseListener(new java.awt.event.MouseAdapter() {
+        SoTang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        SoTang.setkEndColor(new java.awt.Color(255, 222, 89));
+        SoTang.setkGradientFocus(250);
+        SoTang.setkStartColor(new java.awt.Color(225, 176, 27));
+        SoTang.setMinimumSize(new java.awt.Dimension(140, 45));
+        SoTang.setPreferredSize(new java.awt.Dimension(110, 47));
+        SoTang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_ThemPhong1MousePressed(evt);
+                SoTangMousePressed(evt);
             }
         });
 
@@ -406,27 +406,26 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel41.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel41.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout btn_ThemPhong1Layout = new javax.swing.GroupLayout(btn_ThemPhong1);
-        btn_ThemPhong1.setLayout(btn_ThemPhong1Layout);
-        btn_ThemPhong1Layout.setHorizontalGroup(
-            btn_ThemPhong1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_ThemPhong1Layout.createSequentialGroup()
+        javax.swing.GroupLayout SoTangLayout = new javax.swing.GroupLayout(SoTang);
+        SoTang.setLayout(SoTangLayout);
+        SoTangLayout.setHorizontalGroup(
+            SoTangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SoTangLayout.createSequentialGroup()
                 .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        btn_ThemPhong1Layout.setVerticalGroup(
-            btn_ThemPhong1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_ThemPhong1Layout.createSequentialGroup()
+        SoTangLayout.setVerticalGroup(
+            SoTangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SoTangLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addComponent(jLabel41)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Panel_Phongs.setOpaque(false);
-        Panel_Phongs.setPreferredSize(new java.awt.Dimension(897, 135));
         java.awt.GridBagLayout Panel_PhongsLayout = new java.awt.GridBagLayout();
         Panel_PhongsLayout.columnWidths = new int[] {0, 15, 0, 15, 0, 15, 0, 15, 0, 15, 0};
-        Panel_PhongsLayout.rowHeights = new int[] {0, 15};
+        Panel_PhongsLayout.rowHeights = new int[] {0, 15, 0};
         Panel_Phongs.setLayout(Panel_PhongsLayout);
 
         panel_Phong.setBackground(new java.awt.Color(255, 255, 255));
@@ -2858,19 +2857,19 @@ public class NewJFrame extends javax.swing.JFrame {
         panel_TangLayout.setHorizontalGroup(
             panel_TangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_TangLayout.createSequentialGroup()
-                .addComponent(btn_ThemPhong1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(SoTang, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_TangLayout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, 899, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panel_TangLayout.setVerticalGroup(
             panel_TangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_TangLayout.createSequentialGroup()
-                .addComponent(btn_ThemPhong1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SoTang, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
 
         Panel_PhongDuocChons.setOpaque(false);
@@ -3915,17 +3914,17 @@ public class NewJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel_Tang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addComponent(panel_Tang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                 .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_ThemPhong1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemPhong1MousePressed
+    private void SoTangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SoTangMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_ThemPhong1MousePressed
+    }//GEN-LAST:event_SoTangMousePressed
 
     /**
      * @param args the command line arguments
@@ -3965,7 +3964,7 @@ public class NewJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel_PhongDuocChons;
     private javax.swing.JPanel Panel_Phongs;
-    private keeptoo.KGradientPanel btn_ThemPhong1;
+    private keeptoo.KGradientPanel SoTang;
     private GUI.CirclePanel circlePanel2;
     private GUI.CirclePanel circlePanel3;
     private GUI.CirclePanel circlePanel4;

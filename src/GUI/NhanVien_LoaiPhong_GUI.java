@@ -9,6 +9,7 @@ import static GUI.DangNhap_GUI.database;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -67,7 +69,14 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     public NhanVien_LoaiPhong_GUI() {
 
         initComponents();
-
+        jScrollPane2.setOpaque(false); // Làm JScrollPane trong suốt
+        jScrollPane2.getViewport().setOpaque(false);
+        jScrollPane2.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                // Không vẽ gì cả, loại bỏ hoàn toàn nền
+            }
+        });
         jScrollPane2.setVerticalScrollBar(new ScrollBarCustom());
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);
         Panel_TienNghi.setBorder(new EmptyBorder(10, 15, 10, 10));
@@ -810,6 +819,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
+        jPanel3.setOpaque(false);
 
         jScrollPane2.setBackground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setBorder(null);
@@ -819,10 +829,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jScrollPane2.setPreferredSize(new java.awt.Dimension(456, 316));
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel2.setOpaque(false);
 
         Panel_TienNghi.setBackground(new java.awt.Color(0, 0, 0));
         Panel_TienNghi.setOpaque(false);
-        Panel_TienNghi.setLayout(new java.awt.GridLayout());
+        Panel_TienNghi.setLayout(new java.awt.GridLayout(1, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

@@ -5,14 +5,24 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DatPhong_GUI.LoadPhong;
+import static GUI.LeTan_DatPhong_GUI.getAllPhongSauKhiChon;
+import static GUI.LeTan_DatPhong_GUI.list_PhongDuocChonTheo1thoiGian;
+import static GUI.LeTan_DatPhong_GUI.list_PhongSauKhiLocHoacChon;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.DAO.KhachHangDAO;
+import model.DAO.LoaiPhongDAO;
+import model.DAO.PhongDAO;
 import model.DTO.KhachHang;
+import model.DTO.LoaiPhong;
+import model.DTO.Phong;
 
 /**
  *
@@ -20,22 +30,75 @@ import model.DTO.KhachHang;
  */
 public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 
-    KhachHangDAO khachHang_dao = new KhachHangDAO(database);
     DefaultTableCellRenderer centerRenderer;
     DecimalFormat df = new DecimalFormat("#,##0");
-    List<KhachHang> list_KhachHang = new ArrayList<>();
+    LoaiPhongDAO loaiPhong_Dao = new LoaiPhongDAO(database);
+    List<LoaiPhong> list_LoaiPhong_db = new ArrayList<>();
+    PhongDAO phong_dao = new PhongDAO(database);
 
     /**
      * Creates new form LeTan_
      */
     public LeTan_DatPhong_BoLoc_GUI(JFrame parent, boolean modal) {
         super(parent, modal);
-        setUndecorated(true);
 
-        list_KhachHang = khachHang_dao.getAllKhachHang();
+        setUndecorated(true);
+        list_LoaiPhong_db = loaiPhong_Dao.getAllLoaiPhong();
+
         initComponents();
 
-     
+//        Load dữ liệu lên các Combobox
+        Set<String> list_LoaiPhong = new HashSet<>();
+        for (LoaiPhong lp : list_LoaiPhong_db) {
+            if (!list_LoaiPhong.contains(lp.getTenLoaiPhong())) {
+                list_LoaiPhong.add(lp.getTenLoaiPhong());
+            }
+        }
+        cb_LoaiPhong.addItem("Tất cả");
+        for (String loaiPhong : list_LoaiPhong) {
+            cb_LoaiPhong.addItem(loaiPhong);
+        }
+
+        Set<String> list_LoaiGiuong = new HashSet<>();
+        for (LoaiPhong lp : list_LoaiPhong_db) {
+            if (!list_LoaiGiuong.contains(lp.getLoaiGiuong())) {
+                list_LoaiGiuong.add(lp.getLoaiGiuong());
+            }
+        }
+        cb_LoaiGiuong.addItem("Tất cả");
+        for (String loaiGiuong : list_LoaiGiuong) {
+            cb_LoaiGiuong.addItem(loaiGiuong);
+        }
+
+        Set<Integer> list_SoKhachToiDa = new HashSet<>();
+        for (LoaiPhong lp : list_LoaiPhong_db) {
+            if (!list_SoKhachToiDa.contains(lp.getSoKhachToiDa())) {
+                list_SoKhachToiDa.add(lp.getSoKhachToiDa());
+            }
+        }
+        cb_SoKhachToiDa.addItem("Tất cả");
+        for (Integer SoKhachToiDa : list_SoKhachToiDa) {
+            cb_SoKhachToiDa.addItem(SoKhachToiDa + "");
+        }
+
+        List<Phong> list_Phong = phong_dao.getAllPhong();
+        Set<String> list_Mota = new HashSet<>();
+        for (Phong p : list_Phong) {
+            p.getMoTa();
+            if (!list_Mota.contains(p.getMoTa())) {
+                list_Mota.add(p.getMoTa());
+            }
+        }
+        cb_moTa.addItem("Tất cả");
+        for (String moTa : list_Mota) {
+            cb_moTa.addItem(moTa);
+        }
+
+        cb_LoaiPhong.setSelectedItem(LeTan_DatPhong_GUI.boloc_loaiPhong);
+        cb_LoaiGiuong.setSelectedItem(LeTan_DatPhong_GUI.boloc_loaiGiuong);
+        cb_SoKhachToiDa.setSelectedItem(LeTan_DatPhong_GUI.boloc_SokhachtoiDa);
+        cb_moTa.setSelectedItem(LeTan_DatPhong_GUI.boloc_Mota);
+        cb_DonGia.setSelectedIndex(LeTan_DatPhong_GUI.boloc_DonGia);
 
         setLocationRelativeTo(null);
     }
@@ -63,7 +126,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 //    }
 //
 //    public String getListTienNghi(List<TienNghi> list_tienNghi) {
-//        String list = "";
+//        String list =;
 //
 //        for (TienNghi tn : list_tienNghi) {
 //            list = list + tn.getTenTienNghi() + ", ";
@@ -71,74 +134,6 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 //        list = list.substring(0, list.length() - 2);
 //        return list;
 //    }
-//
-//    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
-//        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-//        for (Phong phong : list_PhongTrong) {
-//            if (phong.getLoaiPhong() == loaiPhong) {
-//                list_PhongByLoai.add(phong);
-//            }
-//
-//        }
-//
-//        return list_PhongByLoai;
-//    }
-//
-//    public List<Phong> getAllPhongByTang(List<Phong> list_PhongTrong, int tang) {
-//        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-//        for (Phong phong : list_PhongTrong) {
-//            if (phong.getTang() == tang) {
-//                list_PhongByLoai.add(phong);
-//            }
-//
-//        }
-//
-//        return list_PhongByLoai;
-//    }
-//
-//    public List<Phong> getAllPhongByDonGia(List<Phong> list_PhongTrong, int KhoangDonGia) {
-//        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-//
-//        if (KhoangDonGia == 1) {
-//            for (Phong phong : list_PhongTrong) {
-//                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//                if (loaiPhong.getDonGia() >= 500000 && loaiPhong.getDonGia() <= 1000000) {
-//                    list_PhongByLoai.add(phong);
-//                }
-//
-//            }
-//            return list_PhongByLoai;
-//
-//        }
-//
-//        if (KhoangDonGia == 2) {
-//            for (Phong phong : list_PhongTrong) {
-//                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//                if (loaiPhong.getDonGia() >= 1000000 && loaiPhong.getDonGia() <= 2000000) {
-//                    list_PhongByLoai.add(phong);
-//                }
-//
-//            }
-//            return list_PhongByLoai;
-//
-//        }
-//
-//        if (KhoangDonGia == 3) {
-//            for (Phong phong : list_PhongTrong) {
-//                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//                if (loaiPhong.getDonGia() >= 2000000 && loaiPhong.getDonGia() <= 5000000) {
-//                    list_PhongByLoai.add(phong);
-//                }
-//
-//            }
-//            return list_PhongByLoai;
-//
-//        }
-//
-//        return list_PhongByLoai;
-//    }
-   
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -168,7 +163,6 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
         BackGround = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(580, 390));
 
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jPanel1.setPreferredSize(new java.awt.Dimension(580, 390));
@@ -216,7 +210,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
         );
 
         jPanel1.add(btn_XacNhan);
-        btn_XacNhan.setBounds(200, 320, 150, 45);
+        btn_XacNhan.setBounds(200, 330, 150, 45);
 
         btn_Huy.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Huy.setkGradientFocus(250);
@@ -260,7 +254,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
         );
 
         jPanel1.add(btn_Huy);
-        btn_Huy.setBounds(390, 320, 140, 46);
+        btn_Huy.setBounds(390, 330, 140, 46);
 
         jLabel2.setBackground(new java.awt.Color(255, 209, 84));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -270,7 +264,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
         jLabel2.setBounds(40, 20, 250, 25);
 
         ThongTinKhachHang.setBackground(new java.awt.Color(0, 0, 0));
-        ThongTinKhachHang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
+        ThongTinKhachHang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         ThongTinKhachHang.setOpaque(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -278,7 +272,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
         jLabel4.setText("Loại giường");
 
         cb_DonGia.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cb_DonGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "500.000 - 1.000.000", "1.000.000 - 2.000.000", "2.000.000 - 5.000.000" }));
+        cb_DonGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "500.000 - 1.000.000", "1.000.000 - 2.000.000", "2.000.000 - 5.000.000" }));
         cb_DonGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_DonGiaActionPerformed(evt);
@@ -351,7 +345,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
                             .addComponent(jLabel9)
                             .addComponent(cb_LoaiGiuong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cb_DonGia, 0, 186, Short.MAX_VALUE))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         ThongTinKhachHangLayout.setVerticalGroup(
             ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,28 +355,28 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
                     .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(6, 6, 6)
-                        .addComponent(cb_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
                         .addGap(6, 6, 6)
-                        .addComponent(cb_SoKhachToiDa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cb_SoKhachToiDa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinKhachHangLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(6, 6, 6)
-                        .addComponent(cb_LoaiGiuong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_LoaiGiuong, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)
                         .addGap(6, 6, 6)
-                        .addComponent(cb_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cb_DonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addGap(6, 6, 6)
-                .addComponent(cb_moTa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cb_moTa, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel1.add(ThongTinKhachHang);
-        ThongTinKhachHang.setBounds(40, 60, 490, 240);
+        ThongTinKhachHang.setBounds(40, 60, 490, 250);
 
         BackGround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup_DatPhong_chonPhong.png"))); // NOI18N
         BackGround.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
@@ -453,9 +447,16 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
+        LeTan_DatPhong_GUI.boloc_loaiPhong = cb_LoaiPhong.getSelectedItem().toString();
+        LeTan_DatPhong_GUI.boloc_loaiGiuong = cb_LoaiGiuong.getSelectedItem().toString();
+        LeTan_DatPhong_GUI.boloc_SokhachtoiDa = cb_SoKhachToiDa.getSelectedItem().toString();
+        LeTan_DatPhong_GUI.boloc_Mota = cb_moTa.getSelectedItem().toString();
+        LeTan_DatPhong_GUI.boloc_DonGia = cb_DonGia.getSelectedIndex();
 
-            setVisible(false);
-        
+        list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
+        LoadPhong(list_PhongSauKhiLocHoacChon);
+        setVisible(false);
+
 
     }//GEN-LAST:event_btn_XacNhanMousePressed
 

@@ -36,6 +36,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -89,11 +90,59 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
+    public boolean checkDateNgayNhan() {
+        if (txt_NgayTraPhong.getDate() == null) {
+            return false;
+        }
+
+        if (txt_NgayNhanPhong.getDate().after(txt_NgayTraPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày nhận phải trước ngày trả");
+            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+            return false;
+        }
+
+        if (txt_NgayNhanPhong.getDate().equals(txt_NgayTraPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày nhận phải khác ngày trả");
+            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+            return false;
+        }
+
+        if (txt_NgayNhanPhong.getDate().before(setThoiGian0(new Date()))) {
+            JOptionPane.showMessageDialog(this, "Ngày nhận không được trước ngày hôm nay");
+            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean checkDateNgayTra() {
+        if (txt_NgayNhanPhong.getDate() == null) {
+            return false;
+        }
+
+        if (txt_NgayTraPhong.getDate().before(txt_NgayNhanPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày trả phải sau ngày nhận");
+            txt_NgayTraPhong.setDate(setThoiGian0(new Date(txt_NgayNhanPhong.getDate().getTime() + 60 * 60 * 24 * 1000)));
+            return false;
+        }
+
+        if (txt_NgayTraPhong.getDate().equals(txt_NgayNhanPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày trả phải khác ngày nhận");
+            txt_NgayTraPhong.setDate(setThoiGian0(new Date(txt_NgayNhanPhong.getDate().getTime() + 60 * 60 * 24 * 1000)));
+            return false;
+        }
+
+        return true;
+
+    }
+
     public LeTan_DatPhong_GUI() {
 
         initComponents();
         txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
-        txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60*60*24*2)));
+        txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60 * 60 * 24 * 1000)));
 
         list_TienNghi = tienNghi_dao.getAllTienNghi();
         list_Phong = phong_dao.getAllPhongTrongTheoNgay(txt_NgayNhanPhong.getDate(), txt_NgayTraPhong.getDate());
@@ -1290,7 +1339,13 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel3.setText("Ngày trả phòng");
 
         btn_Loc.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        btn_Loc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_Loc.setOpaque(false);
+        btn_Loc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_LocMousePressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -1857,11 +1912,20 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void txt_NgayNhanPhongPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayNhanPhongPropertyChange
         // TODO add your handling code here:
+        if (checkDateNgayNhan()) {
+            list_PhongSauKhiLocHoacChon = phong_dao.getAllPhongTrongTheoNgay(txt_NgayNhanPhong.getDate(), txt_NgayTraPhong.getDate());
+            LoadPhong(list_PhongSauKhiLocHoacChon);
+        }
 
     }//GEN-LAST:event_txt_NgayNhanPhongPropertyChange
 
     private void txt_NgayTraPhongPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayTraPhongPropertyChange
         // TODO add your handling code here:
+        if (checkDateNgayTra()) {
+            list_PhongSauKhiLocHoacChon = phong_dao.getAllPhongTrongTheoNgay(txt_NgayNhanPhong.getDate(), txt_NgayTraPhong.getDate());
+            LoadPhong(list_PhongSauKhiLocHoacChon);
+        }
+
     }//GEN-LAST:event_txt_NgayTraPhongPropertyChange
 
     private void btn_ThemPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemPhongMousePressed
@@ -1880,6 +1944,9 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
         // TODO add your handling code here:
+        txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+        txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60 * 60 * 24 * 1000)));
+
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
     private void Jpanel_NguoiDaiDienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Jpanel_NguoiDaiDienMouseClicked
@@ -1901,6 +1968,12 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_LamMoi1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoi1MousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_LamMoi1MousePressed
+
+    private void btn_LocMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LocMousePressed
+        // TODO add your handling code here:
+        new LeTan_DatPhong_BoLoc_GUI((JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
+
+    }//GEN-LAST:event_btn_LocMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

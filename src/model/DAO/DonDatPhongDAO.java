@@ -16,6 +16,7 @@ import static com.mongodb.client.model.Projections.computed;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
+import static com.mongodb.client.model.Updates.set;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -160,26 +161,22 @@ public class DonDatPhongDAO {
         }
     }
 
-
-    
-
     public ArrayList<Document> getDoanhThu(Date ngayBatDau, Date ngayKetThuc) {
         // Tạo pipeline cho aggregate
         List<Bson> pipeline = Arrays.asList(
-                lookup("Phong", "Phong", "maPhong", "Phongs"),
-                lookup("LoaiPhong", "Phongs.loaiPhong", "maLoaiPhong", "LoaiPhongs"),
-                match(or(
-                        and(
-                                gte("ngayNhanPhong", ngayBatDau),
-                                lte("ngayNhanPhong", ngayKetThuc)
-                        ),
-                        and(
-                                gte("ngayTraPhong", ngayBatDau),
-                                lte("ngayTraPhong", ngayKetThuc)
+                // Gộp các điều kiện lọc vào một match duy nhất
+                match(and(
+                        eq("trangThai", "Hoàn thành"),
+                        or(
+                                and(
+                                        gte("phong.ngayNhanPhong", ngayBatDau),
+                                        lte("phong.ngayNhanPhong", ngayKetThuc)
+                                ),
+                                and(
+                                        gte("phong.ngayTraPhong", ngayBatDau),
+                                        lte("phong.ngayTraPhong", ngayKetThuc)
+                                )
                         )
-                )),
-                project(fields(
-                        include("LoaiPhongs.donGia", "ngayNhanPhong", "ngayTraPhong", "dichVuSuDung.tenDV", "dichVuSuDung.donGia")
                 ))
         );
 
@@ -191,5 +188,64 @@ public class DonDatPhongDAO {
         results.into(documents);
 
         return documents;
+    }
+
+    public boolean updateTienTra(int maDonDat, int maPhong, int tienDaThanhToan) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    and(
+                            eq("maDonDat", maDonDat),
+                            eq("phong.maPhong", maPhong)
+                    ),
+                    set("phong.$.tienDaThanhToan", tienDaThanhToan)
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật tiền trả: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateHoanThanh(int maDonDat) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("trangThai", "Hoàn thành")
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateXuLy(int maDonDat) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("trangThai", "Xử lý")
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateDaHuy(int maDonDat) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("trangThai", "Đã hủy")
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
+            return false;
+        }
     }
 }

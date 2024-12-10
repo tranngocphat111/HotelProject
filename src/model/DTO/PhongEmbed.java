@@ -135,44 +135,44 @@ public class PhongEmbed {
         if (doc.containsKey("tenLoaiPhong")) {
             phong.setTenLoaiPhong(doc.getString("tenLoaiPhong"));
         }
-        
+
         if (doc.containsKey("ngayNhanPhongDuKien")) {
             phong.setNgayNhanPhongDuKien(doc.getDate("ngayNhanPhongDuKien"));
         }
-        
+
         if (doc.containsKey("ngayTraPhongDuKien")) {
             phong.setNgayTraPhongDuKien(doc.getDate("ngayTraPhongDuKien"));
         }
-        
+
         if (doc.containsKey("ngayNhanPhong")) {
             phong.setNgayNhanPhong(doc.getDate("ngayNhanPhong"));
         }
-        
+
         if (doc.containsKey("ngayTraPhong")) {
             phong.setNgayTraPhong(doc.getDate("ngayTraPhong"));
         }
-        
 
         if (doc.containsKey("dichVuSuDung")) {
             List<Document> dichVuDocs = (List<Document>) doc.get("dichVuSuDung");
             List<DichVuSuDungEmbed> dichVuSuDung = new ArrayList<>();
             for (Document dichVuDoc : dichVuDocs) {
-                
+
                 DichVuSuDungEmbed dichVu = DichVuSuDungEmbed.fromDocument(dichVuDoc);
-                if(dichVu != null) dichVuSuDung.add(dichVu);
+                if (dichVu != null) {
+                    dichVuSuDung.add(dichVu);
+                }
             }
             phong.setDichVuSuDung(dichVuSuDung);
         }
-        
+
         if (doc.containsKey("trangThaiPhong")) {
             phong.setTrangThaiPhong(doc.getString("trangThaiPhong"));
         }
-        
+
         if (doc.containsKey("tienDaThanhToan")) {
             phong.setTienDaThanhToan(doc.getInteger("tienDaThanhToan"));
         }
-        
-        
+
         return phong;
     }
 
@@ -181,4 +181,25 @@ public class PhongEmbed {
         return "PhongEmbed{" + "maPhong=" + maPhong + ", donGia=" + donGia + ", tenLoaiPhong=" + tenLoaiPhong + ", dichVuSuDung=" + dichVuSuDung + ", ngayNhanPhongDuKien=" + ngayNhanPhongDuKien + ", ngayTraPhongDuKien=" + ngayTraPhongDuKien + ", ngayNhanPhong=" + ngayNhanPhong + ", ngayTraPhong=" + ngayTraPhong + ", trangThaiPhong=" + trangThaiPhong + ", tienDaThanhToan=" + tienDaThanhToan + '}';
     }
 
+    public int getTienPhong() {
+
+        int tongTien = 0;
+        long soNgaySuDung = (ngayTraPhong.getTime() - ngayNhanPhong.getTime())
+                / (1000 * 60 * 60 * 24);
+        soNgaySuDung = Math.max(soNgaySuDung, 1);
+        tongTien = (int) (soNgaySuDung * donGia);
+        return tongTien;
+    }
+
+    public int getTongTien() {
+        int tongTien = 0;
+        for (DichVuSuDungEmbed dv: dichVuSuDung){
+            tongTien += dv.getTongTien();
+        }
+        return tongTien + getTienPhong();
+    }
+    
+    public boolean isHoanThanh(){
+        return getTongTien() == tienDaThanhToan;
+    }
 }

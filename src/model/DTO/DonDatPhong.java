@@ -157,7 +157,25 @@ public class DonDatPhong {
         return "DonDatPhong{" + "maDonDat=" + maDonDat + ", ngayDatPhong=" + ngayTaoDon + ", trangThai=" + trangThai + ", khachO=" + khachO + ", phongs=" + phongs + ", nguoiDat=" + nguoiDat  + '}';
     }
 
+    public int getTongTien(){
+        int tongTien = 0;
+        for (PhongEmbed p: phongs){
+            tongTien += p.getTongTien();
+        }
+        return tongTien;
+    }
     
+    public int getTienDaThanhToan(){
+        int tongTien = 0;
+        for (PhongEmbed p: phongs){
+            tongTien += p.getTienDaThanhToan();
+        }
+        return tongTien;
+    }
+    
+    public boolean isHoanThanh(){
+        return getTongTien() == getTienDaThanhToan();
+    }
 
 
 }

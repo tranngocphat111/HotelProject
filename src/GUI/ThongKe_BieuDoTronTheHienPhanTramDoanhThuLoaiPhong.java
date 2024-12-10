@@ -11,23 +11,29 @@ import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DAO.DonDatPhongDAO;
+import model.DTO.DonDatPhong;
+import model.DTO.Phong;
+import model.DTO.PhongEmbed;
 import model.MongoDBConnection;
 import org.bson.Document;
+import org.jfree.chart.title.TextTitle;
 
-public class ThongKe_BieuDoTronTheHienPhanTramDoanhThu extends JPanel {
+public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
 
-    public ThongKe_BieuDoTronTheHienPhanTramDoanhThu(ArrayList<Document> list) {
+    public ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(ArrayList<Document> list, Date ngayBatDau, Date ngayKetThuc) {
         // Tạo dataset cho biểu đồ tròn
-        Map<String, Integer> doanhThu = calculateRevenue(list);
+        Map<String, Integer> doanhThu = calculateRevenue(list, ngayBatDau, ngayKetThuc);
         DefaultPieDataset dataset = createDataset(doanhThu);
 
         // Tạo biểu đồ tròn
@@ -38,7 +44,13 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThu extends JPanel {
                 true, // Thể hiện thông tin chi tiết
                 false // Không cho phép xuất ra file
         );
-        
+
+        // Thêm ghi chú thời gian vào biểu đồ
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String ghiChu = "Khoảng thời gian: " + sdf.format(ngayBatDau) + " - " + sdf.format(ngayKetThuc);
+        TextTitle subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
+        pieChart.addSubtitle(subtitle);
+
         // Tạo ChartPanel chứa biểu đồ
         ChartPanel chartPanel = new ChartPanel(pieChart);
         chartPanel.setPreferredSize(new Dimension(710, 400));
@@ -47,26 +59,27 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThu extends JPanel {
     }
 
     private DefaultPieDataset createDataset(Map<String, Integer> data) {
-//        DefaultPieDataset dataset = new DefaultPieDataset();
-//        
-//        for (Map.Entry<String, Integer> entry : data.entrySet()) {
-//            System.out.println("Loại phòng: " + entry.getKey() + ", Số lần đặt: " + entry.getValue());
-//            dataset.setValue(entry.getKey(), entry.getValue());
-//        }
-//        return dataset;
-
         DefaultPieDataset dataset = new DefaultPieDataset();
         int totalRevenue = data.values().stream().mapToInt(Integer::intValue).sum();
+
+        // Sử dụng NumberFormat cho định dạng tiền tệ
+        NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
 
         for (Map.Entry<String, Integer> entry : data.entrySet()) {
             String key = entry.getKey();
             int revenue = entry.getValue();
 
+            // Định dạng số tiền
+            String formattedRevenue = currencyFormat.format(revenue);
+
             // Tính tỷ lệ phần trăm
             double percentage = (double) revenue / totalRevenue * 100;
 
-            // Thêm vào dataset với tỷ lệ phần trăm
-            dataset.setValue(key + " (" + String.format("%.2f", percentage) + "%)", revenue);
+            // Thêm vào dataset với tỷ lệ phần trăm và doanh thu đã định dạng
+            dataset.setValue(
+                    key + " (" + formattedRevenue + " - " + String.format("%.2f", percentage) + "%)",
+                    revenue
+            );
         }
 
         return dataset;
@@ -79,19 +92,19 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThu extends JPanel {
 
         Date ngayBatDau = null;
         try {
-            ngayBatDau = sdf.parse("2024-10-23");
+            ngayBatDau = sdf.parse("2024-01-01");
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
         }
         Date ngayKetThuc = null;
         try {
-            ngayKetThuc = sdf.parse("2024-11-23");
+            ngayKetThuc = sdf.parse("2024-01-05");
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
         }
         MongoDBConnection.connection();
         DonDatPhongDAO ddp = new DonDatPhongDAO(MongoDBConnection.getDatabase());
-        ThongKe_BieuDoTronTheHienPhanTramDoanhThu pieChartPanel = new ThongKe_BieuDoTronTheHienPhanTramDoanhThu(ddp.getDoanhThu(ngayBatDau, ngayKetThuc));
+        ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong pieChartPanel = new ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(ddp.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(pieChartPanel);
@@ -100,34 +113,29 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThu extends JPanel {
         frame.setVisible(true);
     }
 
-    public Map<String, Integer> calculateRevenue(ArrayList<Document> bookingData) {
+    public Map<String, Integer> calculateRevenue(ArrayList<Document> bookingData, Date ngayBatDau, Date ngayKetThuc) {
         Map<String, Integer> revenueMap = new HashMap<>();
 
-        int totalRoomRevenue = 0;
-
         for (Document booking : bookingData) {
-            // Calculate room revenue from `LoaiPhongs`
-            ArrayList<Document> roomTypes = (ArrayList<Document>) booking.get("LoaiPhongs");
-            if (roomTypes != null && !roomTypes.isEmpty()) {
-                // Access the first element since donGia is in an array
-                int roomPrice = roomTypes.get(0).getInteger("donGia", 0);
-                totalRoomRevenue += roomPrice;
+            DonDatPhong ddp = DonDatPhong.fromDocument(booking);
+            for (PhongEmbed p : ddp.getPhongs()) {
+                revenueMap.put(
+                        p.getTenLoaiPhong(),
+                        revenueMap.getOrDefault(p.getTenLoaiPhong(), 0) + getDoanhThuTheoKhoangThoiGian(ngayBatDau, ngayKetThuc, p)
+                );
             }
 
-            // Calculate service revenue from `dichVuSuDung`
-            ArrayList<Document> services = (ArrayList<Document>) booking.get("dichVuSuDung");
-            for (Document service : services) {
-                String serviceName = service.getString("tenDV");
-                int servicePrice = service.getInteger("donGia", 0);
-
-                // Update the revenue for each service in the map
-                revenueMap.put(serviceName, revenueMap.getOrDefault(serviceName, 0) + servicePrice);
-            }
         }
-
-        // Add total room revenue to the map
-        revenueMap.put("Phòng", totalRoomRevenue);
         return revenueMap;
     }
 
+    public int getDoanhThuTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc, PhongEmbed phong) {
+        int doanhThu = 0;
+        Date ngayBatDauSuDung = phong.getNgayNhanPhong().after(ngayBatDau) ? phong.getNgayNhanPhong() : ngayBatDau;
+        Date ngayKetThucSuDung = phong.getNgayTraPhong().before(ngayKetThuc) ? phong.getNgayTraPhong() : ngayKetThuc;
+        phong.setNgayNhanPhong(ngayBatDauSuDung);
+        phong.setNgayTraPhong(ngayKetThucSuDung);
+        doanhThu = phong.getTienPhong();
+        return doanhThu;
+    }
 }

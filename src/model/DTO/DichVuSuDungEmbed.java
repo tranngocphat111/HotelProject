@@ -83,6 +83,8 @@ public class DichVuSuDungEmbed {
         return "DichVuEmbed{" + "maDVSD=" + maDVSD + ", tenDV=" + tenDV + ", donGia=" + donGia + ", soLuong=" + soLuong + '}';
     }
     
-    
+    public int getTongTien(){
+        return donGia * soLuong;
+    }
 
 }

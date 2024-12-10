@@ -1,32 +1,31 @@
 package GUI;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
-import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import model.DAO.DonDatPhongDAO;
 import model.MongoDBConnection;
 import org.bson.Document;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
 
 public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
 
     public ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ArrayList<Document> list) {
-        // Tạo dataset
+        // Tạo dataset từ danh sách Document
         Map<String, Integer> bookingCount = docToMap(list);
         CategoryDataset dataset = createDataset(bookingCount);
 
@@ -38,7 +37,7 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
                 dataset,
                 PlotOrientation.VERTICAL,
                 false, true, false);
-        
+
         // Thiết lập trục Y
         CategoryPlot plot = barChart.getCategoryPlot();
         NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
@@ -53,6 +52,9 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
         add(chartPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Tạo dữ liệu từ bookingCount Map
+     */
     private CategoryDataset createDataset(Map<String, Integer> bookingCount) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (Map.Entry<String, Integer> entry : bookingCount.entrySet()) {
@@ -62,20 +64,23 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
         return dataset;
     }
 
+    /**
+     * Chạy ứng dụng
+     */
     public static void main(String[] args) {
         try {
             MongoDBConnection.connection();
             DonDatPhongDAO ddpDAO = new DonDatPhongDAO(MongoDBConnection.getDatabase());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
-            Date ngayBatDau = sdf.parse("2024-10-23");
-            Date ngayKetThuc = sdf.parse("2024-11-23");
+
+            Date ngayBatDau = sdf.parse("2024-01-01");
+            Date ngayKetThuc = sdf.parse("2024-01-05");
+
             SwingUtilities.invokeLater(() -> {
-                // Tạo JFrame để hiển thị JPanel
                 JFrame frame = new JFrame("Biểu đồ loại phòng");
-                ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong panel = 
-                        new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDonDatPhongTheoNgay(ngayBatDau, ngayKetThuc));
-                
+                ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong panel =
+                        new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
+
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(panel);
                 frame.pack();
@@ -87,27 +92,29 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
         }
     }
 
+    /**
+     * Lấy giá trị lớn nhất trong Map
+     */
     private static int getMaxValue(Map<String, Integer> map) {
-        int maxValue = Integer.MIN_VALUE; // Khởi tạo với giá trị nhỏ nhất
-        for (Integer value : map.values()) {
-            if (value > maxValue) {
-                maxValue = value; // Cập nhật giá trị tối đa
-            }
-        }
-        return maxValue;
+        return map.values().stream().max(Integer::compare).orElse(0);
     }
 
+    /**
+     * Chuyển Document sang Map<String, Integer> để tính toán số lượng đặt phòng
+     */
     private Map<String, Integer> docToMap(ArrayList<Document> list) {
         Map<String, Integer> bookingCount = new HashMap<>();
-        for (Document doc : list) {
-            // Lấy giá trị tên loại phòng (giả sử chỉ có 1 giá trị)
-            ArrayList<String> tenLoaiPhong = (ArrayList<String>) doc.get("tenLoaiPhong");
 
-            // Kiểm tra nếu tenLoaiPhong không rỗng
-            if (!tenLoaiPhong.isEmpty()) {
-                String loaiPhong = tenLoaiPhong.get(0); // Lấy giá trị đầu tiên
-                // Cập nhật số lần đặt phòng cho loại phòng
-                bookingCount.put(loaiPhong, bookingCount.getOrDefault(loaiPhong, 0) + 1);
+        for (Document doc : list) {
+            List<Document> phongs = (List<Document>) doc.get("phong");
+
+            if (phongs != null && !phongs.isEmpty()) {
+                for (Document phong : phongs) {
+                    String tenLoaiPhong = phong.getString("tenLoaiPhong");
+                    if (tenLoaiPhong != null && !tenLoaiPhong.isEmpty()) {
+                        bookingCount.put(tenLoaiPhong, bookingCount.getOrDefault(tenLoaiPhong, 0) + 1);
+                    }
+                }
             }
         }
         return bookingCount;

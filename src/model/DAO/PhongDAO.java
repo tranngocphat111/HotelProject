@@ -38,23 +38,36 @@ public class PhongDAO {
         }
         return Phongs;
     }
-    
+
     public List<Phong> getAllPhongTrongTheoNgay(Date NgayNhanPhongDuKien, Date NgayTraPhongDuKien) {
         List<Phong> phongTrong = new ArrayList<>();
-        
+
         // 1. Lấy danh sách mã phòng đã được đặt trong khoảng ngày
         List<Integer> phongDaDat = new ArrayList<>();
 
+        donDatPhongCollection.find(
+                Filters.and(
+                        Filters.gte("phong.ngayNhanPhongDuKien", NgayNhanPhongDuKien),
+                        Filters.lte("phong.ngayTraPhongDuKien", NgayTraPhongDuKien)
+                )
+        ).forEach((Document donDatPhong) -> {
+            List<Document> phongList = (List<Document>) donDatPhong.get("phong");
+            if (phongList != null) {
+                for (Document phong : phongList) {
+                    phongDaDat.add(phong.getInteger("maPhong"));
+                }
+            }
+        });
         // Viết câu lệnh MongoDB với logic $or theo 2 điều kiện như bạn yêu cầu
         donDatPhongCollection.find(
                 Filters.or(
                         Filters.and(
-                                Filters.gte("phong.ngayNhanPhongDuKien", NgayNhanPhongDuKien),
-                                Filters.lte("phong.ngayTraPhongDuKien", NgayNhanPhongDuKien)
+                                Filters.gte("phong.ngayTraPhongDuKien", NgayNhanPhongDuKien),
+                                Filters.lte("phong.ngayNhanPhongDuKien", NgayNhanPhongDuKien)
                         ),
                         Filters.and(
-                                Filters.gte("phong.ngayNhanPhongDuKien", NgayTraPhongDuKien),
-                                Filters.lte("phong.ngayTraPhongDuKien", NgayTraPhongDuKien)
+                                Filters.gte("phong.ngayTraPhongDuKien", NgayTraPhongDuKien),
+                                Filters.lte("phong.ngayNhanPhongDuKien", NgayTraPhongDuKien)
                         )
                 )
         ).forEach((Document donDatPhong) -> {
@@ -66,9 +79,6 @@ public class PhongDAO {
             }
         });
 
-        for (Integer sophong : phongDaDat) {
-            System.out.println(sophong);
-        }
 
         // 2. Lọc các phòng không nằm trong danh sách đã đặt
         phongCollection.find().forEach((Document phongDoc) -> {
@@ -80,8 +90,6 @@ public class PhongDAO {
 
         return phongTrong;
     }
-
-
 
     public Phong getPhongByMa(int maPhong) {
         Phong phong = null;

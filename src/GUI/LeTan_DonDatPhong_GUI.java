@@ -361,6 +361,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_NhanDon);
         btn_NhanDon.setBounds(710, 210, 150, 45);
 
+        Table_DonDatPhong.setAutoCreateRowSorter(true);
         Table_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_DonDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

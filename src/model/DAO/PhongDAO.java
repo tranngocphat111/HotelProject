@@ -15,13 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mongodb.client.model.Filters;
+import java.util.Date;
 
 public class PhongDAO {
 
     private MongoCollection<Document> phongCollection;
+    private MongoCollection<Document> donDatPhongCollection;
 
     public PhongDAO(MongoDatabase database) {
         phongCollection = database.getCollection("Phong");
+        donDatPhongCollection = database.getCollection("DonDatPhong");
     }
 
     public List<Phong> getAllPhong() {
@@ -34,6 +37,48 @@ public class PhongDAO {
             }
         }
         return Phongs;
+    }
+    
+    public List<Phong> getAllPhongTrongTheoNgay(Date NgayNhanPhongDuKien, Date NgayTraPhongDuKien) {
+        List<Phong> phongTrong = new ArrayList<>();
+        
+        // 1. Lấy danh sách mã phòng đã được đặt trong khoảng ngày
+        List<Integer> phongDaDat = new ArrayList<>();
+
+        // Viết câu lệnh MongoDB với logic $or theo 2 điều kiện như bạn yêu cầu
+        donDatPhongCollection.find(
+                Filters.or(
+                        Filters.and(
+                                Filters.gte("phong.ngayNhanPhongDuKien", NgayNhanPhongDuKien),
+                                Filters.lte("phong.ngayTraPhongDuKien", NgayNhanPhongDuKien)
+                        ),
+                        Filters.and(
+                                Filters.gte("phong.ngayNhanPhongDuKien", NgayTraPhongDuKien),
+                                Filters.lte("phong.ngayTraPhongDuKien", NgayTraPhongDuKien)
+                        )
+                )
+        ).forEach((Document donDatPhong) -> {
+            List<Document> phongList = (List<Document>) donDatPhong.get("phong");
+            if (phongList != null) {
+                for (Document phong : phongList) {
+                    phongDaDat.add(phong.getInteger("maPhong"));
+                }
+            }
+        });
+
+        for (Integer sophong : phongDaDat) {
+            System.out.println(sophong);
+        }
+
+        // 2. Lọc các phòng không nằm trong danh sách đã đặt
+        phongCollection.find().forEach((Document phongDoc) -> {
+            int maPhong = phongDoc.getInteger("maPhong");
+            if (!phongDaDat.contains(maPhong)) {
+                phongTrong.add(Phong.fromDocument(phongDoc));
+            }
+        });
+
+        return phongTrong;
     }
 
 

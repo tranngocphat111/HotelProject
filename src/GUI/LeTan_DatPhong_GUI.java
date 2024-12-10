@@ -58,87 +58,40 @@ import model.MongoDBConnection;
 public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     DefaultTableCellRenderer centerRenderer;
-    DecimalFormat df = new DecimalFormat("#,##0");
+    public static DecimalFormat df = new DecimalFormat("#,##0");
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
-    PhongDAO phong_dao = new PhongDAO(database);
-    LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
+    public static PhongDAO phong_dao = new PhongDAO(database);
+    public static LoaiPhongDAO loaiPhong_dao = new LoaiPhongDAO(database);
     TienNghiDAO tienNghi_dao = new TienNghiDAO(database);
     List<TienNghi> list_TienNghi = new ArrayList<>();
-    List<Phong> list_Phong = new ArrayList<>();
-    List<JPanel> list_Panel_Phong = new ArrayList<>();
+    public static List<Phong> list_Phong = new ArrayList<>();
+    public static List<JPanel> list_Panel_Phong = new ArrayList<>();
     List<JPanel> list_Panel_PhongDuocChon = new ArrayList<>();
-    List<JPanel> list_PanelTienNghi_Phong = new ArrayList<>();
-    Map<String, Boolean> clickMap_Phong = new HashMap<>();
-    List<Phong> list_PhongDuocChonTheo1thoiGian = new ArrayList<>();
-    List<PhongEmbed> list_PhongDuocChon = new ArrayList<>();
-    List<Phong> list_PhongSauKhiLocHoacChon = new ArrayList<>();
+    public static List<JPanel> list_PanelTienNghi_Phong = new ArrayList<>();
+    public static Map<String, Boolean> clickMap_Phong = new HashMap<>();
+    public static List<Phong> list_PhongDuocChonTheo1thoiGian = new ArrayList<>();
+    public static List<PhongEmbed> list_PhongDuocChon = new ArrayList<>();
+    public static List<Phong> list_PhongSauKhiLocHoacChon = new ArrayList<>();
     List<CirclePanel> list_Close = new ArrayList<>();
     public static KhachHang nguoiDaiDien;
+
+//  Tạo biến cho bộ lọc 
+    public static String boloc_loaiPhong;
+    public static String boloc_loaiGiuong;
+    public static String boloc_SokhachtoiDa;
+    public static int boloc_DonGia;
+    public static String boloc_Mota;
 
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    public Date setThoiGian0(Date date) {
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date); // Đặt ngày hiện tại
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
-
-    }
-
-    public boolean checkDateNgayNhan() {
-        if (txt_NgayTraPhong.getDate() == null) {
-            return false;
-        }
-
-        if (txt_NgayNhanPhong.getDate().after(txt_NgayTraPhong.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày nhận phải trước ngày trả");
-            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
-            return false;
-        }
-
-        if (txt_NgayNhanPhong.getDate().equals(txt_NgayTraPhong.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày nhận phải khác ngày trả");
-            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
-            return false;
-        }
-
-        if (txt_NgayNhanPhong.getDate().before(setThoiGian0(new Date()))) {
-            JOptionPane.showMessageDialog(this, "Ngày nhận không được trước ngày hôm nay");
-            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public boolean checkDateNgayTra() {
-        if (txt_NgayNhanPhong.getDate() == null) {
-            return false;
-        }
-
-        if (txt_NgayTraPhong.getDate().before(txt_NgayNhanPhong.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày trả phải sau ngày nhận");
-            txt_NgayTraPhong.setDate(setThoiGian0(new Date(txt_NgayNhanPhong.getDate().getTime() + 60 * 60 * 24 * 1000)));
-            return false;
-        }
-
-        if (txt_NgayTraPhong.getDate().equals(txt_NgayNhanPhong.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày trả phải khác ngày nhận");
-            txt_NgayTraPhong.setDate(setThoiGian0(new Date(txt_NgayNhanPhong.getDate().getTime() + 60 * 60 * 24 * 1000)));
-            return false;
-        }
-
-        return true;
-
-    }
-
     public LeTan_DatPhong_GUI() {
+        list_PhongDuocChon.clear();
+        boloc_loaiPhong = "Tất cả";
+        boloc_loaiGiuong = "Tất cả";
+        boloc_SokhachtoiDa = "Tất cả";
+        boloc_DonGia = 0;
+        boloc_Mota = "Tất cả";
 
         initComponents();
         txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
@@ -239,13 +192,183 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
+    public static List<Phong> filter(List<Phong> list_canLoc) {
+        List<Phong> list_Tam = list_canLoc;
+        
+        if (!boloc_loaiPhong.equals("Tất cả")) {
+            list_Tam = getAllPhongByLoaiPhong(list_Tam);
+        }
+
+        if (!boloc_loaiGiuong.equals("Tất cả")) {
+            list_Tam = getAllPhongByLoaiGiuong(list_Tam);
+        }
+
+        if (!boloc_SokhachtoiDa.equals("Tất cả")) {
+            list_Tam = getAllPhongBySoKhachToiDa(list_Tam);
+        }
+
+        if (!boloc_Mota.equals("Tất cả")) {
+            list_Tam = getAllPhongByMoTa(list_Tam);
+        }
+
+        if (boloc_DonGia != 0) {
+            list_Tam = getAllPhongByDonGia(list_Tam);
+        }
+        
+        return list_Tam;
+    }
+    public static List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            LoaiPhong loaiphong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+            if (loaiphong.getTenLoaiPhong().equals(boloc_loaiPhong)) {
+                list_PhongByLoai.add(phong);
+            }
+        }
+        return list_PhongByLoai;
+    }
+
+    public static List<Phong> getAllPhongByLoaiGiuong(List<Phong> list_PhongTrong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            LoaiPhong loaiphong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+            if (loaiphong.getLoaiGiuong().equals(boloc_loaiGiuong)) {
+                list_PhongByLoai.add(phong);
+            }
+        }
+        return list_PhongByLoai;
+    }
+
+    public static List<Phong> getAllPhongBySoKhachToiDa(List<Phong> list_PhongTrong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            LoaiPhong loaiphong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+            if (loaiphong.getSoKhachToiDa() == Integer.parseInt(boloc_SokhachtoiDa)) {
+                list_PhongByLoai.add(phong);
+            }
+        }
+        return list_PhongByLoai;
+    }
+
+    public static List<Phong> getAllPhongByMoTa(List<Phong> list_PhongTrong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+        for (Phong phong : list_PhongTrong) {
+            if (phong.getMoTa().equals(boloc_Mota)) {
+                list_PhongByLoai.add(phong);
+            }
+        }
+        return list_PhongByLoai;
+    }
+
+    public static List<Phong> getAllPhongByDonGia(List<Phong> list_PhongTrong) {
+        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
+
+        if (boloc_DonGia == 1) {
+            for (Phong phong : list_PhongTrong) {
+                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+                if (loaiPhong.getDonGia() >= 500000 && loaiPhong.getDonGia() <= 1000000) {
+                    list_PhongByLoai.add(phong);
+                }
+
+            }
+            return list_PhongByLoai;
+
+        }
+
+        if (boloc_DonGia == 2) {
+            for (Phong phong : list_PhongTrong) {
+                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+                if (loaiPhong.getDonGia() >= 1000000 && loaiPhong.getDonGia() <= 2000000) {
+                    list_PhongByLoai.add(phong);
+                }
+
+            }
+            return list_PhongByLoai;
+
+        }
+
+        if (boloc_DonGia == 3) {
+            for (Phong phong : list_PhongTrong) {
+                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
+                if (loaiPhong.getDonGia() >= 2000000 && loaiPhong.getDonGia() <= 5000000) {
+                    list_PhongByLoai.add(phong);
+                }
+
+            }
+            return list_PhongByLoai;
+
+        }
+
+        return list_PhongByLoai;
+    }
+
+    public Date setThoiGian0(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // Đặt ngày hiện tại
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+
+    }
+
+    public boolean checkDateNgayNhan() {
+        if (txt_NgayTraPhong.getDate() == null) {
+            return false;
+        }
+
+        if (txt_NgayNhanPhong.getDate().after(txt_NgayTraPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày nhận phải trước ngày trả");
+            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+            return false;
+        }
+
+        if (txt_NgayNhanPhong.getDate().equals(txt_NgayTraPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày nhận phải khác ngày trả");
+            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+            return false;
+        }
+
+        if (txt_NgayNhanPhong.getDate().before(setThoiGian0(new Date()))) {
+            JOptionPane.showMessageDialog(this, "Ngày nhận không được trước ngày hôm nay");
+            txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean checkDateNgayTra() {
+        if (txt_NgayNhanPhong.getDate() == null) {
+            return false;
+        }
+
+        if (txt_NgayTraPhong.getDate().before(txt_NgayNhanPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày trả phải sau ngày nhận");
+            txt_NgayTraPhong.setDate(setThoiGian0(new Date(txt_NgayNhanPhong.getDate().getTime() + 60 * 60 * 24 * 1000)));
+            return false;
+        }
+
+        if (txt_NgayTraPhong.getDate().equals(txt_NgayNhanPhong.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày trả phải khác ngày nhận");
+            txt_NgayTraPhong.setDate(setThoiGian0(new Date(txt_NgayNhanPhong.getDate().getTime() + 60 * 60 * 24 * 1000)));
+            return false;
+        }
+
+        return true;
+
+    }
+
     public int getRowTienNghi(int n) {
 
         return n / 2 + n % 2;
 
     }
 
-    public List<Phong> getAllPhongTheoTang(List<Phong> list_phong, int soTang) {
+    public static List<Phong> getAllPhongTheoTang(List<Phong> list_phong, int soTang) {
         List<Phong> Phongs = new ArrayList<>();
         for (Phong p : list_phong) {
             if (p.getTang() == soTang) {
@@ -307,7 +430,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         return bufferedImage;
     }
 
-    public void LoadPhong(List<Phong> list_phong) {
+    public static void LoadPhong(List<Phong> list_phong) {
         list_Panel_Phong.clear();
         list_PanelTienNghi_Phong.clear();
         Panel_ListPhong.removeAll();
@@ -428,17 +551,17 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 label_SoLuongKhach.setText(loaiPhong.getSoKhachToiDa() + "");
 
                 JLabel jLabel65 = new JLabel();
-                jLabel65.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_SoLuongKhach_mini.png"))); // NOI18N
+                jLabel65.setIcon(new ImageIcon("src/images/icon_SoLuongKhach_mini.png"));
 
                 JLabel jLabel66 = new JLabel();
-                jLabel66.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_LoaiGiuong_mini.png"))); // NOI18N
+                jLabel66.setIcon(new ImageIcon("/images/icon_LoaiGiuong_mini.png")); // NOI18N
 
                 JLabel label_LoaiGiuong = new JLabel();
                 label_LoaiGiuong.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
                 label_LoaiGiuong.setText(loaiPhong.getLoaiGiuong());
 
                 JLabel jLabel67 = new JLabel();
-                jLabel67.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_LoaiPhong_mini.png"))); // NOI18N
+                jLabel67.setIcon(new ImageIcon("/images/icon_LoaiPhong_mini.png")); // NOI18N
 
                 JLabel label_LoaiPhong = new JLabel();
                 label_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
@@ -905,6 +1028,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             Panel_PhongDuocChons.add(panel_PhongDuocChon);
             panel_Phong.setName(phong.getMaPhong() + "");
             list_Panel_PhongDuocChon.add(panel_Phong);
+            
+            clickMap_Phong.put(phong.getMaPhong()+"", false);
 
         }
 
@@ -982,9 +1107,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     list_Close.clear();
                     LoadPhongDuocChon();
                     EventCloseRoom();
-                    list_PhongSauKhiLocHoacChon.add(phong_dao.getPhongByMa(Integer.parseInt(element.getName())));
-                    list_PhongSauKhiLocHoacChon.sort(Comparator.comparingInt(Phong::getMaPhong));
+                    
+                    
                     clickMap_Phong.put(element.getName(), false);
+                    list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
                     LoadPhong(list_PhongSauKhiLocHoacChon);
                 }
 
@@ -1004,7 +1130,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         });
     }
 
-    public void EventChooseRoom() {
+    public static void EventChooseRoom() {
         list_Panel_Phong.forEach((element) -> {
             if (clickMap_Phong.get(element.getName()) == null) {
                 clickMap_Phong.put(element.getName(), false);
@@ -1114,7 +1240,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
-    public boolean removePhong(Phong p) {
+    public static boolean removePhong(Phong p) {
         for (Phong phong : list_PhongDuocChonTheo1thoiGian) {
             if (phong.getMaPhong() == p.getMaPhong()) {
                 list_PhongDuocChonTheo1thoiGian.remove(phong);
@@ -1134,9 +1260,32 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         return false;
     }
 
-    public List<Phong> getAllPhongSauKhiChon(List<Phong> list_phong) {
+    public static List<Phong> getAllPhongSauKhiChon() {
+
+        List<Phong> list_Tam = list_Phong;
+
+        if (!boloc_loaiPhong.equals("Tất cả")) {
+            list_Tam = getAllPhongByLoaiPhong(list_Tam);
+        }
+
+        if (!boloc_loaiGiuong.equals("Tất cả")) {
+            list_Tam = getAllPhongByLoaiGiuong(list_Tam);
+        }
+
+        if (!boloc_SokhachtoiDa.equals("Tất cả")) {
+            list_Tam = getAllPhongBySoKhachToiDa(list_Tam);
+        }
+
+        if (!boloc_Mota.equals("Tất cả")) {
+            list_Tam = getAllPhongByMoTa(list_Tam);
+        }
+
+        if (boloc_DonGia != 0) {
+            list_Tam = getAllPhongByDonGia(list_Tam);
+        }
+
         List<Phong> list_Phong_Loc = new ArrayList<>();
-        for (Phong p : list_phong) {
+        for (Phong p : list_Tam) {
             boolean ktra = true;
             for (PhongEmbed pDuocChon : list_PhongDuocChon) {
                 if (p.getMaPhong() == pDuocChon.getMaPhong()) {
@@ -1914,6 +2063,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (checkDateNgayNhan()) {
             list_PhongSauKhiLocHoacChon = phong_dao.getAllPhongTrongTheoNgay(txt_NgayNhanPhong.getDate(), txt_NgayTraPhong.getDate());
+            
+            list_PhongSauKhiLocHoacChon = filter(list_PhongSauKhiLocHoacChon);
             LoadPhong(list_PhongSauKhiLocHoacChon);
         }
 
@@ -1923,6 +2074,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (checkDateNgayTra()) {
             list_PhongSauKhiLocHoacChon = phong_dao.getAllPhongTrongTheoNgay(txt_NgayNhanPhong.getDate(), txt_NgayTraPhong.getDate());
+            list_PhongSauKhiLocHoacChon = filter(list_PhongSauKhiLocHoacChon);
             LoadPhong(list_PhongSauKhiLocHoacChon);
         }
 
@@ -1933,7 +2085,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         ThemPhongDaChon(list_PhongDuocChonTheo1thoiGian);
         LoadPhongDuocChon();
 
-        list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon(list_PhongSauKhiLocHoacChon);
+        list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
         LoadPhong(list_PhongSauKhiLocHoacChon);
         list_PhongDuocChonTheo1thoiGian.clear();
         EventCloseRoom();
@@ -1984,7 +2136,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel Panel_ChuThich2;
     private javax.swing.JPanel Panel_ChuThich3;
     private javax.swing.JPanel Panel_ChuThich4;
-    private javax.swing.JPanel Panel_ListPhong;
+    public static javax.swing.JPanel Panel_ListPhong;
     private javax.swing.JPanel Panel_PhongDuocChons;
     private javax.swing.JPanel Panel_TienNghis;
     private javax.swing.JScrollPane Scroll_ChuThich;

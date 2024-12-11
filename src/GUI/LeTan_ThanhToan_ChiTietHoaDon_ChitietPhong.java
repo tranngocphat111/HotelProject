@@ -21,43 +21,43 @@ import model.DTO.PhongEmbed;
  * @author Admin
  */
 public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPanel {
+
     public static DecimalFormat df = new DecimalFormat("#,##0");
 
     /**
      * Creates new form LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong
+     *
      * @param phong
      */
     public LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(PhongEmbed phong) {
-        if(phong == null) {
-          throw new IllegalArgumentException("PhongEmbed không được null");
+        if (phong == null) {
+            throw new IllegalArgumentException("PhongEmbed không được null");
         }
         initComponents();
-        chi_tiet_dich_vu.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(255,209,84)));
+        TienPhong.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 209, 84)));
+        DichVu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new Color(255, 209, 84)));
         chi_tiet_dich_vu.setVisible(false);
         chi_tiet_phong.setVisible(false);
-        main.setSize(main.getWidth()+ 500,(main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
-        List<String> songayo = splitDateRange(phong.getNgayNhanPhong(),phong.getNgayTraPhong());
-        
-        ma_phong.setText("Phòng "+ String.valueOf(phong.getMaPhong()));
-       
+        main.setSize(main.getWidth() + 500, (main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
+        List<String> songayo = splitDateRange(phong.getNgayNhanPhong(), phong.getNgayTraPhong());
+
+        ma_phong.setText("Phòng " + String.valueOf(phong.getMaPhong()));
+
         phong_list.setLayout(new BoxLayout(phong_list, BoxLayout.Y_AXIS));
         dv_list.setLayout(new BoxLayout(dv_list, BoxLayout.Y_AXIS));
-        
-            ChitietPhong_Phong ct = new ChitietPhong_Phong(phong);
-            ct.setVisible(true);
-            phong_list.add(ct);
-        
-        for(DichVuSuDungEmbed dv: phong.getDichVuSuDung()) {
+
+        ChitietPhong_Phong ct = new ChitietPhong_Phong(phong);
+        ct.setVisible(true);
+        phong_list.add(ct);
+
+        for (DichVuSuDungEmbed dv : phong.getDichVuSuDung()) {
             ChitietPhong_DichVu dvsd = new ChitietPhong_DichVu(dv);
             dvsd.setVisible(true);
             dv_list.add(dvsd);
-            
+
         }
-        
 
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,10 +75,10 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         ma_phong = new javax.swing.JLabel();
         xem_chi_tiet_btn = new java.awt.Button();
         chi_tiet_phong = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        TienPhong = new javax.swing.JLabel();
         phong_list = new javax.swing.JPanel();
         chi_tiet_dich_vu = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        DichVu = new javax.swing.JLabel();
         dv_list = new javax.swing.JPanel();
         line = new javax.swing.JPanel();
 
@@ -125,6 +125,9 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         xem_chi_tiet_btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 xem_chi_tiet_btnMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                xem_chi_tiet_btnMousePressed(evt);
             }
         });
         xem_chi_tiet_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -177,51 +180,53 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         chi_tiet_phong.setBackground(new java.awt.Color(0, 0, 0));
         chi_tiet_phong.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel2.setBackground(new java.awt.Color(255, 209, 84));
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 209, 84));
-        jLabel2.setText("Tiền phòng");
+        TienPhong.setBackground(new java.awt.Color(255, 209, 84));
+        TienPhong.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        TienPhong.setForeground(new java.awt.Color(255, 209, 84));
+        TienPhong.setText("Tiền phòng");
 
         phong_list.setBackground(new java.awt.Color(0, 0, 0));
+        phong_list.setPreferredSize(new java.awt.Dimension(678, 96));
 
         javax.swing.GroupLayout phong_listLayout = new javax.swing.GroupLayout(phong_list);
         phong_list.setLayout(phong_listLayout);
         phong_listLayout.setHorizontalGroup(
             phong_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
         phong_listLayout.setVerticalGroup(
             phong_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 79, Short.MAX_VALUE)
+            .addGap(0, 96, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout chi_tiet_phongLayout = new javax.swing.GroupLayout(chi_tiet_phong);
         chi_tiet_phong.setLayout(chi_tiet_phongLayout);
         chi_tiet_phongLayout.setHorizontalGroup(
             chi_tiet_phongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chi_tiet_phongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(684, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_phongLayout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(phong_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(TienPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(phong_list, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         chi_tiet_phongLayout.setVerticalGroup(
             chi_tiet_phongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chi_tiet_phongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(1, 1, 1)
+                .addGap(29, 29, 29)
                 .addComponent(phong_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(chi_tiet_phongLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TienPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         chi_tiet_dich_vu.setBackground(new java.awt.Color(0, 0, 0));
         chi_tiet_dich_vu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 209, 84));
-        jLabel1.setText("Dịch Vụ");
+        DichVu.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        DichVu.setForeground(new java.awt.Color(255, 209, 84));
+        DichVu.setText("Dịch Vụ");
 
         dv_list.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -229,32 +234,34 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         dv_list.setLayout(dv_listLayout);
         dv_listLayout.setHorizontalGroup(
             dv_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 678, Short.MAX_VALUE)
+            .addGap(0, 657, Short.MAX_VALUE)
         );
         dv_listLayout.setVerticalGroup(
             dv_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 90, Short.MAX_VALUE)
+            .addGap(0, 64, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout chi_tiet_dich_vuLayout = new javax.swing.GroupLayout(chi_tiet_dich_vu);
         chi_tiet_dich_vu.setLayout(chi_tiet_dich_vuLayout);
         chi_tiet_dich_vuLayout.setHorizontalGroup(
             chi_tiet_dich_vuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chi_tiet_dich_vuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_dich_vuLayout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(dv_list, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         chi_tiet_dich_vuLayout.setVerticalGroup(
             chi_tiet_dich_vuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chi_tiet_dich_vuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(1, 1, 1)
-                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_dich_vuLayout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(dv_list, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10))
         );
 
         line.setBackground(new java.awt.Color(255, 209, 84));
@@ -276,27 +283,20 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         mainLayout.setHorizontalGroup(
             mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(phong_header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(mainLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(mainLayout.createSequentialGroup()
-                .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chi_tiet_phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(chi_tiet_phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         mainLayout.setVerticalGroup(
             mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainLayout.createSequentialGroup()
                 .addComponent(phong_header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(0, 0, 0)
                 .addComponent(chi_tiet_phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -322,31 +322,35 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
     }//GEN-LAST:event_xem_chi_tiet_btnActionPerformed
 
     private void xem_chi_tiet_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xem_chi_tiet_btnMouseClicked
-      if(!chi_tiet_dich_vu.isVisible() && !chi_tiet_phong.isVisible()) {
-        main.setSize(main.getWidth() + 500,(main.getHeight() + chi_tiet_phong.getHeight() + chi_tiet_dich_vu.getHeight()));
-        xem_chi_tiet_btn.setLabel("-");
-        chi_tiet_dich_vu.setVisible(true);
-        chi_tiet_phong.setVisible(true);
-          
-      }
-      else{
-        xem_chi_tiet_btn.setLabel("+");
-        chi_tiet_dich_vu.setVisible(false);
-        chi_tiet_phong.setVisible(false);
-        main.setSize(main.getWidth() + 500,(main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
-      }
+
     }//GEN-LAST:event_xem_chi_tiet_btnMouseClicked
-      private void adjustMainPanelSize() {
+
+    private void xem_chi_tiet_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xem_chi_tiet_btnMousePressed
+        // TODO add your handling code here:
+        if (!chi_tiet_dich_vu.isVisible() && !chi_tiet_phong.isVisible()) {
+            main.setSize(main.getWidth() + 500, (main.getHeight() + chi_tiet_phong.getHeight() + chi_tiet_dich_vu.getHeight()));
+            xem_chi_tiet_btn.setLabel("-");
+            chi_tiet_dich_vu.setVisible(true);
+            chi_tiet_phong.setVisible(true);
+
+        } else {
+            xem_chi_tiet_btn.setLabel("+");
+            chi_tiet_dich_vu.setVisible(false);
+            chi_tiet_phong.setVisible(false);
+            main.setSize(main.getWidth() + 500, (main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
+        }
+    }//GEN-LAST:event_xem_chi_tiet_btnMousePressed
+    private void adjustMainPanelSize() {
         revalidate();
         repaint();
     }
-      
-         public List<String> splitDateRange(Date startDate, Date endDate) {
+
+    public List<String> splitDateRange(Date startDate, Date endDate) {
         List<String> ranges = new ArrayList<>();
 
         // Kiểm tra nếu ngày bắt đầu và ngày kết thúc hợp lệ
         if (startDate.after(endDate)) {
-            return ranges; 
+            return ranges;
         }
 
         // Tạo Calendar và thiết lập thời gian cho ngày bắt đầu
@@ -373,13 +377,13 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
             currentStart.add(Calendar.DAY_OF_MONTH, 1);
         }
         return ranges;
-      }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel DichVu;
+    private javax.swing.JLabel TienPhong;
     private javax.swing.JPanel chi_tiet_dich_vu;
     private javax.swing.JPanel chi_tiet_phong;
     private javax.swing.JPanel dv_list;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel line;

@@ -722,7 +722,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
              int maDon = Integer.parseInt(model.getValueAt(Table_hoaDon.getSelectedRow(), 0).toString());
              HoaDon hoadon = hoadon_dao.getHoaDonByMa(maDon);
              
-             LeTan_ThanhToan_ChiTietHoaDon_GUI1 leTan_ThanhToan_ChiTietHoaDon_GUI1 = new LeTan_ThanhToan_ChiTietHoaDon_GUI1(hoadon);
+             LeTan_ThanhToan_ChiTietHoaDon_GUI leTan_ThanhToan_ChiTietHoaDon_GUI1 = new LeTan_ThanhToan_ChiTietHoaDon_GUI(hoadon);
              leTan_ThanhToan_ChiTietHoaDon_GUI1.setVisible(true);
              
             

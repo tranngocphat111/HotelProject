@@ -16,6 +16,7 @@ import model.DTO.*;
 import model.MongoDBConnection;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 //import GUI.DangNhap_GUI;
 
@@ -92,21 +93,21 @@ public class testCollectAllData {
 //
         // Test DonDatPhongDAO
         DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+        donDatPhongDAO.updateNgayTaoDon(1, new Date(124, 0, 1, 7, 0));
         List<DonDatPhong> donDatPhongList = donDatPhongDAO.getAllDonDatPhong();
-        donDatPhongDAO.updateTienTra(5, 102, donDatPhongList.get(3).getPhongs().get(1).getTongTien());
+//        donDatPhongDAO.updateTienTra(5, 102, donDatPhongList.get(3).getPhongs().get(1).getTongTien());
         System.out.println("\nDonDatPhong:");
         for (DonDatPhong donDatPhong : donDatPhongList) {
-            System.out.println(donDatPhong.getMaDonDat());
+            System.out.println(donDatPhong);
             System.out.println(donDatPhong.isHoanThanh());
-
         }
         
-        DichVuSuDungDAO dichVuSuDungDAO = new DichVuSuDungDAO(database);
-        List<DichVuSuDung> dichVuSDList = dichVuSuDungDAO.getAllDichVu();
-        System.out.println("\nDich Vu Su Dung:");
-        for (DichVuSuDung dvsd : dichVuSDList) {
-            System.out.println(dvsd);
-        }
+//        DichVuSuDungDAO dichVuSuDungDAO = new DichVuSuDungDAO(database);
+//        List<DichVuSuDung> dichVuSDList = dichVuSuDungDAO.getAllDichVu();
+//        System.out.println("\nDich Vu Su Dung:");
+//        for (DichVuSuDung dvsd : dichVuSDList) {
+//            System.out.println(dvsd);
+//        }
         
 //        donDatPhongDAO.updateTienTra(5, 102, 2001);
         

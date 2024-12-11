@@ -496,7 +496,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel icon_DatPhong;
     private javax.swing.JLabel icon_DonDatPhong;
     private javax.swing.JLabel icon_ThanhToan;
-    private javax.swing.JDesktopPane jDesktopPane1;
+    public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JPanel jPanel2;

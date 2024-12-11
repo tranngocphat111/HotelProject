@@ -4,6 +4,7 @@
  */
 package model.DTO;
 
+import java.util.Date;
 import org.bson.Document;
 
 /**
@@ -19,6 +20,15 @@ public class DichVuSuDung {
     private String tenDV;
     private int soLuong;
     private int donGia;
+    private Date ngaySuDung;
+
+    public Date getNgaySuDung() {
+        return ngaySuDung;
+    }
+
+    public void setNgaySuDung(Date ngaySuDung) {
+        this.ngaySuDung = ngaySuDung;
+    }
 
     public int getMaDVSD() {
         return maDVSD;
@@ -86,6 +96,19 @@ public class DichVuSuDung {
         this.donGia = donGia;
     }
 
+    public DichVuSuDung(int maDVSD, int maPhong, int maDonDatPhong, int maDV, String tenDV, int soLuong, int donGia, Date ngaySuDung) {
+        this.maDVSD = maDVSD;
+        this.maPhong = maPhong;
+        this.maDonDatPhong = maDonDatPhong;
+        this.maDV = maDV;
+        this.tenDV = tenDV;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.ngaySuDung = ngaySuDung;
+    }
+    
+    
+
     public DichVuSuDung() {
     }
 
@@ -112,6 +135,9 @@ public class DichVuSuDung {
         }
         if (doc.containsKey("soLuong")) {
             dichVu.setSoLuong(doc.getInteger("soLuong"));
+        }
+        if (doc.containsKey("ngaySuDung")) {
+            dichVu.setNgaySuDung(doc.getDate("ngaySuDung"));
         }
         return dichVu;
     }

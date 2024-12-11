@@ -5,6 +5,7 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DatPhong_GUI.nguoiDaiDien;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,103 +48,6 @@ public class LeTan_DatPhong_NguoiDaiDien_GUI extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
 
-//    public void DocDuLieuLenTable(List<Phong> list_PhongTrong) {
-//        for (Phong phong : list_PhongTrong) {
-//            LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//            String list_tienNghi = getListTienNghi(loaiPhong.getTienNghis());
-//            model.addRow(new Object[]{
-//                phong.getMaPhong(),
-//                phong.getTang(),
-//                loaiPhong.getTenLoaiPhong(),
-//                loaiPhong.getLoaiGiuong(),
-//                loaiPhong.getDienTich() + " m2",
-//                list_tienNghi,
-//                phong.getMoTa(),
-//                df.format(loaiPhong.getDonGia()) + " VND",
-//                loaiPhong.getSoKhachToiDa()});
-//        }
-//
-//        for (int i = 0; i < Table_Phong.getColumnCount(); i++) {
-//            Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-//        }
-//
-//    }
-//
-//    public String getListTienNghi(List<TienNghi> list_tienNghi) {
-//        String list = "";
-//
-//        for (TienNghi tn : list_tienNghi) {
-//            list = list + tn.getTenTienNghi() + ", ";
-//        }
-//        list = list.substring(0, list.length() - 2);
-//        return list;
-//    }
-//
-//    public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
-//        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-//        for (Phong phong : list_PhongTrong) {
-//            if (phong.getLoaiPhong() == loaiPhong) {
-//                list_PhongByLoai.add(phong);
-//            }
-//
-//        }
-//
-//        return list_PhongByLoai;
-//    }
-//
-//    public List<Phong> getAllPhongByTang(List<Phong> list_PhongTrong, int tang) {
-//        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-//        for (Phong phong : list_PhongTrong) {
-//            if (phong.getTang() == tang) {
-//                list_PhongByLoai.add(phong);
-//            }
-//
-//        }
-//
-//        return list_PhongByLoai;
-//    }
-//
-//    public List<Phong> getAllPhongByDonGia(List<Phong> list_PhongTrong, int KhoangDonGia) {
-//        List<Phong> list_PhongByLoai = new ArrayList<Phong>();
-//
-//        if (KhoangDonGia == 1) {
-//            for (Phong phong : list_PhongTrong) {
-//                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//                if (loaiPhong.getDonGia() >= 500000 && loaiPhong.getDonGia() <= 1000000) {
-//                    list_PhongByLoai.add(phong);
-//                }
-//
-//            }
-//            return list_PhongByLoai;
-//
-//        }
-//
-//        if (KhoangDonGia == 2) {
-//            for (Phong phong : list_PhongTrong) {
-//                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//                if (loaiPhong.getDonGia() >= 1000000 && loaiPhong.getDonGia() <= 2000000) {
-//                    list_PhongByLoai.add(phong);
-//                }
-//
-//            }
-//            return list_PhongByLoai;
-//
-//        }
-//
-//        if (KhoangDonGia == 3) {
-//            for (Phong phong : list_PhongTrong) {
-//                LoaiPhong loaiPhong = loaiPhong_dao.getLoaiPhongByMa(phong.getLoaiPhong());
-//                if (loaiPhong.getDonGia() >= 2000000 && loaiPhong.getDonGia() <= 5000000) {
-//                    list_PhongByLoai.add(phong);
-//                }
-//
-//            }
-//            return list_PhongByLoai;
-//
-//        }
-//
-//        return list_PhongByLoai;
-//    }
     public boolean validateInput(String cccd, String hoTen, String soDienThoai, String email) {
 
         if (cccd == null || cccd.isEmpty()) {
@@ -534,15 +438,24 @@ public class LeTan_DatPhong_NguoiDaiDien_GUI extends javax.swing.JDialog {
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
         if (validateInput(txt_CCCD.getText(), txt_HoTen.getText(), txt_SDT.getText(), txt_Email.getText())) {
+            //        Kiểm tra khách hàng cũ hay mới
+
             KhachHang kh = new KhachHang(
                     list_KhachHang.getLast().getMaKhachHang() + 1,
                     txt_HoTen.getText(),
                     txt_SDT.getText(),
                     txt_CCCD.getText(),
                     cb_QuocTich.getSelectedItem().toString(),
-                    cb_QuocTich.getSelectedItem().toString(),
+                    cb_GioiTinh.getSelectedItem().toString(),
                     txt_Email.getText());
-             LeTan_DatPhong_GUI.nguoiDaiDien = kh;
+
+            if (khachHang_dao.getKhachHangByCCCD(kh.getCCCD()) != null) {
+                kh.setMaKhachHang(khachHang_dao.getKhachHangByCCCD(kh.getCCCD()).getMaKhachHang());
+                khachHang_dao.updateKhachHang(kh.getMaKhachHang(), kh);
+            }else{
+                khachHang_dao.createKhachHang(kh);
+            }
+            LeTan_DatPhong_GUI.nguoiDaiDien = kh;
             LeTan_DatPhong_GUI.txt_TenNguoiDaiDien.setText(kh.getTenKhachHang());
             setVisible(false);
         }

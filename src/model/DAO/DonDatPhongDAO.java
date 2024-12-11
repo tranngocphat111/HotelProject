@@ -53,6 +53,20 @@ public class DonDatPhongDAO {
         return donDatPhongs;
     }
 
+    public DonDatPhong getLastDonDatPhong() {
+        try (MongoCursor<Document> cursor = donDatPhongCollection
+                .find()
+                .sort(new Document("_id", -1)) // Sắp xếp giảm dần theo _id
+                .limit(1) // Giới hạn kết quả chỉ 1 bản ghi
+                .iterator()) {
+            if (cursor.hasNext()) {
+                Document doc = cursor.next();
+                return DonDatPhong.fromDocument(doc); // Chuyển đổi Document thành đối tượng DonDatPhong
+            }
+        }
+        return null; // Trả về null nếu không có bản ghi nào
+    }
+
     public List<DonDatPhong> getDonDatPhongTheoTrangThaiOVaCho() {
         List<DonDatPhong> donDatPhongs = new ArrayList<>();
         // Danh sách trạng thái cần tìm
@@ -148,7 +162,15 @@ public class DonDatPhongDAO {
                     .append("maDonDat", donDatPhong.getMaDonDat())
                     .append("ngayTaoDon", donDatPhong.getNgayTaoDon())
                     .append("trangThai", donDatPhong.getTrangThai())
-                    .append("nguoiDat", donDatPhong.getNguoiDat())
+                    .append("nguoiDat", new Document()
+                            .append("maKhachHang", donDatPhong.getNguoiDat().getMaKhachHang())
+                            .append("HoTen", donDatPhong.getNguoiDat().getTenKhachHang())
+                            .append("SDT", donDatPhong.getNguoiDat().getSoDienThoai())
+                            .append("CCCD", donDatPhong.getNguoiDat().getCCCD())
+                            .append("GioiTinh", donDatPhong.getNguoiDat().getGioiTinh())
+                            .append("Email", donDatPhong.getNguoiDat().getEmail())
+                            .append("QuocTich", donDatPhong.getNguoiDat().getQuocTich())
+                    )
                     .append("nguoiO", list_KhachHang)
                     .append("phong", list_phong
                     );
@@ -240,6 +262,20 @@ public class DonDatPhongDAO {
             UpdateResult result = donDatPhongCollection.updateOne(
                     eq("maDonDat", maDonDat),
                     set("trangThai", "Đã hủy")
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean updateNgayTaoDon(int maDonDat, Date ngayTao) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("ngayTaoDon", ngayTao)
             );
 
             return result.getModifiedCount() > 0;

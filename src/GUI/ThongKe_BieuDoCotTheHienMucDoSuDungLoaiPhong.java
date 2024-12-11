@@ -47,7 +47,7 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
 
         // Tạo ChartPanel chứa biểu đồ
         ChartPanel chartPanel = new ChartPanel(barChart);
-        chartPanel.setPreferredSize(new Dimension(710, 400));
+        chartPanel.setPreferredSize(new Dimension(1200, 440));
         setLayout(new BorderLayout());
         add(chartPanel, BorderLayout.CENTER);
     }

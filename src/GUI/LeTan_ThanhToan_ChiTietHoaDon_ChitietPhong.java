@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
@@ -31,6 +32,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
           throw new IllegalArgumentException("PhongEmbed không được null");
         }
         initComponents();
+        chi_tiet_dich_vu.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(255,209,84)));
         chi_tiet_dich_vu.setVisible(false);
         chi_tiet_phong.setVisible(false);
         main.setSize(main.getWidth()+ 500,(main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
@@ -72,12 +74,13 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         jPanel3 = new javax.swing.JPanel();
         ma_phong = new javax.swing.JLabel();
         xem_chi_tiet_btn = new java.awt.Button();
-        chi_tiet_dich_vu = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        dv_list = new javax.swing.JPanel();
         chi_tiet_phong = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         phong_list = new javax.swing.JPanel();
+        chi_tiet_dich_vu = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        dv_list = new javax.swing.JPanel();
+        line = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 209, 84));
         addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -92,7 +95,6 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
 
         main.setBackground(new java.awt.Color(0, 0, 0));
         main.setName(""); // NOI18N
-        main.setPreferredSize(new java.awt.Dimension(782, 322));
 
         phong_header.setBackground(new java.awt.Color(255, 209, 84));
         phong_header.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -172,51 +174,12 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        chi_tiet_dich_vu.setBackground(new java.awt.Color(255, 209, 84));
-        chi_tiet_dich_vu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setText("Dịch Vụ");
-
-        dv_list.setBackground(new java.awt.Color(0, 0, 0));
-
-        javax.swing.GroupLayout dv_listLayout = new javax.swing.GroupLayout(dv_list);
-        dv_list.setLayout(dv_listLayout);
-        dv_listLayout.setHorizontalGroup(
-            dv_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        dv_listLayout.setVerticalGroup(
-            dv_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 79, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout chi_tiet_dich_vuLayout = new javax.swing.GroupLayout(chi_tiet_dich_vu);
-        chi_tiet_dich_vu.setLayout(chi_tiet_dich_vuLayout);
-        chi_tiet_dich_vuLayout.setHorizontalGroup(
-            chi_tiet_dich_vuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chi_tiet_dich_vuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(713, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_dich_vuLayout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        chi_tiet_dich_vuLayout.setVerticalGroup(
-            chi_tiet_dich_vuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chi_tiet_dich_vuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(1, 1, 1)
-                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        chi_tiet_phong.setBackground(new java.awt.Color(255, 209, 84));
+        chi_tiet_phong.setBackground(new java.awt.Color(0, 0, 0));
         chi_tiet_phong.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setBackground(new java.awt.Color(255, 209, 84));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 209, 84));
         jLabel2.setText("Tiền phòng");
 
         phong_list.setBackground(new java.awt.Color(0, 0, 0));
@@ -239,7 +202,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
             .addGroup(chi_tiet_phongLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(686, Short.MAX_VALUE))
+                .addContainerGap(684, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_phongLayout.createSequentialGroup()
                 .addGap(96, 96, 96)
                 .addComponent(phong_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -253,13 +216,75 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
                 .addComponent(phong_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        chi_tiet_dich_vu.setBackground(new java.awt.Color(0, 0, 0));
+        chi_tiet_dich_vu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel1.setText("Dịch Vụ");
+
+        dv_list.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout dv_listLayout = new javax.swing.GroupLayout(dv_list);
+        dv_list.setLayout(dv_listLayout);
+        dv_listLayout.setHorizontalGroup(
+            dv_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 678, Short.MAX_VALUE)
+        );
+        dv_listLayout.setVerticalGroup(
+            dv_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 90, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout chi_tiet_dich_vuLayout = new javax.swing.GroupLayout(chi_tiet_dich_vu);
+        chi_tiet_dich_vu.setLayout(chi_tiet_dich_vuLayout);
+        chi_tiet_dich_vuLayout.setHorizontalGroup(
+            chi_tiet_dich_vuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chi_tiet_dich_vuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_dich_vuLayout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        chi_tiet_dich_vuLayout.setVerticalGroup(
+            chi_tiet_dich_vuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chi_tiet_dich_vuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(1, 1, 1)
+                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        line.setBackground(new java.awt.Color(255, 209, 84));
+        line.setPreferredSize(new java.awt.Dimension(782, 2));
+
+        javax.swing.GroupLayout lineLayout = new javax.swing.GroupLayout(line);
+        line.setLayout(lineLayout);
+        lineLayout.setHorizontalGroup(
+            lineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 782, Short.MAX_VALUE)
+        );
+        lineLayout.setVerticalGroup(
+            lineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout mainLayout = new javax.swing.GroupLayout(main);
         main.setLayout(mainLayout);
         mainLayout.setHorizontalGroup(
             mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(chi_tiet_phong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(phong_header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(mainLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(mainLayout.createSequentialGroup()
+                .addGroup(mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chi_tiet_phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         mainLayout.setVerticalGroup(
             mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,9 +292,11 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
                 .addComponent(phong_header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(chi_tiet_phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(chi_tiet_dich_vu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -282,7 +309,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, 307, Short.MAX_VALUE)
+            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -355,6 +382,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel line;
     private javax.swing.JLabel ma_phong;
     private javax.swing.JPanel main;
     private javax.swing.JPanel phong_header;

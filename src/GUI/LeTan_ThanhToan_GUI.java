@@ -5,8 +5,6 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
-import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTable;
-import static GUI.LeTan_DonDatPhong_GUI.donDatPhong_dao;
 import com.toedter.calendar.JDateChooser;
  
 import java.awt.Dimension;
@@ -68,6 +66,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     private List<HoaDon> list_HoaDonTheoTieuChi = new ArrayList<>();
     private List<KhachHang> list_khachHang = new ArrayList<>();
     private KhachHangDAO khacHang_dao = new KhachHangDAO(database);
+    DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
 
     /**
      * Creates new form LeTan_DatPhong_GUI

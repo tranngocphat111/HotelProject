@@ -5,7 +5,6 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
-import static GUI.LeTan_DonDatPhong_GUI.donDatPhong_dao;
 import GUI.LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong;
 import java.awt.Component;
 import java.text.DecimalFormat;
@@ -31,14 +30,13 @@ import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.PhongEmbed;
 
-
-
 /**
  *
  * @author Admin
  */
 public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
- private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
+
+    private ArrayList<KGradientPanel> list_btn = new ArrayList<>();
     public static DefaultTableModel model;
     public static DefaultTableModel model_DonDatPhong;
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -57,64 +55,67 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
     private List<KhachHang> list_khachHang = new ArrayList<>();
     private KhachHangDAO khacHang_dao = new KhachHangDAO(database);
     private HoaDon hoadon = null;
+    DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
+
     /**
      * Creates new form LeTan_
+     *
      * @param hoadon
      */
     public LeTan_ThanhToan_ChiTietHoaDon_GUI1(HoaDon hoadon) {
-       setUndecorated(true);
+        setUndecorated(true);
         initComponents();
         phong_holder.setVerticalScrollBar(new ScrollBarCustom());
         phong_holder.getVerticalScrollBar().setUnitIncrement(80);
-       this.hoadon = hoadon;
-        DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoadon.getDonDatPhongs());     
+        this.hoadon = hoadon;
+        DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoadon.getDonDatPhongs());
         phong_list.setLayout(new BoxLayout(phong_list, BoxLayout.Y_AXIS));
         int tongtien = 0;
         // thêm phòng vào danh sách phong
-        for(PhongEmbed p : ddp.getPhongs()){
-         LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong chitietphong = new LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(p);
-           chitietphong.setVisible(true);  
-           phong_list.add(chitietphong);  
+        for (PhongEmbed p : ddp.getPhongs()) {
+            LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong chitietphong = new LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(p);
+            chitietphong.setVisible(true);
+            phong_list.add(chitietphong);
         }
-      
+
         // thêm mục đã thanh toán vào danh sách thanh toán
-       paycheck_list.setLayout(new BoxLayout(paycheck_list, BoxLayout.Y_AXIS));
-      
-         for(PhongEmbed p : ddp.getPhongs()){
-             if(p.getTienDaThanhToan() >0) {
-                   ChiTietHoaDon_DanhSachThanhToan ds1 = new ChiTietHoaDon_DanhSachThanhToan(p);
-                    ds1.setVisible(true);
-                    paycheck_list.add(ds1);
-             }
+        paycheck_list.setLayout(new BoxLayout(paycheck_list, BoxLayout.Y_AXIS));
+
+        for (PhongEmbed p : ddp.getPhongs()) {
+            if (p.getTienDaThanhToan() > 0) {
+                ChiTietHoaDon_DanhSachThanhToan ds1 = new ChiTietHoaDon_DanhSachThanhToan(p);
+                ds1.setVisible(true);
+                paycheck_list.add(ds1);
+            }
         }
-         
-         // tinh tổng tiền đã trả
-         var tong_tien_da_tra = 0;
-         for(PhongEmbed p : ddp.getPhongs()){
-             if(p.getTienDaThanhToan() >0) {
-                 tong_tien_da_tra+= p.getTienDaThanhToan();
-             }
-             tongtien += p.getDonGia();
-             
-             if(p.getDichVuSuDung().size() > 0) {
-                for(DichVuSuDungEmbed dv: p.getDichVuSuDung()) {
-                    if(dv != null) {
+
+        // tinh tổng tiền đã trả
+        var tong_tien_da_tra = 0;
+        for (PhongEmbed p : ddp.getPhongs()) {
+            if (p.getTienDaThanhToan() > 0) {
+                tong_tien_da_tra += p.getTienDaThanhToan();
+            }
+            tongtien += p.getDonGia();
+
+            if (p.getDichVuSuDung().size() > 0) {
+                for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
+                    if (dv != null) {
                         tongtien += dv.getDonGia();
                     }
-                } 
-             }
+                }
+            }
         }
-         
-         
-         int tienconlai =  - tongtien + tong_tien_da_tra;
-         if(tienconlai < 0) {
-             tienconlai =0;
-         }
+
+        int tienconlai = -tongtien + tong_tien_da_tra;
+        if (tienconlai < 0) {
+            tienconlai = 0;
+        }
         tien_can_thanh_toan.setText(df.format(tongtien) + " VNĐ");
-        tien_da_thanh_toan.setText(df.format(tong_tien_da_tra) + " VNĐ"  );
+        tien_da_thanh_toan.setText(df.format(tong_tien_da_tra) + " VNĐ");
         tien_conlai.setText(df.format(tienconlai) + " VNĐ");
         setLocationRelativeTo(null);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,6 +130,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         phong_group = new javax.swing.JPanel();
         phong_holder = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         phong_list = new javax.swing.JPanel();
         payment = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -161,20 +163,41 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
 
         phong_holder.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
         phong_list.setBackground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout phong_listLayout = new javax.swing.GroupLayout(phong_list);
         phong_list.setLayout(phong_listLayout);
         phong_listLayout.setHorizontalGroup(
             phong_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 823, Short.MAX_VALUE)
+            .addGap(0, 802, Short.MAX_VALUE)
         );
         phong_listLayout.setVerticalGroup(
             phong_listLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
+            .addGap(0, 178, Short.MAX_VALUE)
         );
 
-        phong_holder.setViewportView(phong_list);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 823, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(phong_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 21, Short.MAX_VALUE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 484, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(phong_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 306, Short.MAX_VALUE)))
+        );
+
+        phong_holder.setViewportView(jPanel2);
 
         payment.setBackground(new java.awt.Color(255, 209, 84));
 
@@ -245,7 +268,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
                 .addGroup(phong_groupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(payment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(phong_holder, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                .addGap(0, 0, 0))
         );
         phong_groupLayout.setVerticalGroup(
             phong_groupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,16 +367,16 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
         paycheck_holderLayout.setHorizontalGroup(
             paycheck_holderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paycheck_holderLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(2, 2, 2)
                 .addComponent(paycheck_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(2, 2, 2))
         );
         paycheck_holderLayout.setVerticalGroup(
             paycheck_holderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paycheck_holderLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(2, 2, 2)
                 .addComponent(paycheck_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(2, 2, 2))
         );
 
         javax.swing.GroupLayout paycheck_groupLayout = new javax.swing.GroupLayout(paycheck_group);
@@ -409,7 +432,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1292, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -722,6 +745,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel paycheck_group;
     private javax.swing.JPanel paycheck_holder;
     private javax.swing.JPanel paycheck_list;

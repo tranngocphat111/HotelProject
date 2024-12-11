@@ -82,7 +82,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     public static KhachHang nguoiDaiDien;
     public static List<Integer> list_IndexPhongDuocChonDuocSelected = new ArrayList<>();
     public static DonDatPhongDAO DonDatPhong_Dao = new DonDatPhongDAO(database);
-    KhachHangDAO khachHang_Dao  = new KhachHangDAO(database);
+    KhachHangDAO khachHang_Dao = new KhachHangDAO(database);
 
 //  Tạo biến cho bộ lọc 
     public static String boloc_loaiPhong;
@@ -1046,7 +1046,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             clickMap_Phong.put(phong.getMaPhong() + "", false);
 
         }
-
+        EventCloseRoom();
         EventChooseRoomSelected();
     }
 
@@ -1122,7 +1122,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         });
     }
 
-    public void EventCloseRoom() {
+    public static void EventCloseRoom() {
         list_Close.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
                 @Override
@@ -1138,7 +1138,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                     list_PhongDuocChon.remove(Integer.parseInt(element.getName()));
 
                     LoadPhongDuocChon();
-                    EventCloseRoom();
 
                     list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
                     LoadPhong(list_PhongSauKhiLocHoacChon);
@@ -1312,7 +1311,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 if (p.getMaPhong() == pDuocChon.getMaPhong()
                         && pDuocChon.getNgayNhanPhongDuKien().equals(txt_NgayNhanPhong.getDate())
                         && pDuocChon.getNgayTraPhongDuKien().equals(txt_NgayTraPhong.getDate())) {
-
                     ktra = false;
                     break;
                 }
@@ -1322,7 +1320,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
                 list_Phong_Loc.add(p);
             }
         }
-
         return list_Phong_Loc;
     }
 
@@ -2129,7 +2126,6 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
         LoadPhong(list_PhongSauKhiLocHoacChon);
         list_PhongDuocChonTheo1thoiGian.clear();
-        EventCloseRoom();
 
 
     }//GEN-LAST:event_btn_ThemPhongMousePressed
@@ -2137,8 +2133,18 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
         // TODO add your handling code here:
+        boloc_loaiPhong = "Tất cả";
+        boloc_loaiGiuong = "Tất cả";
+        boloc_SokhachtoiDa = "Tất cả";
+        boloc_DonGia = 0;
+        boloc_Mota = "Tất cả";
+        
         txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
         txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60 * 60 * 24 * 1000)));
+        
+        list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
+        LoadPhong(list_PhongSauKhiLocHoacChon);
+
 
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
@@ -2197,18 +2203,16 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if(nguoiDaiDien == null){
+        if (nguoiDaiDien == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập người đại diện");
             return;
         }
-        System.out.println(nguoiDaiDien);
         if (JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đặt?", "Thông báo", JOptionPane.YES_NO_OPTION)
                 == JOptionPane.NO_OPTION) {
             return;
         }
 //      Tạo đơn đặt phòng
 
-        
         DonDatPhong ddp = new DonDatPhong();
         ddp.setMaDonDat(DonDatPhong_Dao.getLastDonDatPhong().getMaDonDat() + 1);
         ddp.setNgayTaoDon(setThoiGian0(new Date()));

@@ -53,7 +53,7 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
 
         // Tạo ChartPanel chứa biểu đồ
         ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setPreferredSize(new Dimension(710, 400));
+        chartPanel.setPreferredSize(new Dimension(1240, 460));
         setLayout(new BorderLayout());
         add(chartPanel, BorderLayout.CENTER);
     }
@@ -88,24 +88,31 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
     public static void main(String[] args) {
         // Tạo JFrame để hiển thị biểu đồ
         JFrame frame = new JFrame("Biểu đồ tròn thể hiện doanh thu");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Tạo format yyyy-MM-dd-HH
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH");
 
         Date ngayBatDau = null;
-        try {
-            ngayBatDau = sdf.parse("2024-01-01");
-        } catch (ParseException ex) {
-            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
-        }
         Date ngayKetThuc = null;
+
         try {
-            ngayKetThuc = sdf.parse("2024-01-05");
+            ngayBatDau = sdf.parse("2024-01-01-00");  // Bắt đầu từ 00 giờ
+            ngayKetThuc = sdf.parse("2024-01-05-23"); // Kết thúc lúc 23 giờ
         } catch (ParseException ex) {
             Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        // Kết nối MongoDB và vẽ biểu đồ
         MongoDBConnection.connection();
         DonDatPhongDAO ddp = new DonDatPhongDAO(MongoDBConnection.getDatabase());
-        ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong pieChartPanel = new ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(ddp.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc);
 
+        // Khởi tạo biểu đồ
+        ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong pieChartPanel =
+                new ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(
+                        ddp.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc
+                );
+
+        // Hiển thị biểu đồ
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(pieChartPanel);
         frame.pack();
@@ -136,6 +143,7 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         phong.setNgayNhanPhong(ngayBatDauSuDung);
         phong.setNgayTraPhong(ngayKetThucSuDung);
         doanhThu = phong.getTienPhong();
+        System.out.println(String.format("%s %s %s %s",phong.getMaPhong(), phong.getNgayNhanPhong(), phong.getNgayTraPhong(), doanhThu));
         return doanhThu;
     }
 }

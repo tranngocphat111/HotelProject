@@ -127,6 +127,11 @@ public class DichVu {
         return dichVu;
     }
 
+    @Override
+    public String toString() {
+        return "DichVu{" + "maDV=" + maDV + ", tenDV=" + tenDV + ", moTa=" + moTa + ", donGia=" + donGia + '}';
+    }
 
+    
 
 }

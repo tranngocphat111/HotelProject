@@ -61,19 +61,7 @@ public class DichVuDAO {
         }
     }
 
-    public DichVuSuDungEmbed getDichVuEmbedByMa(int maDichVu) {
-        DichVuSuDungEmbed dichvu = null;
-        Document query = new Document("maDV", maDichVu);
-        try {
-            Document doc = dichVuCollection.find(query).first();
-            if (doc != null) {
-                dichvu = DichVuSuDungEmbed.fromDocument(doc);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Bắt lỗi nếu có
-        }
-        return dichvu;
-    }
+
 
     public DichVu timDichVu(String tenDV) {
         DichVu x = new DichVu(tenDV);
@@ -138,6 +126,20 @@ public class DichVuDAO {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());
             return false;
         }
+    }
+    
+    public DichVu getDichVuByMa(int maDichVu) {
+        DichVu dichvu = null;
+        Document query = new Document("maDV", maDichVu);
+        try {
+            Document doc = dichVuCollection.find(query).first();
+            if (doc != null) {
+                dichvu = DichVu.fromDocument(doc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return dichvu;
     }
 
 }

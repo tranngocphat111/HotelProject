@@ -5,6 +5,7 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DatPhong_GUI.nguoiDaiDien;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -534,15 +535,24 @@ public class LeTan_DatPhong_NguoiDaiDien_GUI extends javax.swing.JDialog {
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
         if (validateInput(txt_CCCD.getText(), txt_HoTen.getText(), txt_SDT.getText(), txt_Email.getText())) {
+            //        Kiểm tra khách hàng cũ hay mới
+
             KhachHang kh = new KhachHang(
                     list_KhachHang.getLast().getMaKhachHang() + 1,
                     txt_HoTen.getText(),
                     txt_SDT.getText(),
                     txt_CCCD.getText(),
                     cb_QuocTich.getSelectedItem().toString(),
-                    cb_QuocTich.getSelectedItem().toString(),
+                    cb_GioiTinh.getSelectedItem().toString(),
                     txt_Email.getText());
-             LeTan_DatPhong_GUI.nguoiDaiDien = kh;
+
+            if (khachHang_dao.getKhachHangByCCCD(kh.getCCCD()) != null) {
+                kh.setMaKhachHang(khachHang_dao.getKhachHangByCCCD(kh.getCCCD()).getMaKhachHang());
+                khachHang_dao.updateKhachHang(kh.getMaKhachHang(), kh);
+            }else{
+                khachHang_dao.createKhachHang(kh);
+            }
+            LeTan_DatPhong_GUI.nguoiDaiDien = kh;
             LeTan_DatPhong_GUI.txt_TenNguoiDaiDien.setText(kh.getTenKhachHang());
             setVisible(false);
         }

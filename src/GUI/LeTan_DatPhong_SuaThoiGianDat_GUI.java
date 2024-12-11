@@ -19,6 +19,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
 import model.DTO.LoaiPhong;
+import model.DTO.Phong;
+import model.DTO.PhongEmbed;
 
 
 /**
@@ -306,9 +308,36 @@ public class LeTan_DatPhong_SuaThoiGianDat_GUI extends javax.swing.JDialog {
         }
         
     }
+    
+    public boolean ktraThayDoiHopLe(PhongEmbed phong){
+        List<Phong> list_PhongTrong = phong_dao.getAllPhongTrongTheoNgay(setThoiGian0(txt_NgayNhanPhong.getDate()), setThoiGian0(txt_NgayTraPhong.getDate()));
+        for(Phong p : list_PhongTrong){
+            if(p.getMaPhong() == phong.getMaPhong()){
+                return true;
+            }
+        }
+        
+        return false;
+    }    
+    
+    public boolean ktraPhongMuonThayDoi(){
+        for(Integer index : list_IndexPhongDuocChonDuocSelected){
+            if(!ktraThayDoiHopLe(LeTan_DatPhong_GUI.list_PhongDuocChon.get(index))){
+                JOptionPane.showMessageDialog(this, "Phòng " + LeTan_DatPhong_GUI.list_PhongDuocChon.get(index).getMaPhong() + " đã có lịch hẹn");
+                return false;
+            }
+        }
+       
+        
+        return true;
+        
+    }
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
-
+        
+        if(!ktraPhongMuonThayDoi()){
+            return;
+        }
         updateAllPhongDuocChon(list_IndexPhongDuocChonDuocSelected);
         
         LeTan_DatPhong_GUI.LoadPhongDuocChon();

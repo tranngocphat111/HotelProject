@@ -22,9 +22,9 @@ import model.DAO.DonDatPhongDAO;
 import model.MongoDBConnection;
 import org.bson.Document;
 
-public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
+public class ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong extends JPanel {
 
-    public ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ArrayList<Document> list) {
+    public ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong(ArrayList<Document> list) {
         // Tạo dataset từ danh sách Document
         Map<String, Integer> bookingCount = docToMap(list);
         CategoryDataset dataset = createDataset(bookingCount);
@@ -78,8 +78,8 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
 
             SwingUtilities.invokeLater(() -> {
                 JFrame frame = new JFrame("Biểu đồ loại phòng");
-                ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong panel =
-                        new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
+                ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong panel =
+                        new ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(panel);
@@ -88,7 +88,7 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
                 frame.setVisible(true);
             });
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

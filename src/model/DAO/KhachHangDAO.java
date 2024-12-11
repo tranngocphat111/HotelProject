@@ -50,45 +50,12 @@ public class KhachHangDAO {
         return khachHang;
     }
 
-    public KhachHang getKhachHangByCCCD(String CCCD) {
-        KhachHang khachHang = null;
-        Document query = new Document("CCCD", CCCD);
-        try {
-            Document doc = khachHangCollection.find(query).first();
-            if (doc != null) {
-                khachHang = KhachHang.fromDocument(doc);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Bắt lỗi nếu có
-        }
-        return khachHang;
-    }
-
-    public boolean createKhachHang(KhachHang khachHang) {
-        try {
-            Document doc = new Document()
-                    .append("maKhachHang", khachHang.getMaKhachHang())
-                    .append("HoTen", khachHang.getTenKhachHang())
-                    .append("SDT", khachHang.getSoDienThoai())
-                    .append("CCCD", khachHang.getCCCD())
-                    .append("GioiTinh", khachHang.getGioiTinh())
-                    .append("Email", khachHang.getEmail())
-                    .append("QuocTich", khachHang.getQuocTich());
-
-            InsertOneResult result = khachHangCollection.insertOne(doc);
-            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
-        } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
-            return false; // Trả về false nếu có lỗi
-        }
-    }
-
     public boolean updateKhachHang(int maKH, KhachHang khachHang) {
         try {
             Document id = new Document("maKhachHang", maKH);
             Document update = new Document("$set",
                     new Document(
-                            "HoTen", khachHang.getTenKhachHang())
+                            "Hoten", khachHang.getTenKhachHang())
                             .append("SDT", khachHang.getSoDienThoai())
                             .append("CCCD", khachHang.getCCCD())
                             .append("GioiTinh", khachHang.getGioiTinh())
@@ -161,4 +128,36 @@ public class KhachHangDAO {
             return khachHangCollection.find(query).into(new ArrayList<>());
         }
     }
+  public KhachHang getKhachHangByCCCD(String CCCD) {
+        KhachHang khachHang = null;
+        Document query = new Document("CCCD", CCCD);
+        try {
+            Document doc = khachHangCollection.find(query).first();
+            if (doc != null) {
+                khachHang = KhachHang.fromDocument(doc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return khachHang;
+    }
+  public boolean createKhachHang(KhachHang khachHang) {
+        try {
+            Document doc = new Document()
+                    .append("maKhachHang", khachHang.getMaKhachHang())
+                    .append("Hoten", khachHang.getTenKhachHang())
+                    .append("SDT", khachHang.getSoDienThoai())
+                    .append("CCCD", khachHang.getCCCD())
+                    .append("GioiTinh", khachHang.getGioiTinh())
+                    .append("Email", khachHang.getEmail())
+                    .append("QuocTich", khachHang.getQuocTich());
+
+            InsertOneResult result = khachHangCollection.insertOne(doc);
+            return result.wasAcknowledged(); // Kiểm tra xem insert có được xác nhận không
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo khách hàng: " + e.getMessage());
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+  
 }

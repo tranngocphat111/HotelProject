@@ -74,7 +74,6 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         cb_TheoThang = new javax.swing.JComboBox<>();
         panel_ThongKeDoanhThu = new javax.swing.JPanel();
         ScrollChart = new javax.swing.JScrollPane();
-        panel_ThongKeDichVu = new javax.swing.JPanel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DoanhThu"); // NOI18N
@@ -88,10 +87,10 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         ThongTinDat.setOpaque(false);
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Ngày đến");
+        jLabel1.setText("Từ ngày");
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Ngày đi");
+        jLabel3.setText("Đến ngày");
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_MuiTen.png"))); // NOI18N
         jLabel21.setText("jLabel21");
@@ -110,8 +109,8 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(ThongTinDatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_DenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_DenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(114, 114, 114))
         );
         ThongTinDatLayout.setVerticalGroup(
@@ -130,7 +129,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinDat);
-        ThongTinDat.setBounds(80, 90, 580, 100);
+        ThongTinDat.setBounds(20, 60, 520, 100);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -139,7 +138,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel14.setName(""); // NOI18N
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(80, 50, 250, 32);
+        jLabel14.setBounds(20, 20, 250, 32);
 
         btn_ThongKe.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThongKe.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -180,7 +179,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_ThongKe);
-        btn_ThongKe.setBounds(840, 280, 140, 40);
+        btn_ThongKe.setBounds(570, 90, 140, 40);
 
         ThongTinDat1.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinDat1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));
@@ -190,6 +189,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         jLabel2.setText("Theo Quý");
 
         cb_TheoQuy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        cb_TheoQuy.setSelectedItem(null);
 
         cb_TheoNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "2021", "2022", "2023", "2024" }));
 
@@ -241,35 +241,21 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinDat1);
-        ThongTinDat1.setBounds(80, 220, 700, 100);
+        ThongTinDat1.setBounds(20, 190, 700, 100);
 
         javax.swing.GroupLayout panel_ThongKeDoanhThuLayout = new javax.swing.GroupLayout(panel_ThongKeDoanhThu);
         panel_ThongKeDoanhThu.setLayout(panel_ThongKeDoanhThuLayout);
         panel_ThongKeDoanhThuLayout.setHorizontalGroup(
             panel_ThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ScrollChart, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
+            .addComponent(ScrollChart, javax.swing.GroupLayout.DEFAULT_SIZE, 1240, Short.MAX_VALUE)
         );
         panel_ThongKeDoanhThuLayout.setVerticalGroup(
             panel_ThongKeDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ScrollChart, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+            .addComponent(ScrollChart, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
         );
 
         jPanel1.add(panel_ThongKeDoanhThu);
-        panel_ThongKeDoanhThu.setBounds(80, 360, 710, 420);
-
-        javax.swing.GroupLayout panel_ThongKeDichVuLayout = new javax.swing.GroupLayout(panel_ThongKeDichVu);
-        panel_ThongKeDichVu.setLayout(panel_ThongKeDichVuLayout);
-        panel_ThongKeDichVuLayout.setHorizontalGroup(
-            panel_ThongKeDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
-        );
-        panel_ThongKeDichVuLayout.setVerticalGroup(
-            panel_ThongKeDichVuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(panel_ThongKeDichVu);
-        panel_ThongKeDichVu.setBounds(810, 360, 410, 420);
+        panel_ThongKeDoanhThu.setBounds(20, 320, 1240, 460);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
@@ -328,15 +314,17 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         }
 
         if (ngayBatDau == null && ngayKetThuc == null) {
-
             return;
         }
-        ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong barChart = new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDonDatPhongTheoNgay(ngayBatDau, ngayKetThuc));
-        ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong pieChart = new ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
-//        barChart.setPreferredSize(new Dimension(680, 400));
+        ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong barChart = new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
+        ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong pieChart = new ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(
+                        ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc
+                );
+        barChart.setPreferredSize(new Dimension(1200, 455));
+        pieChart.setPreferredSize(new Dimension(1200, 455));
+        chartPanel.removeAll();
         addChartToScrollPane(barChart);
-        addChartToScrollPane(pieChart);
-        
+        addChartToScrollPane(pieChart);  
     }//GEN-LAST:event_btnThongKeMouseClicked
 
 
@@ -358,7 +346,6 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel panel_ThongKeDichVu;
     private javax.swing.JPanel panel_ThongKeDoanhThu;
     private com.toedter.calendar.JDateChooser txt_DenNgay;
     private com.toedter.calendar.JDateChooser txt_TuNgay;

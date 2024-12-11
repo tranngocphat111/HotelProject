@@ -4,14 +4,41 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import model.DAO.DonDatPhongDAO;
+import model.DAO.LoaiPhongDAO;
+import model.DTO.DichVuSuDung;
+import model.DTO.DichVuSuDungEmbed;
+import model.DTO.DonDatPhong;
+import model.DTO.LoaiPhong;
+import model.DTO.Phong;
+import model.DTO.PhongEmbed;
 
 /**
  *
  * @author Admin
  */
 public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
+
+    private final DefaultTableCellRenderer centerRenderer;
+    private DefaultTableModel model;
+    private List<DonDatPhong> list_DonDatPhong= new ArrayList<>();
+    private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
 
     /**
      * Creates new form LeTan_DatPhong_GUI
@@ -20,6 +47,27 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         initComponents();
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
+        Table_DonDatPhong.setSelectionBackground(new Color(255, 222, 89));
+        Table_DonDatPhong.setSelectionForeground(new Color(0, 0, 0));
+        Table_DonDatPhong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
+        model = (DefaultTableModel) Table_DonDatPhong.getModel();
+        DocDuLieuLenTableDonDatPhong(list_DonDatPhong);
+
+//      Set font cho header_phong
+        JTableHeader header_phong = Table_DonDatPhong.getTableHeader();
+        header_phong.setPreferredSize(new Dimension(header_phong.getPreferredSize().width, 30));
+        header_phong.setFont(new Font("Arial", Font.BOLD, 15));
+
+//      Căn giữa cho header table phòng
+        DefaultTableCellRenderer renderer_phong = (DefaultTableCellRenderer) header_phong.getDefaultRenderer();
+        renderer_phong.setHorizontalAlignment(JLabel.CENTER);
+
+//      Thiết lập renderer cho header phòng
+        header_phong.setDefaultRenderer(renderer_phong);
         ui.setNorthPane(null);
     }
 
@@ -363,24 +411,25 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         Table_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_DonDatPhong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Đơn", "Trạng Thái", "Ngày Tạo Đơn", "Ngày Đặt", "Số Lượng Phòng", "Số Lượng Khách", "Dịch Vụ Sử Dụng"
+                "Mã Đơn", "Trạng Thái", "Ngày Tạo Đơn", "Người Đặt", "CCCD Người Đặt", "Số Lượng Phòng", "Số Lượng Khách", "Dịch Vụ Sử Dụng"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        Table_DonDatPhong.setFocusable(false);
         Table_DonDatPhong.setRowHeight(30);
         Table_DonDatPhong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -388,6 +437,9 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(Table_DonDatPhong);
+        if (Table_DonDatPhong.getColumnModel().getColumnCount() > 0) {
+            Table_DonDatPhong.getColumnModel().getColumn(0).setPreferredWidth(20);
+        }
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(20, 290, 1210, 460);
@@ -477,6 +529,66 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    public void DocDuLieuLenTableDonDatPhong(List<DonDatPhong> list_dondatphong) {
+    model.setRowCount(0);
+
+    if (list_dondatphong == null || list_dondatphong.isEmpty()) {
+        return;
+    }
+
+    for (DonDatPhong ddp : list_dondatphong) {
+        // Lấy thông tin chính từ đối tượng DonDatPhong
+        String maDonDat = String.valueOf(ddp.getMaDonDat());
+        String trangThai = ddp.getTrangThai();
+        String ngayTaoDon = sdf.format(ddp.getNgayTaoDon() != null ? ddp.getNgayTaoDon() : "");
+
+        // Lấy thông tin người đặt
+        String nguoiDat = ddp.getNguoiDat().getTenKhachHang();
+        String cccdNguoiDat = ddp.getNguoiDat().getCCCD();
+
+        // Tính số lượng phòng
+        int soLuongPhong = ddp.getPhongs().size();
+
+        // Tính số lượng khách
+        int soLuongKhach = ddp.getKhachO().size();
+
+        // Tổng hợp dịch vụ sử dụng
+        StringBuilder dichVuSuDung = new StringBuilder();
+        for (PhongEmbed phongeb : ddp.getPhongs()) {
+            if (phongeb.getDichVuSuDung() != null) {
+                for (DichVuSuDungEmbed dv : phongeb.getDichVuSuDung()) {
+                    dichVuSuDung.append(dv.getTenDV())
+                                .append(" (x")
+                                .append(dv.getSoLuong())
+                                .append(")");
+                    dichVuSuDung.append(", ");
+                }
+            }
+        }
+
+        // Xóa dấu phẩy cuối cùng nếu có
+        if (dichVuSuDung.length() > 0) {
+            dichVuSuDung.setLength(dichVuSuDung.length() - 2);
+        }
+
+        // Thêm dữ liệu vào bảng
+        model.addRow(new Object[]{
+            maDonDat,
+            trangThai,
+            ngayTaoDon,
+            nguoiDat,
+            cccdNguoiDat,
+            soLuongPhong,
+            soLuongKhach,
+            dichVuSuDung.toString()
+        });
+    }
+
+    // Định dạng cột trong bảng (nếu cần)
+    for (int i = 0; i < Table_DonDatPhong.getColumnCount(); i++) {
+        Table_DonDatPhong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+    }
+}
 
     private void txt_NgayBatDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayBatDauPropertyChange
         // TODO add your handling code here:

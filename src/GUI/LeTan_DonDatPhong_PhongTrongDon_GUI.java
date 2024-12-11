@@ -777,7 +777,7 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         Backgroup.setName("page_DonDatPhong"); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(20, 0, 1280, 803);
+        Backgroup.setBounds(0, 0, 1280, 803);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

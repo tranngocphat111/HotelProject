@@ -1308,12 +1308,22 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         for (Phong p : list_Tam) {
             boolean ktra = true;
             for (PhongEmbed pDuocChon : list_PhongDuocChon) {
-                if (p.getMaPhong() == pDuocChon.getMaPhong()
-                        && pDuocChon.getNgayNhanPhongDuKien().equals(txt_NgayNhanPhong.getDate())
-                        && pDuocChon.getNgayTraPhongDuKien().equals(txt_NgayTraPhong.getDate())) {
-                    ktra = false;
-                    break;
+                if (p.getMaPhong() == pDuocChon.getMaPhong()) {
+                    if (pDuocChon.getNgayNhanPhongDuKien().equals(txt_NgayNhanPhong.getDate())
+                            && pDuocChon.getNgayTraPhongDuKien().equals(txt_NgayTraPhong.getDate())) {
+                        ktra = false;
+                        break;
+                    }
+                    if ((pDuocChon.getNgayNhanPhongDuKien().after(txt_NgayNhanPhong.getDate()) || 
+                            pDuocChon.getNgayNhanPhongDuKien().equals(txt_NgayNhanPhong.getDate()))
+                            && (pDuocChon.getNgayTraPhongDuKien().before(txt_NgayTraPhong.getDate())
+                            || pDuocChon.getNgayTraPhongDuKien().equals(txt_NgayTraPhong.getDate()))) {
+                        ktra = false;
+                        break;
+                    }
+
                 }
+
             }
 
             if (ktra) {
@@ -2138,10 +2148,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         boloc_SokhachtoiDa = "Tất cả";
         boloc_DonGia = 0;
         boloc_Mota = "Tất cả";
-        
+
         txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
         txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60 * 60 * 24 * 1000)));
-        
+
         list_PhongSauKhiLocHoacChon = getAllPhongSauKhiChon();
         LoadPhong(list_PhongSauKhiLocHoacChon);
 

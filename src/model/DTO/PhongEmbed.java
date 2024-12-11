@@ -186,7 +186,9 @@ public class PhongEmbed {
         int tongTien = 0;
         long soNgaySuDung = (ngayTraPhong.getTime() - ngayNhanPhong.getTime())
                 / (1000 * 60 * 60 * 24);
+        System.out.println(soNgaySuDung);
         soNgaySuDung = Math.max(soNgaySuDung, 1);
+        System.out.println(soNgaySuDung);
         tongTien = (int) (soNgaySuDung * donGia);
         return tongTien;
     }

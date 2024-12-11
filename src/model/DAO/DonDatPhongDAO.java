@@ -270,4 +270,18 @@ public class DonDatPhongDAO {
             return false;
         }
     }
+    
+    public boolean updateNgayTaoDon(int maDonDat, Date ngayTao) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("ngayTaoDon", ngayTao)
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
+            return false;
+        }
+    }
 }

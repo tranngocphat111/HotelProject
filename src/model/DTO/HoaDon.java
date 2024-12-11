@@ -12,7 +12,7 @@ public class HoaDon {
     private Date ngayTaoHoaDon;
     private NhanVienEmbed nhanVien;
     private boolean trangThai;
-    private List<Integer> donDatPhongs;
+    private int donDatPhongs;
 
     public HoaDon() {
     }
@@ -25,11 +25,11 @@ public class HoaDon {
         this.trangThai = trangThai;
     }
 
-    public List<Integer> getDonDatPhongs() {
+    public int getDonDatPhongs() {
         return donDatPhongs;
     }
 
-    public void setDonDatPhongs(List<Integer> donDatPhongs) {
+    public void setDonDatPhongs(int donDatPhongs) {
         this.donDatPhongs = donDatPhongs;
     }
 
@@ -93,8 +93,8 @@ public class HoaDon {
             hoaDon.setNhanVien(nhanVien);
         }
 
-        if (doc.containsKey("DonDatPhongs")) {
-            List<Integer> DonDatPhongsdoc = (List<Integer>) doc.get("DonDatPhongs");
+        if (doc.containsKey("DonDatPhong")) {
+            int DonDatPhongsdoc = (int) doc.get("DonDatPhong");
             hoaDon.setDonDatPhongs(DonDatPhongsdoc); 
         }
 

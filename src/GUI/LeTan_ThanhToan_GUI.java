@@ -5,8 +5,10 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DonDatPhong_GUI.Table_DonDatPhong;
 import com.toedter.calendar.JDateChooser;
- 
+import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -16,13 +18,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -71,13 +76,13 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-
     public LeTan_ThanhToan_GUI() {
         initComponents();
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
 
+        list_HoaDonTheoTrangThai = hoadon_dao.getAllHoaDon();
         list_btn.add(btn_LamMoi);
         list_btn.add(btn_Tim);
 
@@ -87,31 +92,33 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         centerRenderer.setVerticalAlignment(JLabel.CENTER);
-        list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
 
-        list_HoaDon = hoadon_dao.getAllHoaDon();
-        list_khachHang = khacHang_dao.getAllKhachHang();
+        centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer.setVerticalAlignment(JLabel.CENTER);
+        Table_hoaDon.setSelectionBackground(new Color(255, 222, 89));
+        Table_hoaDon.setSelectionForeground(new Color(0, 0, 0));
+        Table_hoaDon.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        model = (DefaultTableModel) Table_hoaDon.getModel();
+//      Set font cho header_phong
+        JTableHeader header_phong = Table_hoaDon.getTableHeader();
+        header_phong.setPreferredSize(new Dimension(header_phong.getPreferredSize().width, 30));
+        header_phong.setFont(new Font("Arial", Font.BOLD, 15));
 
-        for (HoaDon hoaDon : list_HoaDon) {
-            if (!hoaDon.isTrangThai()) {
-                list_HoaDonTheoTrangThai.add(hoaDon);
-            }
-        }
-        
-        
-        
+//      Căn giữa cho header table phòng
+        DefaultTableCellRenderer renderer_phong = (DefaultTableCellRenderer) header_phong.getDefaultRenderer();
+        renderer_phong.setHorizontalAlignment(JLabel.CENTER);
+
+//      Thiết lập renderer cho header phòng
+        header_phong.setDefaultRenderer(renderer_phong);
 
         DocDuLieuLenTableHoaDon(list_HoaDonTheoTrangThai);
 
 //      Thêm các loại phòng vào combobox loại phòng
         list_LoaiPhong = loaiphong_dao.getAllLoaiPhong();
 
-       
-
 //      Thêm các phòng và tầng vào combobox phòng và tầng 
         list_Phong = phong_dao.getAllPhong();
-
-     
 
         Set<Integer> set = new HashSet<>();
 
@@ -120,23 +127,8 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 set.add(p.getTang());
             }
         }
- 
-//      Set font cho header_hoadon
-        JTableHeader header_hoadon = Table_hoaDon.getTableHeader();
-        header_hoadon.setPreferredSize(new Dimension(header_hoadon.getPreferredSize().width, 30));
-        header_hoadon.setFont(new Font("Arial", Font.BOLD, 15));
-
-//      Căn giữa cho header table hóa đơn
-        DefaultTableCellRenderer renderer_hoadon = (DefaultTableCellRenderer) header_hoadon.getDefaultRenderer();
-        renderer_hoadon.setHorizontalAlignment(JLabel.CENTER);
-
-//      Thiết lập renderer cho header hóa đơn
-        header_hoadon.setDefaultRenderer(renderer_hoadon);
 
 //      Set font cho header_dondatphong
-
-
-
         list_btn.forEach((btn) -> {
             btn.addMouseListener(new MouseListener() {
                 @Override
@@ -412,6 +404,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        Table_hoaDon.setFocusable(false);
         Table_hoaDon.setRowHeight(30);
         Table_hoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -457,7 +450,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
 //    public List<HoaDon> getHoaDonTheoTang(List<HoaDon> list_HoaDons) {
 //        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
 //        for (HoaDon hoaDon : list_HoaDons) {
@@ -471,7 +463,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //
 //        return list_hoaDonMoi;
 //    }
-
 //    public List<HoaDon> getHoaDonTheoLoaiPhong(List<HoaDon> list_HoaDons) {
 //        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
 //        for (HoaDon hoaDon : list_HoaDons) {
@@ -484,7 +475,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //        }
 //        return list_hoaDonMoi;
 //    }
-
 //    public List<HoaDon> getHoaDonTheoPhong(List<HoaDon> list_HoaDons) {
 //        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
 //        for (HoaDon hoaDon : list_HoaDons) {
@@ -496,15 +486,14 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //        }
 //        return list_hoaDonMoi;
 //    }
-
     public List<HoaDon> getHoaDonTheoCCCD(List<HoaDon> list_HoaDons) {
         List<HoaDon> list_hoaDonMoi = new ArrayList<>();
         for (HoaDon hoaDon : list_HoaDons) {
             DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoaDon.getDonDatPhongs());
             for (KhachHang kh : ddp.getKhachO()) {
-                    if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
-                        list_hoaDonMoi.add(hoaDon);
-                    }
+                if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
+                    list_hoaDonMoi.add(hoaDon);
+                }
             }
 
         }
@@ -516,9 +505,9 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         for (HoaDon hoaDon : list_HoaDons) {
             DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoaDon.getDonDatPhongs());
             for (KhachHang kh : ddp.getKhachO()) {
-                    if (kh.getCCCD().equals(txt_HoTen.getText().trim())) {
-                        list_hoaDonMoi.add(hoaDon);
-                    }
+                if (kh.getCCCD().equals(txt_HoTen.getText().trim())) {
+                    list_hoaDonMoi.add(hoaDon);
+                }
             }
 
         }
@@ -539,7 +528,6 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //        }
 //        return list_hoaDonMoi;
 //    }
-
 //    public List<HoaDon> getHoaDonTheoTrangThai(List<HoaDon> list_HoaDons) {
 //        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
 //        for (HoaDon hoaDon : list_HoaDons) {
@@ -550,30 +538,54 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //        }
 //        return list_hoaDonMoi;
 //    }
-
-
     public void DocDuLieuLenTableHoaDon(List<HoaDon> list_hoadon) {
         model.setRowCount(0);
         for (HoaDon ddp : list_hoadon) {
             DonDatPhong dp = donDatPhong_dao.getDonDatPhongByMa(ddp.getDonDatPhongs());
             String phong = "";
-            String dichvu = "";
-             if(dp != null) {     
-                for(PhongEmbed p: dp.getPhongs()) {
-                    phong+= p.getMaPhong() + ",";
-                    for(DichVuSuDungEmbed dv: p.getDichVuSuDung()) {
-                        if(!dichvu.contains(dv.getTenDV())) {
-                            dichvu += dv.getTenDV() + ",";
+            StringBuilder dichVuSuDung = new StringBuilder();
+            if (dp != null) {
+                Map<String, Integer> dichVuMap = new HashMap<>(); // Lưu trữ dịch vụ và số lượng
+
+                for (PhongEmbed p : dp.getPhongs()) {
+                    phong += p.getMaPhong() + ", ";
+                    if (p.getDichVuSuDung() != null) {
+                        for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
+                            // Cộng dồn số lượng nếu dịch vụ đã tồn tại
+                            dichVuMap.put(dv.getTenDV(), dichVuMap.getOrDefault(dv.getTenDV(), 0) + dv.getSoLuong());
                         }
                     }
                 }
-             }
+
+                // Loại bỏ dấu phẩy cuối cùng trong danh sách phòng
+                if (!phong.isEmpty()) {
+                    phong = phong.substring(0, phong.length() - 2);
+                }
+
+                // Xây dựng chuỗi dịch vụ từ Map
+                for (Map.Entry<String, Integer> entry : dichVuMap.entrySet()) {
+                    dichVuSuDung.append(entry.getKey())
+                            .append(" (x")
+                            .append(entry.getValue())
+                            .append("), ");
+                }
+
+                // Loại bỏ dấu phẩy cuối cùng trong danh sách dịch vụ
+                if (dichVuSuDung.length() > 0) {
+                    dichVuSuDung.setLength(dichVuSuDung.length() - 2);
+                }
+            }
+
             model.addRow(new Object[]{
-               ddp.getMaHoaDon(),
-               sdf.format(ddp.getNgayTaoHoaDon()),
-               phong,
-               dichvu
+                ddp.getMaHoaDon(),
+                sdf.format(ddp.getNgayTaoHoaDon()),
+                phong,
+                dichVuSuDung
             });
+        }
+
+        for (int i = 0; i < Table_hoaDon.getColumnCount(); i++) {
+            Table_hoaDon.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
@@ -623,8 +635,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //        list_HoaDonTheoTieuChi.clear();
 //        list_HoaDonTheoTieuChi = list_HoaDon;
 //        list_HoaDonTheoTieuChi = getHoaDonTheoTrangThai(list_HoaDonTheoTieuChi);
-        if (
-                txt_CCCD.getText().trim().isEmpty()
+        if (txt_CCCD.getText().trim().isEmpty()
                 && txt_HoTen.getText().trim().isEmpty()
                 && txt_NgayNhanPhong.getDate() == null
                 && txt_NgayTraPhong.getDate() == null) {
@@ -718,16 +729,14 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 
     private void Table_hoaDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_hoaDonMousePressed
         // TODO add your handling code here:
-         if (evt.getClickCount() == 2) {
-             int maDon = Integer.parseInt(model.getValueAt(Table_hoaDon.getSelectedRow(), 0).toString());
-             HoaDon hoadon = hoadon_dao.getHoaDonByMa(maDon);
-             
-             LeTan_ThanhToan_ChiTietHoaDon_GUI leTan_ThanhToan_ChiTietHoaDon_GUI1 = new LeTan_ThanhToan_ChiTietHoaDon_GUI(hoadon);
-             leTan_ThanhToan_ChiTietHoaDon_GUI1.setVisible(true);
-             
-            
-               
-         }
+        if (evt.getClickCount() == 2) {
+            int maDon = Integer.parseInt(model.getValueAt(Table_hoaDon.getSelectedRow(), 0).toString());
+            HoaDon hoadon = hoadon_dao.getHoaDonByMa(maDon);
+
+            LeTan_ThanhToan_ChiTietHoaDon_GUI leTan_ThanhToan_ChiTietHoaDon_GUI1 = new LeTan_ThanhToan_ChiTietHoaDon_GUI(hoadon);
+            leTan_ThanhToan_ChiTietHoaDon_GUI1.setVisible(true);
+
+        }
     }//GEN-LAST:event_Table_hoaDonMousePressed
 
     private void btn_TimMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseReleased

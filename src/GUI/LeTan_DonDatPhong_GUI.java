@@ -10,8 +10,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -554,18 +556,30 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             int soLuongKhach = ddp.getKhachO().size();
 
             // Tổng hợp dịch vụ sử dụng
-            StringBuilder dichVuSuDung = new StringBuilder();
-            for (PhongEmbed phongeb : ddp.getPhongs()) {
-                if (phongeb.getDichVuSuDung() != null) {
-                    for (DichVuSuDungEmbed dv : phongeb.getDichVuSuDung()) {
-                        dichVuSuDung.append(dv.getTenDV())
-                                .append(" (x")
-                                .append(dv.getSoLuong())
-                                .append(")");
-                        dichVuSuDung.append(", ");
+           StringBuilder dichVuSuDung = new StringBuilder();
+            
+                Map<String, Integer> dichVuMap = new HashMap<>(); // Lưu trữ dịch vụ và số lượng
+
+                for (PhongEmbed p : ddp.getPhongs()) {
+                    if (p.getDichVuSuDung() != null) {
+                        for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
+                            // Cộng dồn số lượng nếu dịch vụ đã tồn tại
+                            dichVuMap.put(dv.getTenDV(), dichVuMap.getOrDefault(dv.getTenDV(), 0) + dv.getSoLuong());
+                        }
                     }
                 }
-            }
+
+                // Loại bỏ dấu phẩy cuối cùng trong danh sách phòng
+
+
+                // Xây dựng chuỗi dịch vụ từ Map
+                for (Map.Entry<String, Integer> entry : dichVuMap.entrySet()) {
+                    dichVuSuDung.append(entry.getKey())
+                            .append(" (x")
+                            .append(entry.getValue())
+                            .append("), ");
+                }
+
 
             // Xóa dấu phẩy cuối cùng nếu có
             if (dichVuSuDung.length() > 0) {

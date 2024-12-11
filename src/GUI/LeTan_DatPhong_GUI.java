@@ -51,6 +51,7 @@ import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.KhachHang;
 import model.DTO.LoaiPhong;
+import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.DTO.PhongEmbed;
 import model.DTO.TienNghi;
@@ -90,19 +91,25 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
     public static String boloc_SokhachtoiDa;
     public static int boloc_DonGia;
     public static String boloc_Mota;
+    
+    private static NhanVien nhanVien_DangSuDung;
 
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    public LeTan_DatPhong_GUI() {
+    public LeTan_DatPhong_GUI(NhanVien nhanVien_DangSuDung) {
+        
         list_PhongDuocChon.clear();
         boloc_loaiPhong = "Tất cả";
         boloc_loaiGiuong = "Tất cả";
         boloc_SokhachtoiDa = "Tất cả";
         boloc_DonGia = 0;
         boloc_Mota = "Tất cả";
-
+        
         initComponents();
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
+        jLabel1.setText(this.nhanVien_DangSuDung.getTenNhanVien());
+        
         txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
         txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60 * 60 * 24 * 1000)));
 
@@ -142,7 +149,8 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 
 //        Set avatar
         jPanel3.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, new Color(255, 209, 84)));
-        ImageScale.setCircularImage(label_Avatar, new javax.swing.ImageIcon(getClass().getResource("/images/Avatar_NguyenHoangSang.png")));
+        System.out.println(String.format("%d %d",label_Avatar.getWidth(), label_Avatar.getHeight()));
+        ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
         SideBar.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(255, 255, 255)));
 
 //      Set thanh Scroll
@@ -1425,7 +1433,14 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.setLayout(null);
 
         jPanel2.setOpaque(false);
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
 
+        label_Avatar.setMaximumSize(new java.awt.Dimension(45, 45));
+        label_Avatar.setMinimumSize(new java.awt.Dimension(45, 45));
         label_Avatar.setPreferredSize(new java.awt.Dimension(45, 45));
 
         javax.swing.GroupLayout circlePanel1Layout = new javax.swing.GroupLayout(circlePanel1);
@@ -1433,7 +1448,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         circlePanel1Layout.setHorizontalGroup(
             circlePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circlePanel1Layout.createSequentialGroup()
-                .addComponent(label_Avatar, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                .addComponent(label_Avatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         circlePanel1Layout.setVerticalGroup(
@@ -2236,7 +2251,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         if (DonDatPhong_Dao.createDonDatPhong(ddp)) {
             JOptionPane.showMessageDialog(this, "Đặt thành công");
             jDesktopPane1.removeAll();
-            LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI();
+            LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI(nhanVien_DangSuDung);
             jDesktopPane1.add(datPhong_Gui);
             datPhong_Gui.setVisible(true);
         }
@@ -2249,6 +2264,11 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         new LeTan_DatPhong_BoLoc_GUI((JFrame) this.getParent().getParent().getParent().getParent().getParent().getParent(), true).setVisible(true);
 
     }//GEN-LAST:event_btn_LocMousePressed
+
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        // TODO add your handling code here:
+        new TrangCaNhan(nhanVien_DangSuDung).setVisible(true);
+    }//GEN-LAST:event_jPanel2MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,6 +6,8 @@ package GUI;
 
 import Functions.ImageScale;
 import java.awt.Color;
+import javax.swing.ImageIcon;
+import model.DTO.NhanVien;
 
 /**
  *
@@ -16,10 +18,16 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
     /**
      * Creates new form TrangCaNhan
      */
-    public TrangCaNhan_ThongTinCaNhan() {
-        
+    private static NhanVien nhanVien_DangSuDung;
+    public TrangCaNhan_ThongTinCaNhan(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
-        
+        jLabel2.setIcon(new ImageScale().getScaledImage1(jLabel2.getWidth(), jLabel2.getHeight(), new ImageIcon(this.nhanVien_DangSuDung.getAnhDaiDien())));
+        CCCDText.setText(this.nhanVien_DangSuDung.getCCCD());
+        thongTinText1.setText(this.nhanVien_DangSuDung.getTenNhanVien());
+        chucVuText.setText(this.nhanVien_DangSuDung.getChucVu());
+        SDTText.setText(this.nhanVien_DangSuDung.getSoDienThoai());
+        DCText.setText(this.nhanVien_DangSuDung.getDiaChi());
     }
 
     /**
@@ -55,7 +63,8 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(641, 572));
+        setMinimumSize(new java.awt.Dimension(639, 786));
+        setPreferredSize(new java.awt.Dimension(639, 786));
         getContentPane().setLayout(null);
 
         jPanel1.setOpaque(false);
@@ -71,16 +80,16 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(CCCDLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(CCCDLabel)
@@ -88,7 +97,7 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, -10, 638, 170);
+        jPanel1.setBounds(0, 0, 636, 160);
 
         jPanel2.setOpaque(false);
 
@@ -305,14 +314,10 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(SDTPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(thongTinPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                        .addComponent(ChucVuPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                        .addComponent(DCPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
-                    .addGap(0, 0, 0)))
+            .addComponent(SDTPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+            .addComponent(thongTinPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+            .addComponent(ChucVuPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+            .addComponent(DCPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
             .addComponent(CCCDPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
@@ -337,6 +342,9 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         btn_Thoat.setkGradientFocus(250);
         btn_Thoat.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Thoat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ThoatMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ThoatMouseEntered(evt);
             }
@@ -374,7 +382,7 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         jLabel1.setIconTextGap(0);
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(1, 2, 640, 720);
+        jLabel1.setBounds(1, 2, 640, 780);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -442,6 +450,11 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         btn_Thoat.setBorder(null);
     }//GEN-LAST:event_btn_ThoatMouseEntered
 
+    private void btn_ThoatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThoatMouseClicked
+        // TODO add your handling code here:
+        btn_Thoat.getParent().getParent().getParent().getParent().setVisible(false);
+    }//GEN-LAST:event_btn_ThoatMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -473,7 +486,7 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TrangCaNhan_ThongTinCaNhan().setVisible(true);
+                new TrangCaNhan_ThongTinCaNhan(nhanVien_DangSuDung).setVisible(true);
             }
         });
     }

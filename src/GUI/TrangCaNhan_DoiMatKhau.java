@@ -6,6 +6,7 @@ package GUI;
 
 import Functions.ImageScale;
 import java.awt.Color;
+import model.DTO.NhanVien;
 
 /**
  *
@@ -16,10 +17,14 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
     /**
      * Creates new form TrangCaNhan
      */
-    public TrangCaNhan_DoiMatKhau() {
-        
+    private NhanVien nhanVien_DangSuDung;
+    public TrangCaNhan_DoiMatKhau(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
-        
+        MKCuText.setEchoChar('*');
+        MKMoiText.setEchoChar('*');
+        XacNhanMKText.setEchoChar('*');
+
     }
 
     /**
@@ -33,11 +38,8 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        MKCuText = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        MKMoiText = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        XacNhanMKText = new javax.swing.JTextField();
         btn_Thoat1 = new keeptoo.KGradientPanel();
         jLabel20 = new javax.swing.JLabel();
         btn_Thoat = new keeptoo.KGradientPanel();
@@ -45,6 +47,9 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         MKMoi_eye = new java.awt.Label();
         MKCu_eye = new java.awt.Label();
         XacNhanMK_eye = new java.awt.Label();
+        MKMoiText = new javax.swing.JPasswordField();
+        MKCuText = new javax.swing.JPasswordField();
+        XacNhanMKText = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,23 +62,13 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 209, 84));
         jLabel2.setText("Mật khẩu cũ");
 
-        MKCuText.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        MKCuText.setText("jTextField1");
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 209, 84));
         jLabel3.setText("Mật khẩu mới");
 
-        MKMoiText.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        MKMoiText.setText("jTextField1");
-        MKMoiText.setAlignmentX(0.0F);
-
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 209, 84));
         jLabel4.setText("Xác nhận mật khẩu");
-
-        XacNhanMKText.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        XacNhanMKText.setText("jTextField1");
 
         btn_Thoat1.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Thoat1.setkGradientFocus(250);
@@ -156,25 +151,22 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(MKMoiText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(MKMoi_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(XacNhanMK_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(MKCuText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, 0)
-                                        .addComponent(MKCu_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(XacNhanMK_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(MKCuText)
+                                .addGap(0, 0, 0)
+                                .addComponent(MKCu_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(btn_Thoat, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,28 +180,27 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(MKCuText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MKCu_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(MKCu_eye, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addComponent(MKCuText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MKMoiText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MKMoi_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(MKMoi_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(XacNhanMK_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(62, 62, 62)
-                        .addComponent(btn_Thoat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(XacNhanMK_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_Thoat1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_Thoat1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_Thoat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(MKMoiText, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
@@ -285,19 +276,15 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TrangCaNhan_DoiMatKhau().setVisible(true);
-            }
-        });
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField MKCuText;
+    private javax.swing.JPasswordField MKCuText;
     private java.awt.Label MKCu_eye;
-    private javax.swing.JTextField MKMoiText;
+    private javax.swing.JPasswordField MKMoiText;
     private java.awt.Label MKMoi_eye;
-    private javax.swing.JTextField XacNhanMKText;
+    private javax.swing.JPasswordField XacNhanMKText;
     private java.awt.Label XacNhanMK_eye;
     private keeptoo.KGradientPanel btn_Thoat;
     private keeptoo.KGradientPanel btn_Thoat1;

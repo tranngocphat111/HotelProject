@@ -45,29 +45,24 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Component id="MKMoiText" min="-2" pref="303" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="MKMoi_eye" min="-2" pref="27" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="XacNhanMKText" min="-2" pref="303" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Component id="XacNhanMK_eye" min="-2" pref="27" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="MKCuText" min="-2" pref="303" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                          <Component id="MKCu_eye" min="-2" pref="27" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="XacNhanMKText" min="-2" pref="303" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Component id="XacNhanMK_eye" min="-2" pref="27" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="MKCuText" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Component id="MKCu_eye" min="-2" pref="27" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -88,33 +83,32 @@
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="MKCuText" min="-2" max="-2" attributes="0"/>
-                      <Component id="MKCu_eye" min="-2" pref="27" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="MKCu_eye" pref="27" max="32767" attributes="0"/>
+                      <Component id="MKCuText" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="16" max="32767" attributes="0"/>
+                  <EmptySpace pref="11" max="32767" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="MKMoiText" min="-2" max="-2" attributes="0"/>
-                      <Component id="MKMoi_eye" min="-2" pref="27" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="XacNhanMKText" min="-2" max="-2" attributes="0"/>
+                          <Component id="MKMoi_eye" min="-2" pref="27" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="XacNhanMKText" min="-2" pref="27" max="-2" attributes="0"/>
+                              <Component id="XacNhanMK_eye" min="-2" pref="27" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                          <Component id="btn_Thoat" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btn_Thoat1" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_Thoat" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="XacNhanMK_eye" min="-2" pref="27" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btn_Thoat1" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="MKMoiText" min="-2" pref="27" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="72" max="32767" attributes="0"/>
+                  <EmptySpace pref="77" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -131,14 +125,6 @@
             <Property name="text" type="java.lang.String" value="M&#xe2;&#x323;t kh&#xe2;&#x309;u cu&#x303;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="MKCuText">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="15" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -150,15 +136,6 @@
             <Property name="text" type="java.lang.String" value="M&#xe2;&#x323;t kh&#xe2;&#x309;u m&#x1a1;&#x301;i"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="MKMoiText">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="15" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
-            <Property name="alignmentX" type="float" value="0.0"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -168,14 +145,6 @@
               <Color blue="54" green="d1" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Xa&#x301;c nh&#xe2;&#x323;n m&#xe2;&#x323;t kh&#xe2;&#x309;u"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="XacNhanMKText">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="15" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
           </Properties>
         </Component>
         <Container class="keeptoo.KGradientPanel" name="btn_Thoat1">
@@ -285,6 +254,12 @@
         <Component class="java.awt.Label" name="MKCu_eye">
         </Component>
         <Component class="java.awt.Label" name="XacNhanMK_eye">
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="MKMoiText">
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="MKCuText">
+        </Component>
+        <Component class="javax.swing.JPasswordField" name="XacNhanMKText">
         </Component>
       </SubComponents>
     </Container>

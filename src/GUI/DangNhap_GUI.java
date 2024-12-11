@@ -4,11 +4,13 @@
  */
 package GUI;
 
+import Functions.ImageScale;
 import com.mongodb.client.MongoDatabase;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.DAO.NhanVienDAO;
@@ -237,9 +239,9 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         }
 
         nhanVien_DangSuDung = nv;
-
+        
         if (nv.getChucVu().equals("Lễ tân")) {
-            new LeTan_GUI().setVisible(true);
+            new LeTan_GUI(nhanVien_DangSuDung).setVisible(true);
             setVisible(false);
             return;
         }
@@ -274,8 +276,9 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 return;
             }
             nhanVien_DangSuDung = nv;
+            
             if (nv.getChucVu().equals("Lễ tân")) {
-                new LeTan_GUI().setVisible(true);
+                new LeTan_GUI(nhanVien_DangSuDung).setVisible(true);
                 setVisible(false);
                 return;
             }
@@ -309,9 +312,9 @@ public class DangNhap_GUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
                 return;
             }
-
+            nhanVien_DangSuDung = nv;
             if (nv.getChucVu().equals("Lễ tân")) {
-                new LeTan_GUI().setVisible(true);
+                new LeTan_GUI(nhanVien_DangSuDung).setVisible(true);
                 setVisible(false);
                 return;
             }

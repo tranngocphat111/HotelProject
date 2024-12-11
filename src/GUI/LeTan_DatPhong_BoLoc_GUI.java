@@ -188,7 +188,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel19.setText("XÁC NHẬN");
+        jLabel19.setText("Xác nhận");
         jLabel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel19.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -232,7 +232,7 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setText("HỦY");
+        jLabel20.setText("Hủy");
         jLabel20.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

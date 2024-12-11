@@ -28,7 +28,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
 
     private LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI();
     private LeTan_ThanhToan_GUI thanhToan_Gui;
-    private LeTan_DonDatPhong_PhongTrongDon_GUI donDatPhong_Gui;
+    private LeTan_DonDatPhong_GUI donDatPhong_Gui;
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private String tam = "page_DatPhong";
 
@@ -426,7 +426,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private void page_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DonDatPhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        donDatPhong_Gui = new LeTan_DonDatPhong_PhongTrongDon_GUI();
+        donDatPhong_Gui = new LeTan_DonDatPhong_GUI();
         jDesktopPane1.add(donDatPhong_Gui);
         donDatPhong_Gui.setVisible(true);
     }//GEN-LAST:event_page_DonDatPhongMousePressed

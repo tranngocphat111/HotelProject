@@ -578,18 +578,24 @@
                   <Font name="Segoe UI" size="15" style="0"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="7" rowCount="5">
-                    <Column editable="true" title="M&#xe3; &#x110;&#x1a1;n" type="java.lang.Object"/>
-                    <Column editable="true" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
-                    <Column editable="true" title="Ng&#xe0;y T&#x1ea1;o &#x110;&#x1a1;n" type="java.lang.Object"/>
-                    <Column editable="true" title="Ng&#xe0;y &#x110;&#x1eb7;t" type="java.lang.Object"/>
-                    <Column editable="true" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng Ph&#xf2;ng" type="java.lang.Object"/>
-                    <Column editable="true" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng Kh&#xe1;ch" type="java.lang.Object"/>
-                    <Column editable="true" title="D&#x1ecb;ch V&#x1ee5; S&#x1eed; D&#x1ee5;ng" type="java.lang.String"/>
+                  <Table columnCount="8" rowCount="5">
+                    <Column editable="false" title="M&#xe3; &#x110;&#x1a1;n" type="java.lang.Object"/>
+                    <Column editable="false" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
+                    <Column editable="false" title="Ng&#xe0;y T&#x1ea1;o &#x110;&#x1a1;n" type="java.lang.Object"/>
+                    <Column editable="false" title="Ng&#x1b0;&#x1edd;i &#x110;&#x1eb7;t" type="java.lang.Object"/>
+                    <Column editable="false" title="CCCD Ng&#x1b0;&#x1edd;i &#x110;&#x1eb7;t" type="java.lang.Object"/>
+                    <Column editable="false" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng Ph&#xf2;ng" type="java.lang.Object"/>
+                    <Column editable="false" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng Kh&#xe1;ch" type="java.lang.Object"/>
+                    <Column editable="false" title="D&#x1ecb;ch V&#x1ee5; S&#x1eed; D&#x1ee5;ng" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
@@ -627,6 +633,7 @@
                     </Column>
                   </TableColumnModel>
                 </Property>
+                <Property name="focusable" type="boolean" value="false"/>
                 <Property name="rowHeight" type="int" value="30"/>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -675,18 +682,18 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="180" width="170" height="20"/>
+              <AbsoluteConstraints x="20" y="170" width="170" height="40"/>
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="cb_trangthaidon">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_trangthaidonActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

@@ -153,17 +153,6 @@ public class NhanVienDAO {
         return null;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public List<NhanVien> timTheoCCCD(String CCCD) {
         
         List<Bson> pipeline = Arrays.asList(
@@ -308,4 +297,24 @@ public class NhanVienDAO {
         return nhanVienCollection;
     }
     
+    public boolean doiMatKhau(String tenTaiKhoan, String matKhauCu, String matKhauMoi) {
+
+            // Điều kiện tìm kiếm
+            Document filter = new Document("tenTaiKhoan", tenTaiKhoan)
+                    .append("matKhau", matKhauCu);
+
+            // Dữ liệu cần cập nhật
+            Document update = new Document("$set", new Document("matKhau", matKhauMoi));
+
+            // Thực hiện cập nhật
+            var result = nhanVienCollection.updateOne(filter, update);
+
+            if (result.getModifiedCount() > 0) {
+                System.out.println("Đổi mật khẩu thành công!");
+                return true;
+            } else {
+                System.out.println("Không tìm thấy tài khoản hoặc mật khẩu không đúng.");
+                return false;
+            }
+    }
 }

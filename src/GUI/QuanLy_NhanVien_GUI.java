@@ -509,26 +509,25 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
 
         anhnhanvien.setForeground(new java.awt.Color(255, 255, 255));
         anhnhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/anh_nhanvien_cute.jpg"))); // NOI18N
-        anhnhanvien.setMaximumSize(new java.awt.Dimension(166, 165));
-        anhnhanvien.setMinimumSize(new java.awt.Dimension(166, 165));
+        anhnhanvien.setMaximumSize(new java.awt.Dimension(165, 168));
+        anhnhanvien.setMinimumSize(new java.awt.Dimension(165, 168));
+        anhnhanvien.setPreferredSize(new java.awt.Dimension(170, 180));
 
         javax.swing.GroupLayout ChuaAnhNhanVienLayout = new javax.swing.GroupLayout(ChuaAnhNhanVien);
         ChuaAnhNhanVien.setLayout(ChuaAnhNhanVienLayout);
         ChuaAnhNhanVienLayout.setHorizontalGroup(
             ChuaAnhNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ChuaAnhNhanVienLayout.createSequentialGroup()
-                .addComponent(anhnhanvien, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+            .addGroup(ChuaAnhNhanVienLayout.createSequentialGroup()
+                .addComponent(anhnhanvien, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                 .addContainerGap())
         );
         ChuaAnhNhanVienLayout.setVerticalGroup(
             ChuaAnhNhanVienLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ChuaAnhNhanVienLayout.createSequentialGroup()
-                .addComponent(anhnhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(anhnhanvien, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
         );
 
         jPanel1.add(ChuaAnhNhanVien);
-        ChuaAnhNhanVien.setBounds(1050, 90, 170, 170);
+        ChuaAnhNhanVien.setBounds(1050, 90, 170, 180);
 
         jPanel2.setOpaque(false);
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {

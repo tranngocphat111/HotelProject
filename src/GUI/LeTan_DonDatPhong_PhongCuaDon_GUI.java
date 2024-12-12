@@ -16,8 +16,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,8 +29,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.DAO.DonDatPhongDAO;
+import model.DAO.PhongDAO;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
+import model.DTO.LoaiPhong;
 import model.DTO.PhongEmbed;
 
 /**
@@ -45,6 +49,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
     DonDatPhong ddp;
+    PhongDAO phong_Dao = new PhongDAO(database);
 
     /**
      * Creates new form LeTan_DatPhong_GUI
@@ -52,6 +57,40 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     public LeTan_DonDatPhong_PhongCuaDon_GUI(DonDatPhong ddp) {
         this.ddp = ddp;
         initComponents();
+
+        Set<String> list_LoaiPhong = new HashSet<>();
+        for (PhongEmbed phong : ddp.getPhongs()) {
+            if (!list_LoaiPhong.contains(phong.getTenLoaiPhong())) {
+                list_LoaiPhong.add(phong.getTenLoaiPhong());
+            }
+        }
+        cb_LoaiPhong.addItem("Tất cả");
+        for (String loaiPhong : list_LoaiPhong) {
+            cb_LoaiPhong.addItem(loaiPhong);
+        }
+
+        Set<Integer> list_Tang = new HashSet<>();
+        for (PhongEmbed phong : ddp.getPhongs()) {
+            if (!list_Tang.contains(phong_Dao.getPhongByMa(phong.getMaPhong()).getTang())) {
+                list_Tang.add(phong_Dao.getPhongByMa(phong.getMaPhong()).getTang());
+            }
+        }
+        cb_Tang.addItem("Tất cả");
+        for (Integer tang : list_Tang) {
+            cb_Tang.addItem(tang+"");
+        }
+
+        Set<Integer> list_Phong = new HashSet<>();
+        for (PhongEmbed phong : ddp.getPhongs()) {
+            if (!list_Phong.contains(phong.getMaPhong())) {
+                list_Phong.add(phong.getMaPhong());
+            }
+        }
+        
+        cb_Phong.addItem("Tất cả");
+        for (Integer phong : list_Phong) {
+            cb_Phong.addItem(phong+"");
+        }
 
 //        Customer table_Phong
         Scroll_Phong.setVerticalScrollBar(new ScrollBarCustom());
@@ -61,7 +100,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         centerRenderer_Phong.setVerticalAlignment(JLabel.CENTER);
         Table_Phong.setSelectionBackground(new Color(255, 222, 89));
         Table_Phong.setSelectionForeground(new Color(0, 0, 0));
-        Table_Phong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         model_Phong = (DefaultTableModel) Table_Phong.getModel();
 //      Set font cho header_phong
         JTableHeader header_phong = Table_Phong.getTableHeader();
@@ -117,7 +155,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
                 dichVuSuDungs += dv.getTenDV() + "(" + dv.getSoLuong() + "), ";
             }
-            dichVuSuDungs = dichVuSuDungs.substring(0, dichVuSuDungs.length() - 2);
+            if (dichVuSuDungs.length() > 2) {
+                dichVuSuDungs = dichVuSuDungs.substring(0, dichVuSuDungs.length() - 2);
+            }
 
             LocalDate localDateFrom = p.getNgayNhanPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate localDateTo = p.getNgayTraPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -157,10 +197,10 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         ThongTinKhachHang = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txt_TenKhachHang = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cb_Tang = new javax.swing.JComboBox<>();
+        cb_LoaiPhong = new javax.swing.JComboBox<>();
+        cb_Phong = new javax.swing.JComboBox<>();
         btn_HuyDon = new keeptoo.KGradientPanel();
         jLabel18 = new javax.swing.JLabel();
         btn_NhanPhong = new keeptoo.KGradientPanel();
@@ -223,8 +263,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Phòng");
 
-        txt_TenKhachHang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Tầng");
@@ -239,9 +277,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, 0, 166, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_TenKhachHang))
+                    .addComponent(cb_Tang, 0, 166, Short.MAX_VALUE)
+                    .addComponent(cb_LoaiPhong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_Phong, 0, 166, Short.MAX_VALUE))
                 .addGap(64, 64, Short.MAX_VALUE))
         );
         ThongTinKhachHangLayout.setVerticalGroup(
@@ -250,15 +288,15 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cb_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cb_Tang, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addGap(6, 6, 6)
-                .addComponent(txt_TenKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_Phong, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -461,11 +499,19 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        Table_KhachHang.setFocusable(false);
         Table_KhachHang.setRowHeight(30);
         Table_KhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -833,11 +879,19 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        Table_Phong.setFocusable(false);
         Table_Phong.setRowHeight(25);
         Table_Phong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -924,25 +978,26 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần nhận");
             return;
         }
-        for(int i=0 ; i < row.length; i++){
-            
+        for (int i = 0; i < row.length; i++) {
+
             int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
             PhongEmbed phong = donDatPhong_dao.getPhongTheoMaPhong(ddp.getMaDonDat(), maPhong);
-            if(!phong.getTrangThaiPhong().equals("Đang chờ")){
+            if (!phong.getTrangThaiPhong().equals("Đang chờ")) {
                 JOptionPane.showMessageDialog(this, "Chỉ có thể nhận phòng có trạng thái Đang chờ");
                 return;
             }
 
         }
-        
-        for(int i=0 ; i < row.length; i++){
-            
+
+        for (int i = 0; i < row.length; i++) {
+
             int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
             donDatPhong_dao.updateTrangThaiPhong(maPhong, "Đang ở");
-            DocDuLieuLenTablePhong(ddp.getPhongs());
-            JOptionPane.showMessageDialog(this, "Nhận phòng thành công");
         }
-        
+
+        DocDuLieuLenTablePhong(donDatPhong_dao.getDonDatPhongByMa(ddp.getMaDonDat()).getPhongs());
+        JOptionPane.showMessageDialog(this, "Nhận phòng thành công");
+
 
     }//GEN-LAST:event_btn_NhanPhongMousePressed
 
@@ -1042,8 +1097,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     private keeptoo.KGradientPanel btn_ThanhToanDon;
     private keeptoo.KGradientPanel btn_ThanhToanDon1;
     private keeptoo.KGradientPanel btn_Thoat;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> cb_LoaiPhong;
+    private javax.swing.JComboBox<String> cb_Phong;
+    private javax.swing.JComboBox<String> cb_Tang;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel10;
@@ -1074,6 +1130,5 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel line;
-    private javax.swing.JTextField txt_TenKhachHang;
     // End of variables declaration//GEN-END:variables
 }

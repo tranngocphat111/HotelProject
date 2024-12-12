@@ -890,6 +890,28 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_HuyDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMousePressed
         // TODO add your handling code here:
+        int n = Table_DonDatPhong.getSelectedRow();
+
+        if (n == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn đơn cần hủy");
+        }
+
+        if (!model.getValueAt(n, 1).toString().equals("Đang chờ")) {
+            JOptionPane.showMessageDialog(this, "Chỉ được hủy đơn ở trạng thái đang chờ");
+            return;
+        }
+
+        if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn hủy?", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+            int madon = Integer.parseInt(model.getValueAt(n, 0).toString());
+            dondatphong_dao.updateTrangThaiDon(madon, "Đã hủy");
+            dondatphong_dao.updateTrangThaiPhong(madon, "Đã hủy");
+            JOptionPane.showMessageDialog(this, "Hủy thành công");
+            model.removeRow(n);
+            list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
+            DocDuLieuLenTableDonDatPhong(list_DonDatPhong);
+        }
+
 
 
     }//GEN-LAST:event_btn_HuyDonMousePressed
@@ -900,6 +922,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void cb_trangthaidonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_trangthaidonActionPerformed
         // TODO add your handling code here:
+        list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
         model.setRowCount(0);
         if (cb_trangthaidon.getSelectedItem().toString().equals("Tất cả")) {
             DocDuLieuLenTableDonDatPhong(list_DonDatPhong);

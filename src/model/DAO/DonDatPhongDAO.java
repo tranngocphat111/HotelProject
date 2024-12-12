@@ -270,7 +270,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-    
+
     public boolean updateNgayTaoDon(int maDonDat, Date ngayTao) {
         try {
             UpdateResult result = donDatPhongCollection.updateOne(

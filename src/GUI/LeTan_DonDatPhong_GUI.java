@@ -242,7 +242,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("Hủy Đơn");
         jLabel18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -279,7 +279,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Tìm ");
         jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -317,7 +317,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("Thanh Toán Đơn");
         jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -351,7 +351,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("Làm Mới");
         jLabel16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -385,7 +385,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("Nhận Đơn");
         jLabel22.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -461,6 +461,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(jLabel9);
         jLabel9.setBounds(20, 170, 170, 40);
 
+        cb_trangthaidon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cb_trangthaidon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_trangthaidonActionPerformed(evt);
@@ -556,30 +557,27 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             int soLuongKhach = ddp.getKhachO().size();
 
             // Tổng hợp dịch vụ sử dụng
-           StringBuilder dichVuSuDung = new StringBuilder();
-            
-                Map<String, Integer> dichVuMap = new HashMap<>(); // Lưu trữ dịch vụ và số lượng
+            StringBuilder dichVuSuDung = new StringBuilder();
 
-                for (PhongEmbed p : ddp.getPhongs()) {
-                    if (p.getDichVuSuDung() != null) {
-                        for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
-                            // Cộng dồn số lượng nếu dịch vụ đã tồn tại
-                            dichVuMap.put(dv.getTenDV(), dichVuMap.getOrDefault(dv.getTenDV(), 0) + dv.getSoLuong());
-                        }
+            Map<String, Integer> dichVuMap = new HashMap<>(); // Lưu trữ dịch vụ và số lượng
+
+            for (PhongEmbed p : ddp.getPhongs()) {
+                if (p.getDichVuSuDung() != null) {
+                    for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
+                        // Cộng dồn số lượng nếu dịch vụ đã tồn tại
+                        dichVuMap.put(dv.getTenDV(), dichVuMap.getOrDefault(dv.getTenDV(), 0) + dv.getSoLuong());
                     }
                 }
+            }
 
-                // Loại bỏ dấu phẩy cuối cùng trong danh sách phòng
-
-
-                // Xây dựng chuỗi dịch vụ từ Map
-                for (Map.Entry<String, Integer> entry : dichVuMap.entrySet()) {
-                    dichVuSuDung.append(entry.getKey())
-                            .append(" (x")
-                            .append(entry.getValue())
-                            .append("), ");
-                }
-
+            // Loại bỏ dấu phẩy cuối cùng trong danh sách phòng
+            // Xây dựng chuỗi dịch vụ từ Map
+            for (Map.Entry<String, Integer> entry : dichVuMap.entrySet()) {
+                dichVuSuDung.append(entry.getKey())
+                        .append(" (x")
+                        .append(entry.getValue())
+                        .append("), ");
+            }
 
             // Xóa dấu phẩy cuối cùng nếu có
             if (dichVuSuDung.length() > 0) {
@@ -606,18 +604,18 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     }
 
     public void capnhatcombobox() {
-        Set<String> trangThaiSet = new HashSet<>();
-
-        // Đọc trạng thái từ dữ liệu và thêm vào Set (tránh trùng lặp)
-        for (DonDatPhong donDat : dondatphong_dao.getAllDonDatPhong()) {
-            trangThaiSet.add(donDat.getTrangThai());
-        }
 
         // Thêm các trạng thái không trùng lặp vào ComboBox
-        cb_trangthaidon.addItem("Tất Cả");
-        for (String trangThai : trangThaiSet) {
-            cb_trangthaidon.addItem(trangThai);
-        }
+        cb_trangthaidon.addItem("Tất cả");
+        cb_trangthaidon.addItem("Hoàn thành");
+        cb_trangthaidon.addItem("Đang chờ");
+        cb_trangthaidon.addItem("Xử lý");
+        cb_trangthaidon.addItem("Đã hủy");
+        
+        cb_trangthaidon.setSelectedItem("Xử lý");
+        
+        
+
     }
 
     private void txt_NgayBatDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayBatDauPropertyChange

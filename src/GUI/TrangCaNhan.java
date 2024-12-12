@@ -161,7 +161,7 @@ public class TrangCaNhan extends javax.swing.JFrame {
             .addGroup(doiMKPanelLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(doiMKText)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(515, Short.MAX_VALUE))
         );
         doiMKPanelLayout.setVerticalGroup(
             doiMKPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,6 +175,9 @@ public class TrangCaNhan extends javax.swing.JFrame {
         dangXuatPanel.setOpaque(false);
         dangXuatPanel.setPreferredSize(new java.awt.Dimension(180, 91));
         dangXuatPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dangXuatPanelMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 thongTinPanelMouseEntered(evt);
             }
@@ -274,6 +277,11 @@ public class TrangCaNhan extends javax.swing.JFrame {
         // TODO add your handling code here:
         new TrangCaNhan_DoiMatKhau(nhanVien_DangSuDung).setVisible(true);
     }//GEN-LAST:event_doiMKPanelMouseClicked
+
+    private void dangXuatPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dangXuatPanelMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_dangXuatPanelMouseClicked
 
     /**
      * @param args the command line arguments

@@ -5,8 +5,12 @@
 package GUI;
 
 import Functions.ImageScale;
+import static GUI.DangNhap_GUI.database;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import model.DAO.NhanVienDAO;
 import model.DTO.NhanVien;
+import model.MongoDBConnection;
 
 /**
  *
@@ -53,7 +57,8 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(641, 572));
+        setMinimumSize(new java.awt.Dimension(471, 477));
+        setPreferredSize(new java.awt.Dimension(471, 477));
         getContentPane().setLayout(null);
 
         jPanel2.setOpaque(false);
@@ -75,6 +80,9 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         btn_Thoat1.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Thoat1.setPreferredSize(new java.awt.Dimension(210, 61));
         btn_Thoat1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_Thoat1MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_Thoat1MouseEntered(evt);
             }
@@ -112,6 +120,9 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         btn_Thoat.setkGradientFocus(250);
         btn_Thoat.setkStartColor(new java.awt.Color(225, 176, 27));
         btn_Thoat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ThoatMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ThoatMouseEntered(evt);
             }
@@ -246,6 +257,45 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
     private void btn_Thoat1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_Thoat1MousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_Thoat1MousePressed
+
+    private void btn_ThoatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThoatMouseClicked
+        // TODO add your handling code here:
+        String mkCu = MKCuText.getText().trim();
+        String mkMoi = MKMoiText.getText().trim();
+        String xacNhanMK = XacNhanMKText.getText().trim();
+        if(mkCu.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Chưa nhập mật khẩu cũ");
+        }
+        if(!mkCu.equals(nhanVien_DangSuDung.getMatKhau())) {
+            JOptionPane.showMessageDialog(rootPane, "Mật khẩu không đúng!");
+            return;
+        } 
+        if(mkMoi.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Chưa nhập mật khẩu mới!");
+            return;
+        }
+        if(xacNhanMK.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Chưa xác nhận mật khẩu!");
+            return;
+        }
+        if(!xacNhanMK.equals(mkMoi)) {
+            JOptionPane.showMessageDialog(rootPane, "Mật khẩu không khớp!");
+            return;
+        }
+        {
+            MongoDBConnection.connection();
+            database = MongoDBConnection.getDatabase();
+            NhanVien nv = nhanVien_DangSuDung;
+            nv.setMatKhau(mkMoi);
+            new NhanVienDAO(database).updateNhanVien(nv);
+        }
+        
+    }//GEN-LAST:event_btn_ThoatMouseClicked
+
+    private void btn_Thoat1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_Thoat1MouseClicked
+        // TODO add your handling code here:
+        btn_Thoat.getParent().getParent().getParent().getParent().getParent().setVisible(false);
+    }//GEN-LAST:event_btn_Thoat1MouseClicked
 
     /**
      * @param args the command line arguments

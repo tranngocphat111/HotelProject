@@ -67,6 +67,8 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
+        
+        updateBieuDo();
     }
 
     /**

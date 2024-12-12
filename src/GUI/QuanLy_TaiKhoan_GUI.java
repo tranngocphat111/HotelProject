@@ -298,12 +298,12 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
             btn_themLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_themLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_them);
-        btn_them.setBounds(860, 210, 140, 40);
+        btn_them.setBounds(860, 200, 140, 40);
 
         btn_Xoa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -335,7 +335,7 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(1060, 280, 140, 40);
+        btn_Xoa.setBounds(960, 280, 140, 40);
 
         btn_Sua.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -368,7 +368,7 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(1060, 210, 140, 40);
+        btn_Sua.setBounds(1060, 200, 140, 40);
 
         Table_TaiKhoan.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_TaiKhoan.setModel(new javax.swing.table.DefaultTableModel(
@@ -427,7 +427,7 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(1060, 130, 140, 40);
+        btn_LamMoi.setBounds(1060, 120, 140, 40);
 
         btn_TimTheoTen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_TimTheoTen.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -462,7 +462,7 @@ public class QuanLy_TaiKhoan_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_TimTheoTen);
-        btn_TimTheoTen.setBounds(860, 130, 140, 40);
+        btn_TimTheoTen.setBounds(860, 120, 140, 40);
 
         ThongTinDat1.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinDat1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84), 2));

@@ -65,9 +65,9 @@ public class GODMOD {
 
     public static void main(String[] args) {
         GODMOD gm = new GODMOD();
-        int ma_ddp_last = 2085;
-        int maDVSD = 6253;
-        Date ngayBatDau = new Date(124, 10, 1, 0, 0, 0);
+        int ma_ddp_last = 2315;
+        int maDVSD = 6943;
+        Date ngayBatDau = new Date(124, 11, 1, 0, 0, 0);
         
 
         Calendar calendar = Calendar.getInstance();

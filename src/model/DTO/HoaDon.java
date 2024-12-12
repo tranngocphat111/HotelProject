@@ -12,7 +12,7 @@ public class HoaDon {
     private Date ngayTaoHoaDon;
     private NhanVienEmbed nhanVien;
     private int donDatPhong;
-    private List<ThongTinThanhToan> thongTinThanhToans;
+    private ThongTinThanhToan thongTinThanhToan;
 
     public int getMaHoaDon() {
         return maHoaDon;
@@ -34,8 +34,8 @@ public class HoaDon {
         return donDatPhong;
     }
 
-    public List<ThongTinThanhToan> getThongTinThanhToans() {
-        return thongTinThanhToans;
+    public ThongTinThanhToan getThongTinThanhToan() {
+        return thongTinThanhToan;
     }
 
     public void setMaHoaDon(int maHoaDon) {
@@ -58,28 +58,18 @@ public class HoaDon {
         this.donDatPhong = donDatPhong;
     }
 
-    public void setThongTinThanhToans(List<ThongTinThanhToan> thongTinThanhToans) {
-        this.thongTinThanhToans = thongTinThanhToans;
+    public void setThongTinThanhToan(ThongTinThanhToan thongTinThanhToan) {
+        this.thongTinThanhToan = thongTinThanhToan;
     }
 
     public HoaDon() {
     }
 
-    public HoaDon(int maHoaDon, int tienThanhToan, Date ngayTaoHoaDon, NhanVienEmbed nhanVien, int donDatPhong, List<ThongTinThanhToan> thongTinThanhToans) {
-        this.maHoaDon = maHoaDon;
-        this.tienThanhToan = tienThanhToan;
-        this.ngayTaoHoaDon = ngayTaoHoaDon;
-        this.nhanVien = nhanVien;
-        this.donDatPhong = donDatPhong;
-        this.thongTinThanhToans = thongTinThanhToans;
-    }
-
     @Override
     public String toString() {
-        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", tienThanhToan=" + tienThanhToan + ", ngayTaoHoaDon=" + ngayTaoHoaDon + ", nhanVien=" + nhanVien + ", donDatPhong=" + donDatPhong + ", thongTinThanhToans=" + thongTinThanhToans + '}';
+        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", tienThanhToan=" + tienThanhToan + ", ngayTaoHoaDon=" + ngayTaoHoaDon + ", nhanVien=" + nhanVien + ", donDatPhong=" + donDatPhong + ", thongTinThanhToan=" + thongTinThanhToan + '}';
     }
-    
-    
+
     public static HoaDon fromDocument(Document doc) {
         HoaDon hoaDon = new HoaDon();
 
@@ -104,22 +94,13 @@ public class HoaDon {
             hoaDon.setDonDatPhong(doc.getInteger("donDatPhong"));
         }
 
-        if (doc.containsKey("thongTinThanhToans")) {
-            List<Document> thongTinDocs = doc.getList("thongTinThanhToans", Document.class);
-            List<ThongTinThanhToan> thongTinThanhToans = new ArrayList<>();
-            for (Document thongTinDoc : thongTinDocs) {
-                thongTinThanhToans.add(ThongTinThanhToan.fromDocument(thongTinDoc));
-            }
-            hoaDon.setThongTinThanhToans(thongTinThanhToans);
+        if (doc.containsKey("thongTinThanhToan")) {
+            Document thongTinDoc = doc.get("thongTinThanhToan", Document.class);
+            ThongTinThanhToan thongTinThanhToan = ThongTinThanhToan.fromDocument(thongTinDoc);
+            hoaDon.setThongTinThanhToan(thongTinThanhToan);
         }
 
         return hoaDon;
     }
-    
-    
-
-   
-
-    
 
 }

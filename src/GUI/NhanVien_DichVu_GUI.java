@@ -37,9 +37,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.DichVuDAO;
+import model.DAO.DichVuSuDungDAO;
 import model.DAO.DonDatPhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DichVu;
+import model.DTO.DichVuSuDung;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
@@ -776,13 +778,9 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_themMousePressed
 
     public boolean checkDichVuDangSuDung(int maDichVu) {
-        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiO();
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            for (DichVuSuDungEmbed dve : ddp.getDichVuSuDung()) {
-                if (dve.getMaDV() == maDichVu) {
-                    return true;
-                }
-            }
+        DichVuSuDungDAO dvsd = new DichVuSuDungDAO(database);
+        for(DichVuSuDung dv : dvsd.getAllDichVu()) {
+            if(dv.getMaDV() == maDichVu) return true;
         }
         return false;
     }

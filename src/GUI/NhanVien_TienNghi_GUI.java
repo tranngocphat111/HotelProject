@@ -686,10 +686,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         int row = table_TienNghi.getSelectedRow();
 
         int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(row, 0).toString());
-        if (checkTienNghiDangSuDung(maTN)) {
-            JOptionPane.showMessageDialog(this, "Tiện nghi đang được sử dụng!!! Không thể xóa");
-            return;
-        }
+
 
         if (row != -1) {
 
@@ -702,13 +699,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
                 TienNghi x = tienNghiDAO.timTienNghi(tenTN);
 
                 tienNghiDAO.xoaTienNghi(x);
-
-                List<LoaiPhong> list_lPhong = loaiphongDAO.getAllLoaiPhong();
-                for (LoaiPhong lp : list_lPhong) {
-                    if (lp.getTienNghis().size() == 0) {
-                        loaiphongDAO.deleteLoaiPhong(lp.getMaLoaiPhong());
-                    }
-                }
 
                 DocDuLieuLenTableTienNghi(tienNghiDAO.getAllTienNghi());
                 LamMoi();
@@ -747,23 +737,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         return list_LoaiPhongByTienNghi;
     }
 
-    public boolean checkTienNghiDangSuDung(int maTienNghi) {
-        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiOVaCho();
-        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        list_LoaiPhong = loaiphongDAO.getAllLoaiPhong();
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            for (LoaiPhong loaiPhong : getAllLoaiPhongByMaTienNghi(list_LoaiPhong, maTienNghi)) {
-                List<Phong> list_ph = getAllPhongByLoaiPhong(list_Phong, loaiPhong.getMaLoaiPhong());
-                for (Phong p : list_ph) {
-                    if (p.getMaPhong() == ddp.getPhong().getMaPhong()) {
-
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
@@ -773,10 +746,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
             return;
         }
         int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(table_TienNghi.getSelectedRow(), 0).toString());
-        if (checkTienNghiDangSuDung(maTN)) {
-            JOptionPane.showMessageDialog(this, "Tiện nghi đang được sử dụng!!! Không thể sửa");
-            return;
-        }
 
         if (txt_tienNghi.getText().trim().isBlank()) {
 //                JOptionPane.showMessageDialog(this, "Chưa nhập tên dịch vụ!", "Trống dữ liệu", JOptionPane.ERROR_MESSAGE);
@@ -819,14 +788,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 //                txt_TienNghi.setEnabled(true);
             LamMoi();
 
-            for (LoaiPhong lp : loaiphongDAO.getAllLoaiPhong()) {
-                for (int i = 0; i < lp.getTienNghis().size(); i++) {
-                    if (maDV == lp.getTienNghis().get(i).getMaTienNghi()) {
-                        lp.getTienNghis().set(i, y);
-                    }
-                }
-                loaiphongDAO.updateLoaiPhong(lp);
-            }
+            
 
         }
 

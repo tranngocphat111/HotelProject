@@ -36,9 +36,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import model.DAO.DonDatPhongDAO;
+import model.DAO.KhachHangDAO;
 import model.DAO.PhongDAO;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
+import model.DTO.KhachHang;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.PhongEmbed;
@@ -59,6 +61,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     DonDatPhong ddp;
     PhongDAO phong_Dao = new PhongDAO(database);
     List<PhongEmbed> list_Phong_filter = new ArrayList<>();
+    List<KhachHang> list_KhachHang_db = new ArrayList<>();
+    List<KhachHang> list_KhachHang = new ArrayList<>();
+     KhachHangDAO khachHang_dao = new KhachHangDAO(database);
 
     /**
      * Creates new form LeTan_DatPhong_GUI
@@ -66,6 +71,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     public LeTan_DonDatPhong_PhongCuaDon_GUI(DonDatPhong ddp) {
         this.ddp = ddp;
         list_Phong_filter = ddp.getPhongs();
+        list_KhachHang_db = khachHang_dao.getAllKhachHang();
         initComponents();
 
         Set<String> list_LoaiPhong = new HashSet<>();
@@ -132,23 +138,27 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         Table_KhachHang.setSelectionBackground(new Color(255, 222, 89));
         Table_KhachHang.setSelectionForeground(new Color(0, 0, 0));
         Table_KhachHang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        model_KhachHang = (DefaultTableModel) Table_Phong.getModel();
+        model_KhachHang = (DefaultTableModel) Table_KhachHang.getModel();
 //      Set font cho header_phong
         JTableHeader header_khachHang = Table_KhachHang.getTableHeader();
-        header_phong.setPreferredSize(new Dimension(header_phong.getPreferredSize().width, 25));
-        header_phong.setFont(new Font("Arial", Font.BOLD, 10));
+        header_khachHang.setPreferredSize(new Dimension(header_phong.getPreferredSize().width, 30));
+        header_khachHang.setFont(new Font("Arial", Font.BOLD, 15));
 
 //      Căn giữa cho header table phòng
-        DefaultTableCellRenderer renderer_KhachHang = (DefaultTableCellRenderer) header_phong.getDefaultRenderer();
-        renderer_phong.setHorizontalAlignment(JLabel.CENTER);
+        DefaultTableCellRenderer renderer_KhachHang = (DefaultTableCellRenderer) header_khachHang.getDefaultRenderer();
+        renderer_KhachHang.setHorizontalAlignment(JLabel.CENTER);
 
 //      Thiết lập renderer cho header phòng
-        header_phong.setDefaultRenderer(renderer_phong);
+        header_khachHang.setDefaultRenderer(renderer_KhachHang);
 
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
 
         DocDuLieuLenTablePhong(ddp.getPhongs());
+        if(ddp.getKhachO().size() != 0){
+            DocDuLieuLenTableKhachHang(ddp.getKhachO());
+        }
+        
         ui.setNorthPane(null);
     }
 
@@ -201,6 +211,29 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer_Phong);
         }
     }
+    
+    public void DocDuLieuLenTableKhachHang(List<KhachHang> list_KH ) {
+        model_KhachHang.setRowCount(0);
+
+        for (KhachHang kh : list_KH) {
+
+           
+            model_KhachHang.addRow(new Object[]{
+               kh.getMaKhachHang(),
+                kh.getCCCD(),
+                kh.getTenKhachHang(),
+                kh.getSoDienThoai(),
+                kh.getEmail(),
+                kh.getGioiTinh(),
+                kh.getQuocTich()
+            });
+        }
+
+        // Định dạng cột trong bảng (nếu cần)
+        for (int i = 0; i < Table_KhachHang.getColumnCount(); i++) {
+            Table_KhachHang.getColumnModel().getColumn(i).setCellRenderer(centerRenderer_KhachHang);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -237,19 +270,19 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         ThongTinKhachHang1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        cb_GioiTinh = new javax.swing.JComboBox<>();
+        txt_CCCD = new javax.swing.JTextField();
+        txt_Hoten = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        cb_QuocTich = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txt_SDT = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txt_Email = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         btn_HuyDon2 = new keeptoo.KGradientPanel();
         jLabel23 = new javax.swing.JLabel();
-        btn_HuyDon1 = new keeptoo.KGradientPanel();
+        btn_Them = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
         btn_ThanhToanDon1 = new keeptoo.KGradientPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -529,7 +562,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Đơn", "Trạng Thái", "Ngày Tạo Đơn", "Người Đặt", "Số Lượng Phòng", "Số Lượng Khách", "Dịch Vụ Sử Dụng"
+                "Mã khách hàng", "CCCD", "Họ và tên", "Số điện thoại", "Email", "Giới tính", "Quốc tịch"
             }
         ) {
             Class[] types = new Class [] {
@@ -607,15 +640,18 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Giới tính");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        cb_GioiTinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cb_GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
+
+        txt_CCCD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txt_CCCDActionPerformed(evt);
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txt_Hoten.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txt_HotenActionPerformed(evt);
             }
         });
 
@@ -623,13 +659,16 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Họ và tên");
 
+        cb_QuocTich.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cb_QuocTich.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Mỹ", "Pháp", "Đức" }));
+
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Quốc tịch");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txt_SDT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txt_SDTActionPerformed(evt);
             }
         });
 
@@ -637,9 +676,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Số điện thoại");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        txt_Email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                txt_EmailActionPerformed(evt);
             }
         });
 
@@ -655,21 +694,21 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 .addGap(30, 30, 30)
                 .addGroup(ThongTinKhachHang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_CCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addGroup(ThongTinKhachHang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txt_Hoten, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(cb_GioiTinh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 45, Short.MAX_VALUE)
                 .addGroup(ThongTinKhachHang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField3)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_SDT)
+                    .addComponent(cb_QuocTich, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         ThongTinKhachHang1Layout.setVerticalGroup(
@@ -680,31 +719,31 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                     .addGroup(ThongTinKhachHang1Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_SDT, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cb_QuocTich, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ThongTinKhachHang1Layout.createSequentialGroup()
                         .addGroup(ThongTinKhachHang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(ThongTinKhachHang1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txt_CCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(ThongTinKhachHang1Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txt_Hoten, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(ThongTinKhachHang1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(ThongTinKhachHang1Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cb_GioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(ThongTinKhachHang1Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txt_Email, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -748,14 +787,14 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jPanel1.add(btn_HuyDon2);
         btn_HuyDon2.setBounds(780, 390, 140, 45);
 
-        btn_HuyDon1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_HuyDon1.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_HuyDon1.setkGradientFocus(250);
-        btn_HuyDon1.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_HuyDon1.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_HuyDon1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_Them.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Them.setkGradientFocus(250);
+        btn_Them.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Them.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_Them.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_HuyDon1MousePressed(evt);
+                btn_ThemMousePressed(evt);
             }
         });
 
@@ -765,25 +804,25 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jLabel19.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel19.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout btn_HuyDon1Layout = new javax.swing.GroupLayout(btn_HuyDon1);
-        btn_HuyDon1.setLayout(btn_HuyDon1Layout);
-        btn_HuyDon1Layout.setHorizontalGroup(
-            btn_HuyDon1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_HuyDon1Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_ThemLayout = new javax.swing.GroupLayout(btn_Them);
+        btn_Them.setLayout(btn_ThemLayout);
+        btn_ThemLayout.setHorizontalGroup(
+            btn_ThemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_ThemLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        btn_HuyDon1Layout.setVerticalGroup(
-            btn_HuyDon1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_HuyDon1Layout.createSequentialGroup()
+        btn_ThemLayout.setVerticalGroup(
+            btn_ThemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_ThemLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel1.add(btn_HuyDon1);
-        btn_HuyDon1.setBounds(940, 390, 140, 45);
+        jPanel1.add(btn_Them);
+        btn_Them.setBounds(940, 390, 140, 45);
 
         btn_ThanhToanDon1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThanhToanDon1.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -1018,6 +1057,47 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         return calendar.getTime();
 
     }
+    
+    public boolean validateInput(String cccd, String hoTen, String soDienThoai, String email) {
+
+        if (cccd == null || cccd.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "CCCD không được để trống.");
+            txt_CCCD.requestFocus();
+            return false;
+        } else if (cccd.length() < 12 || cccd.length() > 12) {
+            JOptionPane.showMessageDialog(null, "CCCD phải có 12 số.");
+            txt_CCCD.requestFocus();
+            return false;
+        }
+
+        if (hoTen == null || hoTen.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Họ tên không được để trống.");
+            txt_Hoten.requestFocus();
+            return false;
+        } else if (!hoTen.matches("^[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯ][a-zàáâãèéêìíòóôõùúăđĩũơưạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý]+( [A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯ][a-zàáâãèéêìíòóôõùúăđĩũơưạảấầẩẫậắằẳẵặẹẻẽềềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý]+)*$")) {
+            JOptionPane.showMessageDialog(null, "Họ tên phải viết hoa ở đầu mỗi chữ.");
+            txt_Hoten.requestFocus();
+            return false;
+        }
+
+        if (soDienThoai == null || soDienThoai.isEmpty()) {
+            
+        } else if (soDienThoai.length() < 10 || soDienThoai.length() > 10) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải có 10 số.");
+            txt_SDT.requestFocus();
+            return false;
+        }
+
+        if (email == null || email.isEmpty()) {
+            
+        } else if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(null, "Email phải đúng cấu trúc example1@gmail.com");
+            txt_Email.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
     private void btn_NhanPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanPhongMousePressed
         // TODO add your handling code here:
         int row[] = Table_Phong.getSelectedRows();
@@ -1092,25 +1172,42 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
     }//GEN-LAST:event_btn_HuyDonMousePressed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txt_CCCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CCCDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txt_CCCDActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txt_HotenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_HotenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txt_HotenActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txt_SDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SDTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txt_SDTActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void txt_EmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_EmailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_txt_EmailActionPerformed
 
-    private void btn_HuyDon1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDon1MousePressed
+    private void btn_ThemMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_HuyDon1MousePressed
+        if (validateInput(txt_CCCD.getText(), txt_Hoten.getText(), txt_SDT.getText(), txt_Email.getText())) {
+            //        Kiểm tra khách hàng cũ hay mới
+            KhachHang kh = new KhachHang(
+                    list_KhachHang_db.getLast().getMaKhachHang() + 1,
+                    txt_Hoten.getText(),
+                    txt_SDT.getText(),
+                    txt_CCCD.getText(),
+                    cb_QuocTich.getSelectedItem().toString(),
+                    cb_GioiTinh.getSelectedItem().toString(),
+                    txt_Email.getText());
+
+            if (khachHang_dao.getKhachHangByCCCD(kh.getCCCD()) != null) {
+                kh.setMaKhachHang(khachHang_dao.getKhachHangByCCCD(kh.getCCCD()).getMaKhachHang());
+            }
+            list_KhachHang.add(kh);
+            DocDuLieuLenTableKhachHang(list_KhachHang);
+        }
+    }//GEN-LAST:event_btn_ThemMousePressed
 
     private void btn_ThanhToanDon1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanDon1MousePressed
         // TODO add your handling code here:
@@ -1259,7 +1356,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     private javax.swing.JPanel ThongTinKhachHang;
     private javax.swing.JPanel ThongTinKhachHang1;
     private keeptoo.KGradientPanel btn_HuyDon;
-    private keeptoo.KGradientPanel btn_HuyDon1;
     private keeptoo.KGradientPanel btn_HuyDon2;
     private keeptoo.KGradientPanel btn_HuyDon3;
     private keeptoo.KGradientPanel btn_HuyDon4;
@@ -1268,12 +1364,13 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     private keeptoo.KGradientPanel btn_NhanPhong;
     private keeptoo.KGradientPanel btn_ThanhToanDon;
     private keeptoo.KGradientPanel btn_ThanhToanDon1;
+    private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Thoat;
+    private javax.swing.JComboBox<String> cb_GioiTinh;
     private javax.swing.JComboBox<String> cb_LoaiPhong;
     private javax.swing.JComboBox<String> cb_Phong;
+    private javax.swing.JComboBox<String> cb_QuocTich;
     private javax.swing.JComboBox<String> cb_Tang;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1297,10 +1394,10 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel line;
+    private javax.swing.JTextField txt_CCCD;
+    private javax.swing.JTextField txt_Email;
+    private javax.swing.JTextField txt_Hoten;
+    private javax.swing.JTextField txt_SDT;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +34,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import keeptoo.KGradientPanel;
 import model.DAO.DonDatPhongDAO;
+import model.DAO.HoaDonDAO;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
 import model.DTO.LoaiPhong;
 import model.DTO.NhanVien;
+import model.DTO.NhanVienEmbed;
 import model.DTO.Phong;
 import model.DTO.PhongEmbed;
 
@@ -51,6 +54,8 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     public static DefaultTableModel model;
     public static List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
+    public static List<HoaDon> list_HoaDon = new ArrayList<>();
+    private HoaDonDAO hoadon_dao = new HoaDonDAO(database);
     public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private List<DonDatPhong> listddp = new ArrayList<>();
@@ -421,6 +426,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("Thanh Toán Đơn");
         jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel17MousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout btn_ThanhToanDonLayout = new javax.swing.GroupLayout(btn_ThanhToanDon);
         btn_ThanhToanDon.setLayout(btn_ThanhToanDonLayout);
@@ -880,6 +890,15 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_ThanhToanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanDonMousePressed
         // TODO add your handling code here:
+        HoaDon hd = new HoaDon();
+        list_HoaDon = hoadon_dao.getAllHoaDon();
+        hd.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
+        hd.setNgayTaoHoaDon(setThoiGian0(new Date()));
+        hd.setDonDatPhongs(Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString()));
+        NhanVienEmbed nve = new NhanVienEmbed();
+        nve.setMaNhanVien(nhanVien_DangSuDung.getMaNhanVien());
+        nve.setTenNhanVien(nhanVien_DangSuDung.getTenNhanVien());
+        hd.setNhanVien(nve);
     }//GEN-LAST:event_btn_ThanhToanDonMousePressed
 
     private void btn_NhanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanDonMousePressed
@@ -921,6 +940,18 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_PhongActionPerformed
 
+    public Date setThoiGian0(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // Đặt ngày hiện tại
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+
+    }
+
     private void cb_trangthaidonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_trangthaidonActionPerformed
         // TODO add your handling code here:
         list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
@@ -943,6 +974,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         new TrangCaNhan(nhanVien_DangSuDung).setVisible(true);
     }//GEN-LAST:event_jPanel2MouseClicked
+
+    private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jLabel17MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

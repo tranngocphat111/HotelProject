@@ -118,7 +118,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
 }
     public boolean checkExist(String cccd) {
         for(var i = 0; i<model.getRowCount();i++) {
-            String existCCCD = jTable1.getValueAt(i,1).toString();
+            String existCCCD = Table_KhachHang.getValueAt(i,1).toString();
             if(existCCCD.equals(cccd)) {
                 return true;
             }
@@ -153,7 +153,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jLabel2.setText(this.nhanVien_DangSuDung.getTenNhanVien());
         ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
         
-        this.model = (DefaultTableModel) jTable1.getModel();
+        this.model = (DefaultTableModel) Table_KhachHang.getModel();
         this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
         ui.setNorthPane(null);
@@ -217,7 +217,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             });
         })
         ;
-        JTableHeader header1 = jTable1.getTableHeader();  
+        JTableHeader header1 = Table_KhachHang.getTableHeader();  
         
       
         
@@ -259,10 +259,10 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
        btn_Xoa.setEnabled(false);       
        btn_Sua.setEnabled(false);
         
-     jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+     Table_KhachHang.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                      int selectedRow = jTable1.getSelectedRow();
+                      int selectedRow = Table_KhachHang.getSelectedRow();
                 if (selectedRow == -1) {
                     btn_Xoa.setEnabled(false);
                     btn_Sua.setEnabled(false);
@@ -275,12 +275,12 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
                     btn_Xoa.setEnabled(true);
                     btn_Sua.setEnabled(true);
                     
-                    txt_CCCD.setText(jTable1.getValueAt(selectedRow, 1).toString());
-                    txt_Email.setText(jTable1.getValueAt(selectedRow, 5).toString());
-                    txt_HoTen.setText(jTable1.getValueAt(selectedRow, 2).toString());
-                    txt_SĐT.setText(jTable1.getValueAt(selectedRow, 4).toString());
-                    cb_GioiTinh.setSelectedItem(jTable1.getValueAt(selectedRow, 3));
-                    cb_QuocTich.setSelectedItem(jTable1.getValueAt(selectedRow, 6).toString().trim());  
+                    txt_CCCD.setText(Table_KhachHang.getValueAt(selectedRow, 1).toString());
+                    txt_Email.setText(Table_KhachHang.getValueAt(selectedRow, 5).toString());
+                    txt_HoTen.setText(Table_KhachHang.getValueAt(selectedRow, 2).toString());
+                    txt_SĐT.setText(Table_KhachHang.getValueAt(selectedRow, 4).toString());
+                    cb_GioiTinh.setSelectedItem(Table_KhachHang.getValueAt(selectedRow, 3));
+                    cb_QuocTich.setSelectedItem(Table_KhachHang.getValueAt(selectedRow, 6).toString().trim());  
                 }
             }
         });
@@ -323,7 +323,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         btn_Sua = new keeptoo.KGradientPanel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Table_KhachHang = new javax.swing.JTable();
         btn_LamMoi = new keeptoo.KGradientPanel();
         jLabel21 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -637,8 +637,8 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Sua);
         btn_Sua.setBounds(870, 160, 140, 40);
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Table_KhachHang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Table_KhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -661,8 +661,8 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setRowHeight(30);
-        jScrollPane1.setViewportView(jTable1);
+        Table_KhachHang.setRowHeight(30);
+        jScrollPane1.setViewportView(Table_KhachHang);
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(80, 280, 1120, 500);
@@ -814,7 +814,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cb_QuocTichActionPerformed
 
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
-       this.model = (DefaultTableModel) jTable1.getModel();
+       this.model = (DefaultTableModel) Table_KhachHang.getModel();
        String maKH = generateRandomCode(2);
        String cccd = txt_CCCD.getText();
        String hoTen = txt_HoTen.getText();
@@ -894,9 +894,9 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_SuaKeyPressed
 
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
-        this.model = (DefaultTableModel) jTable1.getModel();
-        int selectedRow = jTable1.getSelectedRow();
-       String maKH = jTable1.getValueAt(selectedRow,0).toString();
+        this.model = (DefaultTableModel) Table_KhachHang.getModel();
+        int selectedRow = Table_KhachHang.getSelectedRow();
+       String maKH = Table_KhachHang.getValueAt(selectedRow,0).toString();
        String cccd = txt_CCCD.getText();
        String hoTen = txt_HoTen.getText();
        String gioiTinh = cb_GioiTinh.getSelectedItem().toString();
@@ -911,12 +911,12 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
 
             khachHangDAO.updateKhachHang(Integer.parseInt(maKH),kh);
 
-            jTable1.setValueAt(kh.getCCCD(), selectedRow, 1);       // Cột 1: CCCD
-            jTable1.setValueAt(kh.getTenKhachHang(), selectedRow, 2); // Cột 2: TenKhachHang
-            jTable1.setValueAt(kh.getGioiTinh(), selectedRow, 3); // Cột 3: GioiTinh
-            jTable1.setValueAt(kh.getSoDienThoai(), selectedRow, 4); // Cột 4: SoDienThoai
-            jTable1.setValueAt(kh.getEmail(), selectedRow, 5);       // Cột 5: Email
-            jTable1.setValueAt(kh.getQuocTich(), selectedRow, 6);
+            Table_KhachHang.setValueAt(kh.getCCCD(), selectedRow, 1);       // Cột 1: CCCD
+            Table_KhachHang.setValueAt(kh.getTenKhachHang(), selectedRow, 2); // Cột 2: TenKhachHang
+            Table_KhachHang.setValueAt(kh.getGioiTinh(), selectedRow, 3); // Cột 3: GioiTinh
+            Table_KhachHang.setValueAt(kh.getSoDienThoai(), selectedRow, 4); // Cột 4: SoDienThoai
+            Table_KhachHang.setValueAt(kh.getEmail(), selectedRow, 5);       // Cột 5: Email
+            Table_KhachHang.setValueAt(kh.getQuocTich(), selectedRow, 6);
             
             JOptionPane.showMessageDialog(null, "Chỉnh sửa thành công");
 
@@ -957,11 +957,11 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_LamMoiMouseClicked
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
-         this.model = (DefaultTableModel) jTable1.getModel();
-        int selectedRow = jTable1.getSelectedRow();
+         this.model = (DefaultTableModel) Table_KhachHang.getModel();
+        int selectedRow = Table_KhachHang.getSelectedRow();
         
         if(selectedRow != -1) {
-            String maKH = jTable1.getValueAt(selectedRow,0).toString();
+            String maKH = Table_KhachHang.getValueAt(selectedRow,0).toString();
             
             model.removeRow(selectedRow);
             
@@ -975,7 +975,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BackgroupMouseClicked
 
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
-        this.model = (DefaultTableModel) jTable1.getModel();
+        this.model = (DefaultTableModel) Table_KhachHang.getModel();
         String cccd = txt_CCCD.getText();
        String hoTen = txt_HoTen.getText();
        String soDienThoai = txt_SĐT.getText();
@@ -1035,6 +1035,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
+    private javax.swing.JTable Table_KhachHang;
     private javax.swing.JPanel ThongTinKhachHang;
     private keeptoo.KGradientPanel btn_LamMoi;
     private keeptoo.KGradientPanel btn_Sua;
@@ -1061,7 +1062,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_Avatar;
     private javax.swing.JTextField txt_CCCD;
     private javax.swing.JTextField txt_Email;

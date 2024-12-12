@@ -48,7 +48,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
         page_Phong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_Phong.setkEndColor(new java.awt.Color(255, 222, 89));
-        phong_Gui = new NhanVien_Phong_GUI(nhanVien_DangSuDung);
+
         phong_Gui.setVisible(true);
 
         jDesktopPane1.add(phong_Gui);
@@ -556,7 +556,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_DangXuat.setBackground(new java.awt.Color(214, 50, 50));
     }//GEN-LAST:event_btn_DangXuatMouseExited
-//    sds
+
     private void btn_DangXuatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMousePressed
         // TODO add your handling code here:
         if (JOptionPane.showConfirmDialog(this, "Cảnh báo", "Bạn chắc chắn muốn đăng xuất", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {

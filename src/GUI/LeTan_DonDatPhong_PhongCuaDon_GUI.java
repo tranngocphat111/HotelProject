@@ -4,23 +4,144 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DonDatPhong_GUI.Table_DonDatPhong;
+import static GUI.LeTan_GUI.jDesktopPane1;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import model.DAO.DonDatPhongDAO;
+import model.DTO.DichVuSuDungEmbed;
+import model.DTO.DonDatPhong;
+import model.DTO.PhongEmbed;
 
 /**
  *
  * @author Admin
  */
-public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFrame {
+public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFrame {
+
+    private DefaultTableCellRenderer centerRenderer_Phong;
+    private DefaultTableModel model_Phong;
+    private DefaultTableCellRenderer centerRenderer_KhachHang;
+    private DefaultTableModel model_KhachHang;
+    public static DecimalFormat df = new DecimalFormat("#,##0");
+    public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
+    DonDatPhong ddp;
 
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    public LeTan_DonDatPhong_PhongTrongDon_GUI() {
+    public LeTan_DonDatPhong_PhongCuaDon_GUI(DonDatPhong ddp) {
+        this.ddp = ddp;
         initComponents();
+
+//        Customer table_Phong
+        Scroll_Phong.setVerticalScrollBar(new ScrollBarCustom());
+        Scroll_Phong.getVerticalScrollBar().setUnitIncrement(80);
+        centerRenderer_Phong = new DefaultTableCellRenderer();
+        centerRenderer_Phong.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer_Phong.setVerticalAlignment(JLabel.CENTER);
+        Table_Phong.setSelectionBackground(new Color(255, 222, 89));
+        Table_Phong.setSelectionForeground(new Color(0, 0, 0));
+        Table_Phong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        model_Phong = (DefaultTableModel) Table_Phong.getModel();
+//      Set font cho header_phong
+        JTableHeader header_phong = Table_Phong.getTableHeader();
+        header_phong.setPreferredSize(new Dimension(header_phong.getPreferredSize().width, 25));
+        header_phong.setFont(new Font("Arial", Font.BOLD, 12));
+
+//      Căn giữa cho header table phòng
+        DefaultTableCellRenderer renderer_phong = (DefaultTableCellRenderer) header_phong.getDefaultRenderer();
+        renderer_phong.setHorizontalAlignment(JLabel.CENTER);
+
+//      Thiết lập renderer cho header phòng
+        header_phong.setDefaultRenderer(renderer_phong);
+
+        //        Customer table_KhachHang
+        Scroll_KhachHang.setVerticalScrollBar(new ScrollBarCustom());
+        Scroll_KhachHang.getVerticalScrollBar().setUnitIncrement(80);
+        centerRenderer_KhachHang = new DefaultTableCellRenderer();
+        centerRenderer_KhachHang.setHorizontalAlignment(JLabel.CENTER);
+        centerRenderer_KhachHang.setVerticalAlignment(JLabel.CENTER);
+        Table_KhachHang.setSelectionBackground(new Color(255, 222, 89));
+        Table_KhachHang.setSelectionForeground(new Color(0, 0, 0));
+        Table_KhachHang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        model_KhachHang = (DefaultTableModel) Table_Phong.getModel();
+//      Set font cho header_phong
+        JTableHeader header_khachHang = Table_KhachHang.getTableHeader();
+        header_phong.setPreferredSize(new Dimension(header_phong.getPreferredSize().width, 25));
+        header_phong.setFont(new Font("Arial", Font.BOLD, 10));
+
+//      Căn giữa cho header table phòng
+        DefaultTableCellRenderer renderer_KhachHang = (DefaultTableCellRenderer) header_phong.getDefaultRenderer();
+        renderer_phong.setHorizontalAlignment(JLabel.CENTER);
+
+//      Thiết lập renderer cho header phòng
+        header_phong.setDefaultRenderer(renderer_phong);
+
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
+
+        DocDuLieuLenTablePhong(ddp.getPhongs());
         ui.setNorthPane(null);
+    }
+
+    public void DocDuLieuLenTablePhong(List<PhongEmbed> list_Phong) {
+        model_Phong.setRowCount(0);
+
+        for (PhongEmbed p : list_Phong) {
+
+            // Tổng hợp dịch vụ sử dụng
+            Map<String, Integer> dichVuMap = new HashMap<>(); // Lưu trữ dịch vụ và số lượng
+
+            String dichVuSuDungs = "";
+
+            for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
+                dichVuSuDungs += dv.getTenDV() + "(" + dv.getSoLuong() + "), ";
+            }
+            dichVuSuDungs = dichVuSuDungs.substring(0, dichVuSuDungs.length() - 2);
+
+            LocalDate localDateFrom = p.getNgayNhanPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDateTo = p.getNgayTraPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long daysBetween = ChronoUnit.DAYS.between(localDateFrom, localDateTo);
+
+            // Thêm dữ liệu vào bảng
+            model_Phong.addRow(new Object[]{
+                p.getMaPhong(),
+                p.getTrangThaiPhong(),
+                p.getTenLoaiPhong(),
+                sdf.format(p.getNgayNhanPhongDuKien()),
+                sdf.format(p.getNgayTraPhongDuKien()),
+                sdf.format(p.getNgayNhanPhong()),
+                sdf.format(p.getNgayTraPhong()),
+                dichVuSuDungs,
+                df.format(p.getDonGia() * daysBetween),
+                df.format(p.getTienPhong())
+            });
+        }
+
+        // Định dạng cột trong bảng (nếu cần)
+        for (int i = 0; i < Table_Phong.getColumnCount(); i++) {
+            Table_Phong.getColumnModel().getColumn(i).setCellRenderer(centerRenderer_Phong);
+        }
     }
 
     /**
@@ -42,7 +163,7 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jComboBox3 = new javax.swing.JComboBox<>();
         btn_HuyDon = new keeptoo.KGradientPanel();
         jLabel18 = new javax.swing.JLabel();
-        btn_Tim = new keeptoo.KGradientPanel();
+        btn_NhanPhong = new keeptoo.KGradientPanel();
         jLabel15 = new javax.swing.JLabel();
         btn_ThanhToanDon = new keeptoo.KGradientPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -50,8 +171,8 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jLabel16 = new javax.swing.JLabel();
         btn_NhanDon = new keeptoo.KGradientPanel();
         jLabel22 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        Table_DonDatPhong = new javax.swing.JTable();
+        Scroll_KhachHang = new javax.swing.JScrollPane();
+        Table_KhachHang = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
         line = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
@@ -78,9 +199,9 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jLabel25 = new javax.swing.JLabel();
         btn_HuyDon3 = new keeptoo.KGradientPanel();
         jLabel24 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        Table_DonDatPhong6 = new javax.swing.JTable();
-        btn_HuyDon5 = new keeptoo.KGradientPanel();
+        Scroll_Phong = new javax.swing.JScrollPane();
+        Table_Phong = new javax.swing.JTable();
+        btn_Thoat = new keeptoo.KGradientPanel();
         jLabel26 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
@@ -181,14 +302,14 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jPanel1.add(btn_HuyDon);
         btn_HuyDon.setBounds(940, 280, 140, 45);
 
-        btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_Tim.setkGradientFocus(250);
-        btn_Tim.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_Tim.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_Tim.setPreferredSize(new java.awt.Dimension(140, 35));
-        btn_Tim.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_NhanPhong.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_NhanPhong.setkGradientFocus(250);
+        btn_NhanPhong.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_NhanPhong.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_NhanPhong.setPreferredSize(new java.awt.Dimension(140, 35));
+        btn_NhanPhong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_TimMousePressed(evt);
+                btn_NhanPhongMousePressed(evt);
             }
         });
 
@@ -198,25 +319,25 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout btn_TimLayout = new javax.swing.GroupLayout(btn_Tim);
-        btn_Tim.setLayout(btn_TimLayout);
-        btn_TimLayout.setHorizontalGroup(
-            btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_TimLayout.createSequentialGroup()
+        javax.swing.GroupLayout btn_NhanPhongLayout = new javax.swing.GroupLayout(btn_NhanPhong);
+        btn_NhanPhong.setLayout(btn_NhanPhongLayout);
+        btn_NhanPhongLayout.setHorizontalGroup(
+            btn_NhanPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_NhanPhongLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        btn_TimLayout.setVerticalGroup(
-            btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_TimLayout.createSequentialGroup()
+        btn_NhanPhongLayout.setVerticalGroup(
+            btn_NhanPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_NhanPhongLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(440, 280, 140, 45);
+        jPanel1.add(btn_NhanPhong);
+        btn_NhanPhong.setBounds(440, 280, 140, 45);
 
         btn_ThanhToanDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThanhToanDon.setkEndColor(new java.awt.Color(255, 222, 89));
@@ -323,9 +444,9 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jPanel1.add(btn_NhanDon);
         btn_NhanDon.setBounds(780, 280, 140, 45);
 
-        Table_DonDatPhong.setAutoCreateRowSorter(true);
-        Table_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        Table_DonDatPhong.setModel(new javax.swing.table.DefaultTableModel(
+        Table_KhachHang.setAutoCreateRowSorter(true);
+        Table_KhachHang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        Table_KhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -345,20 +466,20 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
                 return types [columnIndex];
             }
         });
-        Table_DonDatPhong.setRowHeight(30);
-        Table_DonDatPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+        Table_KhachHang.setRowHeight(30);
+        Table_KhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                Table_DonDatPhongMousePressed(evt);
+                Table_KhachHangMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(Table_DonDatPhong);
-        if (Table_DonDatPhong.getColumnModel().getColumnCount() > 0) {
-            Table_DonDatPhong.getColumnModel().getColumn(3).setPreferredWidth(110);
-            Table_DonDatPhong.getColumnModel().getColumn(4).setPreferredWidth(110);
+        Scroll_KhachHang.setViewportView(Table_KhachHang);
+        if (Table_KhachHang.getColumnModel().getColumnCount() > 0) {
+            Table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(110);
+            Table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(110);
         }
 
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(40, 550, 1200, 160);
+        jPanel1.add(Scroll_KhachHang);
+        Scroll_KhachHang.setBounds(40, 550, 1200, 160);
 
         jLabel21.setBackground(new java.awt.Color(255, 209, 84));
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -689,9 +810,8 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jPanel1.add(btn_HuyDon3);
         btn_HuyDon3.setBounds(940, 460, 140, 45);
 
-        Table_DonDatPhong6.setAutoCreateRowSorter(true);
-        Table_DonDatPhong6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        Table_DonDatPhong6.setModel(new javax.swing.table.DefaultTableModel(
+        Table_Phong.setAutoCreateRowSorter(true);
+        Table_Phong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -718,31 +838,31 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
                 return types [columnIndex];
             }
         });
-        Table_DonDatPhong6.setRowHeight(30);
-        Table_DonDatPhong6.addMouseListener(new java.awt.event.MouseAdapter() {
+        Table_Phong.setRowHeight(25);
+        Table_Phong.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                Table_DonDatPhong6MousePressed(evt);
+                Table_PhongMousePressed(evt);
             }
         });
-        jScrollPane7.setViewportView(Table_DonDatPhong6);
-        if (Table_DonDatPhong6.getColumnModel().getColumnCount() > 0) {
-            Table_DonDatPhong6.getColumnModel().getColumn(3).setPreferredWidth(110);
-            Table_DonDatPhong6.getColumnModel().getColumn(4).setPreferredWidth(110);
-            Table_DonDatPhong6.getColumnModel().getColumn(8).setPreferredWidth(90);
-            Table_DonDatPhong6.getColumnModel().getColumn(9).setPreferredWidth(90);
+        Scroll_Phong.setViewportView(Table_Phong);
+        if (Table_Phong.getColumnModel().getColumnCount() > 0) {
+            Table_Phong.getColumnModel().getColumn(3).setPreferredWidth(110);
+            Table_Phong.getColumnModel().getColumn(4).setPreferredWidth(110);
+            Table_Phong.getColumnModel().getColumn(8).setPreferredWidth(90);
+            Table_Phong.getColumnModel().getColumn(9).setPreferredWidth(90);
         }
 
-        jPanel1.add(jScrollPane7);
-        jScrollPane7.setBounds(260, 60, 980, 210);
+        jPanel1.add(Scroll_Phong);
+        Scroll_Phong.setBounds(260, 60, 980, 210);
 
-        btn_HuyDon5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_HuyDon5.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_HuyDon5.setkGradientFocus(250);
-        btn_HuyDon5.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_HuyDon5.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_HuyDon5.addMouseListener(new java.awt.event.MouseAdapter() {
+        btn_Thoat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_Thoat.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_Thoat.setkGradientFocus(250);
+        btn_Thoat.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_Thoat.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_Thoat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_HuyDon5MousePressed(evt);
+                btn_ThoatMousePressed(evt);
             }
         });
 
@@ -752,25 +872,25 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         jLabel26.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel26.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout btn_HuyDon5Layout = new javax.swing.GroupLayout(btn_HuyDon5);
-        btn_HuyDon5.setLayout(btn_HuyDon5Layout);
-        btn_HuyDon5Layout.setHorizontalGroup(
-            btn_HuyDon5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_HuyDon5Layout.createSequentialGroup()
+        javax.swing.GroupLayout btn_ThoatLayout = new javax.swing.GroupLayout(btn_Thoat);
+        btn_Thoat.setLayout(btn_ThoatLayout);
+        btn_ThoatLayout.setHorizontalGroup(
+            btn_ThoatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_ThoatLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        btn_HuyDon5Layout.setVerticalGroup(
-            btn_HuyDon5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_HuyDon5Layout.createSequentialGroup()
+        btn_ThoatLayout.setVerticalGroup(
+            btn_ThoatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_ThoatLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel1.add(btn_HuyDon5);
-        btn_HuyDon5.setBounds(1100, 720, 140, 45);
+        jPanel1.add(btn_Thoat);
+        btn_Thoat.setBounds(1100, 720, 140, 45);
 
         Backgroup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
@@ -797,10 +917,34 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
+    private void btn_NhanPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanPhongMousePressed
         // TODO add your handling code here:
+        int row[] = Table_Phong.getSelectedRows();
+        if (row.length == 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần nhận");
+            return;
+        }
+        for(int i=0 ; i < row.length; i++){
+            
+            int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
+            PhongEmbed phong = donDatPhong_dao.getPhongTheoMaPhong(ddp.getMaDonDat(), maPhong);
+            if(!phong.getTrangThaiPhong().equals("Đang chờ")){
+                JOptionPane.showMessageDialog(this, "Chỉ có thể nhận phòng có trạng thái Đang chờ");
+                return;
+            }
 
-    }//GEN-LAST:event_btn_TimMousePressed
+        }
+        
+        for(int i=0 ; i < row.length; i++){
+            
+            int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
+            donDatPhong_dao.updateTrangThaiPhong(maPhong, "Đang ở");
+            DocDuLieuLenTablePhong(ddp.getPhongs());
+            JOptionPane.showMessageDialog(this, "Nhận phòng thành công");
+        }
+        
+
+    }//GEN-LAST:event_btn_NhanPhongMousePressed
 
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
@@ -809,10 +953,10 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
 
-    private void Table_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhongMousePressed
+    private void Table_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_KhachHangMousePressed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_Table_DonDatPhongMousePressed
+    }//GEN-LAST:event_Table_KhachHangMousePressed
 
     private void btn_ThanhToanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanDonMousePressed
         // TODO add your handling code here:
@@ -866,19 +1010,25 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_HuyDon4MousePressed
 
-    private void Table_DonDatPhong6MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhong6MousePressed
+    private void Table_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_PhongMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Table_DonDatPhong6MousePressed
 
-    private void btn_HuyDon5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDon5MousePressed
+
+    }//GEN-LAST:event_Table_PhongMousePressed
+
+    private void btn_ThoatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThoatMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_HuyDon5MousePressed
+        jDesktopPane1.remove(this);
+        LeTan_GUI.donDatPhong_Gui.setVisible(true);
+    }//GEN-LAST:event_btn_ThoatMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
-    public static javax.swing.JTable Table_DonDatPhong;
-    public static javax.swing.JTable Table_DonDatPhong6;
+    private javax.swing.JScrollPane Scroll_KhachHang;
+    private javax.swing.JScrollPane Scroll_Phong;
+    public static javax.swing.JTable Table_KhachHang;
+    public static javax.swing.JTable Table_Phong;
     private javax.swing.JPanel ThongTinKhachHang;
     private javax.swing.JPanel ThongTinKhachHang1;
     private keeptoo.KGradientPanel btn_HuyDon;
@@ -886,12 +1036,12 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
     private keeptoo.KGradientPanel btn_HuyDon2;
     private keeptoo.KGradientPanel btn_HuyDon3;
     private keeptoo.KGradientPanel btn_HuyDon4;
-    private keeptoo.KGradientPanel btn_HuyDon5;
     private keeptoo.KGradientPanel btn_LamMoi;
     private keeptoo.KGradientPanel btn_NhanDon;
+    private keeptoo.KGradientPanel btn_NhanPhong;
     private keeptoo.KGradientPanel btn_ThanhToanDon;
     private keeptoo.KGradientPanel btn_ThanhToanDon1;
-    private keeptoo.KGradientPanel btn_Tim;
+    private keeptoo.KGradientPanel btn_Thoat;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
@@ -919,8 +1069,6 @@ public class LeTan_DonDatPhong_PhongTrongDon_GUI extends javax.swing.JInternalFr
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

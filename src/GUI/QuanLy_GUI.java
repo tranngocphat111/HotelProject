@@ -248,7 +248,7 @@ public class QuanLy_GUI extends javax.swing.JFrame {
 
         label_ThanhToan2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         label_ThanhToan2.setForeground(new java.awt.Color(255, 255, 255));
-        label_ThanhToan2.setText("DOANH THU");
+        label_ThanhToan2.setText("THỐNG KÊ");
         label_ThanhToan2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         icon_ThanhToan1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_DoanhThu.png"))); // NOI18N

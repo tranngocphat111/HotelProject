@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,28 +22,36 @@ import java.util.logging.Logger;
 import model.DAO.DonDatPhongDAO;
 import model.MongoDBConnection;
 import org.bson.Document;
+import org.jfree.chart.title.TextTitle;
 
 public class ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong extends JPanel {
 
-    public ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong(ArrayList<Document> list) {
+    public ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong(ArrayList<Document> list, Date ngayBatDau, Date ngayKetThuc) {
         // Tạo dataset từ danh sách Document
-        Map<String, Integer> bookingCount = docToMap(list);
-        CategoryDataset dataset = createDataset(bookingCount);
+        Map<String, Map<String, Integer>> serviceUsage = docToMap(list);
+        CategoryDataset dataset = createDataset(serviceUsage);
 
         // Tạo biểu đồ cột
         JFreeChart barChart = ChartFactory.createBarChart(
-                "Số Lượng Đặt Phòng Các Loại",
-                "Tên loại phòng",
+                "Số Lượng Sử Dụng Dịch Vụ Theo Loại Phòng",
+                "Tên dịch vụ",
                 "Số lượng",
                 dataset,
                 PlotOrientation.VERTICAL,
-                false, true, false);
+                true, // Hiển thị chú thích
+                true, // Hiển thị thông tin chi tiết
+                false // Không xuất URL
+        );
+        // Thêm ghi chú thời gian vào biểu đồ
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String ghiChu = "Khoảng thời gian: " + sdf.format(ngayBatDau) + " - " + sdf.format(ngayKetThuc);
+        TextTitle subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
+        barChart.addSubtitle(subtitle);
 
         // Thiết lập trục Y
         CategoryPlot plot = barChart.getCategoryPlot();
         NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
         yAxis.setAutoRangeIncludesZero(true);
-        yAxis.setRange(0, getMaxValue(bookingCount) + 2);
         yAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
         // Tạo ChartPanel chứa biểu đồ
@@ -52,14 +61,20 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong extends JPan
         add(chartPanel, BorderLayout.CENTER);
     }
 
-    /**
-     * Tạo dữ liệu từ bookingCount Map
-     */
-    private CategoryDataset createDataset(Map<String, Integer> bookingCount) {
+    private CategoryDataset createDataset(Map<String, Map<String, Integer>> serviceUsage) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (Map.Entry<String, Integer> entry : bookingCount.entrySet()) {
-            System.out.println("Loại phòng: " + entry.getKey() + ", Số lần đặt: " + entry.getValue());
-            dataset.addValue(entry.getValue(), "Loại phòng", entry.getKey());
+
+        for (Map.Entry<String, Map<String, Integer>> entry : serviceUsage.entrySet()) {
+            String roomType = entry.getKey();
+            Map<String, Integer> serviceCounts = entry.getValue();
+
+            for (Map.Entry<String, Integer> serviceEntry : serviceCounts.entrySet()) {
+                String serviceName = serviceEntry.getKey();
+                int count = serviceEntry.getValue();
+
+                System.out.println("Loại phòng: " + roomType + ", Dịch vụ: " + serviceName + ", Số lần sử dụng: " + count);
+                dataset.addValue(count, roomType, serviceName);
+            }
         }
         return dataset;
     }
@@ -74,12 +89,12 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong extends JPan
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             Date ngayBatDau = sdf.parse("2024-01-01");
-            Date ngayKetThuc = sdf.parse("2024-01-05");
+            Date ngayKetThuc = sdf.parse("2024-02-01");
 
             SwingUtilities.invokeLater(() -> {
-                JFrame frame = new JFrame("Biểu đồ loại phòng");
+                JFrame frame = new JFrame("Biểu đồ sử dụng dịch vụ");
                 ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong panel =
-                        new ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
+                        new ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc);
 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(panel);
@@ -93,30 +108,37 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungDichVuTheoLoaiPhong extends JPan
     }
 
     /**
-     * Lấy giá trị lớn nhất trong Map
+     * Chuyển Document sang Map<String, Map<String, Integer>>
+     * để tính toán số lượng dịch vụ trên từng loại phòng
      */
-    private static int getMaxValue(Map<String, Integer> map) {
-        return map.values().stream().max(Integer::compare).orElse(0);
-    }
-
-    /**
-     * Chuyển Document sang Map<String, Integer> để tính toán số lượng đặt phòng
-     */
-    private Map<String, Integer> docToMap(ArrayList<Document> list) {
-        Map<String, Integer> bookingCount = new HashMap<>();
+    private Map<String, Map<String, Integer>> docToMap(ArrayList<Document> list) {
+        Map<String, Map<String, Integer>> serviceUsage = new HashMap<>();
 
         for (Document doc : list) {
-            List<Document> phongs = (List<Document>) doc.get("phong");
+            List<Document> rooms = (List<Document>) doc.get("phong");
 
-            if (phongs != null && !phongs.isEmpty()) {
-                for (Document phong : phongs) {
-                    String tenLoaiPhong = phong.getString("tenLoaiPhong");
-                    if (tenLoaiPhong != null && !tenLoaiPhong.isEmpty()) {
-                        bookingCount.put(tenLoaiPhong, bookingCount.getOrDefault(tenLoaiPhong, 0) + 1);
+            if (rooms != null && !rooms.isEmpty()) {
+                for (Document room : rooms) {
+                    String roomType = room.getString("tenLoaiPhong");
+                    List<Document> services = (List<Document>) room.get("dichVuSuDung");
+
+                    if (services != null && !services.isEmpty()) {
+                        // Lấy danh sách dịch vụ
+                        for (Document service : services) {
+                            String serviceName = service.getString("tenDV");
+                            int serviceCount = service.getInteger("soLuong", 0);
+
+                            // Nếu loại phòng chưa có trong Map, thêm mới
+                            serviceUsage.putIfAbsent(roomType, new HashMap<>());
+
+                            // Cộng dồn số lượng dịch vụ
+                            Map<String, Integer> serviceCounts = serviceUsage.get(roomType);
+                            serviceCounts.put(serviceName, serviceCounts.getOrDefault(serviceName, 0) + serviceCount);
+                        }
                     }
                 }
             }
         }
-        return bookingCount;
+        return serviceUsage;
     }
 }

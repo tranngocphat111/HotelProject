@@ -14,7 +14,7 @@ public class SerialReader {
         }
 
         // Chọn cổng thích hợp (ví dụ: "COM3")
-        SerialPort serialPort = SerialPort.getCommPort("COM7");
+        SerialPort serialPort = SerialPort.getCommPort("COM5");
         serialPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
         serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 

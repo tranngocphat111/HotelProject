@@ -49,6 +49,8 @@ import model.DTO.Phong;
 import model.DTO.KhachHang;
 import model.DTO.NhanVien;
 import model.DTO.PhongEmbed;
+import model.DTO.PhongEmbed_HoaDon;
+import model.DTO.ThongTinThanhToan;
 
 /**
  *
@@ -571,33 +573,33 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //        }
 //        return list_hoaDonMoi;
 //    }
-    public List<HoaDon> getHoaDonTheoCCCD(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoaDon.getDonDatPhongs());
-            for (KhachHang kh : ddp.getKhachO()) {
-                if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
-                    list_hoaDonMoi.add(hoaDon);
-                }
-            }
-
-        }
-        return list_hoaDonMoi;
-    }
-
-    public List<HoaDon> getHoaDonTheoTenKhachHang(List<HoaDon> list_HoaDons) {
-        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
-        for (HoaDon hoaDon : list_HoaDons) {
-            DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoaDon.getDonDatPhongs());
-            for (KhachHang kh : ddp.getKhachO()) {
-                if (kh.getCCCD().equals(txt_HoTen.getText().trim())) {
-                    list_hoaDonMoi.add(hoaDon);
-                }
-            }
-
-        }
-        return list_hoaDonMoi;
-    }
+//    public List<HoaDon> getHoaDonTheoCCCD(List<HoaDon> list_HoaDons) {
+//        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
+//        for (HoaDon hoaDon : list_HoaDons) {
+//            DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoaDon.getDonDatPhongs());
+//            for (KhachHang kh : ddp.getKhachO()) {
+//                if (kh.getCCCD().equals(txt_CCCD.getText().trim())) {
+//                    list_hoaDonMoi.add(hoaDon);
+//                }
+//            }
+//
+//        }
+//        return list_hoaDonMoi;
+//    }
+//
+//    public List<HoaDon> getHoaDonTheoTenKhachHang(List<HoaDon> list_HoaDons) {
+//        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
+//        for (HoaDon hoaDon : list_HoaDons) {
+//            DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoaDon.getDonDatPhongs());
+//            for (KhachHang kh : ddp.getKhachO()) {
+//                if (kh.getCCCD().equals(txt_HoTen.getText().trim())) {
+//                    list_hoaDonMoi.add(hoaDon);
+//                }
+//            }
+//
+//        }
+//        return list_hoaDonMoi;
+//    }
 
 //    public List<HoaDon> getHoaDonTheoSDT(List<HoaDon> list_HoaDons) {
 //        List<HoaDon> list_hoaDonMoi = new ArrayList<>();
@@ -625,45 +627,16 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
 //    }
     public void DocDuLieuLenTableHoaDon(List<HoaDon> list_hoadon) {
         model.setRowCount(0);
-        for (HoaDon ddp : list_hoadon) {
-            DonDatPhong dp = donDatPhong_dao.getDonDatPhongByMa(ddp.getDonDatPhongs());
+        for (HoaDon hoaDon : list_hoadon) {
+            
             String phong = "";
-            StringBuilder dichVuSuDung = new StringBuilder();
-            if (dp != null) {
-                Map<String, Integer> dichVuMap = new HashMap<>(); // Lưu trữ dịch vụ và số lượng
-
-                for (PhongEmbed p : dp.getPhongs()) {
-                    phong += p.getMaPhong() + ", ";
-                    if (p.getDichVuSuDung() != null) {
-                        for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
-                            // Cộng dồn số lượng nếu dịch vụ đã tồn tại
-                            dichVuMap.put(dv.getTenDV(), dichVuMap.getOrDefault(dv.getTenDV(), 0) + dv.getSoLuong());
-                        }
-                    }
-                }
-
-                // Loại bỏ dấu phẩy cuối cùng trong danh sách phòng
-                if (!phong.isEmpty()) {
-                    phong = phong.substring(0, phong.length() - 2);
-                }
-
-                // Xây dựng chuỗi dịch vụ từ Map
-                for (Map.Entry<String, Integer> entry : dichVuMap.entrySet()) {
-                    dichVuSuDung.append(entry.getKey())
-                            .append(" (x")
-                            .append(entry.getValue())
-                            .append("), ");
-                }
-
-                // Loại bỏ dấu phẩy cuối cùng trong danh sách dịch vụ
-                if (dichVuSuDung.length() > 0) {
-                    dichVuSuDung.setLength(dichVuSuDung.length() - 2);
-                }
-            }
+            
+            
+            
 
             model.addRow(new Object[]{
-                ddp.getMaHoaDon(),
-                sdf.format(ddp.getNgayTaoHoaDon()),
+                hoaDon.getMaHoaDon(),
+                sdf.format(hoaDon.getNgayTaoHoaDon()),
                 phong,
                 dichVuSuDung
             });

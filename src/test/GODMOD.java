@@ -157,6 +157,8 @@ public class GODMOD {
         ddp.setTrangThai("Hoàn thành");
         ddp.setPhongs(phongs);
         System.out.println(ddp);
+        
+        
 
         return ddp;
     }
@@ -190,5 +192,9 @@ public class GODMOD {
         }
         return floor * 100 + room;
     }
+    
+//    private HoaDon taoHoaDon(int maHoaDon, int tongTien, Date ngayTaoHoaDon, NhanVienEmbed nv, boolean trangThai, int maDonDatPhong){
+//        
+//    }
 
 }

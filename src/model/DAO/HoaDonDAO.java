@@ -56,25 +56,25 @@ public class HoaDonDAO {
         return hoaDon;
     }
 
-    public boolean createHoaDon(HoaDon hoaDon) {
-        try {
-            Document subdoc = new Document()
-                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
-                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien());
-            Document doc = new Document()
-                    .append("maHoaDon", hoaDon.getMaHoaDon())
-                    .append("tongTien", hoaDon.getTongTien())
-                    .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
-                    .append("NhanVien", subdoc)
-                    .append("trangThai", hoaDon.isTrangThai())
-                    .append("DonDatPhongs", hoaDon.getDonDatPhongs());
-            InsertOneResult result = hoaDonCollection.insertOne(doc);
-            return result.wasAcknowledged();
-        } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình tạo hóa đơn: " + e.getMessage());
-            return false;
-        }
-    }
+//    public boolean createHoaDon(HoaDon hoaDon) {
+//        try {
+//            Document subdoc = new Document()
+//                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
+//                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien());
+//            Document doc = new Document()
+//                    .append("maHoaDon", hoaDon.getMaHoaDon())
+//                    .append("tongTien", hoaDon.getTongTien())
+//                    .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
+//                    .append("NhanVien", subdoc)
+//                    .append("trangThai", hoaDon.isTrangThai())
+//                    .append("DonDatPhongs", hoaDon.getDonDatPhongs());
+//            InsertOneResult result = hoaDonCollection.insertOne(doc);
+//            return result.wasAcknowledged();
+//        } catch (Exception e) {
+//            System.out.println("Lỗi xảy ra trong quá trình tạo hóa đơn: " + e.getMessage());
+//            return false;
+//        }
+//    }
 
     public boolean deleteHoaDonByMaHoaDon(int maHoaDon) {
         Bson filter = eq("maHoaDon", maHoaDon);
@@ -82,30 +82,30 @@ public class HoaDonDAO {
         return result.getDeletedCount() > 0;
     }
 
-    public boolean updateHoaDon(HoaDon hoaDon) {
-        try {
-            Document subdoc = new Document()
-                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
-                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien());
-
-            Document updateDoc = new Document()
-                    .append("maHoaDon", hoaDon.getMaHoaDon())
-                    .append("tongTien", hoaDon.getTongTien())
-                    .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
-                    .append("NhanVien", subdoc)
-                    .append("trangThai", hoaDon.isTrangThai());
-
-            Document updateQuery = new Document("$set", updateDoc);
-            Document filter = new Document("maHoaDon", hoaDon.getMaHoaDon());
-
-            UpdateResult result = hoaDonCollection.updateOne(filter, updateQuery);
-            return result.getMatchedCount() > 0;
-        } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình cập nhật hóa đơn: " + e.getMessage());
-            return false;
-        }
-
-    }
+//    public boolean updateHoaDon(HoaDon hoaDon) {
+//        try {
+//            Document subdoc = new Document()
+//                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
+//                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien());
+//
+//            Document updateDoc = new Document()
+//                    .append("maHoaDon", hoaDon.getMaHoaDon())
+//                    .append("tongTien", hoaDon.getTongTien())
+//                    .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
+//                    .append("NhanVien", subdoc)
+//                    .append("trangThai", hoaDon.isTrangThai());
+//
+//            Document updateQuery = new Document("$set", updateDoc);
+//            Document filter = new Document("maHoaDon", hoaDon.getMaHoaDon());
+//
+//            UpdateResult result = hoaDonCollection.updateOne(filter, updateQuery);
+//            return result.getMatchedCount() > 0;
+//        } catch (Exception e) {
+//            System.out.println("Lỗi xảy ra trong quá trình cập nhật hóa đơn: " + e.getMessage());
+//            return false;
+//        }
+//
+//    }
 
     public List<HoaDon> getHoaDonTheoNgay(Date ngayBatDau, Date ngayKetThuc) {
         // Thiết lập thời gian bắt đầu trong ngày cho ngayBatDau

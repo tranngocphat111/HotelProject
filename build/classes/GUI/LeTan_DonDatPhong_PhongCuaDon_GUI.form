@@ -651,7 +651,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="40" y="370" width="720" height="160"/>
+              <AbsoluteConstraints x="40" y="370" width="860" height="160"/>
             </Constraint>
           </Constraints>
 
@@ -659,28 +659,28 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txt_CCCD" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
                           <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="txt_Email" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
+                          <Component id="txt_CCCD" pref="206" max="32767" attributes="0"/>
+                          <Component id="txt_Email" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel11" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                          <Component id="txt_Hoten" pref="188" max="32767" attributes="0"/>
-                          <Component id="cb_GioiTinh" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txt_Hoten" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cb_GioiTinh" alignment="0" pref="217" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" pref="45" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" pref="63" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel12" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
                           <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="cb_QuocTich" alignment="0" pref="215" max="32767" attributes="0"/>
                           <Component id="txt_SDT" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cb_QuocTich" alignment="0" min="-2" pref="188" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="33" max="32767" attributes="0"/>
+                      <EmptySpace pref="51" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -854,7 +854,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="keeptoo.KGradientPanel" name="btn_HuyDon2">
+        <Container class="keeptoo.KGradientPanel" name="btn_LamMoi">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -873,11 +873,11 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_HuyDon2MousePressed"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_LamMoiMousePressed"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="780" y="390" width="140" height="45"/>
+              <AbsoluteConstraints x="1100" y="460" width="140" height="45"/>
             </Constraint>
           </Constraints>
 
@@ -980,7 +980,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="keeptoo.KGradientPanel" name="btn_ThanhToanDon1">
+        <Container class="keeptoo.KGradientPanel" name="btn_Xoa">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -999,7 +999,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ThanhToanDon1MousePressed"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_XoaMousePressed"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -1038,7 +1038,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="keeptoo.KGradientPanel" name="btn_HuyDon4">
+        <Container class="keeptoo.KGradientPanel" name="btn_Sua">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -1057,70 +1057,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_HuyDon4MousePressed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1100" y="460" width="140" height="45"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel25" pref="126" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel25" pref="31" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel25">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-                <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Th&#xea;m Excel"/>
-                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Hand Cursor"/>
-                </Property>
-                <Property name="horizontalTextPosition" type="int" value="0"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="keeptoo.KGradientPanel" name="btn_HuyDon3">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder/>
-              </Border>
-            </Property>
-            <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="59" green="de" red="ff" type="rgb"/>
-            </Property>
-            <Property name="kGradientFocus" type="int" value="250"/>
-            <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="1b" green="b0" red="e1" type="rgb"/>
-            </Property>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[140, 45]"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_HuyDon3MousePressed"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_SuaMousePressed"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

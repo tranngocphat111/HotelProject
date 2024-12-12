@@ -247,10 +247,10 @@ public class DangNhap_GUI extends javax.swing.JFrame {
         }
 
         if (nv.getChucVu().equals("Nhân viên")) {
-            new NhanVien_GUI().setVisible(true);
+            new NhanVien_GUI(nhanVien_DangSuDung).setVisible(true);
             setVisible(false);
         } else {
-            new QuanLy_GUI().setVisible(true);
+            new QuanLy_GUI(nhanVien_DangSuDung).setVisible(true);
             setVisible(false);
         }
 
@@ -284,10 +284,10 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             }
 
             if (nv.getChucVu().equals("Nhân viên")) {
-                new NhanVien_GUI().setVisible(true);
+                new NhanVien_GUI(nhanVien_DangSuDung).setVisible(true);
                 setVisible(false);
             } else {
-                new QuanLy_GUI().setVisible(true);
+                new QuanLy_GUI(nhanVien_DangSuDung).setVisible(true);
                 setVisible(false);
             }
         }
@@ -320,10 +320,10 @@ public class DangNhap_GUI extends javax.swing.JFrame {
             }
 
             if (nv.getChucVu().equals("Nhân viên")) {
-                new NhanVien_GUI().setVisible(true);
+                new NhanVien_GUI(nhanVien_DangSuDung).setVisible(true);
                 setVisible(false);
             } else {
-                new QuanLy_GUI().setVisible(true);
+                new QuanLy_GUI(nhanVien_DangSuDung).setVisible(true);
                 setVisible(false);
             }
         }

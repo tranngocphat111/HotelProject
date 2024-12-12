@@ -37,6 +37,7 @@ import model.DAO.PhongDAO;
 import model.DAO.TienNghiDAO;
 import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
+import model.DTO.NhanVien;
 import model.DTO.Phong;
 import model.DTO.TienNghi;
 import static model.DTO.TienNghi.sapXepTienNghiTheoMa;
@@ -62,13 +63,15 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private Map<KGradientPanel, Boolean> clickMap = new HashMap<>();
     DefaultTableCellRenderer centerRenderer;
     DecimalFormat df = new DecimalFormat("#,##0");
-
+    private NhanVien nhanVien_DangSuDung;
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    public NhanVien_LoaiPhong_GUI() {
-
+    public NhanVien_LoaiPhong_GUI(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
+        jLabel1.setText(this.nhanVien_DangSuDung.getTenNhanVien());
+        ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
         jScrollPane2.setOpaque(false); // Làm JScrollPane trong suốt
         jScrollPane2.getViewport().setOpaque(false);
         jScrollPane2.setUI(new javax.swing.plaf.basic.BasicScrollPaneUI() {
@@ -416,6 +419,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         Panel_TienNghi = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        circlePanel1 = new GUI.CirclePanel_Atatar();
+        label_Avatar = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_LoaiPhong"); // NOI18N
@@ -429,7 +437,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jLabel2.setForeground(new java.awt.Color(255, 209, 84));
         jLabel2.setText("Tiện nghi");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(910, 50, 130, 32);
+        jLabel2.setBounds(910, 90, 130, 32);
 
         ThongTinLoaiPhong.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinLoaiPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -581,7 +589,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinLoaiPhong);
-        ThongTinLoaiPhong.setBounds(80, 100, 790, 200);
+        ThongTinLoaiPhong.setBounds(80, 140, 790, 200);
 
         jLabel14.setBackground(new java.awt.Color(255, 209, 84));
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -589,7 +597,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         jLabel14.setText("Thông tin loại phòng");
         jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(80, 50, 250, 32);
+        jLabel14.setBounds(80, 90, 250, 32);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -623,7 +631,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(730, 320, 140, 40);
+        btn_Tim.setBounds(730, 360, 140, 40);
 
         btn_Lammoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Lammoi.setkGradientFocus(250);
@@ -657,7 +665,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Lammoi);
-        btn_Lammoi.setBounds(560, 320, 140, 40);
+        btn_Lammoi.setBounds(560, 360, 140, 40);
 
         btn_Them.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Them.setkGradientFocus(250);
@@ -692,7 +700,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Them);
-        btn_Them.setBounds(80, 320, 140, 40);
+        btn_Them.setBounds(80, 360, 140, 40);
 
         btn_Xoa.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Xoa.setkGradientFocus(250);
@@ -723,7 +731,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Xoa);
-        btn_Xoa.setBounds(240, 320, 140, 40);
+        btn_Xoa.setBounds(240, 360, 140, 40);
 
         btn_Sua.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Sua.setkGradientFocus(250);
@@ -755,7 +763,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Sua);
-        btn_Sua.setBounds(400, 320, 140, 40);
+        btn_Sua.setBounds(400, 360, 140, 40);
 
         table_LoaiPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         table_LoaiPhong.setModel(new javax.swing.table.DefaultTableModel(
@@ -815,7 +823,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(80, 390, 1130, 336);
+        jScrollPane1.setBounds(80, 430, 1130, 336);
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -862,7 +870,82 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(910, 100, 300, 260);
+        jPanel3.setBounds(910, 140, 300, 260);
+
+        jPanel4.setOpaque(false);
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
+
+        label_Avatar.setMaximumSize(new java.awt.Dimension(45, 45));
+        label_Avatar.setMinimumSize(new java.awt.Dimension(45, 45));
+        label_Avatar.setPreferredSize(new java.awt.Dimension(45, 45));
+
+        javax.swing.GroupLayout circlePanel1Layout = new javax.swing.GroupLayout(circlePanel1);
+        circlePanel1.setLayout(circlePanel1Layout);
+        circlePanel1Layout.setHorizontalGroup(
+            circlePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(circlePanel1Layout.createSequentialGroup()
+                .addComponent(label_Avatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        circlePanel1Layout.setVerticalGroup(
+            circlePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circlePanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label_Avatar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel5.setOpaque(false);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Nguyễn Hoàng Sang");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(circlePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(circlePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel1.add(jPanel4);
+        jPanel4.setBounds(1000, 0, 280, 70);
 
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setName("page_LoaiPhong"); // NOI18N
@@ -1205,6 +1288,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_LoaigiuongActionPerformed
 
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        // TODO add your handling code here:
+        new TrangCaNhan(nhanVien_DangSuDung).setVisible(true);
+    }//GEN-LAST:event_jPanel4MouseClicked
+
     public void checkRegex() {
         if (txt_TenLoaiphong.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Nhập tên phòng");
@@ -1424,6 +1512,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_Tim;
     private keeptoo.KGradientPanel btn_Xoa;
     private javax.swing.JComboBox<String> cb_Loaigiuong;
+    private GUI.CirclePanel_Atatar circlePanel1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -1445,8 +1535,11 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel label_Avatar;
     private javax.swing.JTable table_LoaiPhong;
     private javax.swing.JTextField txt_Dientich;
     private javax.swing.JTextField txt_Dongia;

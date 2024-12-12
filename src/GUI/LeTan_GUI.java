@@ -430,7 +430,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private void page_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DonDatPhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        donDatPhong_Gui = new LeTan_DonDatPhong_GUI();
+        donDatPhong_Gui = new LeTan_DonDatPhong_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(donDatPhong_Gui);
         donDatPhong_Gui.setVisible(true);
     }//GEN-LAST:event_page_DonDatPhongMousePressed
@@ -438,7 +438,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private void page_ThanhToanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_ThanhToanMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        thanhToan_Gui = new LeTan_ThanhToan_GUI();
+        thanhToan_Gui = new LeTan_ThanhToan_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(thanhToan_Gui);
         thanhToan_Gui.setVisible(true);
     }//GEN-LAST:event_page_ThanhToanMousePressed

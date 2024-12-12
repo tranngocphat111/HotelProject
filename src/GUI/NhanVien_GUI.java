@@ -16,6 +16,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import keeptoo.KGradientPanel;
+import model.DTO.NhanVien;
 import model.DTO.Phong;
 
 /**
@@ -24,7 +25,7 @@ import model.DTO.Phong;
  */
 public class NhanVien_GUI extends javax.swing.JFrame {
 
-    NhanVien_Phong_GUI phong_Gui = new NhanVien_Phong_GUI();
+    NhanVien_Phong_GUI phong_Gui;
     NhanVien_LoaiPhong_GUI loaiphong_Gui;
     NhanVien_TienNghi_GUI tiennghi_Gui;
     NhanVien_DichVu_GUI dichvu_Gui;
@@ -33,11 +34,14 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private String tam = "page_Phong";
-
+    
+    
+    private NhanVien nhanVien_DangSuDung;
     /**
      * Creates new form NewJFrame
      */
-    public NhanVien_GUI() {
+    public NhanVien_GUI(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
 
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -564,7 +568,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private void page_PhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_PhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        phong_Gui = new NhanVien_Phong_GUI();
+        phong_Gui = new NhanVien_Phong_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(phong_Gui);
         phong_Gui.setVisible(true);
 
@@ -573,7 +577,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private void page_LoaiPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_LoaiPhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        loaiphong_Gui = new NhanVien_LoaiPhong_GUI();
+        loaiphong_Gui = new NhanVien_LoaiPhong_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(loaiphong_Gui);
         loaiphong_Gui.setVisible(true);
 
@@ -582,7 +586,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private void page_TienNghiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_TienNghiMousePressed
         // TODO add your handling code here:4
         jDesktopPane1.removeAll();
-        tiennghi_Gui = new NhanVien_TienNghi_GUI();
+        tiennghi_Gui = new NhanVien_TienNghi_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(tiennghi_Gui);
         tiennghi_Gui.setVisible(true);
 
@@ -591,7 +595,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private void page_DichVuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DichVuMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        dichvu_Gui = new NhanVien_DichVu_GUI();
+        dichvu_Gui = new NhanVien_DichVu_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(dichvu_Gui);
         dichvu_Gui.setVisible(true);
 
@@ -600,7 +604,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private void page_KhuyenMaiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhuyenMaiMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        khuyenmai_Gui = new NhanVien_KhuyenMai_GUI();
+        khuyenmai_Gui = new NhanVien_KhuyenMai_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(khuyenmai_Gui);
         khuyenmai_Gui.setVisible(true);
 
@@ -609,7 +613,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private void page_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhachHangMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        khachhang_Gui = new NhanVien_KhachHang_GUI();
+        khachhang_Gui = new NhanVien_KhachHang_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(khachhang_Gui);
         khachhang_Gui.setVisible(true);
 
@@ -658,11 +662,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NhanVien_GUI().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

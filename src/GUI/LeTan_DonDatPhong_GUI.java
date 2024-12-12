@@ -59,6 +59,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form LeTan_DatPhong_GUI
+     *
      * @param nhanVien_DangSuDung
      */
     public LeTan_DonDatPhong_GUI(NhanVien nhanVien_DangSuDung) {
@@ -66,7 +67,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         initComponents();
         jLabel4.setText(this.nhanVien_DangSuDung.getTenNhanVien());
         ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
-        
+
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
@@ -282,7 +283,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinNgay);
-        ThongTinNgay.setBounds(20, 90, 480, 110);
+        ThongTinNgay.setBounds(20, 70, 480, 110);
 
         ThongTinKhachHang.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinKhachHang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -330,7 +331,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinKhachHang);
-        ThongTinKhachHang.setBounds(540, 90, 440, 110);
+        ThongTinKhachHang.setBounds(540, 70, 440, 110);
 
         btn_HuyDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_HuyDon.setkGradientFocus(250);
@@ -366,7 +367,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_HuyDon);
-        btn_HuyDon.setBounds(900, 210, 150, 45);
+        btn_HuyDon.setBounds(900, 230, 150, 45);
 
         btn_Tim.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_Tim.setkGradientFocus(250);
@@ -403,7 +404,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(330, 210, 150, 45);
+        btn_Tim.setBounds(330, 230, 150, 45);
 
         btn_ThanhToanDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_ThanhToanDon.setkGradientFocus(250);
@@ -436,7 +437,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_ThanhToanDon);
-        btn_ThanhToanDon.setBounds(1080, 210, 150, 45);
+        btn_ThanhToanDon.setBounds(1080, 230, 150, 45);
 
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
@@ -470,7 +471,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(520, 210, 150, 45);
+        btn_LamMoi.setBounds(520, 230, 150, 45);
 
         btn_NhanDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_NhanDon.setkGradientFocus(250);
@@ -505,7 +506,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(btn_NhanDon);
-        btn_NhanDon.setBounds(710, 210, 150, 45);
+        btn_NhanDon.setBounds(710, 230, 150, 45);
 
         Table_DonDatPhong.setAutoCreateRowSorter(true);
         Table_DonDatPhong.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -556,7 +557,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Trạng thái đơn");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(20, 170, 170, 40);
+        jLabel9.setBounds(20, 190, 170, 40);
 
         cb_trangthaidon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cb_trangthaidon.addActionListener(new java.awt.event.ActionListener() {
@@ -565,7 +566,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(cb_trangthaidon);
-        cb_trangthaidon.setBounds(20, 210, 250, 42);
+        cb_trangthaidon.setBounds(20, 230, 250, 42);
 
         ThongTinPhong.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -604,7 +605,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
 
         jPanel1.add(ThongTinPhong);
-        ThongTinPhong.setBounds(1020, 90, 210, 110);
+        ThongTinPhong.setBounds(1020, 70, 210, 110);
 
         jPanel2.setOpaque(false);
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -794,7 +795,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-        if (txt_NgayBatDau.getDate().after(txt_NgayKetThuc.getDate()) ) {
+        if (txt_NgayBatDau.getDate().after(txt_NgayKetThuc.getDate())) {
             JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải trước ngày kết thúc");
             txt_NgayBatDau.setDate(new Date(txt_NgayKetThuc.getDate().getTime() - 60 * 60 * 24 * 1000));
             return;
@@ -808,9 +809,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
 
-
-
-        if (txt_NgayBatDau.getDate().after(txt_NgayKetThuc.getDate()) ) {
+        if (txt_NgayBatDau.getDate().after(txt_NgayKetThuc.getDate())) {
             JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
             txt_NgayKetThuc.setDate(new Date(txt_NgayBatDau.getDate().getTime() + 60 * 60 * 24 * 1000));
             return;
@@ -837,7 +836,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             listddp = timDonDatPhongTheoTrangThai(cb_trangthaidon.getSelectedItem() + "", list_DonDatPhong);
 
         }
-        
+
         if (txt_NgayBatDau.getDate() != null && txt_NgayKetThuc.getDate() != null) {
             listddp = timDonDatPhongTheoNgayTaoDon(listddp, txt_NgayBatDau.getDate(), txt_NgayKetThuc.getDate());
         }
@@ -861,7 +860,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
         // TODO add your handling code here:
-
+        cb_trangthaidon.setSelectedItem("Đang chờ");
     }//GEN-LAST:event_btn_LamMoiMousePressed
 
 
@@ -908,6 +907,12 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             DocDuLieuLenTableDonDatPhong(timDonDatPhongTheoTrangThai(cb_trangthaidon.getSelectedItem() + "", list_DonDatPhong));
 
         }
+
+        txt_NgayBatDau.setDate(null);
+        txt_NgayKetThuc.setDate(null);
+        txt_CCCD.setText("");
+        txt_TenKhachHang.setText("");
+        txt_Phong.setText("");
     }//GEN-LAST:event_cb_trangthaidonActionPerformed
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked

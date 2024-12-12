@@ -383,6 +383,13 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel361 = new javax.swing.JLabel();
         txt_NgayTra4 = new javax.swing.JLabel();
         txt_NgayNhan4 = new javax.swing.JLabel();
+        payment = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        tien_can_thanh_toan = new javax.swing.JLabel();
+        tien_da_thanh_toan = new javax.swing.JLabel();
+        tien_conlai = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -2856,9 +2863,7 @@ public class NewJFrame extends javax.swing.JFrame {
         panel_Tang.setLayout(panel_TangLayout);
         panel_TangLayout.setHorizontalGroup(
             panel_TangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_TangLayout.createSequentialGroup()
-                .addComponent(SoTang, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(SoTang, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_TangLayout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(Panel_Phongs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -3896,6 +3901,73 @@ public class NewJFrame extends javax.swing.JFrame {
 
         Panel_PhongDuocChons.add(panel_PhongDuocChon3);
 
+        payment.setBackground(new java.awt.Color(0, 0, 0));
+        payment.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
+
+        jLabel3.setBackground(new java.awt.Color(255, 209, 84));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel3.setText("Cần thanh toán");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel4.setText("Đã thanh toán");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel5.setText("Còn lại");
+
+        tien_can_thanh_toan.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        tien_can_thanh_toan.setForeground(new java.awt.Color(255, 209, 84));
+        tien_can_thanh_toan.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        tien_can_thanh_toan.setText("860,000");
+
+        tien_da_thanh_toan.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        tien_da_thanh_toan.setForeground(new java.awt.Color(255, 209, 84));
+        tien_da_thanh_toan.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        tien_da_thanh_toan.setText("860,000");
+
+        tien_conlai.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        tien_conlai.setForeground(new java.awt.Color(255, 209, 84));
+        tien_conlai.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        tien_conlai.setText("860,000");
+
+        javax.swing.GroupLayout paymentLayout = new javax.swing.GroupLayout(payment);
+        payment.setLayout(paymentLayout);
+        paymentLayout.setHorizontalGroup(
+            paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paymentLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tien_da_thanh_toan, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addComponent(tien_can_thanh_toan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tien_conlai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        paymentLayout.setVerticalGroup(
+            paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paymentLayout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tien_da_thanh_toan))
+                .addGap(18, 18, 18)
+                .addGroup(paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(tien_can_thanh_toan))
+                .addGap(18, 18, 18)
+                .addGroup(paymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(tien_conlai))
+                .addGap(15, 15, 15))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -3907,7 +3979,9 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addComponent(panel_Tang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(payment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -3915,8 +3989,14 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel_Tang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 87, Short.MAX_VALUE)
+                        .addComponent(Panel_PhongDuocChons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(payment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -4066,6 +4146,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel297;
     private javax.swing.JLabel jLabel298;
     private javax.swing.JLabel jLabel299;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel300;
     private javax.swing.JLabel jLabel301;
@@ -4121,7 +4202,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel359;
     private javax.swing.JLabel jLabel360;
     private javax.swing.JLabel jLabel361;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
@@ -4310,6 +4393,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panel_Tang;
     private javax.swing.JPanel panel_TienNghiCuaPhong;
     private javax.swing.JPanel panel_TienNghiCuaPhong4;
+    private javax.swing.JPanel payment;
+    private javax.swing.JLabel tien_can_thanh_toan;
+    private javax.swing.JLabel tien_conlai;
+    private javax.swing.JLabel tien_da_thanh_toan;
     private javax.swing.JLabel txt_NgayNhan1;
     private javax.swing.JLabel txt_NgayNhan2;
     private javax.swing.JLabel txt_NgayNhan3;

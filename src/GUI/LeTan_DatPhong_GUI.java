@@ -106,9 +106,10 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
         boloc_DonGia = 0;
         boloc_Mota = "Tất cả";
         
-        initComponents();
         this.nhanVien_DangSuDung = nhanVien_DangSuDung;
+        initComponents();
         jLabel1.setText(this.nhanVien_DangSuDung.getTenNhanVien());
+        ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
         
         txt_NgayNhanPhong.setDate(setThoiGian0(new Date()));
         txt_NgayTraPhong.setDate(setThoiGian0(new Date(new Date().getTime() + 60 * 60 * 24 * 1000)));
@@ -150,7 +151,7 @@ public class LeTan_DatPhong_GUI extends javax.swing.JInternalFrame {
 //        Set avatar
         jPanel3.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, new Color(255, 209, 84)));
         System.out.println(String.format("%d %d",label_Avatar.getWidth(), label_Avatar.getHeight()));
-        ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
+        
         SideBar.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(255, 255, 255)));
 
 //      Set thanh Scroll

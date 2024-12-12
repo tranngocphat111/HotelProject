@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Functions.ImageScale;
 import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,10 +13,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import model.DAO.DonDatPhongDAO;
+import model.DTO.NhanVien;
 import model.MongoDBConnection;
 import org.jfree.chart.ChartPanel;
 
@@ -24,7 +27,8 @@ import org.jfree.chart.ChartPanel;
  * @author Admin
  */
 public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
-
+    
+    private NhanVien nhanVien_DangSuDung;
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
@@ -34,8 +38,11 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         chartPanel.repaint(); // Vẽ lại panel
     }
 
-    public QuanLy_DoanhThu_GUI() {
+    public QuanLy_DoanhThu_GUI(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
+        jLabel6.setText(this.nhanVien_DangSuDung.getTenNhanVien());
+        ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
         ddpDAO = new DonDatPhongDAO(MongoDBConnection.getDatabase());
         chartPanel = new JPanel();
         chartPanel.setLayout(new BoxLayout(chartPanel, BoxLayout.Y_AXIS)); // Đặt layout dọc cho container
@@ -74,6 +81,11 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         cb_TheoThang = new javax.swing.JComboBox<>();
         panel_ThongKeDoanhThu = new javax.swing.JPanel();
         ScrollChart = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        circlePanel1 = new GUI.CirclePanel_Atatar();
+        label_Avatar = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DoanhThu"); // NOI18N
@@ -257,6 +269,81 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(panel_ThongKeDoanhThu);
         panel_ThongKeDoanhThu.setBounds(20, 320, 1240, 460);
 
+        jPanel2.setOpaque(false);
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
+
+        label_Avatar.setMaximumSize(new java.awt.Dimension(45, 45));
+        label_Avatar.setMinimumSize(new java.awt.Dimension(45, 45));
+        label_Avatar.setPreferredSize(new java.awt.Dimension(45, 45));
+
+        javax.swing.GroupLayout circlePanel1Layout = new javax.swing.GroupLayout(circlePanel1);
+        circlePanel1.setLayout(circlePanel1Layout);
+        circlePanel1Layout.setHorizontalGroup(
+            circlePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(circlePanel1Layout.createSequentialGroup()
+                .addComponent(label_Avatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        circlePanel1Layout.setVerticalGroup(
+            circlePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circlePanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label_Avatar, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel3.setOpaque(false);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 209, 84));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setText("Nguyễn Hoàng Sang");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(circlePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(circlePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(1000, 0, 280, 70);
+
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
@@ -327,6 +414,11 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         addChartToScrollPane(pieChart);  
     }//GEN-LAST:event_btnThongKeMouseClicked
 
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        // TODO add your handling code here:
+        new TrangCaNhan(nhanVien_DangSuDung).setVisible(true);
+    }//GEN-LAST:event_jPanel2MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
@@ -338,6 +430,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cb_TheoNam;
     private javax.swing.JComboBox<String> cb_TheoQuy;
     private javax.swing.JComboBox<String> cb_TheoThang;
+    private GUI.CirclePanel_Atatar circlePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
@@ -345,7 +438,11 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel label_Avatar;
     private javax.swing.JPanel panel_ThongKeDoanhThu;
     private com.toedter.calendar.JDateChooser txt_DenNgay;
     private com.toedter.calendar.JDateChooser txt_TuNgay;

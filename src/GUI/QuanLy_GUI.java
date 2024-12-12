@@ -16,13 +16,14 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import keeptoo.KGradientPanel;
+import model.DTO.NhanVien;
 
 /**
  *
  * @author Admin
  */
 public class QuanLy_GUI extends javax.swing.JFrame {
-    QuanLy_NhanVien_GUI nhanvien_Gui = new QuanLy_NhanVien_GUI();
+    QuanLy_NhanVien_GUI nhanvien_Gui;
     QuanLy_DoanhThu_GUI doanhthu_Gui;
     QuanLy_TaiKhoan_GUI taikhoan_Gui;
 
@@ -30,18 +31,19 @@ public class QuanLy_GUI extends javax.swing.JFrame {
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private String tam = "page_NhanVien";
    
-
+    private NhanVien nhanVien_DangSuDung;
     /**
      * Creates new form NewJFrame
      */
-    public QuanLy_GUI() {
+    public QuanLy_GUI(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
 
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
         
         page_NhanVien.setkStartColor(new java.awt.Color(225, 176, 27));
         page_NhanVien.setkEndColor(new java.awt.Color(255, 222, 89));
-
+        nhanvien_Gui = new QuanLy_NhanVien_GUI(this.nhanVien_DangSuDung);
         nhanvien_Gui.setVisible(true);
 
         jDesktopPane1.add(nhanvien_Gui);
@@ -422,7 +424,7 @@ public class QuanLy_GUI extends javax.swing.JFrame {
     private void page_NhanVienMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_NhanVienMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        nhanvien_Gui = new QuanLy_NhanVien_GUI();
+        nhanvien_Gui = new QuanLy_NhanVien_GUI(nhanVien_DangSuDung);
         nhanvien_Gui.setVisible(true);
         jDesktopPane1.add(nhanvien_Gui);
     }//GEN-LAST:event_page_NhanVienMousePressed
@@ -430,7 +432,7 @@ public class QuanLy_GUI extends javax.swing.JFrame {
     private void page_TaiKhoanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_TaiKhoanMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        taikhoan_Gui = new QuanLy_TaiKhoan_GUI();
+        taikhoan_Gui = new QuanLy_TaiKhoan_GUI(nhanVien_DangSuDung);
         taikhoan_Gui.setVisible(true);
         jDesktopPane1.add(taikhoan_Gui);
     }//GEN-LAST:event_page_TaiKhoanMousePressed
@@ -438,7 +440,7 @@ public class QuanLy_GUI extends javax.swing.JFrame {
     private void page_DoanhThuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DoanhThuMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        doanhthu_Gui = new QuanLy_DoanhThu_GUI();
+        doanhthu_Gui = new QuanLy_DoanhThu_GUI(nhanVien_DangSuDung);
         doanhthu_Gui.setVisible(true);
         jDesktopPane1.add(doanhthu_Gui);
     }//GEN-LAST:event_page_DoanhThuMousePressed
@@ -598,11 +600,7 @@ public class QuanLy_GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new QuanLy_GUI().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

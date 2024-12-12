@@ -131,10 +131,7 @@
                           <EmptySpace pref="15" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="payment" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="phong_holder" min="-2" pref="789" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="phong_holder" alignment="1" min="-2" pref="789" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -154,6 +151,13 @@
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="phong_holder">
                   <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder>
+                          <Color PropertyName="color" blue="54" green="d1" red="ff" type="rgb"/>
+                        </LineBorder>
+                      </Border>
+                    </Property>
                     <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
                   </Properties>
 

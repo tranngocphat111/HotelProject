@@ -161,6 +161,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI extends javax.swing.JFrame {
 
         phong_group.setBackground(new java.awt.Color(0, 0, 0));
 
+        phong_holder.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
         phong_holder.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
@@ -271,9 +272,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(phong_groupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(payment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, phong_groupLayout.createSequentialGroup()
-                        .addComponent(phong_holder, javax.swing.GroupLayout.PREFERRED_SIZE, 789, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0))))
+                    .addComponent(phong_holder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 789, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         phong_groupLayout.setVerticalGroup(
             phong_groupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

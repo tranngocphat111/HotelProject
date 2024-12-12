@@ -6,36 +6,29 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
-import static GUI.LeTan_GUI.jDesktopPane1;
-import static GUI.LeTan_ThanhToan_GUI.Table_hoaDon;
-import static GUI.LeTan_ThanhToan_GUI.model;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import keeptoo.KGradientPanel;
 import model.DAO.DonDatPhongDAO;
+import model.DAO.LoaiPhongDAO;
+import model.DTO.DichVuSuDung;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
-import model.DTO.HoaDon;
 import model.DTO.LoaiPhong;
 import model.DTO.NhanVien;
 import model.DTO.Phong;
@@ -52,11 +45,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
-    private List<DonDatPhong> listddp = new ArrayList<>();
-
     private NhanVien nhanVien_DangSuDung;
-
     /**
      * Creates new form LeTan_DatPhong_GUI
      * @param nhanVien_DangSuDung
@@ -69,9 +58,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
-        ui.setNorthPane(null);
-        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
-        jScrollPane1.getVerticalScrollBar().setUnitIncrement(80);
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         centerRenderer.setVerticalAlignment(JLabel.CENTER);
@@ -93,81 +79,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
 //      Thiết lập renderer cho header phòng
         header_phong.setDefaultRenderer(renderer_phong);
-
-        //      bắt sự kiện hover cho nút 
-        list_btn.add(btn_Tim);
-        list_btn.add(btn_HuyDon);
-        list_btn.add(btn_LamMoi);
-        list_btn.add(btn_NhanDon);
-        list_btn.add(btn_ThanhToanDon);
-
-        list_btn.forEach((element) -> {
-            element.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-//                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    element.setkStartColor(new java.awt.Color(255, 225, 27));
-                    element.setkEndColor(new java.awt.Color(255, 222, 89));
-                    element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    element.setBorder(null);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    element.setkStartColor(new java.awt.Color(225, 176, 27));
-                    element.setkEndColor(new java.awt.Color(255, 222, 89));
-                    element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-                    element.setBorder(null);
-
-                }
-            });
-        });
-
-    }
-
-    public List<DonDatPhong> timDonDatPhongTheoTrangThai(String trangThai, List<DonDatPhong> list_DDP) {
-        return list_DDP.stream()
-                .filter(don -> trangThai.equals(don.getTrangThai()))
-                .collect(Collectors.toList());
-    }
-
-    public List<DonDatPhong> timDonDatPhongTheoNguoiDat(List<DonDatPhong> danhSachDonDatPhong, String tenKhachHang) {
-        return danhSachDonDatPhong.stream()
-                .filter(don -> tenKhachHang.equals(don.getNguoiDat().getTenKhachHang()))
-                .collect(Collectors.toList());
-    }
-
-    public List<DonDatPhong> timDonDatPhongTheoCCCD(List<DonDatPhong> danhSachDonDatPhong, String CCCD) {
-        return danhSachDonDatPhong.stream()
-                .filter(don -> CCCD.equals(don.getNguoiDat().getCCCD()))
-                .collect(Collectors.toList());
-    }
-
-    public List<DonDatPhong> timDonDatPhongTheoMaPhong(List<DonDatPhong> danhSachDonDatPhong, int maPhong) {
-        return danhSachDonDatPhong.stream()
-                .filter(donDat -> donDat.getPhongs().stream().anyMatch(phong -> phong.getMaPhong() == maPhong))
-                .collect(Collectors.toList());
-    }
-
-    public static List<DonDatPhong> timDonDatPhongTheoNgayTaoDon(List<DonDatPhong> danhSachDonDatPhong, Date startDate, Date endDate) {
-        return danhSachDonDatPhong.stream()
-                .filter(donDat -> !donDat.getNgayTaoDon().before(startDate) && !donDat.getNgayTaoDon().after(endDate))
-                .collect(Collectors.toList());
+        ui.setNorthPane(null);
     }
 
     /**
@@ -332,6 +244,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(ThongTinKhachHang);
         ThongTinKhachHang.setBounds(540, 90, 440, 110);
 
+        btn_HuyDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_HuyDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_HuyDon.setkGradientFocus(250);
         btn_HuyDon.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -354,14 +267,14 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             btn_HuyDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_HuyDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                 .addContainerGap())
         );
         btn_HuyDonLayout.setVerticalGroup(
             btn_HuyDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_HuyDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -405,6 +318,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jPanel1.add(btn_Tim);
         btn_Tim.setBounds(330, 210, 150, 45);
 
+        btn_ThanhToanDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_ThanhToanDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_ThanhToanDon.setkGradientFocus(250);
         btn_ThanhToanDon.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -432,12 +346,13 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         );
         btn_ThanhToanDonLayout.setVerticalGroup(
             btn_ThanhToanDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
         );
 
         jPanel1.add(btn_ThanhToanDon);
         btn_ThanhToanDon.setBounds(1080, 210, 150, 45);
 
+        btn_LamMoi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
         btn_LamMoi.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -459,19 +374,20 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         btn_LamMoi.setLayout(btn_LamMoiLayout);
         btn_LamMoiLayout.setHorizontalGroup(
             btn_LamMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
         );
         btn_LamMoiLayout.setVerticalGroup(
             btn_LamMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_LamMoiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_LamMoi);
         btn_LamMoi.setBounds(520, 210, 150, 45);
 
+        btn_NhanDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btn_NhanDon.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_NhanDon.setkGradientFocus(250);
         btn_NhanDon.setkStartColor(new java.awt.Color(225, 176, 27));
@@ -500,7 +416,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             btn_NhanDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_NhanDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -783,78 +699,26 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         cb_trangthaidon.addItem("Đang chờ");
         cb_trangthaidon.addItem("Xử lý");
         cb_trangthaidon.addItem("Đã hủy");
-
-        cb_trangthaidon.setSelectedItem("Đang chờ");
+        
+        cb_trangthaidon.setSelectedItem("Xử lý");
+        
+        
 
     }
 
     private void txt_NgayBatDauPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayBatDauPropertyChange
         // TODO add your handling code here:
-        if (txt_NgayBatDau.getDate() == null || txt_NgayKetThuc.getDate() == null) {
-            return;
-        }
-
-        if (txt_NgayBatDau.getDate().after(txt_NgayKetThuc.getDate()) ) {
-            JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải trước ngày kết thúc");
-            txt_NgayBatDau.setDate(new Date(txt_NgayKetThuc.getDate().getTime() - 60 * 60 * 24 * 1000));
-            return;
-        }
 
     }//GEN-LAST:event_txt_NgayBatDauPropertyChange
 
     private void txt_NgayKetThucPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_NgayKetThucPropertyChange
         // TODO add your handling code here:
-        if (txt_NgayBatDau.getDate() == null || txt_NgayKetThuc.getDate() == null) {
-            return;
-        }
-
-
-
-        if (txt_NgayBatDau.getDate().after(txt_NgayKetThuc.getDate()) ) {
-            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
-            txt_NgayKetThuc.setDate(new Date(txt_NgayBatDau.getDate().getTime() + 60 * 60 * 24 * 1000));
-            return;
-        }
 
 
     }//GEN-LAST:event_txt_NgayKetThucPropertyChange
 
     private void btn_TimMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMousePressed
         // TODO add your handling code here:
-        if (txt_NgayBatDau.getDate() != null && txt_NgayKetThuc.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Ngày kết thúc không được trống");
-            return;
-        }
-
-        if (txt_NgayBatDau.getDate() == null && txt_NgayKetThuc.getDate() != null) {
-            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được trống");
-            return;
-        }
-
-        if (cb_trangthaidon.getSelectedItem().toString().equals("Tất cả")) {
-            listddp = list_DonDatPhong;
-        } else {
-            listddp = timDonDatPhongTheoTrangThai(cb_trangthaidon.getSelectedItem() + "", list_DonDatPhong);
-
-        }
-        
-        if (txt_NgayBatDau.getDate() != null && txt_NgayKetThuc.getDate() != null) {
-            listddp = timDonDatPhongTheoNgayTaoDon(listddp, txt_NgayBatDau.getDate(), txt_NgayKetThuc.getDate());
-        }
-        if (!txt_CCCD.getText().isEmpty()) {
-            listddp = timDonDatPhongTheoCCCD(listddp, txt_CCCD.getText());
-        }
-
-        if (!txt_TenKhachHang.getText().isEmpty()) {
-            listddp = timDonDatPhongTheoNguoiDat(listddp, txt_TenKhachHang.getText());
-        }
-
-        if (!txt_Phong.getText().isEmpty()) {
-            listddp = timDonDatPhongTheoMaPhong(listddp, Integer.parseInt(txt_Phong.getText()));
-        }
-
-        model.setRowCount(0);
-        DocDuLieuLenTableDonDatPhong(listddp);
 
     }//GEN-LAST:event_btn_TimMousePressed
 
@@ -867,15 +731,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void Table_DonDatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_DonDatPhongMousePressed
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            int maDDp = Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString());
-            DonDatPhong ddp = dondatphong_dao.getDonDatPhongByMa(maDDp);
-            LeTan_DonDatPhong_PhongCuaDon_GUI phongcuatui = new LeTan_DonDatPhong_PhongCuaDon_GUI(ddp);
-            setVisible(false);
-            jDesktopPane1.add(phongcuatui);
-            phongcuatui.setVisible(true);
-
-        }
 
     }//GEN-LAST:event_Table_DonDatPhongMousePressed
 
@@ -901,13 +756,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void cb_trangthaidonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_trangthaidonActionPerformed
         // TODO add your handling code here:
-        model.setRowCount(0);
-        if (cb_trangthaidon.getSelectedItem().toString().equals("Tất cả")) {
-            DocDuLieuLenTableDonDatPhong(list_DonDatPhong);
-        } else {
-            DocDuLieuLenTableDonDatPhong(timDonDatPhongTheoTrangThai(cb_trangthaidon.getSelectedItem() + "", list_DonDatPhong));
-
-        }
     }//GEN-LAST:event_cb_trangthaidonActionPerformed
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked

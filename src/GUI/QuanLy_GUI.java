@@ -4,17 +4,11 @@
  */
 package GUI;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.List;
-import javax.lang.model.util.Elements;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import keeptoo.KGradientPanel;
 import model.DTO.NhanVien;
 

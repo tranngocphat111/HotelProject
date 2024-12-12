@@ -30,8 +30,8 @@ public class LeTan_GUI extends javax.swing.JFrame {
 
     private LeTan_DatPhong_GUI datPhong_Gui;
 //    private LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI(nhanVien_DangSuDung);
-    public static LeTan_ThanhToan_GUI thanhToan_Gui;
-    public static LeTan_DonDatPhong_GUI donDatPhong_Gui;
+    private LeTan_ThanhToan_GUI thanhToan_Gui;
+    private LeTan_DonDatPhong_GUI donDatPhong_Gui;
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private String tam = "page_DatPhong";
     private static NhanVien nhanVien_DangSuDung;

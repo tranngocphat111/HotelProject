@@ -447,8 +447,6 @@ public class LeTan_DatPhong_BoLoc_GUI extends javax.swing.JDialog {
 
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
-        LeTan_DatPhong_GUI.list_PhongDuocChonTheo1thoiGian.clear();
-        
         LeTan_DatPhong_GUI.boloc_loaiPhong = cb_LoaiPhong.getSelectedItem().toString();
         LeTan_DatPhong_GUI.boloc_loaiGiuong = cb_LoaiGiuong.getSelectedItem().toString();
         LeTan_DatPhong_GUI.boloc_SokhachtoiDa = cb_SoKhachToiDa.getSelectedItem().toString();

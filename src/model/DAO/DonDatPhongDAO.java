@@ -8,7 +8,6 @@ import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Aggregates.match;
 import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.elemMatch;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
 import static com.mongodb.client.model.Filters.lte;
@@ -230,35 +229,11 @@ public class DonDatPhongDAO {
         }
     }
 
-    public PhongEmbed getPhongTheoMaPhong(int maDonDat, int maPhong) {
-        try {
-            // Tìm đơn đặt phòng dựa vào mã đơn đặt phòng
-            Document donDatPhong = donDatPhongCollection.find(eq("maDonDat", maDonDat)).first();
-
-            if (donDatPhong != null) {
-                // Lấy danh sách phòng từ document "donDatPhong"
-                List<Document> danhSachPhong = donDatPhong.getList("phong", Document.class);
-
-                // Duyệt qua danh sách phòng để tìm phòng có mã phòng khớp
-                for (Document phong : danhSachPhong) {
-                    if (phong.getInteger("maPhong") == maPhong) {
-                        return PhongEmbed.fromDocument(phong);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Lỗi khi lấy thông tin phòng: " + e.getMessage());
-        }
-
-        // Trả về null nếu không tìm thấy phòng hoặc có lỗi xảy ra
-        return null;
-    }
-
-    public boolean updateTrangThaiDon(int maDonDat, String trangThai) {
+    public boolean updateHoanThanh(int maDonDat) {
         try {
             UpdateResult result = donDatPhongCollection.updateOne(
                     eq("maDonDat", maDonDat),
-                    set("trangThai", trangThai)
+                    set("trangThai", "Hoàn thành")
             );
 
             return result.getModifiedCount() > 0;
@@ -268,18 +243,30 @@ public class DonDatPhongDAO {
         }
     }
 
-    public boolean updateTrangThaiPhong(int maPhong, String trangThaiPhong) {
+    public boolean updateXuLy(int maDonDat) {
         try {
-            // Cập nhật trạng thái phòng trong danh sách phòng của đơn đặt phòng
             UpdateResult result = donDatPhongCollection.updateOne(
-                    elemMatch("phong", eq("maPhong", maPhong)), // Tìm đơn có phòng với mã phòng tương ứng
-                    set("phong.$.trangThaiPhong", trangThaiPhong) // Cập nhật trạng thái của phòng đó
+                    eq("maDonDat", maDonDat),
+                    set("trangThai", "Xử lý")
             );
 
-            // Kiểm tra xem số bản ghi được chỉnh sửa có lớn hơn 0
             return result.getModifiedCount() > 0;
         } catch (Exception e) {
-            System.out.println("Lỗi khi cập nhật trạng thái phòng: " + e.getMessage());
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateDaHuy(int maDonDat) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("trangThai", "Đã hủy")
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
             return false;
         }
     }

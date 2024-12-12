@@ -30,10 +30,11 @@ import org.bson.Document;
 import org.jfree.chart.title.TextTitle;
 
 public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
+    private String tongDoanhThu;
 
     public ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(ArrayList<Document> list, Date ngayBatDau, Date ngayKetThuc) {
         // Tạo dataset cho biểu đồ tròn
-        Map<String, Integer> doanhThu = calculateRevenue(list, ngayBatDau, ngayKetThuc);
+        Map<String, Long> doanhThu = calculateRevenue(list, ngayBatDau, ngayKetThuc);
         DefaultPieDataset dataset = createDataset(doanhThu);
 
         // Tạo biểu đồ tròn
@@ -50,7 +51,10 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         String ghiChu = "Khoảng thời gian: " + sdf.format(ngayBatDau) + " - " + sdf.format(ngayKetThuc);
         TextTitle subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
         pieChart.addSubtitle(subtitle);
-
+        
+        ghiChu = "Tổng doanh thu: " + tongDoanhThu;
+        subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
+        pieChart.addSubtitle(subtitle);
         // Tạo ChartPanel chứa biểu đồ
         ChartPanel chartPanel = new ChartPanel(pieChart);
         chartPanel.setPreferredSize(new Dimension(1240, 460));
@@ -58,16 +62,16 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         add(chartPanel, BorderLayout.CENTER);
     }
 
-    private DefaultPieDataset createDataset(Map<String, Integer> data) {
+    private DefaultPieDataset createDataset(Map<String, Long> data) {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        int totalRevenue = data.values().stream().mapToInt(Integer::intValue).sum();
-
+        long totalRevenue = data.values().stream().mapToLong(Long::longValue).sum();
+        
         // Sử dụng NumberFormat cho định dạng tiền tệ
         NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
-
-        for (Map.Entry<String, Integer> entry : data.entrySet()) {
+        tongDoanhThu = currencyFormat.format(totalRevenue);
+        for (Map.Entry<String, Long> entry : data.entrySet()) {
             String key = entry.getKey();
-            int revenue = entry.getValue();
+            long revenue = entry.getValue();
 
             // Định dạng số tiền
             String formattedRevenue = currencyFormat.format(revenue);
@@ -97,7 +101,7 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
 
         try {
             ngayBatDau = sdf.parse("2024-01-01-00");  // Bắt đầu từ 00 giờ
-            ngayKetThuc = sdf.parse("2024-01-05-23"); // Kết thúc lúc 23 giờ
+            ngayKetThuc = sdf.parse("2024-12-05-23"); // Kết thúc lúc 23 giờ
         } catch (ParseException ex) {
             Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -120,15 +124,15 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         frame.setVisible(true);
     }
 
-    public Map<String, Integer> calculateRevenue(ArrayList<Document> bookingData, Date ngayBatDau, Date ngayKetThuc) {
-        Map<String, Integer> revenueMap = new HashMap<>();
+    public Map<String, Long> calculateRevenue(ArrayList<Document> bookingData, Date ngayBatDau, Date ngayKetThuc) {
+        Map<String, Long> revenueMap = new HashMap<>();
 
         for (Document booking : bookingData) {
             DonDatPhong ddp = DonDatPhong.fromDocument(booking);
             for (PhongEmbed p : ddp.getPhongs()) {
                 revenueMap.put(
                         p.getTenLoaiPhong(),
-                        revenueMap.getOrDefault(p.getTenLoaiPhong(), 0) + getDoanhThuTheoKhoangThoiGian(ngayBatDau, ngayKetThuc, p)
+                        revenueMap.getOrDefault(p.getTenLoaiPhong(), 0L) + getDoanhThuTheoKhoangThoiGian(ngayBatDau, ngayKetThuc, p)
                 );
             }
 
@@ -136,8 +140,8 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         return revenueMap;
     }
 
-    public int getDoanhThuTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc, PhongEmbed phong) {
-        int doanhThu = 0;
+    public long getDoanhThuTheoKhoangThoiGian(Date ngayBatDau, Date ngayKetThuc, PhongEmbed phong) {
+        long doanhThu = 0;
         Date ngayBatDauSuDung = phong.getNgayNhanPhong().after(ngayBatDau) ? phong.getNgayNhanPhong() : ngayBatDau;
         Date ngayKetThucSuDung = phong.getNgayTraPhong().before(ngayKetThuc) ? phong.getNgayTraPhong() : ngayKetThuc;
         phong.setNgayNhanPhong(ngayBatDauSuDung);

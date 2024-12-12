@@ -890,15 +890,15 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_ThanhToanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanDonMousePressed
         // TODO add your handling code here:
-        HoaDon hd = new HoaDon();
-        list_HoaDon = hoadon_dao.getAllHoaDon();
-        hd.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
-        hd.setNgayTaoHoaDon(setThoiGian0(new Date()));
-        hd.setDonDatPhongs(Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString()));
-        NhanVienEmbed nve = new NhanVienEmbed();
-        nve.setMaNhanVien(nhanVien_DangSuDung.getMaNhanVien());
-        nve.setTenNhanVien(nhanVien_DangSuDung.getTenNhanVien());
-        hd.setNhanVien(nve);
+//        HoaDon hd = new HoaDon();
+//        list_HoaDon = hoadon_dao.getAllHoaDon();
+//        hd.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
+//        hd.setNgayTaoHoaDon(setThoiGian0(new Date()));
+//        hd.setDonDatPhongs(Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString()));
+//        NhanVienEmbed nve = new NhanVienEmbed();
+//        nve.setMaNhanVien(nhanVien_DangSuDung.getMaNhanVien());
+//        nve.setTenNhanVien(nhanVien_DangSuDung.getTenNhanVien());
+//        hd.setNhanVien(nve);
     }//GEN-LAST:event_btn_ThanhToanDonMousePressed
 
     private void btn_NhanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanDonMousePressed

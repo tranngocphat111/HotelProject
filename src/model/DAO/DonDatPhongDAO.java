@@ -42,6 +42,35 @@ public class DonDatPhongDAO {
     public DonDatPhongDAO(MongoDatabase database) {
         donDatPhongCollection = database.getCollection("DonDatPhong");
     }
+    
+   public void updateNguoiO(int maDonDat, List<KhachHang> nguoiOMoi) {
+
+            // Tạo điều kiện tìm kiếm
+            Bson filter = eq("maDonDat", maDonDat);
+
+            // Tạo bản cập nhật
+            Bson update = set("nguoiO", convertToDocumentList(nguoiOMoi));
+
+            // Cập nhật document
+            donDatPhongCollection.updateOne(filter, update);
+
+    }
+   
+   public List<Document> convertToDocumentList(List<KhachHang> khachHangList) {
+        List<Document> documentList = new ArrayList<>();
+        for (KhachHang kh : khachHangList) {
+            Document doc = new Document("maKhachHang", kh.getMaKhachHang())
+                    .append("HoTen", kh.getTenKhachHang())
+                    .append("SDT", kh.getSoDienThoai())
+                    .append("CCCD", kh.getCCCD())
+                    .append("GioiTinh", kh.getGioiTinh())
+                    .append("Email", kh.getEmail())
+                    .append("QuocTich", kh.getQuocTich());
+            documentList.add(doc);
+        }
+        return documentList;
+    }
+
 
     public boolean kiemTraTenLoaiPhongDangSuDung(String tenLoaiPhong) {
 

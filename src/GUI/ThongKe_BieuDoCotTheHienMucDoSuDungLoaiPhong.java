@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,10 +22,11 @@ import java.util.logging.Logger;
 import model.DAO.DonDatPhongDAO;
 import model.MongoDBConnection;
 import org.bson.Document;
+import org.jfree.chart.title.TextTitle;
 
 public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
 
-    public ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ArrayList<Document> list) {
+    public ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ArrayList<Document> list, Date ngayBatDau, Date ngayKetThuc) {
         // Tạo dataset từ danh sách Document
         Map<String, Integer> bookingCount = docToMap(list);
         CategoryDataset dataset = createDataset(bookingCount);
@@ -37,6 +39,12 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
                 dataset,
                 PlotOrientation.VERTICAL,
                 false, true, false);
+        
+        // Thêm ghi chú thời gian vào biểu đồ
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String ghiChu = "Khoảng thời gian: " + sdf.format(ngayBatDau) + " - " + sdf.format(ngayKetThuc);
+        TextTitle subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
+        barChart.addSubtitle(subtitle);
 
         // Thiết lập trục Y
         CategoryPlot plot = barChart.getCategoryPlot();
@@ -74,12 +82,12 @@ public class ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong extends JPanel {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             Date ngayBatDau = sdf.parse("2024-01-01");
-            Date ngayKetThuc = sdf.parse("2024-01-05");
+            Date ngayKetThuc = sdf.parse("2024-02-01");
 
             SwingUtilities.invokeLater(() -> {
                 JFrame frame = new JFrame("Biểu đồ loại phòng");
                 ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong panel =
-                        new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc));
+                        new ThongKe_BieuDoCotTheHienMucDoSuDungLoaiPhong(ddpDAO.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc);
 
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(panel);

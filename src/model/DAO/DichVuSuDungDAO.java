@@ -62,13 +62,13 @@ public class DichVuSuDungDAO {
         }
     }
 
-    public DichVuSuDungEmbed getDichVuEmbedByMa(int maDichVu) {
-        DichVuSuDungEmbed dichvu = null;
-        Document query = new Document("maDV", maDichVu);
+    public DichVuSuDung getDichVuEmbedByMa(int maDichVu) {
+        DichVuSuDung dichvu = null;
+        Document query = new Document("maDVSD", maDichVu);
         try {
             Document doc = dichVuSuDungCollection.find(query).first();
             if (doc != null) {
-                dichvu = DichVuSuDungEmbed.fromDocument(doc);
+                dichvu = DichVuSuDung.fromDocument(doc);
             }
         } catch (Exception e) {
             e.printStackTrace(); // Bắt lỗi nếu có

@@ -13,8 +13,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.BoxLayout;
+import model.DTO.DichVuSuDung;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.PhongEmbed;
+import model.DTO.PhongEmbed_HoaDon;
 
 /**
  *
@@ -29,7 +31,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
      *
      * @param phong
      */
-    public LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(PhongEmbed phong) {
+    public LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(PhongEmbed_HoaDon phong,List<DichVuSuDung> list_dvsd ) {
         if (phong == null) {
             throw new IllegalArgumentException("PhongEmbed không được null");
         }
@@ -39,7 +41,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         chi_tiet_dich_vu.setVisible(false);
         chi_tiet_phong.setVisible(false);
         main.setSize(main.getWidth() + 500, (main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
-        List<String> songayo = splitDateRange(phong.getNgayNhanPhong(), phong.getNgayTraPhong());
+        List<String> songayo = splitDateRange(phong.getNgayNhan(), phong.getNgayTra());
 
         ma_phong.setText("Phòng " + String.valueOf(phong.getMaPhong()));
 
@@ -50,10 +52,10 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         ct.setVisible(true);
         phong_list.add(ct);
 
-        for (DichVuSuDungEmbed dv : phong.getDichVuSuDung()) {
-            ChitietPhong_DichVu dvsd = new ChitietPhong_DichVu(dv);
-            dvsd.setVisible(true);
-            dv_list.add(dvsd);
+        for (DichVuSuDung dv : list_dvsd) {
+            ChitietPhong_DichVu dvsd_gui = new ChitietPhong_DichVu(dv);
+            dvsd_gui.setVisible(true);
+            dv_list.add(dvsd_gui);
 
         }
 
@@ -249,7 +251,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
                 .addContainerGap()
                 .addComponent(DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(dv_list, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dv_list, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
         chi_tiet_dich_vuLayout.setVerticalGroup(
@@ -260,7 +262,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chi_tiet_dich_vuLayout.createSequentialGroup()
                 .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(dv_list, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dv_list, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 

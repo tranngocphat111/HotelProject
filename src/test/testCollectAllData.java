@@ -92,15 +92,15 @@ public class testCollectAllData {
 //        }
 //
         // Test DonDatPhongDAO
-        DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
-        donDatPhongDAO.updateNgayTaoDon(1, new Date(124, 0, 1, 7, 0));
-        List<DonDatPhong> donDatPhongList = donDatPhongDAO.getAllDonDatPhong();
+//        DonDatPhongDAO donDatPhongDAO = new DonDatPhongDAO(database);
+//        donDatPhongDAO.updateNgayTaoDon(1, new Date(124, 0, 1, 7, 0));
+//        List<DonDatPhong> donDatPhongList = donDatPhongDAO.getAllDonDatPhong();
 //        donDatPhongDAO.updateTienTra(5, 102, donDatPhongList.get(3).getPhongs().get(1).getTongTien());
-        System.out.println("\nDonDatPhong:");
-        for (DonDatPhong donDatPhong : donDatPhongList) {
-            System.out.println(donDatPhong);
-            System.out.println(donDatPhong.isHoanThanh());
-        }
+//        System.out.println("\nDonDatPhong:");
+//        for (DonDatPhong donDatPhong : donDatPhongList) {
+//            System.out.println(donDatPhong);
+//            System.out.println(donDatPhong.isHoanThanh());
+//        }
         
 //        DichVuSuDungDAO dichVuSuDungDAO = new DichVuSuDungDAO(database);
 //        List<DichVuSuDung> dichVuSDList = dichVuSuDungDAO.getAllDichVu();
@@ -113,13 +113,13 @@ public class testCollectAllData {
         
         
 
-//        // Test HoaDonDAO
-//        HoaDonDAO hoaDonDAO = new HoaDonDAO(database);
-//        List<HoaDon> hoaDonList = hoaDonDAO.getAllHoaDon();
-//        System.out.println("\nHoaDon:");
-//        for (HoaDon hoaDon : hoaDonList) {s
-//            System.out.println(hoaDon);
-//        }
+        // Test HoaDonDAO
+        HoaDonDAO hoaDonDAO = new HoaDonDAO(database);
+        List<HoaDon> hoaDonList = hoaDonDAO.getAllHoaDon();
+        System.out.println("\nHoaDon:");
+        for (HoaDon hoaDon : hoaDonList) {
+            System.out.println(hoaDon);
+        }
 
     }
 }

@@ -7,7 +7,11 @@ package GUI;
 import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
 import java.awt.Color;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import model.DAO.NhanVienDAO;
 import model.DTO.NhanVien;
 import model.MongoDBConnection;
@@ -22,13 +26,20 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
      * Creates new form TrangCaNhan
      */
     private NhanVien nhanVien_DangSuDung;
+    private ImageIcon password_hide;
+    private ImageIcon password_show;
     public TrangCaNhan_DoiMatKhau(NhanVien nhanVien_DangSuDung) {
         this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
+        this.password_hide = new ImageScale().getScaledImage(MKCU_eye_label.getWidth(), MKCU_eye_label.getHeight(), "/images/hide-password.png");
+        this.password_show = new ImageScale().getScaledImage(MKCU_eye_label.getWidth(), MKCU_eye_label.getHeight(), "/images/show-password.png");
         MKCuText.setEchoChar('*');
         MKMoiText.setEchoChar('*');
         XacNhanMKText.setEchoChar('*');
-
+        MKCU_eye_label.setIcon(password_hide);
+        MKMoi_eye_label.setIcon(password_hide);
+        XacNhanMK_label.setIcon(password_hide);
+        
     }
 
     /**
@@ -48,17 +59,19 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         btn_Thoat = new keeptoo.KGradientPanel();
         jLabel19 = new javax.swing.JLabel();
-        MKMoi_eye = new java.awt.Label();
-        MKCu_eye = new java.awt.Label();
-        XacNhanMK_eye = new java.awt.Label();
         MKMoiText = new javax.swing.JPasswordField();
         MKCuText = new javax.swing.JPasswordField();
         XacNhanMKText = new javax.swing.JPasswordField();
+        MKCU_eye = new javax.swing.JPanel();
+        MKCU_eye_label = new javax.swing.JLabel();
+        MKCU_eye1 = new javax.swing.JPanel();
+        MKMoi_eye_label = new javax.swing.JLabel();
+        MKCU_eye2 = new javax.swing.JPanel();
+        XacNhanMK_label = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(471, 477));
-        setPreferredSize(new java.awt.Dimension(471, 477));
         getContentPane().setLayout(null);
 
         jPanel2.setOpaque(false);
@@ -154,6 +167,100 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
             .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
         );
 
+        MKCuText.setMinimumSize(new java.awt.Dimension(64, 28));
+        MKCuText.setPreferredSize(new java.awt.Dimension(64, 28));
+
+        XacNhanMKText.setMinimumSize(new java.awt.Dimension(64, 27));
+        XacNhanMKText.setPreferredSize(new java.awt.Dimension(64, 27));
+
+        MKCU_eye.setMaximumSize(new java.awt.Dimension(27, 27));
+        MKCU_eye.setMinimumSize(new java.awt.Dimension(27, 27));
+        MKCU_eye.setPreferredSize(new java.awt.Dimension(27, 27));
+
+        MKCU_eye_label.setMaximumSize(new java.awt.Dimension(27, 27));
+        MKCU_eye_label.setMinimumSize(new java.awt.Dimension(27, 27));
+        MKCU_eye_label.setPreferredSize(new java.awt.Dimension(27, 27));
+        MKCU_eye_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MKCU_eye_labelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout MKCU_eyeLayout = new javax.swing.GroupLayout(MKCU_eye);
+        MKCU_eye.setLayout(MKCU_eyeLayout);
+        MKCU_eyeLayout.setHorizontalGroup(
+            MKCU_eyeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(MKCU_eyeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MKCU_eyeLayout.createSequentialGroup()
+                    .addComponent(MKCU_eye_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        MKCU_eyeLayout.setVerticalGroup(
+            MKCU_eyeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(MKCU_eyeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MKCU_eyeLayout.createSequentialGroup()
+                    .addComponent(MKCU_eye_label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        MKCU_eye1.setMaximumSize(new java.awt.Dimension(27, 27));
+        MKCU_eye1.setMinimumSize(new java.awt.Dimension(27, 27));
+        MKCU_eye1.setPreferredSize(new java.awt.Dimension(27, 27));
+
+        MKMoi_eye_label.setMaximumSize(new java.awt.Dimension(27, 27));
+        MKMoi_eye_label.setMinimumSize(new java.awt.Dimension(27, 27));
+        MKMoi_eye_label.setPreferredSize(new java.awt.Dimension(27, 27));
+        MKMoi_eye_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MKCU_eye_labelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout MKCU_eye1Layout = new javax.swing.GroupLayout(MKCU_eye1);
+        MKCU_eye1.setLayout(MKCU_eye1Layout);
+        MKCU_eye1Layout.setHorizontalGroup(
+            MKCU_eye1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 27, Short.MAX_VALUE)
+            .addGroup(MKCU_eye1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(MKMoi_eye_label, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+        );
+        MKCU_eye1Layout.setVerticalGroup(
+            MKCU_eye1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(MKCU_eye1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MKCU_eye1Layout.createSequentialGroup()
+                    .addComponent(MKMoi_eye_label, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        XacNhanMK_label.setMaximumSize(new java.awt.Dimension(27, 27));
+        XacNhanMK_label.setMinimumSize(new java.awt.Dimension(27, 27));
+        XacNhanMK_label.setPreferredSize(new java.awt.Dimension(27, 27));
+        XacNhanMK_label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MKCU_eye_labelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout MKCU_eye2Layout = new javax.swing.GroupLayout(MKCU_eye2);
+        MKCU_eye2.setLayout(MKCU_eye2Layout);
+        MKCU_eye2Layout.setHorizontalGroup(
+            MKCU_eye2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 27, Short.MAX_VALUE)
+            .addGroup(MKCU_eye2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MKCU_eye2Layout.createSequentialGroup()
+                    .addComponent(XacNhanMK_label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        MKCU_eye2Layout.setVerticalGroup(
+            MKCU_eye2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 27, Short.MAX_VALUE)
+            .addGroup(MKCU_eye2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(XacNhanMK_label, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -162,28 +269,30 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(63, 63, 63)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(MKCuText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(MKMoiText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(MKMoi_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(XacNhanMK_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(MKMoiText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(MKCuText)
                                 .addGap(0, 0, 0)
-                                .addComponent(MKCu_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(MKCU_eye2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(MKCU_eye1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(MKCU_eye, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addComponent(btn_Thoat, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
                         .addComponent(btn_Thoat1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,26 +301,25 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(MKCu_eye, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                    .addComponent(MKCuText))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                    .addComponent(MKCU_eye, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(MKCuText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(MKMoi_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(XacNhanMK_eye, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(62, 62, 62)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_Thoat1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_Thoat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(MKMoiText, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                    .addComponent(MKMoiText, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .addComponent(MKCU_eye1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(MKCU_eye2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(XacNhanMKText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Thoat1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_Thoat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(77, 77, 77))
         );
 
         getContentPane().add(jPanel2);
@@ -296,6 +404,28 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         // TODO add your handling code here:
         btn_Thoat.getParent().getParent().getParent().getParent().getParent().setVisible(false);
     }//GEN-LAST:event_btn_Thoat1MouseClicked
+    private void showHidePwrd(JLabel label, JPasswordField textField) {
+        if(textField.getEchoChar() == '*') {
+            label.setIcon(password_show);
+            textField.setEchoChar((char) 0);
+        } else {
+            label.setIcon(password_hide);
+            textField.setEchoChar('*');
+        }
+    }
+    private void MKCU_eye_labelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MKCU_eye_labelMouseClicked
+        // TODO add your handling code here:
+        Object o = evt.getSource();
+        if(o.equals(MKCU_eye_label)) {
+            showHidePwrd(MKCU_eye_label, MKCuText);
+        }
+        if(o.equals(MKMoi_eye_label)) {
+            showHidePwrd(MKMoi_eye_label, MKMoiText);
+        }
+        if(o.equals(XacNhanMK_label)) {
+            showHidePwrd(MKCU_eye_label, XacNhanMKText);
+        }
+    }//GEN-LAST:event_MKCU_eye_labelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -330,12 +460,15 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel MKCU_eye;
+    private javax.swing.JPanel MKCU_eye1;
+    private javax.swing.JPanel MKCU_eye2;
+    private javax.swing.JLabel MKCU_eye_label;
     private javax.swing.JPasswordField MKCuText;
-    private java.awt.Label MKCu_eye;
     private javax.swing.JPasswordField MKMoiText;
-    private java.awt.Label MKMoi_eye;
+    private javax.swing.JLabel MKMoi_eye_label;
     private javax.swing.JPasswordField XacNhanMKText;
-    private java.awt.Label XacNhanMK_eye;
+    private javax.swing.JLabel XacNhanMK_label;
     private keeptoo.KGradientPanel btn_Thoat;
     private keeptoo.KGradientPanel btn_Thoat1;
     private javax.swing.JLabel jLabel1;

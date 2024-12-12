@@ -281,6 +281,8 @@ public class TrangCaNhan extends javax.swing.JFrame {
     private void dangXuatPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dangXuatPanelMouseClicked
         // TODO add your handling code here:
         this.setVisible(false);
+        System.exit(0);
+        new DangNhap_GUI().setVisible(true);
     }//GEN-LAST:event_dangXuatPanelMouseClicked
 
     /**

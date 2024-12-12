@@ -22,11 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
-<<<<<<< HEAD
 import javax.swing.JFrame;
-=======
 import javax.swing.ImageIcon;
->>>>>>> 32d3a1c168d6b9cded8ce48e14246718167bae8a
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -38,13 +35,10 @@ import keeptoo.KGradientPanel;
 import model.DAO.DonDatPhongDAO;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
-<<<<<<< HEAD
 import model.DTO.HoaDon;
-=======
 import model.DTO.LoaiPhong;
 import model.DTO.NhanVien;
 import model.DTO.Phong;
->>>>>>> 32d3a1c168d6b9cded8ce48e14246718167bae8a
 import model.DTO.PhongEmbed;
 
 /**
@@ -58,13 +52,11 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
     private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-<<<<<<< HEAD
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private List<DonDatPhong> listddp = new ArrayList<>();
 
-=======
     private NhanVien nhanVien_DangSuDung;
->>>>>>> 32d3a1c168d6b9cded8ce48e14246718167bae8a
+
     /**
      * Creates new form LeTan_DatPhong_GUI
      * @param nhanVien_DangSuDung

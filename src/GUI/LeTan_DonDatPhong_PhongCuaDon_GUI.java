@@ -73,7 +73,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         list_Phong_filter = ddp.getPhongs();
         list_KhachHang_db = khachHang_dao.getAllKhachHang();
         initComponents();
-
+        list_KhachHang = ddp.getKhachO();
         Table_KhachHang.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 // Kiểm tra nếu không còn sự kiện đang thay đổi
@@ -1170,8 +1170,14 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
         if (validateInput(txt_CCCD.getText(), txt_Hoten.getText(), txt_SDT.getText(), txt_Email.getText())) {
             //        Kiểm tra khách hàng cũ hay mới
+//            for (KhachHang kh : list_KhachHang_db){
+//                if(txt_CCCD.getText().equals(kh.getCCCD())){
+//                    tam = kh.getMaKhachHang();
+//                }
+//            }
+
             KhachHang kh = new KhachHang(
-                    list_KhachHang_db.getLast().getMaKhachHang() + 1 + list_KhachHang.size(),
+                    list_KhachHang_db.getLast().getMaKhachHang() + 1,
                     txt_Hoten.getText(),
                     txt_SDT.getText(),
                     txt_CCCD.getText(),
@@ -1181,9 +1187,44 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
             if (khachHang_dao.getKhachHangByCCCD(kh.getCCCD()) != null) {
                 kh.setMaKhachHang(khachHang_dao.getKhachHangByCCCD(kh.getCCCD()).getMaKhachHang());
+                khachHang_dao.updateKhachHang(kh.getMaKhachHang(), kh);
+
+            } else {
+                khachHang_dao.createKhachHang(kh);
             }
-            list_KhachHang.add(kh);
+            boolean kt = false;
+            if (list_KhachHang.size() != 0) {
+                for (KhachHang khh : list_KhachHang) {
+                    if (khh.getCCCD().equals(txt_CCCD.getText())) {
+                        kt = true;
+                    }
+                }
+            }
+            if (kt == false) {
+                list_KhachHang.add(kh);
+                JOptionPane.showMessageDialog(this, "Thêm thành công");
+            } else {
+                JOptionPane.showMessageDialog(this, "Trùng CCCD");
+                txt_CCCD.setText("");
+                txt_Hoten.setText("");
+                txt_SDT.setText("");
+                txt_Email.setText("");
+                cb_GioiTinh.setSelectedItem("Nam");
+                cb_QuocTich.setSelectedItem("Việt Nam");
+                Table_KhachHang.clearSelection();
+                return;
+            }
+
+            ddp.setKhachO(list_KhachHang);
+            donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), ddp.getKhachO());
             DocDuLieuLenTableKhachHang(list_KhachHang);
+
+            txt_CCCD.setText("");
+            txt_Hoten.setText("");
+            txt_SDT.setText("");
+            txt_Email.setText("");
+            cb_GioiTinh.setSelectedItem("Nam");
+            cb_QuocTich.setSelectedItem("Việt Nam");
 
         }
 
@@ -1214,6 +1255,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             txt_Email.setText("");
             cb_GioiTinh.setSelectedItem("Nam");
             cb_QuocTich.setSelectedItem("Việt Nam");
+
+            ddp.setKhachO(list_KhachHang);
+            donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), list_KhachHang);
         }
 
     }//GEN-LAST:event_btn_XoaMousePressed
@@ -1246,6 +1290,9 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                     list_KhachHang.get(i).setQuocTich(cb_QuocTich.getSelectedItem().toString());
                 }
             }
+
+            ddp.setKhachO(list_KhachHang);
+            donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), list_KhachHang);
 
             DocDuLieuLenTableKhachHang(list_KhachHang);
             JOptionPane.showMessageDialog(this, "Sửa thành công");

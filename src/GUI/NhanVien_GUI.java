@@ -48,7 +48,7 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
         page_Phong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_Phong.setkEndColor(new java.awt.Color(255, 222, 89));
-
+        phong_Gui = new NhanVien_Phong_GUI(nhanVien_DangSuDung);
         phong_Gui.setVisible(true);
 
         jDesktopPane1.add(phong_Gui);

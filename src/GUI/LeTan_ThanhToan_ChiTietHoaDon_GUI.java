@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
@@ -18,11 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import keeptoo.KGradientPanel;
+import model.DAO.DichVuSuDungDAO;
 import model.DAO.DonDatPhongDAO;
 import model.DAO.HoaDonDAO;
 import model.DAO.KhachHangDAO;
 import model.DAO.LoaiPhongDAO;
 import model.DAO.PhongDAO;
+import model.DTO.DichVuSuDung;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
@@ -30,6 +35,8 @@ import model.DTO.KhachHang;
 import model.DTO.LoaiPhong;
 import model.DTO.Phong;
 import model.DTO.PhongEmbed;
+import model.DTO.PhongEmbed_HoaDon;
+import model.DTO.ThongTinThanhToan;
 
 /**
  *
@@ -57,24 +64,48 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI extends javax.swing.JFrame {
     private KhachHangDAO khacHang_dao = new KhachHangDAO(database);
     private HoaDon hoadon = null;
     DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
+    DichVuSuDungDAO dichVuSuDungDAO = new DichVuSuDungDAO(database);
 
     /**
      * Creates new form LeTan_
      *
      * @param hoadon
      */
+    public List<DichVuSuDung> getListDV(PhongEmbed_HoaDon p, ThongTinThanhToan tt) {
+        List<DichVuSuDung> list_dv = new ArrayList<>();
+        for (int ma : tt.getDichVu()) {
+            if (dichVuSuDungDAO.getDichVuEmbedByMa(ma).getMaPhong() == p.getMaPhong()) {
+                list_dv.add(dichVuSuDungDAO.getDichVuEmbedByMa(ma));
+            }
+        }
+
+        System.out.println();
+
+        return list_dv;
+    }
+
+    public List<DichVuSuDung> getListDV(ThongTinThanhToan tt) {
+        List<DichVuSuDung> list_dv = new ArrayList<>();
+        for (int ma : tt.getDichVu()) {
+            list_dv.add(dichVuSuDungDAO.getDichVuEmbedByMa(ma));
+        }
+        System.out.println();
+
+        return list_dv;
+    }
+
     public LeTan_ThanhToan_ChiTietHoaDon_GUI(HoaDon hoadon) {
         setUndecorated(true);
         initComponents();
         phong_holder.setVerticalScrollBar(new ScrollBarCustom());
         phong_holder.getVerticalScrollBar().setUnitIncrement(80);
         this.hoadon = hoadon;
-        DonDatPhong ddp = donDatPhong_dao.getDonDatPhongByMa(hoadon.getDonDatPhongs());
         phong_list.setLayout(new BoxLayout(phong_list, BoxLayout.Y_AXIS));
         int tongtien = 0;
         // thêm phòng vào danh sách phong
-        for (PhongEmbed p : ddp.getPhongs()) {
-            LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong chitietphong = new LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(p);
+
+        for (PhongEmbed_HoaDon p : hoadon.getThongTinThanhToan().getPhongs()) {
+            LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong chitietphong = new LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(p, getListDV(p, hoadon.getThongTinThanhToan()));
             chitietphong.setVisible(true);
             phong_list.add(chitietphong);
         }
@@ -82,38 +113,29 @@ public class LeTan_ThanhToan_ChiTietHoaDon_GUI extends javax.swing.JFrame {
         // thêm mục đã thanh toán vào danh sách thanh toán
         paycheck_list.setLayout(new BoxLayout(paycheck_list, BoxLayout.Y_AXIS));
 
-        for (PhongEmbed p : ddp.getPhongs()) {
-            if (p.getTienDaThanhToan() > 0) {
-                ChiTietHoaDon_DanhSachThanhToan ds1 = new ChiTietHoaDon_DanhSachThanhToan(p);
-                ds1.setVisible(true);
-                paycheck_list.add(ds1);
-            }
+        for (PhongEmbed_HoaDon p : hoadon.getThongTinThanhToan().getPhongs()) {
+
+            ChiTietHoaDon_DanhSachThanhToan ds1 = new ChiTietHoaDon_DanhSachThanhToan(p, getListDV(p, hoadon.getThongTinThanhToan()));
+            ds1.setVisible(true);
+            paycheck_list.add(ds1);
         }
-
-        // tinh tổng tiền đã trả
-        var tong_tien_da_tra = 0;
-        for (PhongEmbed p : ddp.getPhongs()) {
-            if (p.getTienDaThanhToan() > 0) {
-                tong_tien_da_tra += p.getTienDaThanhToan();
-            }
-            tongtien += p.getTienDaThanhToan();
-
-//            if (p.getDichVuSuDung().size() > 0) {
-//                for (DichVuSuDungEmbed dv : p.getDichVuSuDung()) {
-//                    if (dv != null) {
-//                        tongtien += dv.getDonGia() * dv.getSoLuong();
-//                    }
-//                }
-//            }
+        int tienDv = 0;
+        for (DichVuSuDung dv : getListDV(hoadon.getThongTinThanhToan())) {
+            tienDv += dv.getDonGia() * dv.getSoLuong();
         }
-
-        int tienconlai = -tongtien + tong_tien_da_tra;
-        if (tienconlai < 0) {
-            tienconlai = 0;
+        int tienPhong = 0;
+        for (PhongEmbed_HoaDon p : hoadon.getThongTinThanhToan().getPhongs()) {
+            LocalDate localDateFrom = p.getNgayNhan().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDateTo = p.getNgayTra().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long daysBetween = ChronoUnit.DAYS.between(localDateFrom, localDateTo);
+            int tien = (int) daysBetween * p.getDonGia();
+            tienPhong+=tien;
         }
         
+        
+
         paycheck_list.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(255, 209, 84)));
-        tong_tien.setText(df.format(tongtien)  + " VNĐ");
+        tong_tien.setText(df.format(tienDv+tienPhong) + " VNĐ");
 //        tien_da_thanh_toan.setText(df.format(tong_tien_da_tra) + " VNĐ");
 //        tien_conlai.setText(df.format(tienconlai) + " VNĐ");
         setLocationRelativeTo(null);

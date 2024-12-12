@@ -5,23 +5,42 @@
 package GUI;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import model.DTO.DichVuSuDung;
 import model.DTO.PhongEmbed;
+import model.DTO.PhongEmbed_HoaDon;
 
 /**
  *
  * @author Admin
  */
 public class ChiTietHoaDon_DanhSachThanhToan extends javax.swing.JPanel {
+
     public static DecimalFormat df = new DecimalFormat("#,##0");
 
     /**
      * Creates new form ChiTietHoaDon_DanhSachThanhToan
+     *
      * @param p
      */
-    public ChiTietHoaDon_DanhSachThanhToan(PhongEmbed p) {
+    public ChiTietHoaDon_DanhSachThanhToan(PhongEmbed_HoaDon p, List<DichVuSuDung> list_dv) {
         initComponents();
-      ma_phong.setText(String.valueOf("Phòng " + p.getMaPhong()));
-      so_tien_tra.setText(df.format(p.getTienDaThanhToan()) + " VNĐ");
+        ma_phong.setText(String.valueOf("Phòng " + p.getMaPhong()));
+
+        LocalDate localDateFrom = p.getNgayNhan().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDateTo = p.getNgayTra().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        long daysBetween = ChronoUnit.DAYS.between(localDateFrom, localDateTo);
+        int tienPhong = (int)daysBetween*p.getDonGia();
+        int tiendv = 0;
+        for(DichVuSuDung dv : list_dv){
+            tiendv+= dv.getDonGia() * dv.getSoLuong();
+        }
+        int tongTien = tienPhong + tiendv;
+
+        so_tien_tra.setText(df.format(tongTien) + " VNĐ");
     }
 
     /**

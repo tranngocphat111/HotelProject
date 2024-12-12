@@ -5,6 +5,7 @@
 package GUI;
 
 import java.text.DecimalFormat;
+import model.DTO.DichVuSuDung;
 import model.DTO.DichVuSuDungEmbed;
 
 /**
@@ -14,11 +15,11 @@ import model.DTO.DichVuSuDungEmbed;
 public class ChitietPhong_DichVu extends javax.swing.JPanel {
     public static DecimalFormat df = new DecimalFormat("#,##0");
     /**
-     * Creates new form ChitietPhong_Phong
+     * Creates new form ChitietPhong
      */
-    public ChitietPhong_DichVu(DichVuSuDungEmbed dv) {
+    public ChitietPhong_DichVu(DichVuSuDung dv) {
         initComponents();
-        ten_dich_vu.setText(dv.getTenDV());
+        ten_dich_vu1.setText(dv.getTenDV());
         so_luong1.setText(String.valueOf(dv.getSoLuong()));
         thanh_tien.setText(df.format(dv.getDonGia() * dv.getSoLuong())+ " VNĐ");
         tien_dv.setText(df.format(dv.getDonGia()) + " VNĐ");

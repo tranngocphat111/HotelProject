@@ -65,11 +65,11 @@ public class GODMOD {
 
     public static void main(String[] args) {
         GODMOD gm = new GODMOD();
-        int ma_ddp_last = 4;
-        int maDVSD = 4;
-        Date ngayBatDau = new Date(124, 0, 0);
-        gm.taoDonDatPhong(ma_ddp_last, ngayBatDau, 101, maDVSD);
+        int ma_ddp_last = 2085;
+        int maDVSD = 6253;
+        Date ngayBatDau = new Date(124, 10, 1, 0, 0, 0);
         
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(ngayBatDau);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -82,21 +82,20 @@ public class GODMOD {
             for (int floor = startFloor; floor <= endFloor; floor++) {
                 for (int room = ThreadLocalRandom.current().nextInt(1, 3); room <= ThreadLocalRandom.current().nextInt(6, 9); room++) {
                     int roomNumber = generateRoomNumber(floor, room);
-                    System.out.println("Tạo đơn đặt phòng cho phòng: " + roomNumber);
+                    System.out.println("phòng: " + roomNumber + " Ma Don: " + ma_ddp_last + " Ma DVSD: " + maDVSD);
+                    gm.donDatPhongDAO.createDonDatPhong(gm.taoDonDatPhong(ma_ddp_last, ngayBatDau, roomNumber, maDVSD));
+                    ma_ddp_last += 1;
+                    maDVSD += 3;
                 }
             }
-
             // Cập nhật ngày bắt đầu lên ngày tiếp theo
             calendar.setTime(ngayBatDau);
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            calendar.add(Calendar.DAY_OF_MONTH, 6);
             ngayBatDau = calendar.getTime();
+            System.out.println(ngayBatDau);
+
         }
-        
-        
-        
-        
-        
-        
+
     }
 
     private DonDatPhong taoDonDatPhong(int maDonDat, Date ngayTaoDon, int maPhong, int maDVSD) {
@@ -114,9 +113,9 @@ public class GODMOD {
         }
 
         PhongEmbed phongEmbed = new PhongEmbed();
-        
+
         List<Date> lDate = generateRandomDates(ngayTaoDon);
-        
+
         phongEmbed.setMaPhong(maPhong);
         phongEmbed.setNgayNhanPhongDuKien(lDate.getFirst());
         phongEmbed.setNgayNhanPhong(lDate.getFirst());
@@ -126,13 +125,11 @@ public class GODMOD {
         phongEmbed.setDonGia(loaiPhongDAO.getLoaiPhongByMa(phongDAO.getPhongByMa(maPhong).getLoaiPhong()).getDonGia());
         phongEmbed.setTenLoaiPhong(loaiPhongDAO.getLoaiPhongByMa(phongDAO.getPhongByMa(maPhong).getLoaiPhong()).getTenLoaiPhong());
 
-        
-        
         List<DichVuSuDung> lDVSD = new ArrayList<>();
         List<DichVuSuDungEmbed> lDVSDEmbed = new ArrayList<>();
         for (int i = 0; i < 3; ++i) {
             DichVu dvInfo = dichVuDAO.getDichVuByMa(i + 1);
-            
+
             DichVuSuDung dvsdTemp = new DichVuSuDung();
             dvsdTemp.setDonGia(dvInfo.getDonGia());
             dvsdTemp.setMaDV(i + 1);
@@ -143,19 +140,16 @@ public class GODMOD {
             dvsdTemp.setTenDV(dvInfo.getTenDV());
             dvsdTemp.setSoLuong(random.nextInt(2, 5));
             System.out.println(dvsdTemp);
-            
-//            dichVuSuDungDAO.createDichVuSuDung(dvsdTemp);
-            
+
+            dichVuSuDungDAO.createDichVuSuDung(dvsdTemp);
             lDVSDEmbed.add(new DichVuSuDungEmbed(dvsdTemp.getMaDVSD(), dvsdTemp.getTenDV(), dvsdTemp.getDonGia(), dvsdTemp.getSoLuong()));
         }
 
         phongEmbed.setDichVuSuDung(lDVSDEmbed);
         phongEmbed.setTienDaThanhToan(phongEmbed.getTongTien());
-        
-        
+
         phongs.add(phongEmbed);
 
-            
         ddp.setMaDonDat(maDonDat);
         ddp.setKhachO(khachHangs);
         ddp.setNguoiDat(khachHangs.get(0));
@@ -189,7 +183,7 @@ public class GODMOD {
         calendar.add(Calendar.DAY_OF_MONTH, days);
         return calendar.getTime();
     }
-    
+
     private static int generateRoomNumber(int floor, int room) {
         if (floor < 1 || floor > 8 || room < 1 || room > 8) {
             throw new IllegalArgumentException("Tầng và số phòng phải nằm trong khoảng từ 1 đến 8.");

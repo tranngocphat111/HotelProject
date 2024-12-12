@@ -116,7 +116,6 @@ public class ImageScale {
         // Lấy ảnh từ ImageIcon
         Image image = imageIcon.getImage();
         int diameter = Math.min(image.getWidth(null), image.getHeight(null));
-
         // Tạo BufferedImage mới với nền trong suốt và hình tròn
         BufferedImage circularImage = new BufferedImage(diameter, diameter, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = circularImage.createGraphics();

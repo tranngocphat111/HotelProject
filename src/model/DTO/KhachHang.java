@@ -87,8 +87,8 @@ public class KhachHang {
         if (doc.containsKey("maKhachHang")) {
             khachHang.setMaKhachHang(doc.getInteger("maKhachHang"));
         }
-        if (doc.containsKey("Hoten")) {
-            khachHang.setTenKhachHang(doc.getString("Hoten"));
+        if (doc.containsKey("HoTen")) {
+            khachHang.setTenKhachHang(doc.getString("HoTen"));
         }
         if (doc.containsKey("SDT")) {
             khachHang.setSoDienThoai(doc.getString("SDT"));

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import static GUI.DangNhap_GUI.nhanVien_DangSuDung;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.MouseEvent;
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.plaf.InternalFrameUI;
 import javax.swing.text.Element;
 import keeptoo.KGradientPanel;
+import model.DTO.NhanVien;
 
 /**
  *
@@ -26,23 +28,25 @@ import keeptoo.KGradientPanel;
  */
 public class LeTan_GUI extends javax.swing.JFrame {
 
-    private LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI();
+    private LeTan_DatPhong_GUI datPhong_Gui;
+//    private LeTan_DatPhong_GUI datPhong_Gui = new LeTan_DatPhong_GUI(nhanVien_DangSuDung);
     private LeTan_ThanhToan_GUI thanhToan_Gui;
     private LeTan_DonDatPhong_GUI donDatPhong_Gui;
     private ArrayList<KGradientPanel> list_page = new ArrayList<KGradientPanel>();
     private String tam = "page_DatPhong";
-
+    private static NhanVien nhanVien_DangSuDung;
     /**
      * Creates new form NewJFrame
      */
-    public LeTan_GUI() {
+    public LeTan_GUI(NhanVien nhanVien_DangSuDung) {
+        this.nhanVien_DangSuDung = nhanVien_DangSuDung;
+        
         initComponents();
-
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         page_DatPhong.setkStartColor(new java.awt.Color(225, 176, 27));
         page_DatPhong.setkEndColor(new java.awt.Color(255, 222, 89));
-
+        datPhong_Gui = new LeTan_DatPhong_GUI(this.nhanVien_DangSuDung);
         datPhong_Gui.setVisible(true);
 
         jDesktopPane1.add(datPhong_Gui);
@@ -418,7 +422,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
     private void page_DatPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_DatPhongMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
-        datPhong_Gui = new LeTan_DatPhong_GUI();
+        datPhong_Gui = new LeTan_DatPhong_GUI(nhanVien_DangSuDung);
         jDesktopPane1.add(datPhong_Gui);
         datPhong_Gui.setVisible(true);
     }//GEN-LAST:event_page_DatPhongMousePressed
@@ -484,7 +488,7 @@ public class LeTan_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LeTan_GUI().setVisible(true);
+                new LeTan_GUI(nhanVien_DangSuDung).setVisible(true);
             }
         });
     }

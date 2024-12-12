@@ -230,14 +230,11 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         );
         btn_TimLayout.setVerticalGroup(
             btn_TimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_TimLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
         jPanel1.add(btn_Tim);
-        btn_Tim.setBounds(910, 280, 160, 50);
+        btn_Tim.setBounds(1090, 90, 160, 45);
 
         btn_LamMoi.setkEndColor(new java.awt.Color(255, 222, 89));
         btn_LamMoi.setkGradientFocus(250);
@@ -263,12 +260,12 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
             btn_LamMoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btn_LamMoiLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel1.add(btn_LamMoi);
-        btn_LamMoi.setBounds(1090, 280, 160, 50);
+        btn_LamMoi.setBounds(1090, 160, 160, 45);
 
         jLabel16.setBackground(new java.awt.Color(255, 209, 84));
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -276,7 +273,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         jLabel16.setText("Hóa Đơn");
         jLabel16.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(30, 310, 250, 27);
+        jLabel16.setBounds(40, 240, 250, 30);
 
         jLabel15.setBackground(new java.awt.Color(255, 209, 84));
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -284,7 +281,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         jLabel15.setText("Tìm Hóa Đơn");
         jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.add(jLabel15);
-        jLabel15.setBounds(30, 20, 250, 27);
+        jLabel15.setBounds(40, 50, 250, 27);
 
         ThongTinKhachHang.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinKhachHang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -325,7 +322,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         ThongTinKhachHangLayout.setVerticalGroup(
             ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ThongTinKhachHangLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(17, 17, 17)
                 .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
@@ -333,11 +330,11 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_CCCD, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinKhachHang);
-        ThongTinKhachHang.setBounds(550, 90, 510, 130);
+        ThongTinKhachHang.setBounds(550, 90, 510, 120);
 
         ThongTinDat1.setBackground(new java.awt.Color(0, 0, 0));
         ThongTinDat1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 209, 84)));
@@ -369,7 +366,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         ThongTinDat1Layout.setVerticalGroup(
             ThongTinDat1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ThongTinDat1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(18, 18, 18)
                 .addGroup(ThongTinDat1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
@@ -377,11 +374,11 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
                 .addGroup(ThongTinDat1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txt_NgayNhanPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txt_NgayTraPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jPanel1.add(ThongTinDat1);
-        ThongTinDat1.setBounds(40, 90, 470, 130);
+        ThongTinDat1.setBounds(40, 90, 470, 120);
 
         Table_hoaDon.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_hoaDon.setModel(new javax.swing.table.DefaultTableModel(
@@ -420,7 +417,7 @@ public class LeTan_ThanhToan_GUI extends javax.swing.JInternalFrame {
         }
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(30, 340, 1220, 430);
+        jScrollPane3.setBounds(40, 280, 1220, 470);
 
         Backgroup.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N

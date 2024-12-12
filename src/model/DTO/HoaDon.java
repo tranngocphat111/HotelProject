@@ -8,106 +8,118 @@ import java.util.List;
 public class HoaDon {
 
     private int maHoaDon;
-    private int tongTien;
+    private int tienThanhToan;
     private Date ngayTaoHoaDon;
     private NhanVienEmbed nhanVien;
-    private boolean trangThai;
-    private int donDatPhongs;
-
-    public HoaDon() {
-    }
-
-    public HoaDon(int maHoaDon, int tongTien, Date ngayTaoHoaDon, NhanVienEmbed nhanVien, boolean trangThai) {
-        this.maHoaDon = maHoaDon;
-        this.tongTien = tongTien;
-        this.ngayTaoHoaDon = ngayTaoHoaDon;
-        this.nhanVien = nhanVien;
-        this.trangThai = trangThai;
-    }
-
-    public int getDonDatPhongs() {
-        return donDatPhongs;
-    }
-
-    public void setDonDatPhongs(int donDatPhongs) {
-        this.donDatPhongs = donDatPhongs;
-    }
-
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
-    }
+    private int donDatPhong;
+    private List<ThongTinThanhToan> thongTinThanhToans;
 
     public int getMaHoaDon() {
         return maHoaDon;
     }
 
-    public void setMaHoaDon(int maHoaDon) {
-        this.maHoaDon = maHoaDon;
-    }
-
-    public int getTongTien() {
-        return tongTien;
-    }
-
-    public void setTongTien(int tongTien) {
-        this.tongTien = tongTien;
+    public int getTienThanhToan() {
+        return tienThanhToan;
     }
 
     public Date getNgayTaoHoaDon() {
         return ngayTaoHoaDon;
     }
 
-    public void setNgayTaoHoaDon(Date ngayTaoHoaDon) {
-        this.ngayTaoHoaDon = ngayTaoHoaDon;
-    }
-
     public NhanVienEmbed getNhanVien() {
         return nhanVien;
+    }
+
+    public int getDonDatPhong() {
+        return donDatPhong;
+    }
+
+    public List<ThongTinThanhToan> getThongTinThanhToans() {
+        return thongTinThanhToans;
+    }
+
+    public void setMaHoaDon(int maHoaDon) {
+        this.maHoaDon = maHoaDon;
+    }
+
+    public void setTienThanhToan(int tienThanhToan) {
+        this.tienThanhToan = tienThanhToan;
+    }
+
+    public void setNgayTaoHoaDon(Date ngayTaoHoaDon) {
+        this.ngayTaoHoaDon = ngayTaoHoaDon;
     }
 
     public void setNhanVien(NhanVienEmbed nhanVien) {
         this.nhanVien = nhanVien;
     }
 
+    public void setDonDatPhong(int donDatPhong) {
+        this.donDatPhong = donDatPhong;
+    }
+
+    public void setThongTinThanhToans(List<ThongTinThanhToan> thongTinThanhToans) {
+        this.thongTinThanhToans = thongTinThanhToans;
+    }
+
+    public HoaDon() {
+    }
+
+    public HoaDon(int maHoaDon, int tienThanhToan, Date ngayTaoHoaDon, NhanVienEmbed nhanVien, int donDatPhong, List<ThongTinThanhToan> thongTinThanhToans) {
+        this.maHoaDon = maHoaDon;
+        this.tienThanhToan = tienThanhToan;
+        this.ngayTaoHoaDon = ngayTaoHoaDon;
+        this.nhanVien = nhanVien;
+        this.donDatPhong = donDatPhong;
+        this.thongTinThanhToans = thongTinThanhToans;
+    }
+
+    @Override
+    public String toString() {
+        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", tienThanhToan=" + tienThanhToan + ", ngayTaoHoaDon=" + ngayTaoHoaDon + ", nhanVien=" + nhanVien + ", donDatPhong=" + donDatPhong + ", thongTinThanhToans=" + thongTinThanhToans + '}';
+    }
+    
+    
     public static HoaDon fromDocument(Document doc) {
         HoaDon hoaDon = new HoaDon();
 
         if (doc.containsKey("maHoaDon")) {
             hoaDon.setMaHoaDon(doc.getInteger("maHoaDon"));
         }
-        if (doc.containsKey("tongTien")) {
-            hoaDon.setTongTien(doc.getInteger("tongTien"));
+
+        if (doc.containsKey("tienThanhToan")) {
+            hoaDon.setTienThanhToan(doc.getInteger("tienThanhToan"));
         }
+
         if (doc.containsKey("ngayTaoHoaDon")) {
             hoaDon.setNgayTaoHoaDon(doc.getDate("ngayTaoHoaDon"));
         }
 
-        // Convert NhanVien subdocument
-        if (doc.containsKey("NhanVien")) {
-            Document nhanVienDoc = (Document) doc.get("NhanVien");
-            NhanVienEmbed nhanVien = NhanVienEmbed.fromDocument(nhanVienDoc);
-            hoaDon.setNhanVien(nhanVien);
+        if (doc.containsKey("nhanVien")) {
+            Document nhanVienDoc = doc.get("nhanVien", Document.class);
+            hoaDon.setNhanVien(NhanVienEmbed.fromDocument(nhanVienDoc));
         }
 
-        if (doc.containsKey("DonDatPhong")) {
-            int DonDatPhongsdoc = (int) doc.get("DonDatPhong");
-            hoaDon.setDonDatPhongs(DonDatPhongsdoc); 
+        if (doc.containsKey("donDatPhong")) {
+            hoaDon.setDonDatPhong(doc.getInteger("donDatPhong"));
         }
 
-        if (doc.containsKey("trangThai")) {
-            hoaDon.setTrangThai(doc.getBoolean("trangThai"));
+        if (doc.containsKey("thongTinThanhToans")) {
+            List<Document> thongTinDocs = doc.getList("thongTinThanhToans", Document.class);
+            List<ThongTinThanhToan> thongTinThanhToans = new ArrayList<>();
+            for (Document thongTinDoc : thongTinDocs) {
+                thongTinThanhToans.add(ThongTinThanhToan.fromDocument(thongTinDoc));
+            }
+            hoaDon.setThongTinThanhToans(thongTinThanhToans);
         }
 
         return hoaDon;
     }
+    
+    
 
-    @Override
-    public String toString() {
-        return "HoaDon{" + "maHoaDon=" + maHoaDon + ", tongTien=" + tongTien + ", ngayTaoHoaDon=" + ngayTaoHoaDon + ", nhanVien=" + nhanVien + ", trangThai=" + trangThai + '}';
-    }
+   
+
+    
 
 }

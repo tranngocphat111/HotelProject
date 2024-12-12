@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI;
 
 import org.jfree.chart.ChartFactory;
@@ -14,35 +10,30 @@ import java.awt.*;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DAO.DonDatPhongDAO;
 import model.DTO.DonDatPhong;
-import model.DTO.Phong;
 import model.DTO.PhongEmbed;
 import model.MongoDBConnection;
 import org.bson.Document;
 import org.jfree.chart.title.TextTitle;
 
-public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
+public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuPhongVaDichVu extends JPanel {
     private String tongDoanhThu;
 
-    public ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(ArrayList<Document> list, Date ngayBatDau, Date ngayKetThuc) {
+    public ThongKe_BieuDoTronTheHienPhanTramDoanhThuPhongVaDichVu(ArrayList<Document> list, Date ngayBatDau, Date ngayKetThuc) {
         // Tạo dataset cho biểu đồ tròn
         Map<String, Long> doanhThu = calculateRevenue(list, ngayBatDau, ngayKetThuc);
         DefaultPieDataset dataset = createDataset(doanhThu);
 
         // Tạo biểu đồ tròn
         JFreeChart pieChart = ChartFactory.createPieChart(
-                "Tỷ Lệ Doanh Thu", // Tiêu đề biểu đồ
+                "Tỷ Lệ Doanh Thu Phòng và Dịch Vụ", // Tiêu đề biểu đồ
                 dataset, // Dataset
-                true, // Hiện thị chú thích
-                true, // Thể hiện thông tin chi tiết
+                true, // Hiển thị chú thích
+                true, // Hiển thị thông tin chi tiết
                 false // Không cho phép xuất ra file
         );
 
@@ -51,10 +42,11 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         String ghiChu = "Khoảng thời gian: " + sdf.format(ngayBatDau) + " - " + sdf.format(ngayKetThuc);
         TextTitle subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
         pieChart.addSubtitle(subtitle);
-        
+
         ghiChu = "Tổng doanh thu: " + tongDoanhThu;
         subtitle = new TextTitle(ghiChu, new Font("Arial", Font.PLAIN, 12));
         pieChart.addSubtitle(subtitle);
+
         // Tạo ChartPanel chứa biểu đồ
         ChartPanel chartPanel = new ChartPanel(pieChart);
         chartPanel.setPreferredSize(new Dimension(1240, 460));
@@ -65,10 +57,11 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
     private DefaultPieDataset createDataset(Map<String, Long> data) {
         DefaultPieDataset dataset = new DefaultPieDataset();
         long totalRevenue = data.values().stream().mapToLong(Long::longValue).sum();
-        
+
         // Sử dụng NumberFormat cho định dạng tiền tệ
         NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
         tongDoanhThu = currencyFormat.format(totalRevenue);
+
         for (Map.Entry<String, Long> entry : data.entrySet()) {
             String key = entry.getKey();
             long revenue = entry.getValue();
@@ -103,7 +96,7 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
             ngayBatDau = sdf.parse("2024-01-01-00");  // Bắt đầu từ 00 giờ
             ngayKetThuc = sdf.parse("2024-02-01-00"); // Kết thúc lúc 23 giờ
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ThongKe_BieuDoTronTheHienPhanTramDoanhThuPhongVaDichVu.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Kết nối MongoDB và vẽ biểu đồ
@@ -111,8 +104,8 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
         DonDatPhongDAO ddp = new DonDatPhongDAO(MongoDBConnection.getDatabase());
 
         // Khởi tạo biểu đồ
-        ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong pieChartPanel =
-                new ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong(
+        ThongKe_BieuDoTronTheHienPhanTramDoanhThuPhongVaDichVu pieChartPanel =
+                new ThongKe_BieuDoTronTheHienPhanTramDoanhThuPhongVaDichVu(
                         ddp.getDoanhThu(ngayBatDau, ngayKetThuc), ngayBatDau, ngayKetThuc
                 );
 
@@ -125,18 +118,30 @@ public class ThongKe_BieuDoTronTheHienPhanTramDoanhThuLoaiPhong extends JPanel {
     }
 
     public Map<String, Long> calculateRevenue(ArrayList<Document> bookingData, Date ngayBatDau, Date ngayKetThuc) {
-        Map<String, Long> revenueMap = new HashMap<>();
+        long totalRoomRevenue = 0;
+        long totalServiceRevenue = 0;
 
         for (Document booking : bookingData) {
             DonDatPhong ddp = DonDatPhong.fromDocument(booking);
-            for (PhongEmbed p : ddp.getPhongs()) {
-                revenueMap.put(
-                        p.getTenLoaiPhong(),
-                        revenueMap.getOrDefault(p.getTenLoaiPhong(), 0L) + getDoanhThuTheoKhoangThoiGian(ngayBatDau, ngayKetThuc, p)
-                );
-            }
 
+            for (PhongEmbed p : ddp.getPhongs()) {
+                // Tính doanh thu từ phòng
+                totalRoomRevenue += getDoanhThuTheoKhoangThoiGian(ngayBatDau, ngayKetThuc, p);
+
+                // Tính doanh thu từ dịch vụ
+                if (p.getDichVuSuDung() != null) {
+                    totalServiceRevenue += p.getDichVuSuDung().stream()
+                            .mapToLong(dv -> dv.getDonGia() * dv.getSoLuong())
+                            .sum();
+                }
+            }
         }
+
+        // Lưu trữ doanh thu vào map
+        Map<String, Long> revenueMap = new HashMap<>();
+        revenueMap.put("Doanh Thu Phòng", totalRoomRevenue);
+        revenueMap.put("Doanh Thu Dịch Vụ", totalServiceRevenue);
+
         return revenueMap;
     }
 

@@ -268,11 +268,25 @@ public class DonDatPhongDAO {
         }
     }
 
-    public boolean updateTrangThaiPhong(int maPhong, String trangThaiPhong) {
+    public boolean updateTrangThaiPhongtheoDon(int maDonDat, String trangThaiPhong) {
+        try {
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    eq("maDonDat", maDonDat),
+                    set("phong.$[].trangThaiPhong", trangThaiPhong) // $[] áp dụng cho tất cả các phần tử trong mảng "phong"
+            );
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật trạng thái phòng: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean updateTrangThaiPhong(int maDonDatPhong, int maPhong, String trangThaiPhong) {
         try {
             // Cập nhật trạng thái phòng trong danh sách phòng của đơn đặt phòng
             UpdateResult result = donDatPhongCollection.updateOne(
-                    elemMatch("phong", eq("maPhong", maPhong)), // Tìm đơn có phòng với mã phòng tương ứng
+                    and(eq("maDonDat", maDonDatPhong), elemMatch("phong", eq("maPhong", maPhong))), // Tìm đơn và phòng tương ứng
                     set("phong.$.trangThaiPhong", trangThaiPhong) // Cập nhật trạng thái của phòng đó
             );
 
@@ -280,6 +294,40 @@ public class DonDatPhongDAO {
             return result.getModifiedCount() > 0;
         } catch (Exception e) {
             System.out.println("Lỗi khi cập nhật trạng thái phòng: " + e.getMessage());
+            return false;
+        }
+    }
+
+    
+
+    public boolean updateNgayNhanPhong(int maDonDatPhong, int maPhong, Date ngayNhanPhong) {
+        try {
+            // Cập nhật ngày nhận phòng trong danh sách phòng của đơn đặt phòng
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    and(eq("maDonDat", maDonDatPhong), elemMatch("phong", eq("maPhong", maPhong))), // Tìm đơn và phòng tương ứng
+                    set("phong.$.ngayNhanPhong", ngayNhanPhong) // Cập nhật ngày nhận phòng của phòng đó
+            );
+
+            // Kiểm tra xem số bản ghi được chỉnh sửa có lớn hơn 0
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật ngày nhận phòng: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean updateNgayTraPhong(int maDonDatPhong, int maPhong, Date ngayTraPhong) {
+        try {
+            // Cập nhật ngày nhận phòng trong danh sách phòng của đơn đặt phòng
+            UpdateResult result = donDatPhongCollection.updateOne(
+                    and(eq("maDonDat", maDonDatPhong), elemMatch("phong", eq("maPhong", maPhong))), // Tìm đơn và phòng tương ứng
+                    set("phong.$.ngayTraPhong", ngayTraPhong) // Cập nhật ngày nhận phòng của phòng đó
+            );
+
+            // Kiểm tra xem số bản ghi được chỉnh sửa có lớn hơn 0
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật ngày nhận phòng: " + e.getMessage());
             return false;
         }
     }

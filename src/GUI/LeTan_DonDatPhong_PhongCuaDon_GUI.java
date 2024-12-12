@@ -15,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +36,7 @@ import model.DAO.PhongDAO;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.LoaiPhong;
+import model.DTO.Phong;
 import model.DTO.PhongEmbed;
 
 /**
@@ -50,12 +54,20 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     DonDatPhongDAO donDatPhong_dao = new DonDatPhongDAO(database);
     DonDatPhong ddp;
     PhongDAO phong_Dao = new PhongDAO(database);
+    List<PhongEmbed> list_Phong_filter = new ArrayList<>();
 
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
+//    public List<PhongEmbed> getAllPhong_filter(List<PhongEmbed> list_phong){
+//        List<PhongEmbed> list_PhongMOi = new ArrayList<>();
+//        for(PhongEmbed p : list_phong){
+//            
+//        }
+//    }
     public LeTan_DonDatPhong_PhongCuaDon_GUI(DonDatPhong ddp) {
         this.ddp = ddp;
+        list_Phong_filter = ddp.getPhongs();
         initComponents();
 
         Set<String> list_LoaiPhong = new HashSet<>();
@@ -77,7 +89,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         }
         cb_Tang.addItem("Tất cả");
         for (Integer tang : list_Tang) {
-            cb_Tang.addItem(tang+"");
+            cb_Tang.addItem(tang + "");
         }
 
         Set<Integer> list_Phong = new HashSet<>();
@@ -86,10 +98,10 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 list_Phong.add(phong.getMaPhong());
             }
         }
-        
+
         cb_Phong.addItem("Tất cả");
         for (Integer phong : list_Phong) {
-            cb_Phong.addItem(phong+"");
+            cb_Phong.addItem(phong + "");
         }
 
 //        Customer table_Phong
@@ -159,8 +171,16 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 dichVuSuDungs = dichVuSuDungs.substring(0, dichVuSuDungs.length() - 2);
             }
 
-            LocalDate localDateFrom = p.getNgayNhanPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate localDateTo = p.getNgayTraPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDateFrom;
+            LocalDate localDateTo;
+            if (p.getNgayNhanPhong() != null && p.getNgayTraPhong() != null) {
+                localDateFrom = p.getNgayNhanPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                localDateTo = p.getNgayTraPhong().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            } else {
+                localDateFrom = p.getNgayNhanPhongDuKien().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                localDateTo = p.getNgayTraPhongDuKien().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+
             long daysBetween = ChronoUnit.DAYS.between(localDateFrom, localDateTo);
 
             // Thêm dữ liệu vào bảng
@@ -170,11 +190,11 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 p.getTenLoaiPhong(),
                 sdf.format(p.getNgayNhanPhongDuKien()),
                 sdf.format(p.getNgayTraPhongDuKien()),
-                sdf.format(p.getNgayNhanPhong()),
-                sdf.format(p.getNgayTraPhong()),
+                p.getNgayNhanPhong() == null  ? "" : sdf.format(p.getNgayNhanPhong() ),
+                p.getNgayTraPhong()== null  ? "" : sdf.format(p.getNgayTraPhong()),
                 dichVuSuDungs,
                 df.format(p.getDonGia() * daysBetween),
-                df.format(p.getTienPhong())
+                df.format(p.getTienDaThanhToan())
             });
         }
 
@@ -266,6 +286,12 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Tầng");
+
+        cb_LoaiPhong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_LoaiPhongActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ThongTinKhachHangLayout = new javax.swing.GroupLayout(ThongTinKhachHang);
         ThongTinKhachHang.setLayout(ThongTinKhachHangLayout);
@@ -971,6 +997,17 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public Date setThoiGian0(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // Đặt ngày hiện tại
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+
+    }
     private void btn_NhanPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanPhongMousePressed
         // TODO add your handling code here:
         int row[] = Table_Phong.getSelectedRows();
@@ -992,7 +1029,8 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         for (int i = 0; i < row.length; i++) {
 
             int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
-            donDatPhong_dao.updateTrangThaiPhong(maPhong, "Đang ở");
+            donDatPhong_dao.updateNgayNhanPhong(ddp.getMaDonDat(), maPhong, setThoiGian0(new Date()));
+            donDatPhong_dao.updateTrangThaiPhong(ddp.getMaDonDat(),maPhong, "Đang ở");
         }
 
         DocDuLieuLenTablePhong(donDatPhong_dao.getDonDatPhongByMa(ddp.getMaDonDat()).getPhongs());
@@ -1076,6 +1114,11 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jDesktopPane1.remove(this);
         LeTan_GUI.donDatPhong_Gui.setVisible(true);
     }//GEN-LAST:event_btn_ThoatMousePressed
+
+    private void cb_LoaiPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_LoaiPhongActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cb_LoaiPhongActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

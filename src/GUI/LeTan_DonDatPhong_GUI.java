@@ -905,7 +905,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
             int madon = Integer.parseInt(model.getValueAt(n, 0).toString());
             dondatphong_dao.updateTrangThaiDon(madon, "Đã hủy");
-            dondatphong_dao.updateTrangThaiPhong(madon, "Đã hủy");
+            dondatphong_dao.updateTrangThaiPhongtheoDon(madon, "Đã hủy");
             JOptionPane.showMessageDialog(this, "Hủy thành công");
             model.removeRow(n);
             list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
@@ -914,6 +914,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
 
 
+        
     }//GEN-LAST:event_btn_HuyDonMousePressed
 
     private void txt_PhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_PhongActionPerformed

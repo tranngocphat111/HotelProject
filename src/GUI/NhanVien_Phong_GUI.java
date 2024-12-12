@@ -952,13 +952,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPanel2MouseClicked
 
     public boolean checkPhongDangSuDung(int maPhong) {
-        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiOVaCho();
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (maPhong == ddp.getPhong().getMaPhong()) {
-                return true;
-            }
-        }
-        return false;
+        return dondatphong_dao.kiemTraPhongDangSuDung(maPhong);
     }
 
     public void lamMoi() {

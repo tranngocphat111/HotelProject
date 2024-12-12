@@ -994,8 +994,9 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
             return;
         }
         int selectedRow = table_LoaiPhong.getSelectedRow();
-        int maloaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-        if (checkLoaiPhongDangSuDung(maloaiPhong)) {
+        int maLoaiPhong = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        String tenloaiPhong = model.getValueAt(selectedRow, 1).toString();
+        if (checkTenLoaiPhongDangSuDung(tenloaiPhong)) {
             JOptionPane.showMessageDialog(this, "Loại phòng đang được sử dụng!!! Không thể sửa");
             return;
         }
@@ -1007,7 +1008,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         for (LoaiPhong lp : loaiPhong_dao.getAllLoaiPhongSort()) {
-            if (txt_TenLoaiphong.getText().trim().equals(lp.getTenLoaiPhong()) && lp.getMaLoaiPhong() != maloaiPhong) {
+            if (txt_TenLoaiphong.getText().trim().equals(lp.getTenLoaiPhong()) && lp.getMaLoaiPhong() != maLoaiPhong) {
                 JOptionPane.showMessageDialog(this, "Tên loại phòng trùng");
                 txt_TenLoaiphong.requestFocus();
                 return;
@@ -1082,7 +1083,7 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         } else {
             loaiGiuong = "Đôi";
         }
-        lp.setMaLoaiPhong(maloaiPhong);
+        lp.setMaLoaiPhong(maLoaiPhong);
         lp.setTenLoaiPhong(tenLoaiPhong);
         lp.setDienTich(dienTich);
         lp.setSoKhachToiDa(soLuongKhachToiDa);
@@ -1123,7 +1124,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         }
 
         int maLoaiPhong = Integer.parseInt(model.getValueAt(table_LoaiPhong.getSelectedRow(), 0).toString());
-        if (checkLoaiPhongDangSuDung(maLoaiPhong)) {
+        String tenLoaiPhong = model.getValueAt(table_LoaiPhong.getSelectedRow(), 1).toString();
+        if (checkTenLoaiPhongDangSuDung(tenLoaiPhong)) {
             JOptionPane.showMessageDialog(this, "Loại phòng đang được sử dụng!!! Không thể xóa");
             return;
         }
@@ -1366,20 +1368,8 @@ public class NhanVien_LoaiPhong_GUI extends javax.swing.JInternalFrame {
         DocDataLenTable(list_LoaiPhong);
     }
 
-    public boolean checkLoaiPhongDangSuDung(int maLoaiPhong) {
-        list_DonDatPhong = dondatphong_dao.getDonDatPhongTheoTrangThaiOVaCho();
-        list_Phong = phong_dao.getAllPhongsSortByMaPhong();
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            List<Phong> list_ph = getAllPhongByLoaiPhong(list_Phong, maLoaiPhong);
-            for (Phong p : list_ph) {
-                if (p.getMaPhong() == ddp.getPhong().getMaPhong()) {
-
-                    return true;
-                }
-            }
-        }
-        System.out.println("false");
-        return false;
+    public boolean checkTenLoaiPhongDangSuDung(String tenLoaiPhong) {
+        return dondatphong_dao.kiemTraTenLoaiPhongDangSuDung(tenLoaiPhong);
     }
 
     public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {

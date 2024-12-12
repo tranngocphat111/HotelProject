@@ -11,6 +11,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.elemMatch;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Filters.lte;
 import static com.mongodb.client.model.Filters.or;
 import static com.mongodb.client.model.Projections.computed;
@@ -40,6 +41,36 @@ public class DonDatPhongDAO {
 
     public DonDatPhongDAO(MongoDatabase database) {
         donDatPhongCollection = database.getCollection("DonDatPhong");
+    }
+
+    public boolean kiemTraTenLoaiPhongDangSuDung(String tenLoaiPhong) {
+
+            // Tạo điều kiện tìm kiếm
+            Bson filter = elemMatch("phong", and(
+                    eq("tenLoaiPhong", tenLoaiPhong),
+                    in("trangThaiPhong", "Đang ở", "Đang chờ")
+            ));
+
+            // Tìm document phù hợp
+            Document result = donDatPhongCollection.find(filter).first();
+
+            return result != null;
+      
+    }
+    
+        public boolean kiemTraPhongDangSuDung(int maPhong) {
+
+            // Tạo điều kiện tìm kiếm
+            Bson filter = elemMatch("phong", and(
+                    eq("maPhong", maPhong),
+                    in("trangThaiPhong", "Đang ở", "Đang chờ")
+            ));
+
+            // Tìm document phù hợp
+            Document result = donDatPhongCollection.find(filter).first();
+
+            return result != null;
+      
     }
 
     public List<DonDatPhong> getAllDonDatPhong() {
@@ -281,7 +312,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-    
+
     public boolean updateTrangThaiPhong(int maDonDatPhong, int maPhong, String trangThaiPhong) {
         try {
             // Cập nhật trạng thái phòng trong danh sách phòng của đơn đặt phòng
@@ -298,8 +329,6 @@ public class DonDatPhongDAO {
         }
     }
 
-    
-
     public boolean updateNgayNhanPhong(int maDonDatPhong, int maPhong, Date ngayNhanPhong) {
         try {
             // Cập nhật ngày nhận phòng trong danh sách phòng của đơn đặt phòng
@@ -315,7 +344,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-    
+
     public boolean updateNgayTraPhong(int maDonDatPhong, int maPhong, Date ngayTraPhong) {
         try {
             // Cập nhật ngày nhận phòng trong danh sách phòng của đơn đặt phòng

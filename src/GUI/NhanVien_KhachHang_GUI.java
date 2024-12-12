@@ -963,8 +963,6 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
         if(selectedRow != -1) {
             String maKH = jTable1.getValueAt(selectedRow,0).toString();
             
-            khachHangDAO.deleteKhachHang(Integer.parseInt(maKH));
-            
             model.removeRow(selectedRow);
             
             JOptionPane.showMessageDialog(null, "Xóa thành công");

@@ -47,11 +47,11 @@ import model.DTO.PhongEmbed;
  */
 public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
-    private final DefaultTableCellRenderer centerRenderer;
-    private DefaultTableModel model;
-    private List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
+    public static  DefaultTableCellRenderer centerRenderer;
+    public static DefaultTableModel model;
+    public static List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    public static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     private List<DonDatPhong> listddp = new ArrayList<>();
 
@@ -141,7 +141,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     }
 
-    public List<DonDatPhong> timDonDatPhongTheoTrangThai(String trangThai, List<DonDatPhong> list_DDP) {
+    public static List<DonDatPhong> timDonDatPhongTheoTrangThai(String trangThai, List<DonDatPhong> list_DDP) {
         return list_DDP.stream()
                 .filter(don -> trangThai.equals(don.getTrangThai()))
                 .collect(Collectors.toList());
@@ -706,7 +706,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void DocDuLieuLenTableDonDatPhong(List<DonDatPhong> list_dondatphong) {
+    public static void DocDuLieuLenTableDonDatPhong(List<DonDatPhong> list_dondatphong) {
         model.setRowCount(0);
 
         if (list_dondatphong == null || list_dondatphong.isEmpty()) {
@@ -956,7 +956,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private keeptoo.KGradientPanel btn_NhanDon;
     private keeptoo.KGradientPanel btn_ThanhToanDon;
     private keeptoo.KGradientPanel btn_Tim;
-    private javax.swing.JComboBox<String> cb_trangthaidon;
+    public static javax.swing.JComboBox<String> cb_trangthaidon;
     private GUI.CirclePanel_Atatar circlePanel1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;

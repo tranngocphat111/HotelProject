@@ -57,7 +57,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         list_page.add(page_LoaiPhong);
         list_page.add(page_TienNghi);
         list_page.add(page_DichVu);
-        list_page.add(page_KhuyenMai);
         list_page.add(page_KhachHang);
 
         list_page.forEach((element) -> {
@@ -140,9 +139,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
         page_DichVu = new keeptoo.KGradientPanel();
         label_ThanhToan3 = new javax.swing.JLabel();
         icon_ThanhToan2 = new javax.swing.JLabel();
-        page_KhuyenMai = new keeptoo.KGradientPanel();
-        label_ThanhToan4 = new javax.swing.JLabel();
-        icon_ThanhToan3 = new javax.swing.JLabel();
         page_KhachHang = new keeptoo.KGradientPanel();
         label_ThanhToan = new javax.swing.JLabel();
         icon_ThanhToan = new javax.swing.JLabel();
@@ -328,47 +324,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                 .addGap(412, 412, 412))
         );
 
-        page_KhuyenMai.setkEndColor(new java.awt.Color(115, 115, 115));
-        page_KhuyenMai.setkGradientFocus(250);
-        page_KhuyenMai.setkStartColor(new java.awt.Color(0, 0, 0));
-        page_KhuyenMai.setName("page_KhuyenMai"); // NOI18N
-        page_KhuyenMai.setPreferredSize(new java.awt.Dimension(277, 75));
-        page_KhuyenMai.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                page_KhuyenMaiMousePressed(evt);
-            }
-        });
-
-        label_ThanhToan4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        label_ThanhToan4.setForeground(new java.awt.Color(255, 255, 255));
-        label_ThanhToan4.setText("KHUYẾN MÃI");
-        label_ThanhToan4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        icon_ThanhToan3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon_KhuyenMai.png"))); // NOI18N
-        icon_ThanhToan3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout page_KhuyenMaiLayout = new javax.swing.GroupLayout(page_KhuyenMai);
-        page_KhuyenMai.setLayout(page_KhuyenMaiLayout);
-        page_KhuyenMaiLayout.setHorizontalGroup(
-            page_KhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, page_KhuyenMaiLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(icon_ThanhToan3, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(label_ThanhToan4, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        page_KhuyenMaiLayout.setVerticalGroup(
-            page_KhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(page_KhuyenMaiLayout.createSequentialGroup()
-                .addGroup(page_KhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label_ThanhToan4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(page_KhuyenMaiLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(icon_ThanhToan3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(412, 412, 412))
-        );
-
         page_KhachHang.setkEndColor(new java.awt.Color(115, 115, 115));
         page_KhachHang.setkGradientFocus(250);
         page_KhachHang.setkStartColor(new java.awt.Color(0, 0, 0));
@@ -417,7 +372,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
             .addComponent(page_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(page_Phong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(page_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(page_KhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(page_KhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(page_TienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -430,19 +384,17 @@ public class NhanVien_GUI extends javax.swing.JFrame {
                     .addGroup(Jpanel_menuLayout.createSequentialGroup()
                         .addComponent(page_LoaiPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(70, 70, 70)
-                        .addComponent(page_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(page_KhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(page_KhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(page_DichVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(Jpanel_menuLayout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(page_TienNghi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(0, 0, 0)
+                .addComponent(page_KhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         SideBar.add(Jpanel_menu);
-        Jpanel_menu.setBounds(0, 180, 277, 440);
+        Jpanel_menu.setBounds(0, 180, 277, 370);
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
         jLabel21.setText("backgoup_menu");
@@ -601,15 +553,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_page_DichVuMousePressed
 
-    private void page_KhuyenMaiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhuyenMaiMousePressed
-        // TODO add your handling code here:
-        jDesktopPane1.removeAll();
-        khuyenmai_Gui = new NhanVien_KhuyenMai_GUI(nhanVien_DangSuDung);
-        jDesktopPane1.add(khuyenmai_Gui);
-        khuyenmai_Gui.setVisible(true);
-
-    }//GEN-LAST:event_page_KhuyenMaiMousePressed
-
     private void page_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_page_KhachHangMousePressed
         // TODO add your handling code here:
         jDesktopPane1.removeAll();
@@ -674,7 +617,6 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel icon_ThanhToan;
     private javax.swing.JLabel icon_ThanhToan1;
     private javax.swing.JLabel icon_ThanhToan2;
-    private javax.swing.JLabel icon_ThanhToan3;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -685,11 +627,9 @@ public class NhanVien_GUI extends javax.swing.JFrame {
     private javax.swing.JLabel label_ThanhToan1;
     private javax.swing.JLabel label_ThanhToan2;
     private javax.swing.JLabel label_ThanhToan3;
-    private javax.swing.JLabel label_ThanhToan4;
     private javax.swing.JLabel logo;
     private keeptoo.KGradientPanel page_DichVu;
     private keeptoo.KGradientPanel page_KhachHang;
-    private keeptoo.KGradientPanel page_KhuyenMai;
     private keeptoo.KGradientPanel page_LoaiPhong;
     private keeptoo.KGradientPanel page_Phong;
     private keeptoo.KGradientPanel page_TienNghi;

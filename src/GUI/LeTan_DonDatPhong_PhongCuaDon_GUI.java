@@ -5,7 +5,11 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTableDonDatPhong;
 import static GUI.LeTan_DonDatPhong_GUI.Table_DonDatPhong;
+import static GUI.LeTan_DonDatPhong_GUI.cb_trangthaidon;
+import static GUI.LeTan_DonDatPhong_GUI.list_DonDatPhong;
+import static GUI.LeTan_DonDatPhong_GUI.timDonDatPhongTheoTrangThai;
 import static GUI.LeTan_GUI.jDesktopPane1;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -190,8 +194,8 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 p.getTenLoaiPhong(),
                 sdf.format(p.getNgayNhanPhongDuKien()),
                 sdf.format(p.getNgayTraPhongDuKien()),
-                p.getNgayNhanPhong() == null  ? "" : sdf.format(p.getNgayNhanPhong() ),
-                p.getNgayTraPhong()== null  ? "" : sdf.format(p.getNgayTraPhong()),
+                p.getNgayNhanPhong() == null ? "" : sdf.format(p.getNgayNhanPhong()),
+                p.getNgayTraPhong() == null ? "" : sdf.format(p.getNgayTraPhong()),
                 dichVuSuDungs,
                 df.format(p.getDonGia() * daysBetween),
                 df.format(p.getTienDaThanhToan())
@@ -1029,8 +1033,14 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         for (int i = 0; i < row.length; i++) {
 
             int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
+
             donDatPhong_dao.updateNgayNhanPhong(ddp.getMaDonDat(), maPhong, setThoiGian0(new Date()));
-            donDatPhong_dao.updateTrangThaiPhong(ddp.getMaDonDat(),maPhong, "Đang ở");
+            donDatPhong_dao.updateTrangThaiPhong(ddp.getMaDonDat(), maPhong, "Đang ở");
+
+            if (ktraAllChuyenTrangThaicuaDon(donDatPhong_dao.getDonDatPhongByMa(ddp.getMaDonDat()))) {
+                donDatPhong_dao.updateTrangThaiDon(ddp.getMaDonDat(), "Xử lý");
+            }
+
         }
 
         DocDuLieuLenTablePhong(donDatPhong_dao.getDonDatPhongByMa(ddp.getMaDonDat()).getPhongs());
@@ -1039,6 +1049,15 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
     }//GEN-LAST:event_btn_NhanPhongMousePressed
 
+    public boolean ktraAllChuyenTrangThaicuaDon(DonDatPhong don) {
+        for (PhongEmbed p : don.getPhongs()) {
+            if (!p.getTrangThaiPhong().equals("Đang ở")) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     private void btn_LamMoiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_LamMoiMousePressed
         // TODO add your handling code here:
@@ -1111,6 +1130,14 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
     private void btn_ThoatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThoatMousePressed
         // TODO add your handling code here:
+
+        LeTan_DonDatPhong_GUI.list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
+        if (cb_trangthaidon.getSelectedItem().toString().equals("Tất cả")) {
+            DocDuLieuLenTableDonDatPhong(list_DonDatPhong);
+        } else {
+            DocDuLieuLenTableDonDatPhong(timDonDatPhongTheoTrangThai(cb_trangthaidon.getSelectedItem() + "", list_DonDatPhong));
+
+        }
         jDesktopPane1.remove(this);
         LeTan_GUI.donDatPhong_Gui.setVisible(true);
     }//GEN-LAST:event_btn_ThoatMousePressed

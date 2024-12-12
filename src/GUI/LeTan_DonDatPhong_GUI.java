@@ -50,7 +50,7 @@ import model.DTO.PhongEmbed;
  */
 public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
-    public static  DefaultTableCellRenderer centerRenderer;
+    public static DefaultTableCellRenderer centerRenderer;
     public static DefaultTableModel model;
     public static List<DonDatPhong> list_DonDatPhong = new ArrayList<>();
     private DonDatPhongDAO dondatphong_dao = new DonDatPhongDAO(database);
@@ -904,6 +904,27 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
     private void btn_NhanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanDonMousePressed
         // TODO add your handling code here:
 
+        int row = Table_DonDatPhong.getSelectedRow();
+        if(row == -1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn cần nhận");
+            return;
+        } 
+        
+        
+        int maDDp = Integer.parseInt(model.getValueAt(row, 0).toString());
+        DonDatPhong ddp = dondatphong_dao.getDonDatPhongByMa(maDDp);
+        
+        if(!ddp.getTrangThai().equals("Đang chờ")){
+            JOptionPane.showMessageDialog(this, "Chỉ nhận Đơn đặt phòng đang chờ");
+            return;
+        }
+        
+        
+        LeTan_DonDatPhong_NhanDon_GUI phongcuatui = new LeTan_DonDatPhong_NhanDon_GUI(ddp);
+        setVisible(false);
+        jDesktopPane1.add(phongcuatui);
+        phongcuatui.setVisible(true);
+
 
     }//GEN-LAST:event_btn_NhanDonMousePressed
 
@@ -932,8 +953,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         }
 
 
-
-        
     }//GEN-LAST:event_btn_HuyDonMousePressed
 
     private void txt_PhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_PhongActionPerformed
@@ -977,7 +996,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jLabel17MousePressed
 
 

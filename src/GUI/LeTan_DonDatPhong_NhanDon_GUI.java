@@ -49,7 +49,7 @@ import model.DTO.PhongEmbed;
  *
  * @author Admin
  */
-public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFrame {
+public class LeTan_DonDatPhong_NhanDon_GUI extends javax.swing.JInternalFrame {
 
     private DefaultTableCellRenderer centerRenderer_Phong;
     private DefaultTableModel model_Phong = new DefaultTableModel();
@@ -68,7 +68,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    public LeTan_DonDatPhong_PhongCuaDon_GUI(DonDatPhong ddp) {
+    public LeTan_DonDatPhong_NhanDon_GUI(DonDatPhong ddp) {
         this.ddp = ddp;
         list_Phong_filter = ddp.getPhongs();
         list_KhachHang_db = khachHang_dao.getAllKhachHang();
@@ -268,16 +268,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         cb_Tang = new javax.swing.JComboBox<>();
         cb_LoaiPhong = new javax.swing.JComboBox<>();
         cb_Phong = new javax.swing.JComboBox<>();
-        btn_HuyDon = new keeptoo.KGradientPanel();
-        jLabel18 = new javax.swing.JLabel();
-        btn_NhanPhong = new keeptoo.KGradientPanel();
-        jLabel15 = new javax.swing.JLabel();
-        btn_ThanhToanDon = new keeptoo.KGradientPanel();
-        jLabel17 = new javax.swing.JLabel();
-        btn_HuyPhong = new keeptoo.KGradientPanel();
-        jLabel16 = new javax.swing.JLabel();
-        btn_NhanDon = new keeptoo.KGradientPanel();
-        jLabel22 = new javax.swing.JLabel();
         Scroll_KhachHang = new javax.swing.JScrollPane();
         Table_KhachHang = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
@@ -308,6 +298,8 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         Table_Phong = new javax.swing.JTable();
         btn_Thoat = new keeptoo.KGradientPanel();
         jLabel26 = new javax.swing.JLabel();
+        btn_XacNhan = new keeptoo.KGradientPanel();
+        jLabel28 = new javax.swing.JLabel();
         Backgroup = new javax.swing.JLabel();
 
         setName("page_DonDatPhong"); // NOI18N
@@ -386,190 +378,15 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         jPanel1.add(ThongTinKhachHang);
         ThongTinKhachHang.setBounds(40, 60, 200, 210);
 
-        btn_HuyDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_HuyDon.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_HuyDon.setkGradientFocus(250);
-        btn_HuyDon.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_HuyDon.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_HuyDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_HuyDonMousePressed(evt);
-            }
-        });
-
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Thanh Toán");
-        jLabel18.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel18.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout btn_HuyDonLayout = new javax.swing.GroupLayout(btn_HuyDon);
-        btn_HuyDon.setLayout(btn_HuyDonLayout);
-        btn_HuyDonLayout.setHorizontalGroup(
-            btn_HuyDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_HuyDonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btn_HuyDonLayout.setVerticalGroup(
-            btn_HuyDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_HuyDonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel1.add(btn_HuyDon);
-        btn_HuyDon.setBounds(940, 280, 140, 45);
-
-        btn_NhanPhong.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_NhanPhong.setkGradientFocus(250);
-        btn_NhanPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_NhanPhong.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_NhanPhong.setPreferredSize(new java.awt.Dimension(140, 35));
-        btn_NhanPhong.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_NhanPhongMousePressed(evt);
-            }
-        });
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("Nhận Phòng");
-        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel15.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout btn_NhanPhongLayout = new javax.swing.GroupLayout(btn_NhanPhong);
-        btn_NhanPhong.setLayout(btn_NhanPhongLayout);
-        btn_NhanPhongLayout.setHorizontalGroup(
-            btn_NhanPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_NhanPhongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btn_NhanPhongLayout.setVerticalGroup(
-            btn_NhanPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_NhanPhongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel1.add(btn_NhanPhong);
-        btn_NhanPhong.setBounds(440, 280, 140, 45);
-
-        btn_ThanhToanDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_ThanhToanDon.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_ThanhToanDon.setkGradientFocus(250);
-        btn_ThanhToanDon.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_ThanhToanDon.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_ThanhToanDon.setPreferredSize(new java.awt.Dimension(140, 45));
-        btn_ThanhToanDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_ThanhToanDonMousePressed(evt);
-            }
-        });
-
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("Trả Phòng");
-        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout btn_ThanhToanDonLayout = new javax.swing.GroupLayout(btn_ThanhToanDon);
-        btn_ThanhToanDon.setLayout(btn_ThanhToanDonLayout);
-        btn_ThanhToanDonLayout.setHorizontalGroup(
-            btn_ThanhToanDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_ThanhToanDonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btn_ThanhToanDonLayout.setVerticalGroup(
-            btn_ThanhToanDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(btn_ThanhToanDon);
-        btn_ThanhToanDon.setBounds(1100, 280, 140, 45);
-
-        btn_HuyPhong.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_HuyPhong.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_HuyPhong.setkGradientFocus(250);
-        btn_HuyPhong.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_HuyPhong.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_HuyPhong.setPreferredSize(new java.awt.Dimension(140, 45));
-        btn_HuyPhong.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_HuyPhongMousePressed(evt);
-            }
-        });
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Hủy Phòng");
-        jLabel16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout btn_HuyPhongLayout = new javax.swing.GroupLayout(btn_HuyPhong);
-        btn_HuyPhong.setLayout(btn_HuyPhongLayout);
-        btn_HuyPhongLayout.setHorizontalGroup(
-            btn_HuyPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-        );
-        btn_HuyPhongLayout.setVerticalGroup(
-            btn_HuyPhongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btn_HuyPhongLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel1.add(btn_HuyPhong);
-        btn_HuyPhong.setBounds(610, 280, 140, 45);
-
-        btn_NhanDon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        btn_NhanDon.setkEndColor(new java.awt.Color(255, 222, 89));
-        btn_NhanDon.setkGradientFocus(250);
-        btn_NhanDon.setkStartColor(new java.awt.Color(225, 176, 27));
-        btn_NhanDon.setMinimumSize(new java.awt.Dimension(140, 45));
-        btn_NhanDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_NhanDonMousePressed(evt);
-            }
-        });
-
-        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("Thêm dịch vụ");
-        jLabel22.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout btn_NhanDonLayout = new javax.swing.GroupLayout(btn_NhanDon);
-        btn_NhanDon.setLayout(btn_NhanDonLayout);
-        btn_NhanDonLayout.setHorizontalGroup(
-            btn_NhanDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_NhanDonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        btn_NhanDonLayout.setVerticalGroup(
-            btn_NhanDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btn_NhanDonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanel1.add(btn_NhanDon);
-        btn_NhanDon.setBounds(780, 280, 140, 45);
-
         Table_KhachHang.setAutoCreateRowSorter(true);
         Table_KhachHang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_KhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
                 "Mã khách hàng", "CCCD", "Họ và tên", "Số điện thoại", "Email", "Giới tính", "Quốc tịch"
@@ -970,7 +787,7 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setText("Thoát");
+        jLabel26.setText("Hủy");
         jLabel26.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel26.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -992,7 +809,44 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         );
 
         jPanel1.add(btn_Thoat);
-        btn_Thoat.setBounds(1100, 720, 140, 45);
+        btn_Thoat.setBounds(940, 730, 140, 45);
+
+        btn_XacNhan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btn_XacNhan.setkEndColor(new java.awt.Color(255, 222, 89));
+        btn_XacNhan.setkGradientFocus(250);
+        btn_XacNhan.setkStartColor(new java.awt.Color(225, 176, 27));
+        btn_XacNhan.setMinimumSize(new java.awt.Dimension(140, 45));
+        btn_XacNhan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_XacNhanMousePressed(evt);
+            }
+        });
+
+        jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Nhận Đơn");
+        jLabel28.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel28.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout btn_XacNhanLayout = new javax.swing.GroupLayout(btn_XacNhan);
+        btn_XacNhan.setLayout(btn_XacNhanLayout);
+        btn_XacNhanLayout.setHorizontalGroup(
+            btn_XacNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_XacNhanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        btn_XacNhanLayout.setVerticalGroup(
+            btn_XacNhanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn_XacNhanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel1.add(btn_XacNhan);
+        btn_XacNhan.setBounds(1100, 730, 140, 45);
 
         Backgroup.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
@@ -1071,39 +925,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
 
         return true;
     }
-    private void btn_NhanPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanPhongMousePressed
-        // TODO add your handling code here:
-        int row[] = Table_Phong.getSelectedRows();
-        if (row.length == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn phòng cần nhận");
-            return;
-        }
-        for (int i = 0; i < row.length; i++) {
-
-            int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
-            PhongEmbed phong = donDatPhong_dao.getPhongTheoMaPhong(ddp.getMaDonDat(), maPhong);
-            
-
-        }
-
-        for (int i = 0; i < row.length; i++) {
-
-            int maPhong = Integer.parseInt(model_Phong.getValueAt(row[i], 0).toString());
-
-            donDatPhong_dao.updateNgayNhanPhong(ddp.getMaDonDat(), maPhong, setThoiGian0(new Date()));
-            donDatPhong_dao.updateTrangThaiPhong(ddp.getMaDonDat(), maPhong, "Đang ở");
-
-            if (ktraAllChuyenTrangThaicuaDon(donDatPhong_dao.getDonDatPhongByMa(ddp.getMaDonDat()), "Đang ở")) {
-                donDatPhong_dao.updateTrangThaiDon(ddp.getMaDonDat(), "Xử lý");
-            }
-
-        }
-
-        DocDuLieuLenTablePhong(donDatPhong_dao.getDonDatPhongByMa(ddp.getMaDonDat()).getPhongs());
-        JOptionPane.showMessageDialog(this, "Nhận phòng thành công");
-
-
-    }//GEN-LAST:event_btn_NhanPhongMousePressed
 
     public boolean ktraAllChuyenTrangThaicuaDon(DonDatPhong don, String trangThai) {
         for (PhongEmbed p : don.getPhongs()) {
@@ -1115,32 +936,11 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         return true;
     }
 
-    private void btn_HuyPhongMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyPhongMousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_btn_HuyPhongMousePressed
-
 
     private void Table_KhachHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_KhachHangMousePressed
         // TODO add your handling code here:
 
     }//GEN-LAST:event_Table_KhachHangMousePressed
-
-    private void btn_ThanhToanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanDonMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_ThanhToanDonMousePressed
-
-    private void btn_NhanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanDonMousePressed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_btn_NhanDonMousePressed
-
-    private void btn_HuyDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_HuyDonMousePressed
-        // TODO add your handling code here:
-
-
-    }//GEN-LAST:event_btn_HuyDonMousePressed
 
     private void txt_CCCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CCCDActionPerformed
         // TODO add your handling code here:
@@ -1208,8 +1008,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                 return;
             }
 
-            ddp.setKhachO(list_KhachHang);
-            donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), ddp.getKhachO());
             DocDuLieuLenTableKhachHang(list_KhachHang);
 
             txt_CCCD.setText("");
@@ -1249,8 +1047,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
             cb_GioiTinh.setSelectedItem("Nam");
             cb_QuocTich.setSelectedItem("Việt Nam");
 
-            ddp.setKhachO(list_KhachHang);
-            donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), list_KhachHang);
         }
 
     }//GEN-LAST:event_btn_XoaMousePressed
@@ -1283,9 +1079,6 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
                     list_KhachHang.get(i).setQuocTich(cb_QuocTich.getSelectedItem().toString());
                 }
             }
-
-            ddp.setKhachO(list_KhachHang);
-            donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), list_KhachHang);
 
             DocDuLieuLenTableKhachHang(list_KhachHang);
             JOptionPane.showMessageDialog(this, "Sửa thành công");
@@ -1414,6 +1207,35 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
         DocDuLieuLenTablePhong(list_Phong_filter);
     }//GEN-LAST:event_cb_PhongActionPerformed
 
+    private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
+        // TODO add your handling code here:
+        
+        if(list_KhachHang.size() == 0){
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập khách hàng");
+            return;
+        }
+        
+        ddp.setKhachO(list_KhachHang);
+        donDatPhong_dao.updateNguoiO(ddp.getMaDonDat(), list_KhachHang);
+        donDatPhong_dao.updateTrangThaiDon(ddp.getMaDonDat(), "Xử lý");
+        for(PhongEmbed phong : ddp.getPhongs()){
+            if (phong.getTrangThaiPhong().equals("Đang chờ")) {
+                donDatPhong_dao.updateTrangThaiPhong(ddp.getMaDonDat(), phong.getMaPhong(), "Đang ở");
+                donDatPhong_dao.updateNgayNhanPhong(ddp.getMaDonDat(), phong.getMaPhong(), setThoiGian0(new Date()));
+            }
+        }
+        
+        LeTan_DonDatPhong_GUI.list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
+        if (cb_trangthaidon.getSelectedItem().toString().equals("Tất cả")) {
+            DocDuLieuLenTableDonDatPhong(list_DonDatPhong);
+        } else {
+            DocDuLieuLenTableDonDatPhong(timDonDatPhongTheoTrangThai(cb_trangthaidon.getSelectedItem() + "", list_DonDatPhong));
+
+        }
+        jDesktopPane1.remove(this);
+        LeTan_GUI.donDatPhong_Gui.setVisible(true);
+    }//GEN-LAST:event_btn_XacNhanMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Backgroup;
@@ -1423,15 +1245,11 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     public static javax.swing.JTable Table_Phong;
     private javax.swing.JPanel ThongTinKhachHang;
     private javax.swing.JPanel ThongTinKhachHang1;
-    private keeptoo.KGradientPanel btn_HuyDon;
-    private keeptoo.KGradientPanel btn_HuyPhong;
     private keeptoo.KGradientPanel btn_LamMoi;
-    private keeptoo.KGradientPanel btn_NhanDon;
-    private keeptoo.KGradientPanel btn_NhanPhong;
     private keeptoo.KGradientPanel btn_Sua;
-    private keeptoo.KGradientPanel btn_ThanhToanDon;
     private keeptoo.KGradientPanel btn_Them;
     private keeptoo.KGradientPanel btn_Thoat;
+    private keeptoo.KGradientPanel btn_XacNhan;
     private keeptoo.KGradientPanel btn_Xoa;
     private javax.swing.JComboBox<String> cb_GioiTinh;
     private javax.swing.JComboBox<String> cb_LoaiPhong;
@@ -1443,18 +1261,14 @@ public class LeTan_DonDatPhong_PhongCuaDon_GUI extends javax.swing.JInternalFram
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

@@ -395,7 +395,13 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
             database = MongoDBConnection.getDatabase();
             NhanVien nv = nhanVien_DangSuDung;
             nv.setMatKhau(mkMoi);
-            new NhanVienDAO(database).updateNhanVien(nv);
+            if (new NhanVienDAO(database).updateNhanVien(nv)){
+                JOptionPane.showMessageDialog(rootPane, "Đổi mật khẩu thành công!");
+                this.dispose();
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Đổi mật khẩu thất bại!");
+            }
         }
         
     }//GEN-LAST:event_btn_ThoatMouseClicked

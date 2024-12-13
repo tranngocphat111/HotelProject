@@ -415,7 +415,7 @@ public class QuanLy_GUI extends javax.swing.JFrame {
 
     private void btn_DangXuatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_DangXuatMousePressed
         // TODO add your handling code here:
-        if(JOptionPane.showConfirmDialog(this,"Cảnh báo", "Bạn chắc chắn muốn đăng xuất",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+        if(JOptionPane.showConfirmDialog(this,"Bạn có chắc chắn muốn đăng xuất", "Thông báo",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             new DangNhap_GUI().setVisible(true);
             setVisible(false);
         }

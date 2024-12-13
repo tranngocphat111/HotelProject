@@ -669,7 +669,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         Backgroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Backgroup.png"))); // NOI18N
         Backgroup.setPreferredSize(new java.awt.Dimension(1283, 803));
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(-7, 0, 1300, 803);
+        Backgroup.setBounds(0, -27, 1290, 830);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 1283, 803);

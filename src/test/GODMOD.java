@@ -65,9 +65,9 @@ public class GODMOD {
 
     public static void main(String[] args) {
         GODMOD gm = new GODMOD();
-        int ma_ddp_last = 2085;
-        int maDVSD = 6253;
-        Date ngayBatDau = new Date(124, 10, 1, 0, 0, 0);
+        int ma_ddp_last = 1;
+        int maDVSD = 1;
+        Date ngayBatDau = new Date(124, 0, 2, 0, 0, 0);
         
 
         Calendar calendar = Calendar.getInstance();
@@ -95,7 +95,7 @@ public class GODMOD {
             System.out.println(ngayBatDau);
 
         }
-
+//        gm.nhanVienDAO.doiMatKhau("letan1", "123", "456");
     }
 
     private DonDatPhong taoDonDatPhong(int maDonDat, Date ngayTaoDon, int maPhong, int maDVSD) {
@@ -158,6 +158,7 @@ public class GODMOD {
         ddp.setPhongs(phongs);
         System.out.println(ddp);
         
+        hoaDonDAO.createHoaDon(taoHoaDon(ddp, maDonDat));
         
 
         return ddp;
@@ -193,8 +194,28 @@ public class GODMOD {
         return floor * 100 + room;
     }
     
-//    private HoaDon taoHoaDon(int maHoaDon, int tongTien, Date ngayTaoHoaDon, NhanVienEmbed nv, boolean trangThai, int maDonDatPhong){
-//        
-//    }
+    private HoaDon taoHoaDon(DonDatPhong ddp, int maHD){
+        HoaDon hd = new HoaDon();
+        List<Integer> dv = new ArrayList<>();
+        
+        hd.setMaHoaDon(maHD);
+        hd.setTienThanhToan(ddp.getTongTien());
+        hd.setNgayTaoHoaDon(ddp.getPhongs().getFirst().getNgayTraPhong());
+        
+        NhanVienEmbed nve = new NhanVienEmbed(1, "Nguyễn Văn Anh");
+        hd.setNhanVien(nve);
+        hd.setDonDatPhong(ddp.getMaDonDat());
+        List<PhongEmbed_HoaDon> lPhong = new ArrayList<>();
+        for(PhongEmbed p: ddp.getPhongs()){
+            lPhong.add(new PhongEmbed_HoaDon(p.getMaPhong(), p.getNgayNhanPhong(), p.getNgayTraPhong(), p.getDonGia()));
+            for (DichVuSuDungEmbed dvsd: p.getDichVuSuDung()){
+                dv.add(dvsd.getMaDVSD());
+            }
+        }
+        
+        hd.setThongTinThanhToan(new ThongTinThanhToan(lPhong, dv.stream().mapToInt(Integer::intValue).toArray()));
+        
+        return hd;
+    }
 
 }

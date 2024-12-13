@@ -785,7 +785,7 @@ public class NhanVien_KhachHang_GUI extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(Backgroup);
-        Backgroup.setBounds(0, 0, 1283, 803);
+        Backgroup.setBounds(0, -7, 1290, 810);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -4,9 +4,12 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Accumulators.first;
+import static com.mongodb.client.model.Aggregates.group;
 import static com.mongodb.client.model.Aggregates.lookup;
 import static com.mongodb.client.model.Aggregates.match;
 import static com.mongodb.client.model.Aggregates.project;
+import static com.mongodb.client.model.Aggregates.sort;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.elemMatch;
 import static com.mongodb.client.model.Filters.eq;
@@ -18,6 +21,7 @@ import static com.mongodb.client.model.Projections.computed;
 import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
+import static com.mongodb.client.model.Sorts.ascending;
 import static com.mongodb.client.model.Updates.set;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
@@ -402,5 +406,26 @@ public class DonDatPhongDAO {
             System.out.println("Lỗi khi cập nhật trạng thái hoàn thành: " + e.getMessage());
             return false;
         }
+    }
+    
+    public List<Integer> getYearsByTrangThaiHoanThanh() {
+        List<Integer> years = new ArrayList<>();
+
+        // Sử dụng Aggregation Framework đúng cách
+        List<Document> aggregationPipeline = donDatPhongCollection.aggregate(
+                List.of(
+                        match(eq("trangThai", "Hoàn thành")),
+                        project(new Document("year", new Document("$year", "$ngayTaoDon"))),
+                        group(new Document("_id", "$year"), first("year", "$year")),
+                        sort(ascending("_id"))
+                )
+        ).into(new ArrayList<>());
+
+        // Lấy các năm từ kết quả trả về
+        for (Document doc : aggregationPipeline) {
+            years.add(doc.getInteger("year"));
+        }
+
+        return years;
     }
 }

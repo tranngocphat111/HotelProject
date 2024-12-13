@@ -8,8 +8,12 @@ import Functions.ImageScale;
 import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -44,8 +48,21 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
 
+        cb_TheoNam.removeAllItems();
+        cb_TheoNam.addItem(null);
+        for (int i : new DonDatPhongDAO(MongoDBConnection.getDatabase()).getYearsByTrangThaiHoanThanh()) {
+            cb_TheoNam.addItem(String.format("%s", i));
+        }
+        
+        cb_TheoQuy.removeAllItems();
+        cb_TheoQuy.addItem(null);
+        cb_TheoQuy.addItem("1");
+        cb_TheoQuy.addItem("2");
+        cb_TheoQuy.addItem("3");
+        cb_TheoQuy.addItem("4");
         cb_TheoNam.setSelectedItem(null);
         cb_TheoQuy.setSelectedItem(null);
+        
         Date today = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(today);
@@ -67,7 +84,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
-        
+
         updateBieuDo();
     }
 
@@ -426,32 +443,62 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
 
     private void txt_TuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_TuNgayPropertyChange
         // TODO add your handling code here:
+//        cb_TheoNam.setSelectedItem(null);
+//        cb_TheoQuy.setSelectedItem(null);
     }//GEN-LAST:event_txt_TuNgayPropertyChange
 
     private void txt_DenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txt_DenNgayPropertyChange
         // TODO add your handling code here:
+//        cb_TheoNam.setSelectedItem(null);
+//        cb_TheoQuy.setSelectedItem(null);
     }//GEN-LAST:event_txt_DenNgayPropertyChange
 
     private void cb_TheoQuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_TheoQuyActionPerformed
         // TODO add your handling code here:
+        txt_TuNgay.setDate(null);
+        txt_DenNgay.setDate(null);
     }//GEN-LAST:event_cb_TheoQuyActionPerformed
 
     private void cb_TheoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_TheoNamActionPerformed
         // TODO add your handling code here:
+        txt_TuNgay.setDate(null);
+        txt_DenNgay.setDate(null);
     }//GEN-LAST:event_cb_TheoNamActionPerformed
 
-    private void updateBieuDo(){
+    private void updateBieuDo() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         Date ngayBatDau = null;
         Date ngayKetThuc = null;
-        try {
-            ngayBatDau = sdf.parse(sdf.format(txt_TuNgay.getDate()));
-            ngayKetThuc = sdf.parse(sdf.format(txt_DenNgay.getDate()));
-        } catch (ParseException ex) {
-            Logger.getLogger(QuanLy_DoanhThu_GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Map<Date, Date> result;
+        if (cb_TheoNam.getSelectedIndex() != -1) {
+            if (cb_TheoQuy.getSelectedItem() == null){
+                result = getDateRange("5", cb_TheoNam.getSelectedItem().toString());
+            }
+            else
+            {
+                result = getDateRange(cb_TheoQuy.getSelectedItem().toString(), cb_TheoNam.getSelectedItem().toString());
+            }
+            try {
+                ngayBatDau = sdf.parse(sdf.format(result.keySet().iterator().next()));
+                ngayKetThuc = sdf.parse(sdf.format(result.values().iterator().next()));
+                System.out.println(ngayBatDau);
+                System.out.println(ngayKetThuc);
 
+            } catch (ParseException ex) {
+                Logger.getLogger(QuanLy_DoanhThu_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else 
+        {
+            try {
+                ngayBatDau = sdf.parse(sdf.format(txt_TuNgay.getDate()));
+                ngayKetThuc = sdf.parse(sdf.format(txt_DenNgay.getDate()));
+            } catch (ParseException ex) {
+                Logger.getLogger(QuanLy_DoanhThu_GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
         if (ngayBatDau == null && ngayKetThuc == null) {
             return;
         }
@@ -481,6 +528,46 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
         addChartToScrollPane(barChart1);
         addChartToScrollPane(barChart2);
         addChartToScrollPane(barChart3);
+    }
+
+    private Map<Date, Date> getDateRange(String qui, String nam) {
+        Map<Date, Date> dateRange = new HashMap<>();
+
+        // Chuyển đổi năm sang số nguyên
+        int year = Integer.parseInt(nam) - 1900;
+        Date startDate;
+        Date endDate;
+
+        switch (qui) {
+            case "1":
+                startDate = new Date(year, 0, 1);
+                endDate = new Date(year, 2, 31);
+
+                break;
+            case "2":
+                startDate = new Date(year, 3, 1);
+                endDate = new Date(year, 5, 30);
+                break;
+            case "3":
+
+                startDate = new Date(year, 6, 1);
+                endDate = new Date(year, 8, 30);
+                break;
+            case "4":
+                startDate = new Date(year, 9, 1);
+                endDate = new Date(year, 1, 31);
+                break;
+            case "5":
+                startDate = new Date(year, 0, 1);
+                endDate = new Date(year, 11, 31);
+                break;
+            default:
+                throw new IllegalArgumentException("Quý không hợp lệ: " + qui);
+        }
+
+        dateRange.put(startDate, endDate);
+
+        return dateRange;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -793,7 +793,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         cb_trangthaidon.addItem("Xử lý");
         cb_trangthaidon.addItem("Đã hủy");
 
-        cb_trangthaidon.setSelectedItem("Đang chờ");
+        cb_trangthaidon.setSelectedItem("Xử lý");
 
     }
 
@@ -929,7 +929,7 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
             PhongEmbed_HoaDon phongMoi = new PhongEmbed_HoaDon();
             phongMoi.setMaPhong(Phong.getMaPhong());
             phongMoi.setNgayNhan(Phong.getNgayNhanPhong());
-            phongMoi.setNgayTra(Phong.getNgayTraPhong());
+            phongMoi.setNgayTra(setThoiGian0(new Date()));
             phongMoi.setDonGia(Phong.getDonGia());
             list_moi.add(phongMoi);
         }

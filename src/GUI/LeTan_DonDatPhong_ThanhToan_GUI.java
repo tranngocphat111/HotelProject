@@ -5,6 +5,8 @@
 package GUI;
 
 import static GUI.DangNhap_GUI.database;
+import static GUI.LeTan_DonDatPhong_GUI.DocDuLieuLenTableDonDatPhong;
+import static GUI.LeTan_DonDatPhong_GUI.list_DonDatPhong;
 import GUI.LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong;
 import java.awt.Color;
 import java.awt.Component;
@@ -607,7 +609,13 @@ public class LeTan_DonDatPhong_ThanhToan_GUI extends javax.swing.JFrame {
         
         hoadon.setTienThanhToan(TongTien___);
         hoadon_dao.createHoaDon(hoadon);
+        
+        LeTan_DonDatPhong_GUI.list_DonDatPhong = dondatphong_dao.getAllDonDatPhong();
+        DocDuLieuLenTableDonDatPhong(list_DonDatPhong);
+        
+        setVisible(false);
 
+        
     }//GEN-LAST:event_btn_ThanhToanMousePressed
 
     /**

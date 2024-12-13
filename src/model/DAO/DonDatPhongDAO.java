@@ -22,6 +22,7 @@ import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.ascending;
+import com.mongodb.client.model.UpdateOptions;
 import static com.mongodb.client.model.Updates.set;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
@@ -31,6 +32,7 @@ import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import model.DTO.DichVu;
@@ -46,21 +48,21 @@ public class DonDatPhongDAO {
     public DonDatPhongDAO(MongoDatabase database) {
         donDatPhongCollection = database.getCollection("DonDatPhong");
     }
-    
-   public void updateNguoiO(int maDonDat, List<KhachHang> nguoiOMoi) {
 
-            // Tạo điều kiện tìm kiếm
-            Bson filter = eq("maDonDat", maDonDat);
+    public void updateNguoiO(int maDonDat, List<KhachHang> nguoiOMoi) {
 
-            // Tạo bản cập nhật
-            Bson update = set("nguoiO", convertToDocumentList(nguoiOMoi));
+        // Tạo điều kiện tìm kiếm
+        Bson filter = eq("maDonDat", maDonDat);
 
-            // Cập nhật document
-            donDatPhongCollection.updateOne(filter, update);
+        // Tạo bản cập nhật
+        Bson update = set("nguoiO", convertToDocumentList(nguoiOMoi));
+
+        // Cập nhật document
+        donDatPhongCollection.updateOne(filter, update);
 
     }
-   
-   public List<Document> convertToDocumentList(List<KhachHang> khachHangList) {
+
+    public List<Document> convertToDocumentList(List<KhachHang> khachHangList) {
         List<Document> documentList = new ArrayList<>();
         for (KhachHang kh : khachHangList) {
             Document doc = new Document("maKhachHang", kh.getMaKhachHang())
@@ -75,35 +77,34 @@ public class DonDatPhongDAO {
         return documentList;
     }
 
-
     public boolean kiemTraTenLoaiPhongDangSuDung(String tenLoaiPhong) {
 
-            // Tạo điều kiện tìm kiếm
-            Bson filter = elemMatch("phong", and(
-                    eq("tenLoaiPhong", tenLoaiPhong),
-                    in("trangThaiPhong", "Đang ở", "Đang chờ")
-            ));
+        // Tạo điều kiện tìm kiếm
+        Bson filter = elemMatch("phong", and(
+                eq("tenLoaiPhong", tenLoaiPhong),
+                in("trangThaiPhong", "Đang ở", "Đang chờ")
+        ));
 
-            // Tìm document phù hợp
-            Document result = donDatPhongCollection.find(filter).first();
+        // Tìm document phù hợp
+        Document result = donDatPhongCollection.find(filter).first();
 
-            return result != null;
-      
+        return result != null;
+
     }
-    
-        public boolean kiemTraPhongDangSuDung(int maPhong) {
 
-            // Tạo điều kiện tìm kiếm
-            Bson filter = elemMatch("phong", and(
-                    eq("maPhong", maPhong),
-                    in("trangThaiPhong", "Đang ở", "Đang chờ")
-            ));
+    public boolean kiemTraPhongDangSuDung(int maPhong) {
 
-            // Tìm document phù hợp
-            Document result = donDatPhongCollection.find(filter).first();
+        // Tạo điều kiện tìm kiếm
+        Bson filter = elemMatch("phong", and(
+                eq("maPhong", maPhong),
+                in("trangThaiPhong", "Đang ở", "Đang chờ")
+        ));
 
-            return result != null;
-      
+        // Tìm document phù hợp
+        Document result = donDatPhongCollection.find(filter).first();
+
+        return result != null;
+
     }
 
     public List<DonDatPhong> getAllDonDatPhong() {
@@ -188,6 +189,38 @@ public class DonDatPhongDAO {
             );
         }
         return list_DichVu;
+    }
+
+    public boolean updatePhongTrongDonDatPhong(int maDonDat, PhongEmbed phongUpdate) {
+        try {
+            // Tìm kiếm đơn đặt phòng dựa trên mã đơn đặt phòng
+            Document filter = new Document("maDonDat", maDonDat);
+
+            // Định nghĩa điều kiện và hành động cập nhật
+            Document updateQuery = new Document(
+                    "$set", new Document("phong.$[ph].donGia", phongUpdate.getDonGia())
+                            .append("phong.$[ph].tenLoaiPhong", phongUpdate.getTenLoaiPhong())
+                            .append("phong.$[ph].dichVuSuDung", list_DichVuPhong(phongUpdate))
+                            .append("phong.$[ph].ngayNhanPhongDuKien", phongUpdate.getNgayNhanPhongDuKien())
+                            .append("phong.$[ph].ngayTraPhongDuKien", phongUpdate.getNgayTraPhongDuKien())
+                            .append("phong.$[ph].ngayNhanPhong", phongUpdate.getNgayNhanPhong())
+                            .append("phong.$[ph].ngayTraPhong", phongUpdate.getNgayTraPhong())
+                            .append("phong.$[ph].trangThaiPhong", phongUpdate.getTrangThaiPhong())
+                            .append("phong.$[ph].tienDaThanhToan", phongUpdate.getTienDaThanhToan())
+            );
+
+            // Cấu hình arrayFilters để cập nhật phần tử phù hợp trong mảng "phong"
+            Document arrayFilter = new Document("ph.maPhong", phongUpdate.getMaPhong());
+            UpdateOptions options = new UpdateOptions().arrayFilters(Collections.singletonList(arrayFilter));
+
+            // Thực hiện cập nhật
+            UpdateResult result = donDatPhongCollection.updateOne(filter, updateQuery, options);
+
+            return result.getModifiedCount() > 0;
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình cập nhật phòng: " + e.getMessage());
+            return false;
+        }
     }
 
     public boolean createDonDatPhong(DonDatPhong donDatPhong) {
@@ -407,7 +440,7 @@ public class DonDatPhongDAO {
             return false;
         }
     }
-    
+
     public List<Integer> getYearsByTrangThaiHoanThanh() {
         List<Integer> years = new ArrayList<>();
 

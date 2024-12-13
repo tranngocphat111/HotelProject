@@ -61,8 +61,6 @@ public class DichVuDAO {
         }
     }
 
-
-
     public DichVu timDichVu(String tenDV) {
         DichVu x = new DichVu(tenDV);
         List<DichVu> list_DV = getAllDichVu();
@@ -90,7 +88,6 @@ public class DichVuDAO {
 //                donDatPhongDAO.updateDonDatPhong(x);
 //
 //            }
-
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa dịch vụ: " + e.getMessage());
@@ -127,7 +124,7 @@ public class DichVuDAO {
             return false;
         }
     }
-    
+
     public DichVu getDichVuByMa(int maDichVu) {
         DichVu dichvu = null;
         Document query = new Document("maDV", maDichVu);
@@ -138,6 +135,22 @@ public class DichVuDAO {
             }
         } catch (Exception e) {
             e.printStackTrace(); // Bắt lỗi nếu có
+        }
+        return dichvu;
+    }
+
+    public DichVu getDichVuByTen(String tenDichVu) {
+        DichVu dichvu = null;
+        Document query = new Document("tenDV", tenDichVu); // Tạo điều kiện truy vấn dựa trên tên dịch vụ
+        try {
+            // Thực hiện tìm kiếm và lấy tài liệu đầu tiên khớp với điều kiện
+            Document doc = dichVuCollection.find(query).first();
+            if (doc != null) {
+                // Chuyển đổi tài liệu MongoDB thành đối tượng DichVu
+                dichvu = DichVu.fromDocument(doc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log lỗi nếu xảy ra lỗi
         }
         return dichvu;
     }

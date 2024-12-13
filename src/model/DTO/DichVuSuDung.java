@@ -86,16 +86,6 @@ public class DichVuSuDung {
         this.donGia = donGia;
     }
 
-    public DichVuSuDung(int maDVSD, int maPhong, int maDonDatPhong, int maDV, String tenDV, int soLuong, int donGia) {
-        this.maDVSD = maDVSD;
-        this.maPhong = maPhong;
-        this.maDonDatPhong = maDonDatPhong;
-        this.maDV = maDV;
-        this.tenDV = tenDV;
-        this.soLuong = soLuong;
-        this.donGia = donGia;
-    }
-
     public DichVuSuDung(int maDVSD, int maPhong, int maDonDatPhong, int maDV, String tenDV, int soLuong, int donGia, Date ngaySuDung) {
         this.maDVSD = maDVSD;
         this.maPhong = maPhong;
@@ -106,6 +96,7 @@ public class DichVuSuDung {
         this.donGia = donGia;
         this.ngaySuDung = ngaySuDung;
     }
+
     
     
 
@@ -129,6 +120,10 @@ public class DichVuSuDung {
         }
         if (doc.containsKey("tenDV")) {
             dichVu.setTenDV(doc.getString("tenDV"));
+        }
+        
+        if (doc.containsKey("maDV")) {
+            dichVu.setMaDV(doc.getInteger("maDV"));
         }
         if (doc.containsKey("donGia")) {
             dichVu.setDonGia(doc.getInteger("donGia"));

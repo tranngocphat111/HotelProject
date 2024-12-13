@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.Document;
@@ -61,6 +62,27 @@ public class DichVuSuDungDAO {
             return false; // Trả về false nếu có lỗi
         }
     }
+    
+    public boolean updateSoLuong(int maDVSD, int newSoLuong) {
+    try {
+        // Tạo điều kiện truy vấn dựa trên maDVSD
+        Document query = new Document("maDVSD", maDVSD);
+        
+        // Tạo tài liệu chứa thông tin cần cập nhật
+        Document updateFields = new Document("soLuong", newSoLuong);
+        Document updateDoc = new Document("$set", updateFields);
+
+        // Thực hiện cập nhật
+        UpdateResult result = dichVuSuDungCollection.updateOne(query, updateDoc);
+
+        // Trả về true nếu có ít nhất một tài liệu được cập nhật
+        return result.getModifiedCount() > 0;
+    } catch (Exception e) {
+        System.out.println("Lỗi xảy ra trong quá trình cập nhật số lượng dịch vụ sử dụng: " + e.getMessage());
+        return false; // Trả về false nếu có lỗi
+    }
+}
+
 
     public DichVuSuDung getDichVuEmbedByMa(int maDichVu) {
         DichVuSuDung dichvu = null;

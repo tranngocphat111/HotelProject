@@ -39,7 +39,7 @@ public class TrangCaNhan_DoiMatKhau extends javax.swing.JFrame {
         MKCU_eye_label.setIcon(password_hide);
         MKMoi_eye_label.setIcon(password_hide);
         XacNhanMK_label.setIcon(password_hide);
-        
+        setLocationRelativeTo(null);
     }
 
     /**

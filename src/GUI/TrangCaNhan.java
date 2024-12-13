@@ -25,6 +25,7 @@ public class TrangCaNhan extends javax.swing.JFrame {
         userName.setText(nhanVien_DangSuDung.getTenNhanVien());
         userJob.setText(nhanVien_DangSuDung.getChucVu());
         userImage.setIcon(new ImageScale().getScaledImage1(userImage.getWidth(), userImage.getHeight(), new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
+        setLocationRelativeTo(null);
     }
 
     /**

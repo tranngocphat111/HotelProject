@@ -28,6 +28,7 @@ public class TrangCaNhan_ThongTinCaNhan extends javax.swing.JFrame {
         chucVuText.setText(this.nhanVien_DangSuDung.getChucVu());
         SDTText.setText(this.nhanVien_DangSuDung.getSoDienThoai());
         DCText.setText(this.nhanVien_DangSuDung.getDiaChi());
+        setLocationRelativeTo(null);
     }
 
     /**

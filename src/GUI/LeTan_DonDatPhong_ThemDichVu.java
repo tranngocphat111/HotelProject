@@ -6,13 +6,21 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
-import static GUI.LeTan_DonDatPhong_GUI.GetAllDonDatPhong;
 import static GUI.LeTan_DonDatPhong_GUI.list_DonDatPhong;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.DocDuLieuLenTablePhong;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.cb_LoaiPhong;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.cb_Phong;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.cb_Tang;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.getAllPhongTheoLoaiPhong;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.getAllPhongTheoPhong;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.getAllPhongTheoTang;
+import static GUI.LeTan_DonDatPhong_PhongCuaDon_GUI.list_Phong_filter;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,12 +28,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import keeptoo.KGradientPanel;
 import model.DAO.DichVuDAO;
+import model.DAO.DichVuSuDungDAO;
 import model.DAO.DonDatPhongDAO;
 import model.DAO.HoaDonDAO;
 import model.DTO.DichVu;
+import model.DTO.DichVuSuDung;
 import model.DTO.DichVuSuDungEmbed;
 import model.DTO.DonDatPhong;
 import model.DTO.HoaDon;
+import model.DTO.PhongEmbed;
 
 /**
  *
@@ -33,7 +44,7 @@ import model.DTO.HoaDon;
  */
 public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
 
-    private List<DichVu> list_DichVu = new ArrayList<>();
+    private List<DichVuSuDungEmbed> list_DichVu = new ArrayList<>();
     private DichVuDAO dichVu_dao = new DichVuDAO(database);
     DecimalFormat df = new DecimalFormat("#,##0");
     private List<DichVuSuDungEmbed> list_DichVuDuocChon = new ArrayList<>();
@@ -45,23 +56,28 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     private List<JLabel> list_Cong = new ArrayList<>();
     private List<JLabel> list_Tru = new ArrayList<>();
     private List<JLabel> list_SoLuong = new ArrayList<>();
-
+    DichVuSuDungDAO dichVuSuDungDAO = new DichVuSuDungDAO(database);
+    List<DichVuSuDung> list_dvsd = new ArrayList<>();
+    private int maDDp;
+PhongEmbed phongE;
     /**
      * Creates new form LeTan_DonDatPhong_ThemDichVui
      */
-    public LeTan_DonDatPhong_ThemDichVu(DonDatPhong ddp, java.awt.Frame parent, boolean modal) {
+    public LeTan_DonDatPhong_ThemDichVu(int maDDP, PhongEmbed phongE, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setUndecorated(true);
         initComponents();
-        donDatPhong = ddp;
+        this.phongE = phongE;
+        this.maDDp = maDDP;
 
 //        Đọc dữ liệu lên frame
-        list_DichVu = dichVu_dao.getAllDichVu();
+        list_dvsd = dichVuSuDungDAO.getAllDichVu();
+        list_DichVu = phongE.getDichVuSuDung();
         DocDuLieuLenFrame();
 //        Load những dịch vụ mà đơn đặt phòng đã có
-        for (DichVuSuDungEmbed dv : donDatPhong.getDichVuSuDung()) {
+        for (DichVuSuDungEmbed dv : list_DichVu) {
             for (KGradientPanel btn : list_btn) {
-                if (dv.getMaDV() == Integer.parseInt(btn.getName())) {
+                if (dichVuSuDungDAO.getDichVuEmbedByMa(dv.getMaDVSD()).getMaDV() == Integer.parseInt(btn.getName())) {
                     list_DichVuCoSan.add(btn);
                     btn.setkEndColor(new java.awt.Color(61, 214, 89));
                     btn.setkStartColor(new java.awt.Color(13, 195, 6));
@@ -73,54 +89,54 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         }
 
 //        Bắt sự kiện các Dịch vụ
-//        list_btn.forEach((btn) -> {
-//            btn.addMouseListener(new MouseListener() {
-//                boolean click = false;
-//
-//                @Override
-//                public void mouseClicked(MouseEvent e) {
-//
-//                }
-//
-//                @Override
-//                public void mousePressed(MouseEvent e) {
-//                    for (KGradientPanel btn_DaChon : list_DichVuCoSan) {
-//                        if (btn.getName().equals(btn_DaChon.getName())) {
-//                            return;
-//                        }
-//                    }
-//                    if (click) {
-//
-//                        btn.setkStartColor(new java.awt.Color(255, 255, 255));
-//                        btn.setkEndColor(new java.awt.Color(255, 255, 255));
-//                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-//                        btn.setBorder(null);
-//                        click = false;
-//                    } else {
-//                        btn.setkStartColor(new java.awt.Color(255, 225, 27));
-//                        btn.setkEndColor(new java.awt.Color(255, 222, 89));
-//                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
-//                        btn.setBorder(null);
-//                        click = true;
-//                    }
-//                }
-//
-//                @Override
-//                public void mouseReleased(MouseEvent e) {
-//
-//                }
-//
-//                @Override
-//                public void mouseEntered(MouseEvent e) {
-//
-//                }
-//
-//                @Override
-//                public void mouseExited(MouseEvent e) {
-//
-//                }
-//            });
-//        });
+        list_btn.forEach((btn) -> {
+            btn.addMouseListener(new MouseListener() {
+                boolean click = false;
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    for (KGradientPanel btn_DaChon : list_DichVuCoSan) {
+                        if (btn.getName().equals(btn_DaChon.getName())) {
+                            return;
+                        }
+                    }
+                    if (click) {
+
+                        btn.setkStartColor(new java.awt.Color(255, 255, 255));
+                        btn.setkEndColor(new java.awt.Color(255, 255, 255));
+                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                        btn.setBorder(null);
+                        click = false;
+                    } else {
+                        btn.setkStartColor(new java.awt.Color(255, 225, 27));
+                        btn.setkEndColor(new java.awt.Color(255, 222, 89));
+                        btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
+                        btn.setBorder(null);
+                        click = true;
+                    }
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+        });
 //        Bắt sự kiện dấu trừ
         list_Tru.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
@@ -183,7 +199,6 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
                             soluong.setText(congThem + "");
                             list_btn.forEach((btn) -> {
                                 if (element.getName().equals(btn.getName())) {
-
                                     btn.setkStartColor(new java.awt.Color(255, 225, 27));
                                     btn.setkEndColor(new java.awt.Color(255, 222, 89));
                                     btn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
@@ -212,8 +227,8 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     }
 
     public int getSoLuongBanDau(int maDV) {
-        for (DichVuSuDungEmbed dv : donDatPhong.getDichVuSuDung()) {
-            if (dv.getMaDV() == maDV) {
+        for (DichVuSuDungEmbed dv : list_DichVu) {
+            if (dichVu_dao.getDichVuByTen(dv.getTenDV()).getMaDV() == maDV) {
                 return dv.getSoLuong();
             }
         }
@@ -223,7 +238,7 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
     public void DocDuLieuLenFrame() {
         int i = 1;
         Panel_DichVus.setLayout(new java.awt.GridLayout(list_DichVu.size(), 1, 0, 30));
-        for (DichVu dichVu : list_DichVu) {
+        for (DichVuSuDungEmbed dichVu : list_DichVu) {
             KGradientPanel btn_DichVu = new KGradientPanel();
             btn_DichVu.setkEndColor(new java.awt.Color(255, 255, 255));
             btn_DichVu.setkStartColor(new java.awt.Color(255, 255, 255));
@@ -232,27 +247,29 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
 
             JLabel icon_DichVu = new JLabel();
             icon_DichVu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            ImageIcon icon = new ImageScale().load1(new ImageIcon(dichVu.getHinhAnh()), 77, 60);
+            DichVu dv = dichVu_dao.getDichVuByTen(dichVu.getTenDV());
+            System.out.println(dv);
+            ImageIcon icon = new ImageScale().load1(new ImageIcon(dv.getHinhAnh()), 77, 60);
             icon_DichVu.setIcon(icon);
             btn_DichVu.add(icon_DichVu);
             icon_DichVu.setBounds(9, 6, 72, 86);
 
             JLabel label_MoTa = new JLabel();
             label_MoTa.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-            label_MoTa.setText(dichVu.getMoTa());
+            label_MoTa.setText(dv.getMoTa());
             btn_DichVu.add(label_MoTa);
             label_MoTa.setBounds(90, 50, 280, 20);
 
             JLabel label_TenDichVu = new JLabel();
             label_TenDichVu.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-            label_TenDichVu.setText(dichVu.getTenDV());
+            label_TenDichVu.setText(dv.getTenDV());
             btn_DichVu.add(label_TenDichVu);
             label_TenDichVu.setBounds(90, 10, 161, 50);
 
             JLabel label_DonGia = new JLabel();
             label_DonGia.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
             label_DonGia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            label_DonGia.setText(df.format(dichVu.getDonGia()) + " VND");
+            label_DonGia.setText(df.format(dv.getDonGia()) + " VND");
             btn_DichVu.add(label_DonGia);
             label_DonGia.setBounds(370, 10, 230, 70);
 
@@ -270,10 +287,10 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
             JLabel label_SoLuong = new JLabel();
             label_SoLuong.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
             label_SoLuong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            if (donDatPhong.getDichVuSuDung().size() != 0) {
-                for (DichVuSuDungEmbed dv : donDatPhong.getDichVuSuDung()) {
-                    if (dv.getMaDV() == dichVu.getMaDV()) {
-                        label_SoLuong.setText(dv.getSoLuong() + "");
+            if (list_DichVu.size() != 0) {
+                for (DichVuSuDungEmbed dichVU : list_DichVu) {
+                    if (dichVu_dao.getDichVuByTen(dichVU.getTenDV()).getMaDV() == dv.getMaDV()) {
+                        label_SoLuong.setText(dichVuSuDungDAO.getDichVuEmbedByMa(dichVu.getMaDVSD()).getSoLuong() + "");
                         break;
                     } else {
                         label_SoLuong.setText("0");
@@ -552,26 +569,68 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         btn_Huy.setBorder(null);
     }//GEN-LAST:event_btn_HuyMouseExited
 
+    public DichVuSuDungEmbed ktraDaSuDungDV(int maDV){
+        for(DichVuSuDungEmbed dv : list_DichVu){
+            if(dichVuSuDungDAO.getDichVuEmbedByMa(dv.getMaDVSD()).getMaDV() == maDV){
+                return dv;
+            }
+        }
+        
+        return null;
+        
+    }
+    
+    public DichVuSuDungEmbed chuyenDoiDV(DichVuSuDung dv ){
+        DichVuSuDungEmbed dvmoi = new DichVuSuDungEmbed();
+        dvmoi.setMaDVSD(dv.getMaDVSD());
+        dvmoi.setTenDV(dv.getTenDV());
+        dvmoi.setSoLuong(dv.getSoLuong());
+        dvmoi.setDonGia(dv.getDonGia());
+        return dvmoi;
+    }
     private void btn_XacNhanMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XacNhanMousePressed
         // TODO add your handling code here:
         for (JLabel soluong : list_SoLuong) {
             if (Integer.parseInt(soluong.getText()) != 0) {
-                DichVuSuDungEmbed dv = dichVu_dao.getDichVuEmbedByMa(Integer.parseInt(soluong.getName()));
-                list_DichVuDuocChon.add(new DichVuSuDungEmbed(dv.getMaDV(), dv.getTenDV(), dv.getDonGia(), Integer.parseInt(soluong.getText())));
+                DichVuSuDungEmbed dv = ktraDaSuDungDV(Integer.parseInt(soluong.getName()));
+                if(dv != null){
+                    dichVuSuDungDAO.updateSoLuong(dv.getMaDVSD(), Integer.parseInt(soluong.getText()));
+                }else{
+                    DichVuSuDung dvsd_moi = new DichVuSuDung(list_dvsd.getLast().getMaDVSD()+1,phongE.getMaPhong(),maDDp, Integer.parseInt(soluong.getName()), dv.getTenDV(), Integer.parseInt(soluong.getText()), dichVu_dao.getDichVuByTen(dv.getTenDV()).getDonGia(), new Date() );
+                    dichVuSuDungDAO.createDichVuSuDung(dvsd_moi);
+                    
+                    list_DichVu.add(chuyenDoiDV(dvsd_moi));
+                    phongE.setDichVuSuDung(list_DichVu);
+                    donDatPhong_dao.updatePhongTrongDonDatPhong(maDDp, phongE);
+                    
+                }
+                
+                
+              
             }
         }
-        donDatPhong.setDichVuSuDung(list_DichVuDuocChon);
-        donDatPhong_dao.updateDonDatPhong(donDatPhong);
-        HoaDon hoaDon = hoaDon_Dao.getHoaDonByMa(donDatPhong.getHoaDon());
-        list_DonDatPhong = donDatPhong_dao.getAllDonDatPhong();
-        hoaDon.setTongTien(getTongtien(hoaDon));
-        hoaDon_Dao.updateHoaDon(hoaDon);
+        
+        list_Phong_filter = donDatPhong_dao.getDonDatPhongByMa(maDDp).getPhongs();
+        if (cb_LoaiPhong.getSelectedItem() == null || cb_Tang.getSelectedItem() == null || cb_Phong.getSelectedItem() == null) {
+            return;
+        }
 
-//        Đọc dữ liệu lên table_DonDatPhong
-        LeTan_DonDatPhong_GUI.list_DonDatPhong = GetAllDonDatPhong(donDatPhong_dao.getAllDonDatPhong());
-        LeTan_DonDatPhong_GUI.checkBox_DangO.setSelected(true);
-        LeTan_DonDatPhong_GUI.checkBox_DangCho.setSelected(true);
-        LeTan_DonDatPhong_GUI.DocDuLieuLenTable(list_DonDatPhong);
+        list_Phong_filter = donDatPhong_dao.getDonDatPhongByMa(maDDp).getPhongs();
+        if (!cb_LoaiPhong.getSelectedItem().toString().equals("Tất cả")) {
+            list_Phong_filter = getAllPhongTheoLoaiPhong(list_Phong_filter);
+        }
+
+        if (!cb_Tang.getSelectedItem().toString().equals("Tất cả")) {
+            list_Phong_filter = getAllPhongTheoTang(list_Phong_filter);
+        }
+
+        if (!cb_Phong.getSelectedItem().toString().equals("Tất cả")) {
+            list_Phong_filter = getAllPhongTheoPhong(list_Phong_filter);
+        }
+
+        
+        DocDuLieuLenTablePhong(list_Phong_filter);
+//        
 
         setVisible(false);
     }//GEN-LAST:event_btn_XacNhanMousePressed
@@ -580,15 +639,15 @@ public class LeTan_DonDatPhong_ThemDichVu extends javax.swing.JDialog {
         // TODO add your handling code here:
         setVisible(false);
     }//GEN-LAST:event_btn_HuyMousePressed
-    public int getTongtien(HoaDon hoadon) {
-        int tongtien = 0;
-        for (DonDatPhong ddp : list_DonDatPhong) {
-            if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
-                tongtien = tongtien + ddp.thanhTien();
-            }
-        }
-        return tongtien;
-    }
+//    public int getTongtien(HoaDon hoadon) {
+//        int tongtien = 0;
+//        for (DonDatPhong ddp : list_DonDatPhong) {
+//            if (ddp.getHoaDon() == hoadon.getMaHoaDon()) {
+//                tongtien = tongtien + ddp.thanhTien();
+//            }
+//        }
+//        return tongtien;
+//    }
 
     /**
      * @param args the command line arguments

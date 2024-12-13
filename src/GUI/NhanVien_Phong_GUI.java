@@ -59,6 +59,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
     List<Integer> a = new ArrayList<>();
 
     private NhanVien nhanVien_DangSuDung;
+
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
@@ -72,6 +73,7 @@ public final class NhanVien_Phong_GUI extends javax.swing.JInternalFrame {
         area_mota.setOpaque(false);
         Table_Phong.setSelectionBackground(new Color(255, 222, 89));
         Table_Phong.setSelectionForeground(new Color(0, 0, 0));
+        Table_Phong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jScrollPane3.setVerticalScrollBar(new ScrollBarCustom());
         jScrollPane3.getVerticalScrollBar().setUnitIncrement(80);
         Table_Phong.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {

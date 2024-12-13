@@ -8,6 +8,7 @@ import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
 import static GUI.NhanVien_TienNghi_GUI.area_moTa;
 import com.mongodb.client.MongoDatabase;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -30,6 +31,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -71,7 +73,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
     List<DichVu> list_dv = dichVuDAO.getAllDichVu();
 
     private byte[] hinhAnh = null;
-    
+
     private NhanVien nhanVien_DangSuDung;
 //    private String filePath = "";
 
@@ -83,6 +85,38 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         centerRenderer.setVerticalAlignment(JLabel.CENTER);
+
+        table_DichVu.setSelectionBackground(new Color(255, 222, 89));
+        table_DichVu.setSelectionForeground(new Color(0, 0, 0));
+        table_DichVu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(80);
+
+        table_DichVu.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                // Kiểm tra nếu không còn sự kiện đang thay đổi
+                int row = table_DichVu.getSelectedRow();
+
+                if (row != -1) {
+                    String tenDV = model.getValueAt(row, 1).toString();
+
+                    DichVu x = dichVuDAO.timDichVu(tenDV);
+//            System.out.println(x.toString());
+//            System.out.println(x.getHinhAnh());
+                    txt_DichVu.setText(x.getTenDV());
+                    area_moTa.setText(x.getMoTa());
+                    txtDonGia.setText(Integer.toString(x.getDonGia()));
+                    hinhAnh = x.getHinhAnh();
+                    ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
+
+                    System.out.println("Không gặp lỗi");
+                    label_Anh.setIcon(icon);
+
+//            txt_DichVu.setEnabled(false);
+                }
+            }
+        });
+
 //      Set font cho header_tiennghi
         JTableHeader header_tn = table_DichVu.getTableHeader();
         header_tn.setPreferredSize(new Dimension(header_tn.getPreferredSize().width, 30));
@@ -571,6 +605,7 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_DichVu.setFocusable(false);
         table_DichVu.setRowHeight(30);
         table_DichVu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -864,8 +899,10 @@ public class NhanVien_DichVu_GUI extends javax.swing.JInternalFrame {
 
     public boolean checkDichVuDangSuDung(int maDichVu) {
         DichVuSuDungDAO dvsd = new DichVuSuDungDAO(database);
-        for(DichVuSuDung dv : dvsd.getAllDichVu()) {
-            if(dv.getMaDV() == maDichVu) return true;
+        for (DichVuSuDung dv : dvsd.getAllDichVu()) {
+            if (dv.getMaDV() == maDichVu) {
+                return true;
+            }
         }
         return false;
     }

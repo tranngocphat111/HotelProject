@@ -37,43 +37,42 @@ import test.convertImage;
  * @author Admin
  */
 public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
+
     private ArrayList<KGradientPanel> list_btn = new ArrayList<KGradientPanel>();
     /**
      * Creates new form LeTan_DatPhong_GUI
      */
-    
+
     private NhanVienDAO nhanVienDAO = new NhanVienDAO(database);
-    
+
     private byte[] hinhAnh = null;
-    
+
     private NhanVien nhanVien_DangSuDung;
-    
+
     public QuanLy_NhanVien_GUI(NhanVien nhanVien_DangSuDung) {
         this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
-        
+
         jLabel1.setText(this.nhanVien_DangSuDung.getTenNhanVien());
         ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
-        
-        
+
         list_btn.add(btn_Them);
         list_btn.add(btn_Sua);
         list_btn.add(btn_Xoa);
         list_btn.add(btn_Lammoi);
         list_btn.add(btn_Chonhinhanh);
         list_btn.add(btn_Tim);
-        
-        
+
         list_btn.forEach((element) -> {
             element.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
-               
+
                 @Override
                 public void mousePressed(MouseEvent e) {
-                        
+
 //                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                 }
 
@@ -96,16 +95,13 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
                     element.setkEndColor(new java.awt.Color(255, 222, 89));
                     element.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 1));
                     element.setBorder(null);
-                   
+
                 }
             });
-        })
-        ;
-        
-        
-        
-        this.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-        BasicInternalFrameUI ui = (BasicInternalFrameUI)this.getUI();
+        });
+
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
     }
 
@@ -634,8 +630,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private void cb_ChucVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ChucVuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cb_ChucVuActionPerformed
-    
-    
+
+
     private void btn_ThemMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseEntered
         // TODO add your handling code here:
         btn_Them.setkStartColor(new java.awt.Color(255, 225, 27));
@@ -657,13 +653,13 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_SDTActionPerformed
     static DefaultTableModel duaDuLieuVaoTable(List<NhanVien> list_NhanVien) {
-        String[] header = new String [] {
-        "Mã nhân viên", "CCCD/Passport", "Tên nhân viên", "Số điện thoại", "Địa chỉ", "Chức vụ"
+        String[] header = new String[]{
+            "Mã nhân viên", "CCCD/Passport", "Tên nhân viên", "Số điện thoại", "Địa chỉ", "Chức vụ"
         };
         Object[][] object = new Object[list_NhanVien.size()][];
-        for(int i = 0; i < list_NhanVien.size(); i++) {
+        for (int i = 0; i < list_NhanVien.size(); i++) {
             NhanVien x = list_NhanVien.get(i);
-            Object[] t = new Object[] {
+            Object[] t = new Object[]{
                 x.getMaNhanVien(),
                 x.getCCCD(),
                 x.getTenNhanVien(),
@@ -675,106 +671,133 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         }
         return new DefaultTableModel(object, header);
     }
-    
-    static NhanVien KiemTraThongTinNhap(String x) throws Exception{
-        
-        
+
+    static NhanVien KiemTraThongTinNhap(String x) throws Exception {
+
         return new NhanVien(PROPERTIES);
     }
-    
-    
+
+
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
-        
-        if(row != -1) {
+
+        if (row != -1) {
             String CCCD = jTable1.getModel().getValueAt(row, 1).toString();
-            
+
             NhanVien x = nhanVienDAO.timTheoCCCD(CCCD).getFirst();
-            
-            txt_CCCD.setText(x.getCCCD());
-            txt_HoTen.setText(x.getTenNhanVien());
-            System.out.println(x.getSoDienThoai());
-            txt_SDT.setText(x.getSoDienThoai());
-            txt_DC.setText(x.getDiaChi());
-            cb_ChucVu.setSelectedItem(x.getChucVu());
+
+            txt_CCCD.setText(CCCD);
+            txt_HoTen.setText(jTable1.getModel().getValueAt(row, 2).toString());
+            txt_SDT.setText(jTable1.getModel().getValueAt(row, 3).toString());
+            txt_DC.setText(jTable1.getModel().getValueAt(row, 4).toString());
+            cb_ChucVu.setSelectedItem(jTable1.getModel().getValueAt(row, 5).toString());
             hinhAnh = x.getAnhDaiDien();
             anhnhanvien.setIcon(new ImageScale().getScaledImage1(anhnhanvien.getWidth(), anhnhanvien.getHeight(), new ImageIcon(x.getAnhDaiDien())));
         }
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
-        
+
     private void KiemTraDuLieu() throws Exception {
-        if(txt_CCCD.getText().trim().equals("")) {
+        if (txt_CCCD.getText().trim().equals("")) {
             throw new Exception("Chưa nhập CCCD / Passport.");
         }
-        
+
 //        String regex = "[0-9]{12}";
 //        if(!txt_CCCD.getText().trim().matches(regex)) {
 //            throw new Exception("CCCD phải đủ 12 chữ số, không phải chữ hoặc kí tự đặc biệt.");
 //        }
 //        
-        if(!nhanVienDAO.timTheoCCCD(txt_CCCD.getText().trim()).isEmpty()) {
-                throw new Exception("CCCD không được trùng");
+        if (!nhanVienDAO.timTheoCCCD(txt_CCCD.getText().trim()).isEmpty()) {
+            throw new Exception("CCCD không được trùng");
         }
-        
-        if(txt_HoTen.getText().trim().equals("")) {
+
+        if (txt_HoTen.getText().trim().equals("")) {
             throw new Exception("Chưa nhập họ tên.");
         }
-        
+
         String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+)+$";
-        if(!txt_HoTen.getText().trim().matches(regex_HoTen)) {
+        if (!txt_HoTen.getText().trim().matches(regex_HoTen)) {
             throw new Exception("Họ tên phải ít nhất 2 từ, không được chứa số hoặc kí tự đặc biệt.");
         }
-        
-        
-        if(txt_SDT.getText().trim().equals("")) {
+
+        if (txt_SDT.getText().trim().equals("")) {
             throw new Exception("Chưa nhập số điện thoại.");
         }
         String regex_SDT = "(0[3|5|7|8|9])([0-9]{8})";
-        if(!txt_SDT.getText().trim().matches(regex_SDT)) {
+        if (!txt_SDT.getText().trim().matches(regex_SDT)) {
             throw new Exception("Số điện thoại phải bắt đấu bằng 03, 05, 07, 08 hoặc 09, số điện thoại phải có đủ 10 chữ số.");
         }
-        if(txt_DC.getText().trim().equals("")) {
+        if (txt_DC.getText().trim().equals("")) {
             throw new Exception("Chưa nhập địa chỉ");
         }
-        if(hinhAnh == null) {
+        if (hinhAnh == null) {
             throw new Exception("Chưa chọn hình ảnh");
         }
     }
-    
+
+    private void KiemTraDuLieuSua() throws Exception {
+        if (txt_CCCD.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập CCCD / Passport.");
+        }
+
+//        String regex = "[0-9]{12}";
+//        if(!txt_CCCD.getText().trim().matches(regex)) {
+//            throw new Exception("CCCD phải đủ 12 chữ số, không phải chữ hoặc kí tự đặc biệt.");
+//        }
+//        
+        if (txt_HoTen.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập họ tên.");
+        }
+
+        String regex_HoTen = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+(\\s+[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểễỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹý'-]+)+$";
+        if (!txt_HoTen.getText().trim().matches(regex_HoTen)) {
+            throw new Exception("Họ tên phải ít nhất 2 từ, không được chứa số hoặc kí tự đặc biệt.");
+        }
+
+        if (txt_SDT.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập số điện thoại.");
+        }
+        String regex_SDT = "(0[3|5|7|8|9])([0-9]{8})";
+        if (!txt_SDT.getText().trim().matches(regex_SDT)) {
+            throw new Exception("Số điện thoại phải bắt đấu bằng 03, 05, 07, 08 hoặc 09, số điện thoại phải có đủ 10 chữ số.");
+        }
+        if (txt_DC.getText().trim().equals("")) {
+            throw new Exception("Chưa nhập địa chỉ");
+        }
+        if (hinhAnh == null) {
+            throw new Exception("Chưa chọn hình ảnh");
+        }
+    }
+
     private void btn_ThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThemMouseClicked
         // TODO add your handling code here:
         try {
             KiemTraDuLieu();
-            
-            int maNhanVien = nhanVienDAO.getAllNhanVien().getLast().getMaNhanVien()  + 1;
+
+            int maNhanVien = nhanVienDAO.getAllNhanVien().getLast().getMaNhanVien() + 1;
             String HoTen = txt_HoTen.getText();
             byte[] anhDaiDien = hinhAnh;
             String SDT = txt_SDT.getText();
             String CCCD = txt_CCCD.getText();
             String DC = txt_DC.getText();
             String ChucVu = cb_ChucVu.getSelectedItem().toString();
-            
-           
-            
-            
-            
+
             NhanVien x = new NhanVien(maNhanVien, HoTen, anhDaiDien, SDT, CCCD, DC, ChucVu);
-            
+
             nhanVienDAO.createNhanVien(x);
             jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
-            
+
             txt_CCCD.setText("");
             txt_HoTen.setText("");
             txt_DC.setText("");
             txt_SDT.setText("");
             hinhAnh = null;
             anhnhanvien.setIcon(null);
-            JOptionPane.showMessageDialog(this, "Đã thêm thành công!", "Thêm dữ liệu", JOptionPane.INFORMATION_MESSAGE);
-            
-        } catch(Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Chưa nhập hoặc đã trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Đã thêm nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_ThemMouseClicked
 
@@ -784,20 +807,20 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("File ảnh", "png", "jpg", "jpeg", "gif");
         frame_chonAnh.setFileFilter(filter);
         frame_chonAnh.setAcceptAllFileFilterUsed(false);
-        
+
         int returnValue = frame_chonAnh.showOpenDialog(null);
-        
-        if(returnValue == JFileChooser.APPROVE_OPTION) {
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
             String filePath = frame_chonAnh.getSelectedFile().getPath();
-            
+
             ImageIcon icon = new ImageScale().load(filePath, anhnhanvien.getWidth(), anhnhanvien.getHeight());
-            
+
             try {
                 hinhAnh = new convertImage().convertImageToBinary(filePath);
             } catch (IOException ex) {
                 Logger.getLogger(NhanVien_TienNghi_GUI.class.getName()).log(Level.SEVERE, null, ex);
-            }            
-            
+            }
+
             anhnhanvien.setIcon(icon);
         }
     }//GEN-LAST:event_btn_ChonhinhanhMouseClicked
@@ -805,11 +828,13 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
     private void btn_SuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMouseClicked
         try {
             // TODO add your handling code here:
-            KiemTraDuLieu();
+
             int row = jTable1.getSelectedRow();
-            if(row == -1) {
+            if (row == -1) {
                 throw new Exception("Chưa chọn dòng để sửa");
             }
+
+            KiemTraDuLieuSua();
             int maNhanVien = Integer.parseInt(jTable1.getModel().getValueAt(row, 0).toString());
             String HoTen = txt_HoTen.getText();
             byte[] anhDaiDien = hinhAnh;
@@ -817,57 +842,55 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
             String CCCD = txt_CCCD.getText();
             String DC = txt_DC.getText();
             String ChucVu = cb_ChucVu.getSelectedItem().toString();
-            
-            NhanVien x = new NhanVien(HoTen, anhDaiDien, SDT, CCCD, DC, ChucVu);
-            
-            
-            
-            
-            nhanVienDAO.updateNhanVien(x);
-            JOptionPane.showMessageDialog(this, "Đã sửa thành công", "Sửa dữ liệu", JOptionPane.INFORMATION_MESSAGE);
-            
+
+            NhanVien x = new NhanVien(maNhanVien, HoTen, anhDaiDien, SDT, CCCD, DC, ChucVu);
+
+            if (nhanVienDAO.capNhapNhanVien(x)) {
+                JOptionPane.showMessageDialog(this, "Sửa thông tin nhân viên thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Sửa thông tin nhân viên thất bại", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+
             txt_CCCD.setText("");
             txt_HoTen.setText("");
             txt_DC.setText("");
             txt_SDT.setText("");
             hinhAnh = null;
             anhnhanvien.setIcon(null);
+            jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Chưa nhập hoặc đã trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Thông báo", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
+
+
     }//GEN-LAST:event_btn_SuaMouseClicked
 
     private void btn_XoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_XoaMouseClicked
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
         try {
-        
-            if(row == -1) {
+
+            if (row == -1) {
                 throw new Exception("Chưa chọn dòng để xóa");
             }
-            
+
             int[] indeciesOfRemoveRow = jTable1.getSelectedRows();
-            for(int i = 0; i < indeciesOfRemoveRow.length; i++) {
+            for (int i = 0; i < indeciesOfRemoveRow.length; i++) {
                 int removeRow = indeciesOfRemoveRow[i];
                 int maNhanVienCanXoa = Integer.parseInt(jTable1.getModel().getValueAt(removeRow, 0).toString());
                 NhanVien x = nhanVienDAO.timTheoMaNhanVien(maNhanVienCanXoa);
-                
-                if(x != null) {
+
+                if (x != null) {
                     nhanVienDAO.xoaNhanVien(x);
                 }
             }
-            
+
             jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
             JOptionPane.showMessageDialog(this, "Đã xóa thành công nhân viên.", "Xóa nhân viên", JOptionPane.INFORMATION_MESSAGE);
-            
-            
-            
-            
-            
-            
-        }catch (Exception ex) {
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Chưa nhập hoặc đã trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_XoaMouseClicked
@@ -881,7 +904,7 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         hinhAnh = null;
         anhnhanvien.setIcon(null);
         jTable1.setModel(duaDuLieuVaoTable(nhanVienDAO.getAllNhanVien()));
-        
+
     }//GEN-LAST:event_btn_LammoiMouseClicked
 
     private void btn_TimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_TimMouseClicked
@@ -893,9 +916,8 @@ public class QuanLy_NhanVien_GUI extends javax.swing.JInternalFrame {
         String chucVu = cb_ChucVu.getSelectedItem().toString();
         DefaultTableModel modelTim = duaDuLieuVaoTable(nhanVienDAO.timNhanVien(CCCD, hoTen, SDT, diaChi, chucVu));
         jTable1.setModel(modelTim);
-        
-        
-        
+
+
     }//GEN-LAST:event_btn_TimMouseClicked
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked

@@ -45,7 +45,7 @@ public class NhanVienDAO {
         }
         return nhanViens;
     }
-    
+
     public boolean createNhanVien(NhanVien nhanVien) {
         try {
             Document doc = new Document()
@@ -66,10 +66,9 @@ public class NhanVienDAO {
             return false;
         }
     }
-    
+
     public boolean updateNhanVien(NhanVien nhanVien) {
         try {
-            
 
             Document updateDoc = new Document()
                     .append("maNhanVien", nhanVien.getMaNhanVien())
@@ -86,11 +85,11 @@ public class NhanVienDAO {
             Document filter = new Document("maNhanVien", nhanVien.getMaNhanVien());
 
             UpdateResult result = nhanVienCollection.updateOne(filter, updateQuery);
-            
+
             MongoCollection<Document> HoaDonCollection = DangNhap_GUI.database.getCollection("HoaDon");
-            
+
             Document filter_hd = new Document("NhanVien.maNhanVien", nhanVien.getMaNhanVien());
-            
+
             Document updateDoc_hd = new Document()
                     .append("NhanVien.maNhanVien", nhanVien.getMaNhanVien())
                     .append("NhanVien.tenNhanVien", nhanVien.getTenNhanVien())
@@ -101,16 +100,17 @@ public class NhanVienDAO {
                     .append("NhanVien.chucVu", nhanVien.getChucVu())
                     .append("NhanVien.tenTaiKhoan", nhanVien.getTenTaiKhoan())
                     .append("NhanVien.matKhau", nhanVien.getMatKhau());
-            
+
             updateQuery = new Document("$set", updateDoc_hd);
             HoaDonCollection.updateOne(filter_hd, updateQuery);
-            
+
             return result.getMatchedCount() > 0;
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình cập nhật đơn đặt phòng: " + e.getMessage());
             return false;
         }
     }
+
     public NhanVien checkAccount(String tenTaiKhoan, String matKhau) {
         Document doc = nhanVienCollection.find(Filters.and(
                 Filters.eq("tenTaiKhoan", tenTaiKhoan),
@@ -123,8 +123,8 @@ public class NhanVienDAO {
             return null; // Account not found
         }
     }
-    
-     public NhanVien checkAccountTheoTen(String tenTaiKhoan) {
+
+    public NhanVien checkAccountTheoTen(String tenTaiKhoan) {
         Document doc = nhanVienCollection.find(Filters.and(
                 Filters.eq("tenTaiKhoan", tenTaiKhoan)
         )).first();
@@ -135,70 +135,73 @@ public class NhanVienDAO {
             return null; // Account not found
         }
     }
+
     public NhanVien timTheoMaNhanVien(int maNhanVien) {
-        
+
         List<NhanVien> list_DV = getAllNhanVien();
-        for(NhanVien x : list_DV) {
-            if(x.getMaNhanVien() == maNhanVien) return x;
+        for (NhanVien x : list_DV) {
+            if (x.getMaNhanVien() == maNhanVien) {
+                return x;
+            }
         }
         return null;
     }
-    
+
     public NhanVien getNhanVienTheoCCCD(String CCCD) {
-        
+
         List<NhanVien> list_DV = getAllNhanVien();
-        for(NhanVien x : list_DV) {
-            if(x.getCCCD().equals(CCCD)) return x;
+        for (NhanVien x : list_DV) {
+            if (x.getCCCD().equals(CCCD)) {
+                return x;
+            }
         }
         return null;
     }
-    
+
     public List<NhanVien> timTheoCCCD(String CCCD) {
-        
+
         List<Bson> pipeline = Arrays.asList(
-            Aggregates.match(Filters.regex("CCCD", ".*" + CCCD + ".*")),
-            Aggregates.project(Projections.fields(
-                Projections.include(
-                    "maNhanVien",
-                    "tenNhanVien",
-                    "anhDaiDien",
-                    "SoDienThoai",
-                    "CCCD",
-                    "diaChi",
-                    "chucVu",
-                    "tenTaiKhoan",
-                    "matKhau"
-                )
-            ))
+                Aggregates.match(Filters.regex("CCCD", ".*" + CCCD + ".*")),
+                Aggregates.project(Projections.fields(
+                        Projections.include(
+                                "maNhanVien",
+                                "tenNhanVien",
+                                "anhDaiDien",
+                                "SoDienThoai",
+                                "CCCD",
+                                "diaChi",
+                                "chucVu",
+                                "tenTaiKhoan",
+                                "matKhau"
+                        )
+                ))
         );
 
         AggregateIterable<Document> aggregate = nhanVienCollection.aggregate(pipeline);
 
         List<NhanVien> list_NhanVien = new ArrayList<>();
         for (Document x : aggregate) {
-            
-            
-            
+
             NhanVien t = new NhanVien(
-                x.getInteger("maNhanVien"),
-                x.getString("tenNhanVien"),
-                x.get("anhDaiDien", Binary.class).getData(),
-                x.getString("SoDienThoai"),
-                x.getString("CCCD"),
-                x.getString("diaChi"),
-                x.getString("chucVu"),
-                x.getString("tenTaiKhoan"),
-                x.getString("matKhau")
+                    x.getInteger("maNhanVien"),
+                    x.getString("tenNhanVien"),
+                    x.get("anhDaiDien", Binary.class).getData(),
+                    x.getString("SoDienThoai"),
+                    x.getString("CCCD"),
+                    x.getString("diaChi"),
+                    x.getString("chucVu"),
+                    x.getString("tenTaiKhoan"),
+                    x.getString("matKhau")
             );
             list_NhanVien.add(t);
         }
-        
+
         return list_NhanVien;
     }
-    
+
     public List<NhanVien> timTheoTenNV(String tenNV) {
         List<Bson> pipeline = Arrays.asList(
-                Aggregates.match(Filters.regex("tenNhanVien", ".*" + tenNV + ".*" )),
+                Aggregates.match(Filters.regex("tenNhanVien", ".*" + tenNV + ".*")),
                 Projections.include(
                         "maNhanVien",
                         "tenNhanVien",
@@ -212,65 +215,64 @@ public class NhanVienDAO {
                 )
         );
         List<NhanVien> list_NhanVien = new ArrayList<>();
-        for(Bson x : pipeline) {
+        for (Bson x : pipeline) {
             NhanVien t = new NhanVien(
-                    x.toBsonDocument().getInt32("maNhanVien").getValue(), 
-                    x.toBsonDocument().getString("tenNhanVien").getValue(), 
-                    x.toBsonDocument().getBinary("anhDaiDien").getData(), 
-                    x.toBsonDocument().getString("SoDienThoai").getValue(), 
-                    x.toBsonDocument().getString("CCCD").getValue(), 
-                    x.toBsonDocument().getString("diaChi").getValue(), 
-                    x.toBsonDocument().getString("chucVu").getValue(), 
-                    x.toBsonDocument().getString("tenTaiKhoan").getValue(), 
+                    x.toBsonDocument().getInt32("maNhanVien").getValue(),
+                    x.toBsonDocument().getString("tenNhanVien").getValue(),
+                    x.toBsonDocument().getBinary("anhDaiDien").getData(),
+                    x.toBsonDocument().getString("SoDienThoai").getValue(),
+                    x.toBsonDocument().getString("CCCD").getValue(),
+                    x.toBsonDocument().getString("diaChi").getValue(),
+                    x.toBsonDocument().getString("chucVu").getValue(),
+                    x.toBsonDocument().getString("tenTaiKhoan").getValue(),
                     x.toBsonDocument().getString("matKhau").getValue()
             );
             list_NhanVien.add(t);
         }
-        
+
         return list_NhanVien;
     }
-    
+
     public List<NhanVien> timTheoChucVu(String tenChucVu) {
         List<NhanVien> list_NhanVien = getAllNhanVien();
         List<NhanVien> list_daLoc = new ArrayList<>();
-        for(NhanVien x: list_NhanVien) {
-            if(x.getChucVu().equals(tenChucVu)) {
+        for (NhanVien x : list_NhanVien) {
+            if (x.getChucVu().equals(tenChucVu)) {
                 list_daLoc.add(x);
             }
         }
         return list_daLoc;
     }
-    
+
     public List<NhanVien> timNhanVien(String CCCD, String hoTen, String SDT, String diaChi, String chucVu) {
-        
+
         Document filter = new Document();
-        if(!CCCD.equals("")) {
-            filter.append("CCCD", CCCD );
+        if (!CCCD.equals("")) {
+            filter.append("CCCD", CCCD);
         }
-        if(!hoTen.equals("")) {
-            filter.append("tenNhanVien", hoTen  );
+        if (!hoTen.equals("")) {
+            filter.append("tenNhanVien", hoTen);
         }
-        if(!SDT.equals("")) {
-            filter.append("SoDienThoai",  SDT);
+        if (!SDT.equals("")) {
+            filter.append("SoDienThoai", SDT);
         }
-        if(!diaChi.equals("")) {
-            filter.append("diaChi", diaChi );
+        if (!diaChi.equals("")) {
+            filter.append("diaChi", diaChi);
         }
-        if(!chucVu.equals("")) {
+        if (!chucVu.equals("")) {
             filter.append("chucVu", chucVu);
         }
-        
-        
+
         FindIterable<Document> list_Document = nhanVienCollection.find(filter);
-        
+
         List<NhanVien> list_NhanVien = new ArrayList<>();
         list_Document.forEach(doc -> {
             list_NhanVien.add(NhanVien.fromDocument(doc));
         });
-        
+
         return list_NhanVien;
     }
-    
+
     public boolean xoaNhanVien(NhanVien nhanVien) {
         try {
             Document doc = new Document()
@@ -284,37 +286,82 @@ public class NhanVienDAO {
                     .append("tenTaiKhoan", nhanVien.getTenTaiKhoan())
                     .append("matKhau", nhanVien.getMatKhau());
 
-            DeleteResult result = nhanVienCollection.deleteOne(doc);            
+            DeleteResult result = nhanVienCollection.deleteOne(doc);
             return result.wasAcknowledged();
         } catch (Exception e) {
             System.out.println("Lỗi xảy ra trong quá trình xóa nhân viên: " + e.getMessage());
             return false;
         }
     }
-   
 
     public MongoCollection<Document> getCollection() {
         return nhanVienCollection;
     }
-    
+
     public boolean doiMatKhau(String tenTaiKhoan, String matKhauCu, String matKhauMoi) {
 
+        // Điều kiện tìm kiếm
+        Document filter = new Document("tenTaiKhoan", tenTaiKhoan)
+                .append("matKhau", matKhauCu);
+
+        // Dữ liệu cần cập nhật
+        Document update = new Document("$set", new Document("matKhau", matKhauMoi));
+
+        // Thực hiện cập nhật
+        var result = nhanVienCollection.updateOne(filter, update);
+
+        if (result.getModifiedCount() > 0) {
+            System.out.println("Đổi mật khẩu thành công!");
+            return true;
+        } else {
+            System.out.println("Không tìm thấy tài khoản hoặc mật khẩu không đúng.");
+            return false;
+        }
+    }
+
+    public boolean capNhapNhanVien(NhanVien nv) {
+        try {
+            // In dữ liệu để kiểm tra
+            System.out.println("Thông tin nhân viên cần cập nhật: " + nv);
+
+            // Tạo document chứa dữ liệu cập nhật
+            Document updatedData = new Document()
+                    .append("tenNhanVien", nv.getTenNhanVien())
+                    .append("anhDaiDien", nv.getAnhDaiDien())
+                    .append("SoDienThoai", nv.getSoDienThoai())
+                    .append("CCCD", nv.getCCCD())
+                    .append("diaChi", nv.getDiaChi())
+                    .append("chucVu", nv.getChucVu());
+
             // Điều kiện tìm kiếm
-            Document filter = new Document("tenTaiKhoan", tenTaiKhoan)
-                    .append("matKhau", matKhauCu);
+            Document filter = new Document("maNhanVien", nv.getMaNhanVien());
 
-            // Dữ liệu cần cập nhật
-            Document update = new Document("$set", new Document("matKhau", matKhauMoi));
+            // In bộ lọc kiểm tra
+            System.out.println("Bộ lọc tìm kiếm: " + filter.toJson());
 
-            // Thực hiện cập nhật
-            var result = nhanVienCollection.updateOne(filter, update);
+            // Kiểm tra nếu tìm thấy tài liệu
+            Document foundDoc = nhanVienCollection.find(filter).first();
+            System.out.println("Tài liệu tìm thấy: " + foundDoc);
 
-            if (result.getModifiedCount() > 0) {
-                System.out.println("Đổi mật khẩu thành công!");
-                return true;
-            } else {
-                System.out.println("Không tìm thấy tài khoản hoặc mật khẩu không đúng.");
+            if (foundDoc == null) {
+                System.out.println("Không tìm thấy nhân viên với maNhanVien: " + nv.getMaNhanVien());
                 return false;
             }
+
+            // Cập nhật dữ liệu
+            UpdateResult result = nhanVienCollection.updateOne(filter, new Document("$set", updatedData));
+
+            if (result.getModifiedCount() > 0) {
+                System.out.println("Cập nhật thông tin nhân viên thành công!");
+                return true;
+            } else {
+                System.out.println("Không có dữ liệu nào được thay đổi.");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật thông tin nhân viên: " + e.getMessage());
+            return false;
+        }
     }
+
 }

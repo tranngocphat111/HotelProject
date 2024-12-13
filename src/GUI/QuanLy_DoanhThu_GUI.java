@@ -555,7 +555,7 @@ public class QuanLy_DoanhThu_GUI extends javax.swing.JInternalFrame {
                 break;
             case "4":
                 startDate = new Date(year, 9, 1);
-                endDate = new Date(year, 1, 31);
+                endDate = new Date(year, 11, 31);
                 break;
             case "5":
                 startDate = new Date(year, 0, 1);

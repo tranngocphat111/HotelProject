@@ -65,9 +65,9 @@ public class GODMOD {
 
     public static void main(String[] args) {
         GODMOD gm = new GODMOD();
-        int ma_ddp_last = 206;
-        int maDVSD = 616;
-        Date ngayBatDau = new Date(125, 0, 2, 0, 0, 0);
+        int ma_ddp_last = 2490;
+        int maDVSD = 7468;
+        Date ngayBatDau = new Date(124, 11, 1, 0, 0, 0);
         
 
         Calendar calendar = Calendar.getInstance();
@@ -98,7 +98,7 @@ public class GODMOD {
         
         
 //        gm.nhanVienDAO.doiMatKhau("letan1", "123", "456");
-        System.out.println(gm.donDatPhongDAO.getYearsByTrangThaiHoanThanh());
+//        System.out.println(gm.donDatPhongDAO.getYearsByTrangThaiHoanThanh());
     }
 
     private DonDatPhong taoDonDatPhong(int maDonDat, Date ngayTaoDon, int maPhong, int maDVSD) {
@@ -161,7 +161,7 @@ public class GODMOD {
         ddp.setPhongs(phongs);
         System.out.println(ddp);
         
-//        hoaDonDAO.createHoaDon(taoHoaDon(ddp, maDonDat));
+        hoaDonDAO.createHoaDon(taoHoaDon(ddp, maDonDat));
         
 
         return ddp;
@@ -204,7 +204,6 @@ public class GODMOD {
         hd.setMaHoaDon(maHD);
         hd.setTienThanhToan(ddp.getTongTien());
         hd.setNgayTaoHoaDon(ddp.getPhongs().getFirst().getNgayTraPhong());
-        
         NhanVienEmbed nve = new NhanVienEmbed(1, "Nguyễn Văn Anh");
         hd.setNhanVien(nve);
         hd.setDonDatPhong(ddp.getMaDonDat());

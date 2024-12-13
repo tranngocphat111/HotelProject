@@ -14,6 +14,7 @@ import model.DTO.HoaDon;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -58,6 +59,12 @@ public class HoaDonDAO {
 
     public boolean createHoaDon(HoaDon hoaDon) {
         try {
+            // Kiểm tra hoaDon và các trường con không null
+            if (hoaDon == null || hoaDon.getNhanVien() == null || hoaDon.getThongTinThanhToan() == null) {
+                System.out.println("Dữ liệu hóa đơn không hợp lệ.");
+                return false;
+            }
+
             // Tạo sub-document cho nhân viên
             Document nhanVienDoc = new Document()
                     .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
@@ -65,23 +72,27 @@ public class HoaDonDAO {
 
             // Tạo sub-document cho thông tin thanh toán
             List<Document> phongsDoc = new ArrayList<>();
-            for (PhongEmbed_HoaDon phong : hoaDon.getThongTinThanhToan().getPhongs()) {
-                Document phongDoc = new Document()
-                        .append("maPhong", phong.getMaPhong())
-                        .append("ngayNhan", phong.getNgayNhan())
-                        .append("ngayTra", phong.getNgayTra())
-                        .append("donGia", phong.getDonGia());
-                phongsDoc.add(phongDoc);
+            if (hoaDon.getThongTinThanhToan().getPhongs() != null) {
+                for (PhongEmbed_HoaDon phong : hoaDon.getThongTinThanhToan().getPhongs()) {
+                    if (phong != null) {
+                        Document phongDoc = new Document()
+                                .append("maPhong", phong.getMaPhong())
+                                .append("ngayNhan", phong.getNgayNhan())
+                                .append("ngayTra", phong.getNgayTra())
+                                .append("donGia", phong.getDonGia());
+                        phongsDoc.add(phongDoc);
+                    }
+                }
             }
 
             // Danh sách dịch vụ
             int[] dichVuList = hoaDon.getThongTinThanhToan().getDichVu();
+            List<Integer> dichVuAsList = Arrays.stream(dichVuList).boxed().toList();
 
             Document thongTinThanhToanDoc = new Document()
                     .append("phongs", phongsDoc)
-                    .append("dichVu", dichVuList);
+                    .append("dichVu", dichVuAsList);
 
-            // Tạo document chính cho hóa đơn
             Document doc = new Document()
                     .append("maHoaDon", hoaDon.getMaHoaDon())
                     .append("tienThanhToan", hoaDon.getTienThanhToan())
@@ -90,11 +101,10 @@ public class HoaDonDAO {
                     .append("donDatPhong", hoaDon.getDonDatPhong())
                     .append("thongTinThanhToan", thongTinThanhToanDoc);
 
-            // Thực hiện thêm vào collection
             InsertOneResult result = hoaDonCollection.insertOne(doc);
             return result.wasAcknowledged();
         } catch (Exception e) {
-            System.out.println("Lỗi xảy ra trong quá trình tạo hóa đơn: " + e.getMessage());
+            e.printStackTrace(); // In đầy đủ stack trace để dễ dàng debug
             return false;
         }
     }

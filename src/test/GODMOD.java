@@ -65,9 +65,9 @@ public class GODMOD {
 
     public static void main(String[] args) {
         GODMOD gm = new GODMOD();
-        int ma_ddp_last = 1;
-        int maDVSD = 1;
-        Date ngayBatDau = new Date(124, 0, 2, 0, 0, 0);
+        int ma_ddp_last = 206;
+        int maDVSD = 616;
+        Date ngayBatDau = new Date(125, 0, 2, 0, 0, 0);
         
 
         Calendar calendar = Calendar.getInstance();
@@ -95,7 +95,10 @@ public class GODMOD {
             System.out.println(ngayBatDau);
 
         }
+        
+        
 //        gm.nhanVienDAO.doiMatKhau("letan1", "123", "456");
+        System.out.println(gm.donDatPhongDAO.getYearsByTrangThaiHoanThanh());
     }
 
     private DonDatPhong taoDonDatPhong(int maDonDat, Date ngayTaoDon, int maPhong, int maDVSD) {
@@ -158,7 +161,7 @@ public class GODMOD {
         ddp.setPhongs(phongs);
         System.out.println(ddp);
         
-        hoaDonDAO.createHoaDon(taoHoaDon(ddp, maDonDat));
+//        hoaDonDAO.createHoaDon(taoHoaDon(ddp, maDonDat));
         
 
         return ddp;

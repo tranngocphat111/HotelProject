@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import model.DTO.DichVuSuDung;
 import model.DTO.PhongEmbed;
@@ -17,6 +19,8 @@ import model.DTO.PhongEmbed_HoaDon;
  *
  * @author Admin
  */
+
+
 public class ChiTietHoaDon_DanhSachThanhToan extends javax.swing.JPanel {
 
     public static DecimalFormat df = new DecimalFormat("#,##0");
@@ -31,7 +35,7 @@ public class ChiTietHoaDon_DanhSachThanhToan extends javax.swing.JPanel {
         ma_phong.setText(String.valueOf("Phòng " + p.getMaPhong()));
 
         LocalDate localDateFrom = p.getNgayNhan().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate localDateTo = p.getNgayTra().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDateTo = setThoiGian0(new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         long daysBetween = ChronoUnit.DAYS.between(localDateFrom, localDateTo);
         int tienPhong = (int)daysBetween*p.getDonGia();
         int tiendv = 0;
@@ -41,6 +45,18 @@ public class ChiTietHoaDon_DanhSachThanhToan extends javax.swing.JPanel {
         int tongTien = tienPhong + tiendv;
 
         so_tien_tra.setText(df.format(tongTien) + " VNĐ");
+    }
+    
+    public Date setThoiGian0(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // Đặt ngày hiện tại
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+
     }
 
     /**

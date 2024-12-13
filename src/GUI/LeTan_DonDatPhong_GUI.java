@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import static java.util.Collections.list;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,8 @@ import model.DTO.NhanVien;
 import model.DTO.NhanVienEmbed;
 import model.DTO.Phong;
 import model.DTO.PhongEmbed;
+import model.DTO.PhongEmbed_HoaDon;
+import model.DTO.ThongTinThanhToan;
 
 /**
  *
@@ -426,11 +429,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("Thanh Toán Đơn");
         jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jLabel17MousePressed(evt);
-            }
-        });
 
         javax.swing.GroupLayout btn_ThanhToanDonLayout = new javax.swing.GroupLayout(btn_ThanhToanDon);
         btn_ThanhToanDon.setLayout(btn_ThanhToanDonLayout);
@@ -890,36 +888,98 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
 
     private void btn_ThanhToanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ThanhToanDonMousePressed
         // TODO add your handling code here:
-//        HoaDon hd = new HoaDon();
-//        list_HoaDon = hoadon_dao.getAllHoaDon();
-//        hd.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
-//        hd.setNgayTaoHoaDon(setThoiGian0(new Date()));
-//        hd.setDonDatPhongs(Integer.parseInt(model.getValueAt(Table_DonDatPhong.getSelectedRow(), 0).toString()));
-//        NhanVienEmbed nve = new NhanVienEmbed();
-//        nve.setMaNhanVien(nhanVien_DangSuDung.getMaNhanVien());
-//        nve.setTenNhanVien(nhanVien_DangSuDung.getTenNhanVien());
-//        hd.setNhanVien(nve);
+        int row = Table_DonDatPhong.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn cần thanh toán");
+            return;
+        }
+
+        int maDDp = Integer.parseInt(model.getValueAt(row, 0).toString());
+        DonDatPhong ddp = dondatphong_dao.getDonDatPhongByMa(maDDp);
+
+        if (!ddp.getTrangThai().equals("Xử lý")) {
+            JOptionPane.showMessageDialog(this, "Chỉ Thanh toán Đơn đặt phòng đang xử lý");
+            return;
+        }
+
+        HoaDon hd = new HoaDon();
+        list_HoaDon = hoadon_dao.getAllHoaDon();
+        
+        hd.setMaHoaDon(list_HoaDon.getLast().getMaHoaDon() + 1);
+        hd.setNgayTaoHoaDon(setThoiGian0(new Date()));
+        hd.setDonDatPhong(maDDp);
+        ThongTinThanhToan tt = new ThongTinThanhToan();
+        tt.setDichVu(getALlDVtrongDon(ddp.getPhongs()));
+        tt.setPhongs(ChuyenDoiPhong(ddp.getPhongs()));
+        NhanVienEmbed nve = new NhanVienEmbed();
+        nve.setMaNhanVien(nhanVien_DangSuDung.getMaNhanVien());
+        nve.setTenNhanVien(nhanVien_DangSuDung.getTenNhanVien());
+        hd.setThongTinThanhToan(tt);
+        hd.setNhanVien(nve);
+        hd.setTienThanhToan(0);
+
+        new LeTan_DonDatPhong_ThanhToan_GUI(hd).setVisible(true);
+
+
     }//GEN-LAST:event_btn_ThanhToanDonMousePressed
 
+    public List<PhongEmbed_HoaDon> ChuyenDoiPhong(List<PhongEmbed> List_embed) {
+        List<PhongEmbed_HoaDon> list_moi = new ArrayList<>();
+        for (PhongEmbed Phong : List_embed) {
+            PhongEmbed_HoaDon phongMoi = new PhongEmbed_HoaDon();
+            phongMoi.setMaPhong(Phong.getMaPhong());
+            phongMoi.setNgayNhan(Phong.getNgayNhanPhong());
+            phongMoi.setNgayTra(Phong.getNgayTraPhong());
+            phongMoi.setDonGia(Phong.getDonGia());
+            list_moi.add(phongMoi);
+        }
+
+        return list_moi;
+
+    }
+
+    public int[] getALlDVtrongDon(List<PhongEmbed> list_Phongs) {
+        // Danh sách để lưu tất cả mã dịch vụ
+        List<Integer> allServices = new ArrayList<>();
+
+        // Duyệt qua từng phòng
+        for (PhongEmbed phong : list_Phongs) {
+            // Lấy danh sách dịch vụ sử dụng của phòng
+            List<DichVuSuDungEmbed> dichVuSuDung = phong.getDichVuSuDung();
+
+            // Nếu phòng có danh sách dịch vụ, chuyển đổi và thêm vào danh sách tổng
+            if (dichVuSuDung != null) {
+                for (DichVuSuDungEmbed dv : dichVuSuDung) {
+                    allServices.add(dv.getMaDVSD());
+                }
+            }
+        }
+
+        // Chuyển đổi danh sách thành mảng
+        int[] result = new int[allServices.size()];
+        for (int i = 0; i < allServices.size(); i++) {
+            result[i] = allServices.get(i);
+        }
+
+        return result;
+    }
     private void btn_NhanDonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_NhanDonMousePressed
         // TODO add your handling code here:
 
         int row = Table_DonDatPhong.getSelectedRow();
-        if(row == -1){
+        if (row == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn cần nhận");
             return;
-        } 
-        
-        
+        }
+
         int maDDp = Integer.parseInt(model.getValueAt(row, 0).toString());
         DonDatPhong ddp = dondatphong_dao.getDonDatPhongByMa(maDDp);
-        
-        if(!ddp.getTrangThai().equals("Đang chờ")){
+
+        if (!ddp.getTrangThai().equals("Đang chờ")) {
             JOptionPane.showMessageDialog(this, "Chỉ nhận Đơn đặt phòng đang chờ");
             return;
         }
-        
-        
+
         LeTan_DonDatPhong_NhanDon_GUI phongcuatui = new LeTan_DonDatPhong_NhanDon_GUI(ddp);
         setVisible(false);
         jDesktopPane1.add(phongcuatui);
@@ -993,11 +1053,6 @@ public class LeTan_DonDatPhong_GUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         new TrangCaNhan(nhanVien_DangSuDung).setVisible(true);
     }//GEN-LAST:event_jPanel2MouseClicked
-
-    private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jLabel17MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

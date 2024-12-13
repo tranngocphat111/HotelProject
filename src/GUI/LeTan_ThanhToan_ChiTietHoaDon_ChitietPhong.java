@@ -31,6 +31,18 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
      *
      * @param phong
      */
+    
+    public Date setThoiGian0(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // Đặt ngày hiện tại
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+
+    }
     public LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong(PhongEmbed_HoaDon phong,List<DichVuSuDung> list_dvsd ) {
         if (phong == null) {
             throw new IllegalArgumentException("PhongEmbed không được null");
@@ -41,7 +53,7 @@ public class LeTan_ThanhToan_ChiTietHoaDon_ChitietPhong extends javax.swing.JPan
         chi_tiet_dich_vu.setVisible(false);
         chi_tiet_phong.setVisible(false);
         main.setSize(main.getWidth() + 500, (main.getHeight() - chi_tiet_phong.getHeight() - chi_tiet_dich_vu.getHeight()));
-        List<String> songayo = splitDateRange(phong.getNgayNhan(), phong.getNgayTra());
+        List<String> songayo = splitDateRange(phong.getNgayNhan(), setThoiGian0(new Date()));
 
         ma_phong.setText("Phòng " + String.valueOf(phong.getMaPhong()));
 

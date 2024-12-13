@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import model.DTO.PhongEmbed;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.Date;
 import model.DTO.PhongEmbed_HoaDon;
 /**
  *
@@ -20,15 +22,29 @@ public class ChitietPhong_Phong extends javax.swing.JPanel {
     /**
      * Creates new form ChitietPhong_Phong
      * @param phong
+     * 
+     * 
      */
+    
+    public Date setThoiGian0(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // Đặt ngày hiện tại
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+
+    }
     public ChitietPhong_Phong(PhongEmbed_HoaDon phong) {
         initComponents();
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         
-        ngay_o.setText(String.valueOf(dateFormat.format(phong.getNgayNhan()) + " đến " + dateFormat.format(phong.getNgayTra())));
+        ngay_o.setText(String.valueOf(dateFormat.format(phong.getNgayNhan()) + " đến " + dateFormat.format(setThoiGian0(new Date()))));
         LocalDate localDateFrom = phong.getNgayNhan().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate localDateTo = phong.getNgayTra().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDateTo = setThoiGian0(new Date()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         long daysBetween = ChronoUnit.DAYS.between(localDateFrom, localDateTo);
         so_ngay_o.setText(daysBetween + "");
         tien_phong.setText(df.format(phong.getDonGia()) + " VNĐ");

@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import model.DTO.PhongEmbed_HoaDon;
 import org.bson.conversions.Bson;
-
 
 public class HoaDonDAO {
 
@@ -56,25 +56,48 @@ public class HoaDonDAO {
         return hoaDon;
     }
 
-//    public boolean createHoaDon(HoaDon hoaDon) {
-//        try {
-//            Document subdoc = new Document()
-//                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
-//                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien());
-//            Document doc = new Document()
-//                    .append("maHoaDon", hoaDon.getMaHoaDon())
-//                    .append("tongTien", hoaDon.getTongTien())
-//                    .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
-//                    .append("NhanVien", subdoc)
-//                    .append("trangThai", hoaDon.isTrangThai())
-//                    .append("DonDatPhongs", hoaDon.getDonDatPhongs());
-//            InsertOneResult result = hoaDonCollection.insertOne(doc);
-//            return result.wasAcknowledged();
-//        } catch (Exception e) {
-//            System.out.println("Lỗi xảy ra trong quá trình tạo hóa đơn: " + e.getMessage());
-//            return false;
-//        }
-//    }
+    public boolean createHoaDon(HoaDon hoaDon) {
+        try {
+            // Tạo sub-document cho nhân viên
+            Document nhanVienDoc = new Document()
+                    .append("maNhanVien", hoaDon.getNhanVien().getMaNhanVien())
+                    .append("tenNhanVien", hoaDon.getNhanVien().getTenNhanVien());
+
+            // Tạo sub-document cho thông tin thanh toán
+            List<Document> phongsDoc = new ArrayList<>();
+            for (PhongEmbed_HoaDon phong : hoaDon.getThongTinThanhToan().getPhongs()) {
+                Document phongDoc = new Document()
+                        .append("maPhong", phong.getMaPhong())
+                        .append("ngayNhan", phong.getNgayNhan())
+                        .append("ngayTra", phong.getNgayTra())
+                        .append("donGia", phong.getDonGia());
+                phongsDoc.add(phongDoc);
+            }
+
+            // Danh sách dịch vụ
+            int[] dichVuList = hoaDon.getThongTinThanhToan().getDichVu();
+
+            Document thongTinThanhToanDoc = new Document()
+                    .append("phongs", phongsDoc)
+                    .append("dichVu", dichVuList);
+
+            // Tạo document chính cho hóa đơn
+            Document doc = new Document()
+                    .append("maHoaDon", hoaDon.getMaHoaDon())
+                    .append("tienThanhToan", hoaDon.getTienThanhToan())
+                    .append("ngayTaoHoaDon", hoaDon.getNgayTaoHoaDon())
+                    .append("nhanVien", nhanVienDoc)
+                    .append("donDatPhong", hoaDon.getDonDatPhong())
+                    .append("thongTinThanhToan", thongTinThanhToanDoc);
+
+            // Thực hiện thêm vào collection
+            InsertOneResult result = hoaDonCollection.insertOne(doc);
+            return result.wasAcknowledged();
+        } catch (Exception e) {
+            System.out.println("Lỗi xảy ra trong quá trình tạo hóa đơn: " + e.getMessage());
+            return false;
+        }
+    }
 
     public boolean deleteHoaDonByMaHoaDon(int maHoaDon) {
         Bson filter = eq("maHoaDon", maHoaDon);
@@ -106,7 +129,6 @@ public class HoaDonDAO {
 //        }
 //
 //    }
-
     public List<HoaDon> getHoaDonTheoNgay(Date ngayBatDau, Date ngayKetThuc) {
         // Thiết lập thời gian bắt đầu trong ngày cho ngayBatDau
         if (ngayBatDau != null) {

@@ -382,11 +382,7 @@ public class LeTan_DonDatPhong_NhanDon_GUI extends javax.swing.JInternalFrame {
         Table_KhachHang.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         Table_KhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Mã khách hàng", "CCCD", "Họ và tên", "Số điện thoại", "Email", "Giới tính", "Quốc tịch"

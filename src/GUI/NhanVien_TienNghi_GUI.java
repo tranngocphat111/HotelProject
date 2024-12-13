@@ -6,6 +6,7 @@ package GUI;
 
 import Functions.ImageScale;
 import static GUI.DangNhap_GUI.database;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
@@ -20,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -57,13 +59,47 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
     private PhongDAO phong_dao = new PhongDAO(database);
     private byte[] hinhAnh = null;
     private DefaultTableCellRenderer centerRenderer;
-    
+
     private NhanVien nhanVien_DangSuDung;
+
     public NhanVien_TienNghi_GUI(NhanVien nhanVien_DangSuDung) {
         this.nhanVien_DangSuDung = nhanVien_DangSuDung;
         initComponents();
         jLabel1.setText(this.nhanVien_DangSuDung.getTenNhanVien());
         ImageScale.setCircularImage(label_Avatar, new ImageScale().getScaledImage1(50, 50, new ImageIcon(nhanVien_DangSuDung.getAnhDaiDien())));
+
+        table_TienNghi.setSelectionBackground(new Color(255, 222, 89));
+        table_TienNghi.setSelectionForeground(new Color(0, 0, 0));
+        table_TienNghi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(80);
+
+        table_TienNghi.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                // Kiểm tra nếu không còn sự kiện đang thay đổi
+                int row = table_TienNghi.getSelectedRow();
+
+                if (row != -1) {
+                    String tenTienNghi = table_TienNghi.getModel().getValueAt(row, 1).toString();
+
+                    TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
+//            System.out.println(x.toString());
+
+                    //            System.out.println(x.getHinhAnh());
+                    txt_tienNghi.setText(x.getTenTienNghi());
+                    area_moTa.setText(x.getMoTa());
+
+                    hinhAnh = x.getHinhAnh();
+                    System.out.println(hinhAnh == null);
+                    ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
+
+//            System.out.println("Không gặp lỗi");
+                    label_Anh.setIcon(icon);
+
+                    //            txt_DichVu.setEnabled(false);
+                }
+            }
+        });
 
         centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -491,6 +527,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_TienNghi.setFocusable(false);
         table_TienNghi.setRowHeight(30);
         table_TienNghi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -665,27 +702,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
     private void table_TienNghiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_TienNghiMousePressed
         // TODO add your handling code here:
-        int row = table_TienNghi.getSelectedRow();
-
-        if (row != -1) {
-            String tenTienNghi = table_TienNghi.getModel().getValueAt(row, 1).toString();
-
-            TienNghi x = tienNghiDAO.timTienNghi(tenTienNghi);
-//            System.out.println(x.toString());
-
-            //            System.out.println(x.getHinhAnh());
-            txt_tienNghi.setText(x.getTenTienNghi());
-            area_moTa.setText(x.getMoTa());
-
-            hinhAnh = x.getHinhAnh();
-            System.out.println(hinhAnh == null);
-            ImageIcon icon = new ImageScale().load1(new ImageIcon(hinhAnh), label_Anh.getWidth(), label_Anh.getHeight());
-
-//            System.out.println("Không gặp lỗi");
-            label_Anh.setIcon(icon);
-
-            //            txt_DichVu.setEnabled(false);
-        }
 
     }//GEN-LAST:event_table_TienNghiMousePressed
 
@@ -772,7 +788,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
         int maTN = Integer.parseInt(table_TienNghi.getModel().getValueAt(row, 0).toString());
 
-
         if (row != -1) {
 
             if (JOptionPane.showConfirmDialog(this, "Bạn có thật sự muốn xóa tiện nghi?" + "\n" + "Nó có thể thay đổi loại phòng? ", "Cảnh báo", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -789,7 +804,7 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
                 LamMoi();
             }
 //          
-        } 
+        }
     }//GEN-LAST:event_btn_XoaMousePressed
 
     public List<Phong> getAllPhongByLoaiPhong(List<Phong> list_PhongTrong, int loaiPhong) {
@@ -821,7 +836,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
         }
         return list_LoaiPhongByTienNghi;
     }
-
 
 
     private void btn_SuaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_SuaMousePressed
@@ -872,8 +886,6 @@ public class NhanVien_TienNghi_GUI extends javax.swing.JInternalFrame {
 
 //                txt_TienNghi.setEnabled(true);
             LamMoi();
-
-            
 
         }
 
